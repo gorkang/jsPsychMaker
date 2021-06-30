@@ -17,7 +17,7 @@
   <script src="jsPsych-6/plugins/jspsych-preload.js"></script>
 
   <!-- ADDED -->
-
+  <script src="jsPsych-6/plugins/jspsych-video-button-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-horizontal.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-vertical.js"></script>
@@ -51,56 +51,57 @@
     ending = ['Goodbye'];
 
     // not neccesary ordered elements in the middle
-    not_ordered_experiments =
-      [
+    not_ordered_experiments = [
         'AIM',
-'BNT',
-'bRCOPE',
-'Consent',
-'Cov19Q',
-'COVIDCONTROL',
-'CRS',
-'CRT7',
-'CRTMCQ4',
-'CRTv',
-'DEBRIEF',
-'DEMOGR',
-'DEMOGR3',
-'EAR',
-'ERQ',
-'FDMQ',
-'GHQ12',
-'Goodbye',
-'HRPVB',
-'HRPVBpost',
-'IDQ',
-'IEC',
-'INFCONS',
-'IRI',
-'IRS',
-'ITC',
-'MIS',
-'OBJNUM',
-'OTRASRELIG',
-'PBS',
-'PRFBM',
-'PRFBMpost',
-'PSETPP',
-'PSPPC',
-'PSS',
-'PWb',
-'REI40',
-'RSS',
-'RTS',
-'SASS',
-'SBS',
-'SCSORF',
-'SDG',
-'SRA',
-'SRSav',
-'SWBQ',
-'WEBEXEC'
-];
+        'BNT',
+        'bRCOPE',
+        'Consent',
+        'Cov19Q',
+        'COVIDCONTROL',
+        'CRS',
+        'CRT7',
+        'CRTMCQ4',
+        'CRTv',
+        'DEBRIEF',
+        'DEMOGR',
+        'DEMOGR3',
+        'EAR',
+        'EmpaTom',
+        'ERQ',
+        'ESM',
+        'FDMQ',
+        'GHQ12',
+        'Goodbye',
+        'HRPVB',
+        'HRPVBpost',
+        'IDQ',
+        'IEC',
+        'INFCONS',
+        'IRI',
+        'IRS',
+        'ITC',
+        'MIS',
+        'OBJNUM',
+        'OTRASRELIG',
+        'PBS',
+        'PRFBM',
+        'PRFBMpost',
+        'PSETPP',
+        'PSPPC',
+        'PSS',
+        'PWb',
+        'REI40',
+        'RSS',
+        'RTS',
+        'SASS',
+        'SBS',
+        'SCSORF',
+        'SDG',
+        'SRA',
+        'SRSav',
+        'SWBQ',
+        'WEBEXEC'
+        ];
 
     // obtaining final array (if random)
     var all_experiments = (random) ? (all_experiments.concat(jsPsych.randomization.shuffle(not_ordered_experiments))) : (all_experiments.concat(not_ordered_experiments));
