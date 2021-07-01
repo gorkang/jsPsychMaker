@@ -1,10 +1,14 @@
 <?php
-/*
+
+require_once '/srv/users/user-cscn/apps/uai-cscn/.secrets_mysql.php';
+
+/* The file .secrets_mysql.php contains the following information: 
   $servername = "";
   $username = "";
   $password = "";
   $dbname = "";
 */
+
   $data = json_decode(file_get_contents('php://input'), true);
 
   // Create connection

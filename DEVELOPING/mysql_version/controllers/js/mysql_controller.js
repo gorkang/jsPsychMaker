@@ -36,7 +36,6 @@ function XMLcall (query, table_name, elements = {}) {
         }
       }
 
-      xhr.open('POST', '.vault/secrets_mysql.php');
       xhr.open('POST', 'controllers/php/mysql.php');
       xhr.setRequestHeader('Content-Type', 'application/json');
 
