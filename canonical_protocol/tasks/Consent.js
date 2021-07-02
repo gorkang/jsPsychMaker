@@ -37,12 +37,14 @@ var instruction_screen_experiment = {
 var trial = {
   type:'external-html',
   url: "html/consent-placeholder.html",
-  cont_btn: "start"
+  cont_btn: "start",
+  data: {trialid: 'Consent_001', procedure: 'Consent', response: document.getElementById("start").id},
+  procedure: 'Consent'
 };
 Consent.push(trial);
 
 Consent.unshift(instruction_screen_experiment);
-Consent.push.apply(questions, Consent)
+Consent.push.apply(questions, Consent);
 
 
 questions.push({
