@@ -174,6 +174,11 @@ Casi nunca: 2 pts
 A veces: 3 pts
 Casi siempre:4 pts
 Siempre: 5 pts",,Ready to review,Versión argentina
+CAS,Coronavirus anxiety scale,Lee SA. Coronavirus Anxiety Scale: A brief mental health screener for COVID-19 related anxiety. Death Stud. 2020;44(7):393-401. doi: 10.1080/07481187.2020.1748481. Epub 2020 Apr 16. PMID: 32299304.,,,7,"Min: 0 Max: 21
+Se suman los valores de las 7 respuestas que van de 0 a 3",,"0 = no me aplica
+1 = casi nunca me aplica, 
+2 = a veces me aplica 
+3 = me aplica mucho",,,
 Consent,Informed consent,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Cov19Q,Cuestionario covid 19,Creación propia (David Huepe),"PRE: Prevalencia
 
@@ -329,6 +334,13 @@ Interpretación de los puntajes: Mientras más alto el puntaje, más la 'reflexi
 Respuesta incorrecta: 0 ptos",,"Issues:
 
 IMPORTANTE: La correccion de esta prueba la tiene que hacer un humano. Ahora hay un conjunto de regular expressions que capturan algunas de las respuestas correctas, pero el lenguaje es complejo.",Traducción propia
+DASS21,Depresión ansiedad y estrés,"Lovibond, P. F., & Lovibond, S. H. (1995). The structure of negative emotional states: Comparison of the Depression Anxiety Stress Scales (DASS) with the Beck Depression and Anxiety Inventories. Behaviour research and therapy, 33(3), 335-343.","depresión
+ansiedad
+Estrés",,21,,"Suma items:
+
+Depresión: 3- 5- 10 - 13- 16- 17 - 21 
+Ansiedad: 2 - 4- 7- 9- 15- 19- 20 
+Estrés: 1- 6 - 8- 11- 12- 14 - 18 ","Cada valor representa su número real. 0= 0 puntos, 1 = 1punto, 2= 2 puntos, 3= 3 puntos ",,,
 DEBRIEF,Debrief at end of experiment,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 DEMOGR,Demographic scale,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 DEMOGR3,Demographic scale,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
@@ -711,6 +723,16 @@ Casi nunca: 1
 De vez en cuando: 2
 A menudo: 3
 Muy a menudo: 4",,Ready to review,Traducción propia
+PVC,Preguntas vacuna COVID-19,,,,,,,"Usted se ha vacunado contra el coronavirus / covid -19?
+Si = 1
+No = 0
+
+Si la respuesta es no
+
+Usted se va a vacunar contra el coronavirus covid -19?
+Si = 1
+No = 2
+No estoy seguro = 3",,,
 PWb,Psychological well being-scale ,"Me pregunto de donde se obtuvieron los items del inventario, pues no lo veo en el artículo de referencia.",NA,"6 dimensiones: (1) Dominio del entorno (o 'Envoronmental Mastery', (2) Crecimiento Personal, (3) Propósito en la vida, (4) Autoaceptación (o 'Self-Acceptance', (5) Autonomía, (6) Relaciones Positivas (o 'Positive Relations').
 
 Interpretación de los puntajes: puntajes mayores en cada dimensión, indican mayores niveles de bienestar en cada escala.",39,"Cálculo de puntajes: Sumatoria de todos los itemes (no lo dicen explicitamente en los artículos, pero segun los mismos se entiende que es la forma correcta de calcluar)
@@ -1057,6 +1079,21 @@ Una vez = 1 punto
 Más de una vez = 2 puntos 
 A menudo = 3 puntos
 Muy a menudo = 4 puntos",,Ready to review,Traducción propia
+SRBQP,Self-regulation and belief questionnaire in pandemic,,"CrSM: Creencias y Salud Mental 
+
+CrP: Creencias en Pandemia
+
+At: Ateismo",,5,Sumatoria de todos los items,"Creencias y Salud Mental. Suma Items: 1- 2- 3 
+     
+Creencias en Pandemia. Item: 4 
+
+Ateísmo. Item: 5","completamente en desacuerdo = 1
+en desacuerdo = 2
+en alguna medida en desacuerdo = 3
+no acuerdo ni desacuerdo = 4
+en alguna medida acuerdo = 5
+de acuerdo = 6
+completamente de acuerdo = 7",,,
 SRSav,SPRINGFIELD RELIGIOSITY SCALE (ABBREVIATED VERSION),"1. Koenig, H. G., Moberg, D. O., & Kvale, J. N. (1988). Religious activities and attitudes of older adults in a geriatric assessment clinic. Journal of the American Geriatrics Society, 36(4), 362-374; 2. Koenig, H. G., Al Zaben, F., Khalifa, D. A., & Al Shohaib, S. (2015). Measures of religiosity. In Measures of personality and social psychological constructs (pp. 530-561). Academic Press.","ORA: Actividad Religiosa Organizacional .
 
 NORA: Actividad Religiosa No Organizacional.
