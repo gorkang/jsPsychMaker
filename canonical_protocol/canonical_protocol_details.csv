@@ -1,5 +1,6 @@
-short_name,long_name,validation_paper,dimensions_short_name,dimensions_long_name,number_items,Cálculo de puntajes totales,Cálculo puntajes dimensiones (cuando corresponda),Conversión nominales a valores (cuando corresponda),Observaciones,R status,Version
-AIM,Grupo socioeconomico,,,No corresponde,4,"Cálculo de puntaje: la clasificación del grupo socioeconómico, se efectuará siguiendo los parámetros de la tabla 'CLASIFICACIÓN SEGÚN LOS CÓDIGOS REGISTRADOS EN P1, P2 y P4' (Tabla que puede verse en la celda 24L). Se debe ubicar en la tabla la combinación de las variables ""nivel edicacional alcanzado"" (recogido con la pregunta n°1),  ""tipo de ocupación"" (recogida con la pregunta n°2) y la variable ""tramo de ingreso"" (recogida con la pregunta n°4, que es equivalente a la tabla de 'TRAMO DE INGRESO PARA ENCUESTAS PRESENCIALES Y AUTOADMINISTRADAS'). 
+short_name,long_name,validation_paper,dimensions_names,number_items,scoring_total,scoring_dimensions,nominal_to_numeric_conversion,observations,Rhelper_status,version
+No spaces or symbols,Full name of task,APA format citation to original validation paper,shortname: longname,Number of items of task/scale,How to calculate the total score of the scale,How to calculate the different dimensiones/subscales of the test,"Details about how to convert the nominal/categorical labels to numbers, etc. ",Any other detailes,What’s the jsPsychHelper correction script status,Version of the task
+AIM,Grupo socioeconomico,,NA,4,"La clasificación del grupo socioeconómico, se efectuará siguiendo los parámetros de la tabla 'CLASIFICACIÓN SEGÚN LOS CÓDIGOS REGISTRADOS EN P1, P2 y P4' (Tabla que puede verse en la celda 24L). Se debe ubicar en la tabla la combinación de las variables ""nivel edicacional alcanzado"" (recogido con la pregunta n°1),  ""tipo de ocupación"" (recogida con la pregunta n°2) y la variable ""tramo de ingreso"" (recogida con la pregunta n°4, que es equivalente a la tabla de 'TRAMO DE INGRESO PARA ENCUESTAS PRESENCIALES Y AUTOADMINISTRADAS'). 
 
 Finalmente, se deberá ubicar la fila en la que se encuentren combinadas todas las variables recogidas, esta indicará el estrato socioeconómico al que pertenece la persona.
 
@@ -149,11 +150,10 @@ Menos de 464 mil: 1
 Más de 7.482.000: 7
 NS/NR: 99
 ",,Ready to review: IMPORTANTE revisar bien la implementacion,Recuperado del documento AIM Chile (Febrero del 2018)
-BNT,Berlin Numeracy test,"Cokely, E. T., Galesic, M., Schulz, E., Garcia-Retamero, R., & Ghazal, S. (2012). Measuring Risk Literacy: The Berlin Numeracy Test. Judgment and Decision Making, 7(1), 23",NA,NA,NA,NA,NA,NA,NA,NA,NA
+BNT,Berlin Numeracy test,"Cokely, E. T., Galesic, M., Schulz, E., Garcia-Retamero, R., & Ghazal, S. (2012). Measuring Risk Literacy: The Berlin Numeracy Test. Judgment and Decision Making, 7(1), 23",NA,NA,NA,NA,NA,NA,NA,NA
 bRCOPE,Escala de afrontamiento religioso Brief-RCOPE,"Pargament, K. I., Smith, B. W., Koenig, H. G., & Perez, L. (1998). Patterns of positive and negative religious coping with major life stressors. Journal for the scientific study of religion, 710-724.","PRC = Afrontamiento religioso positivo
 
-NRC = Afrontamiento religioso negativo.","Dos dimensiones: (1) afrontamiento religioso positivo (itemes 2, 4, 5, 6, 7, 10 y 14).   
-(2) afrontamiento religioso negativo (itemes 1, 3, 8, 9, 11, 12 y 13)",14,"Cálculo de puntajes: Sumatoria de todos los ítems.
+NRC = Afrontamiento religioso negativo.",14,"Cálculo de puntajes: Sumatoria de todos los ítems.
 ítems de cálculo inverso: No corresponde","Dos dimensiones
 
 Nombre dimension:  1. afrontamiento religioso positivo
@@ -174,22 +174,23 @@ Casi nunca: 2 pts
 A veces: 3 pts
 Casi siempre:4 pts
 Siempre: 5 pts",,Ready to review,Versión argentina
-CAS,Coronavirus anxiety scale,Lee SA. Coronavirus Anxiety Scale: A brief mental health screener for COVID-19 related anxiety. Death Stud. 2020;44(7):393-401. doi: 10.1080/07481187.2020.1748481. Epub 2020 Apr 16. PMID: 32299304.,,,7,"Min: 0 Max: 21
+CAS,Coronavirus anxiety scale,Lee SA. Coronavirus Anxiety Scale: A brief mental health screener for COVID-19 related anxiety. Death Stud. 2020;44(7):393-401. doi: 10.1080/07481187.2020.1748481. Epub 2020 Apr 16. PMID: 32299304.,,7,"Min: 0 Max: 21
 Se suman los valores de las 7 respuestas que van de 0 a 3",,"0 = no me aplica
 1 = casi nunca me aplica, 
 2 = a veces me aplica 
 3 = me aplica mucho",,,
-Consent,Informed consent,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Consent,Informed consent,NA,NA,NA,NA,NA,NA,NA,NA,NA
 Cov19Q,Cuestionario covid 19,Creación propia (David Huepe),"PRE: Prevalencia
 
 PGRV: Percepción de la gravedad de la pandemia
 
-TCONS: Teorías conspirativas","PREVALENCIA (Items 1, 2, 3). PERCEPCIÓN DE GRAVEDAD DE LA PANDEMIA (4). TEORÍAS CONSPIRATIVAS (5, 6, 7, 8, 9).",,"Calculo:
-    No se calclula puntaje total, no corresponde.","Calculo:
+TCONS: Teorías conspirativas",,"Calculo:
+    No se calclula puntaje total, no corresponde.","PREVALENCIA (Items 1, 2, 3). PERCEPCIÓN DE GRAVEDAD DE LA PANDEMIA (4). TEORÍAS CONSPIRATIVAS (5, 6, 7, 8, 9).
+
 Prevalencia: 
         Se considera cada una por separado.
         Pregunta 1: Contagio de Coronavirus en el ultimo año
-        Pregunta 2: Contgio de Coronavirus por parte de un miembro del hogar durante el último año
+        Pregunta 2: Contagio de Coronavirus por parte de un miembro del hogar durante el último año
         Pregunta 3: Contagio de Coronavirus por parte de cercanos/conocidos durante el último año 
   
 Gravedad:
@@ -216,7 +217,7 @@ Pregunta 5, 6, 7, 8, 9
 3pts = De acuerdo
 4pts = Muy de acuerdo
 ","Para la dimension de prevalencia he creado 3 subdimensiones, ya que se indica que se tienen en cuenta por separado: ""PrevalenciaTu"", ""PrevalenciaHogar"", ""PrevalenciaCercano"".",Ready to review,Creación propia
-COVIDCONTROL,Covid related questions,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+COVIDCONTROL,Covid related questions,NA,NA,NA,NA,NA,NA,NA,NA,NA
 CRS,The Centrality of Religiosity Scale,"Huber, S., & Huber, O. W. (2012). The centrality of religiosity scale (CRS). Religions, 3(3), 710-724.","ITC: Intelectual
 
 IDG: Ideológica
@@ -225,7 +226,7 @@ PPub: Práctoca pública
 
 PPriv: Práctica privada
 
-EXRel: Experiencia religiosa","Cinco dimensiones: (1) Intelectual (itemes 1, 6, 11), (2) Ideológica (itemes 2, 7, 12), (3) Pártica pública (itemes 3, 8, 13),  (4) Práctica privada (itemes 4, 9, 14), (5) Experiencia religiosa (itemes 5, 10, 15).",15,"Cálculo de puntajes: Promedio de items 
+EXRel: Experiencia religiosa",15,"Cálculo de puntajes: Promedio de items 
 
 
 Interpretación de los resultados.
@@ -282,7 +283,7 @@ Preguntas sobre frecuencia:
 4pts = A menudo
 5pts = Muy a menudo.
 ",,Ready to review,Traducción propia
-CRT7,Cognitive reflection test 7 items,"Campitelli, G., & Gerrans, P. (2014). Does the cognitive reflection test measure cognitive reflection? A mathematical modeling approach. Memory & cognition, 42(3), 434-447.",NA,No hay información explícita al respecto,7,"Cálculo de puntaje: Sumatoria de todos los itemes
+CRT7,Cognitive reflection test 7 items,"Campitelli, G., & Gerrans, P. (2014). Does the cognitive reflection test measure cognitive reflection? A mathematical modeling approach. Memory & cognition, 42(3), 434-447.",NA,7,"Cálculo de puntaje: Sumatoria de todos los itemes
 
 Puntajes inversos: No aplica
 
@@ -293,7 +294,7 @@ Respuesta incorrecta: 0 ptos","En este paper se explica como se contstruye la es
 ""extended seven-item Cognitive Reflection Test, composed of the original three items (Frederick, 2005) and four additional items (Toplak et al., 2014).""",Ready to review,Traducción propia (re-checkear)
 CRTMCQ4,Cognitive reflection test 7 items (Version alternativas),"Sirota, M., & Juanchich, M. (2018). Effect of response format on cognitive reflection: Validating a two- and four-option multiple choice question version of the Cognitive Reflection Test. Behavior Research Methods, 50(6), 2511-2522. doi: 10.3758/s13428-018-1029-4","RFX: Reflexiva
 
-INT: Intuitiva ",Reflectiveness e Intuitiveness,7 (orden de alternativas tiene que ser aleatorizado!),No corresponde,"Tanto la dimensión intuitiva como la reflexiva se calculan mediante sumatoria directa (NO hay items inversos)
+INT: Intuitiva",7 (orden de alternativas tiene que ser aleatorizado!),No corresponde,"Tanto la dimensión intuitiva como la reflexiva se calculan mediante sumatoria directa (NO hay items inversos)
 
 
 Dimensión reflexiva: cada respuesta correcta suma 1 punto (los puntajes posibles son de 0 a 7)
@@ -324,7 +325,7 @@ Dimensión intuitiva [TODAS las respuestas CORRECTAS de la dimensión intuitiva,
    a, Ha perdido dinero  b. Ha ganado dinero  c. No ha ganado ni perdido dinero.  d. No se puede determinar.",,Ready to review,Traducción propia
 CRTv,Verbal Cognitive Reflection Test,"Sirota, Miroslav, Lenka Kostovičová, Marie Juanchich, Chris Dewberry, and Amanda Claire Marshall. ""Measuring Cognitive Reflection without maths: developing and validating the verbal Cognitive Reflection Test."" (2018).
 
-Measuring cognitive reflection without maths: Development and validation of the verbal cognitive reflection test (2020). DOI: 10.1002/bdm.2213",NA,"Ninguna, es unidimensional.",10,"Cálculo de puntaje: Sumatoria total (se obtiene de la cantidad de respuestas correctas)
+Measuring cognitive reflection without maths: Development and validation of the verbal cognitive reflection test (2020). DOI: 10.1002/bdm.2213",NA,10,"Cálculo de puntaje: Sumatoria total (se obtiene de la cantidad de respuestas correctas)
 
 Puntajes inversos: No aplica
 
@@ -336,19 +337,18 @@ Respuesta incorrecta: 0 ptos",,"Issues:
 IMPORTANTE: La correccion de esta prueba la tiene que hacer un humano. Ahora hay un conjunto de regular expressions que capturan algunas de las respuestas correctas, pero el lenguaje es complejo.",Traducción propia
 DASS21,Depresión ansiedad y estrés,"Lovibond, P. F., & Lovibond, S. H. (1995). The structure of negative emotional states: Comparison of the Depression Anxiety Stress Scales (DASS) with the Beck Depression and Anxiety Inventories. Behaviour research and therapy, 33(3), 335-343.","depresión
 ansiedad
-Estrés",,21,,"Suma items:
+Estrés",21,,"Suma items:
 
 Depresión: 3- 5- 10 - 13- 16- 17 - 21 
 Ansiedad: 2 - 4- 7- 9- 15- 19- 20 
 Estrés: 1- 6 - 8- 11- 12- 14 - 18 ","Cada valor representa su número real. 0= 0 puntos, 1 = 1punto, 2= 2 puntos, 3= 3 puntos ",,,
-DEBRIEF,Debrief at end of experiment,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-DEMOGR,Demographic scale,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-DEMOGR3,Demographic scale,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-EAR,Escala de Autoestima de Rosenberg,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-EmpaTom,"Empatia, Teoria de la mente y Compasión",,,,3,,,,,,
-ERQ,Emotion Regulation Questionnaire ,"Gross, J. J., & John, O. P. (2003). Individual differences in two emotion regulation processes: implications for affect, relationships, and well-being. Journal of personality and social psychology, 85(2), 348.","REVC: Re.evalucaión cognitiva
+DEBRIEF,Debrief at end of experiment,NA,NA,NA,NA,NA,NA,NA,NA,NA
+DEMOGR,Demographic scale,NA,NA,NA,NA,NA,NA,NA,NA,NA
+EAR,Escala de Autoestima de Rosenberg,NA,NA,NA,NA,NA,NA,NA,NA,NA
+EmpaTom,"Empatia, Teoria de la mente y Compasión",,,3,,,,,,
+ERQ,Emotion Regulation Questionnaire ,"Gross, J. J., & John, O. P. (2003). Individual differences in two emotion regulation processes: implications for affect, relationships, and well-being. Journal of personality and social psychology, 85(2), 348.","REVC: Re-evaluación cognitiva
 
-SUP: Supreción emocional","Dos dimensiones: (1) re-evaluacion cognitiva (itemes 1, 3, 5, 7, 8, 10), (2) supresion emocional (itemes 2, 4, 6, 9)",10,"Calculo de puntaje: sumatoria de todos los items
+SUP: Supreción emocional",10,"Calculo de puntaje: sumatoria de todos los items
 
 Items invertidos: No corresponde","Cálculo dimensión re-evaluacion cognitiva: Sumatoria itemes 1, 3, 5, 7, 8, 10
 Items invertidos: No corresponde
@@ -361,7 +361,7 @@ Neutro: 4pts
 5pts
 6pts
 Muy de acuerdo: 7pts",,Ready to review,Traducción propia
-ESM,Escala Subjetiva de Memoria,,,,11,,,,,,
+ESM,Escala Subjetiva de Memoria,,,11,,,,,,
 FDMQ,Flinders Decision Making Questinnaire,"Mann, L., Burnett, P., Radford, M., & Ford, S. (1997). The Melbourne decision making questionnaire: an instrument for measuring patterns for coping with decisional conflict. Journal Of Behavioral Decision Making, 10(1), 1-19.
 
 Artículo con información para cálculo de puntajes: Oguzhan, C., & Engin Deniz, M. (2015). Study on the validity and reliability of Melbourne Decision Making Scale in Turkey. Educational Research And Reviews, 10(10), 1434-1441. doi: 10.5897/err2015.2273","VIG: Vigilancia
@@ -370,7 +370,7 @@ BP: Pasar la pelota
 
 PRCT: Procastinar
 
-HRV: Hipervigilancia","Cuatro dimensiones: (1) Vigilancia, (2) Pasar la pelota (o Buck-passing), (3) Procastinación, (4) Hipervigilancia",22,"Cálculo de puntaje: promedio 
+HRV: Hipervigilancia",22,"Cálculo de puntaje: promedio 
 
 Itemes inversos: No corresponde
 
@@ -413,7 +413,7 @@ Procastinación: Puntajes altos indican la tendencia a retrasar el momento de to
 A veces es verdad:1 pto
 Es verdad para mi: 2 pts
 ",,Ready to review,Traducción propia
-GHQ12,12-item General health questionnaire ,"del Pilar Sánchez-López, M., & Dresch, V. (2008). The 12-Item General Health Questionnaire (GHQ-12): reliability, external validity and factor structure in the Spanish population. Psicothema, 20(4), 839-843.",No corresponde,No corresponde,12,"Cálculo de puntajes: Sumatoria de puntajes obtenidos en todos los enunciados. 
+GHQ12,12-item General health questionnaire ,"del Pilar Sánchez-López, M., & Dresch, V. (2008). The 12-Item General Health Questionnaire (GHQ-12): reliability, external validity and factor structure in the Spanish population. Psicothema, 20(4), 839-843.",No corresponde,12,"Cálculo de puntajes: Sumatoria de puntajes obtenidos en todos los enunciados. 
 
 Se invierten los itemes: no corresponde
 
@@ -520,10 +520,10 @@ Mucho menos que lo habitual: 3pts
 --
 [CRITERIO GENERAL DE PUNTUACIÓN: ""Cuando el ítem está formulado de manera que expresa un síntoma, la respuesta ""menos que de costumbre"" toma el  valor 0 y la respuesta ""mucho más que de costumbre"", toma el valor 3. Pero si el ítem está redactado de manera positiva, los valores para calificar cada categoría se invierten"".]
 ",,Ready to review: FALTA REVISAR los valores asignados a algunas alternativas,De la Adaptación Cubana
-Goodbye,Goodbye task,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
-HRPVB,High risk perception of vaginal birth,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA,NA
-HRPVBpost,High risk perception of vaginal birth (POST),"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA,NA
-IDQ,Cuestionario de identificación,,NA,No corresponde,,Calculo: No corresonde,Calculo: No corresponde,"Nombre completo:
+Goodbye,Goodbye task,NA,NA,NA,NA,NA,NA,NA,NA,NA
+HRPVB,High risk perception of vaginal birth,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+HRPVBpost,High risk perception of vaginal birth (POST),"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+IDQ,Cuestionario de identificación,,NA,,Calculo: No corresonde,Calculo: No corresponde,"Nombre completo:
     Nombre completo participante
 
 Edad:
@@ -566,7 +566,7 @@ IEC,Rotters internal-External control scale,"Levenson, H. (1974). Activism and p
 
 I: Control Interno
 
-C: Control del Azar","Tres dimensiones: (1) Control del Azar (itemes 2, 6, 7, 10, 12, 14, 16, 24), (2) Control de Otros Poderosos (itemes 3, 8,11,13,15,17, 20, 22), (3) Control Interno (itemes 1, 4, 5, 9, 18, 19, 21, 23).",24,"Cálculo puntaje: No se calcula puntaje total. No es unidimensional.
+C: Control del Azar",24,"Cálculo puntaje: No se calcula puntaje total. No es unidimensional.
 Items inversos: No posee","Nombre dimensión: Azar 
 Items dimension: 2, 6, 7, 10, 12, 14, 16, 24.
 Calculo puntaje: Sumatoria de items.
@@ -586,14 +586,14 @@ Ligeramente en desacuerdo = 3pts
 Ligeramente de acuerdo = 4 pts
 Moderadamente de acuerdo = 5pts
 Completamente de acuerdo = 6pts",,Ready to review,Traducción propia
-INFCONS,Cesarean information brochures,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+INFCONS,Cesarean information brochures,NA,NA,NA,NA,NA,NA,NA,NA,NA
 IRI,Interpersonal reactivity index,"Davis, M. H. (1983). Measuring individual differences in empathy: Evidence for a multidimensional approach. Journal of personality and social psychology, 44(1), 113.","PT: Toma de perspectiva
 
 FS: Fantasía
 
 EC: Preocupación  empática
 
-PD: Incomodidad Personal","Cuatro dimensiones: (1) toma de perspectiva (itemes 3,8,11,15,21,25,28), (2) fantasia (itemes 1,5,7,12,16,23,26), (3) preocupacion empatica (itemes 2,4,9,14,18,20,22), (4) incomodidad personal (6,10,13,17,19,24,27). ",28,"Cálculo de puntaje: Se suman todos los puntajes. 
+PD: Incomodidad Personal",28,"Cálculo de puntaje: Se suman todos los puntajes. 
 
 Se invierten los itemes: 3,4,7,12,13,14,15,18,19. ","Cuatro dimensiones.
 
@@ -622,22 +622,20 @@ A (No me describe bien) = 0
 B = 1
 C = 2
 D = 3
-E (Me describe muy bien) = 4",,Ready to review,"No lo sé, porque en el inventario de referencia en la carpeta 'artículos instrumentos' no logré encontrar los ítems. Preguntar y pedir ayuda"
-IRS,Importance of Rationality Scale,"Ståhl, T., Zaal, M. P., & Skitka, L. J. (2016). Moralized rationality: Relying on logic and evidence in the formation and evaluation of belief can be seen as a moral issue. PloS one, 11(11), e0166332.",NA,"Ninguna, es unidimensional. Extraido de la página 6/38 del artículo de referencia en 'artículos intrumentos' (Stahl, Zaal, Skitka, 2016)",6,"Calculo de puntaje: Sumatoria total.
+E (Me describe muy bien) = 4",,Ready to review,
+IRS,Importance of Rationality Scale,"Ståhl, T., Zaal, M. P., & Skitka, L. J. (2016). Moralized rationality: Relying on logic and evidence in the formation and evaluation of belief can be seen as a moral issue. PloS one, 11(11), e0166332.",NA,6,"Calculo de puntaje: Sumatoria total.
 
-Items inversos: No aplica",Cálculo puntajes dimensiones (cuando corresponda): No corresponde,"Las puntutaciones llegan numericas a los csv's.
-
-1pto:  Totalmente en desacuerdo
+Items inversos: No aplica",Cálculo puntajes dimensiones (cuando corresponda): No corresponde,"1pto:  Totalmente en desacuerdo
 2pts
 3pts
 4pts
 5pts
 6pts
 7pts   Totalmente de acuerdo",,Ready to review,Traducción propia
-ITC,Intertemporal Choice Scale,"No lo sé, porque en el inventario de referencia en la carpeta 'artículos instrumentos' no logré encontrar los ítems (me imagino que no es ese artículo el que usaremos como referencia, así que -de momento- queda en pausa añadir la referencia)",NO TENEMOS ARTÍCULO DE REFERENCIA PARA LA ESCALA,NO TENEMOS ARTÍCULO DE REFERENCIA PARA LA ESCALA,35,NO TENEMOS ARTÍCULO DE REFERENCIA,,,,Issues: Faltan instrucciones,"No lo sé, porque en el inventario de referencia en la carpeta 'artículos instrumentos' no logré encontrar los ítems. Preguntar y pedir ayuda"
+ITC,Intertemporal Choice Scale,,,35,,,,,Issues: Faltan instrucciones,
 MIS,Magical ideation scale ,"Eckblad, M., & Chapman, L. J. (1983). Magical ideation as an indicator of schizotypy. Journal of consulting and clinical psychology, 51(2), 215.
 
-Artículo que señala las dimensiones: Garzitto, M., Picardi, A., Fornasari, L., Gigantesco, A., Sala, M., Fagnani, C., ... & Brambilla, P. (2016). Normative data of the Magical Ideation Scale from childhood to adulthood in an Italian cohort. Comprehensive psychiatry, 69, 78-87.",NA,"Ninguna, es unidimensional. ",30,"Cálculo de puntajes: Sumatoria de items. 
+Artículo que señala las dimensiones: Garzitto, M., Picardi, A., Fornasari, L., Gigantesco, A., Sala, M., Fagnani, C., ... & Brambilla, P. (2016). Normative data of the Magical Ideation Scale from childhood to adulthood in an Italian cohort. Comprehensive psychiatry, 69, 78-87.",NA,30,"Cálculo de puntajes: Sumatoria de items. 
 
 Items invertidos: 7 de ellos se puntuan inversamente (7,12,13,16,18,23,24) y los restantes 23 se puntúan de manera directa. 
 
@@ -645,8 +643,8 @@ Mientras mayores sean los puntajes más es el Pensamiento Mágico y, por el cont
 
 Score total de 0 a 30",Unidimensional,"Verdadero: 1 pto; 
 Falso: 0 pts",,Ready to review,Traducción propia
-OBJNUM,Lipkus numeracy test,"Lipkus, I. M., Samsa, G., & Rimer, B. K. (2001). General Performance on a Numeracy Scale among Highly Educated Samples. Medical Decision Making, 21(1), 37–44. https://doi.org/10.1177/0272989X0102100105",NA,NA,11,NA,NA,NA,NA,NA,NA
-OTRASRELIG,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+OBJNUM,Lipkus numeracy test,"Lipkus, I. M., Samsa, G., & Rimer, B. K. (2001). General Performance on a Numeracy Scale among Highly Educated Samples. Medical Decision Making, 21(1), 37–44. https://doi.org/10.1177/0272989X0102100105",NA,11,NA,NA,NA,NA,NA,NA
+OTRASRELIG,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
 PBS,paranormal belief scale ,"Tobacyk, J. J. (2004). A revised paranormal belief scale. The International Journal of Transpersonal Studies, 23(23), 94-98.","TradR: Creencias religiosas tradicionales
 
 Psi: Psi
@@ -659,7 +657,7 @@ ESPR: Esspiritismo
 
 EXTR: Formas de vida extraordinaria
 
-PREG: Precognición","Siete dimensiones: (1) creencias religiosas tradicionales 1, 8, 15 22,  (2) psi 2, 9, 16, 23, (3) brujeria 3, 10, 17, 24, (4) supersticion 4, 11, 18, (5) espiritismo 5, 12, 19, 25, (6) formas de vida extraordinaria 6, 13, 20, (7) precognicion 7, 14, 21, 26 ",26,"Cálculo de puntajes: Promedio de todos los items.
+PREG: Precognición",26,"Cálculo de puntajes: Promedio de todos los items.
 
 Items invertidos: n°23","Siete dimensiones
 
@@ -712,18 +710,18 @@ Cálculo: promedio
 
 'Muy de acuerdo': 7pts
 ",,Ready to review,Traducción propia
-PRFBM,Preference of birth mode in normal pregnancy,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA,NA
-PRFBMpost,Preference of birth mode in normal pregnancy (Post),"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA,NA
-PSETPP,"Percepciones sobre el embarazo, trabajo de parto y parto (Fear of birth scale)","Stoll K, Hauck Y, Downe S, Edmonds J, Gross MM, Malott A, et al. Cross cultural development and psychometric evaluation of a new measure to assess fear of childbirth prior to pregnancy. J Sex Reprod Healthc 2016;8:49–54.",NA,NA,10,NA,NA,NA,NA,NA,NA
-PSPPC,Percepciones sobre el parto por cesárea,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA,NA
-PSS,Perceived Stress scale,"Cohen, S., Kamarck, T., & Mermelstein, R. (1983). A global measure of perceived stress. Journal of health and social behavior, 385-396.",NA,"Ninguna, es unidimensional.",14,"Cálculo: sumatoria de todos los items.
+PRFBM,Preference of birth mode in normal pregnancy,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+PRFBMpost,Preference of birth mode in normal pregnancy (Post),"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+PSETPP,"Percepciones sobre el embarazo, trabajo de parto y parto (Fear of birth scale)","Stoll K, Hauck Y, Downe S, Edmonds J, Gross MM, Malott A, et al. Cross cultural development and psychometric evaluation of a new measure to assess fear of childbirth prior to pregnancy. J Sex Reprod Healthc 2016;8:49–54.",NA,10,NA,NA,NA,NA,NA,NA
+PSPPC,Percepciones sobre el parto por cesárea,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+PSS,Perceived Stress scale,"Cohen, S., Kamarck, T., & Mermelstein, R. (1983). A global measure of perceived stress. Journal of health and social behavior, 385-396.",NA,14,"Cálculo: sumatoria de todos los items.
 
 Items invertidos: 4, 5, 6, 7, 9, 10 y 13.",Cálculo dimensión: No corresponde,"Nunca: 0  
 Casi nunca: 1
 De vez en cuando: 2
 A menudo: 3
 Muy a menudo: 4",,Ready to review,Traducción propia
-PVC,Preguntas vacuna COVID-19,,,,,,,"Usted se ha vacunado contra el coronavirus / covid -19?
+PVC,Preguntas vacuna COVID-19,,,,,,"Usted se ha vacunado contra el coronavirus / covid -19?
 Si = 1
 No = 0
 
@@ -733,9 +731,7 @@ Usted se va a vacunar contra el coronavirus covid -19?
 Si = 1
 No = 2
 No estoy seguro = 3",,,
-PWb,Psychological well being-scale ,"Me pregunto de donde se obtuvieron los items del inventario, pues no lo veo en el artículo de referencia.",NA,"6 dimensiones: (1) Dominio del entorno (o 'Envoronmental Mastery', (2) Crecimiento Personal, (3) Propósito en la vida, (4) Autoaceptación (o 'Self-Acceptance', (5) Autonomía, (6) Relaciones Positivas (o 'Positive Relations').
-
-Interpretación de los puntajes: puntajes mayores en cada dimensión, indican mayores niveles de bienestar en cada escala.",39,"Cálculo de puntajes: Sumatoria de todos los itemes (no lo dicen explicitamente en los artículos, pero segun los mismos se entiende que es la forma correcta de calcluar)
+PWb,Psychological well being-scale ,"Me pregunto de donde se obtuvieron los items del inventario, pues no lo veo en el artículo de referencia.",NA,39,"Cálculo de puntajes: Sumatoria de todos los itemes (no lo dicen explicitamente en los artículos, pero segun los mismos se entiende que es la forma correcta de calcluar)
 Interpretación de los puntajes: los puntajes son directamente proporcionales a los niveles de bienestar, por ejemplo: mientras mayores los puntajes, mayor es el nivel de bienestar.
 
 Items inversos: 4, 5, 8, 9, 13, 15, 20, 22, 25, 29, 30, 34, 36","Seis dimensiones.
@@ -779,9 +775,8 @@ Cálculo: Sumatoria de puntaje (no lo dicen explicitamente en los artículos)
 6: 6pts
 
 Totalmente de acuerdo
-",,Ready to review: Algunas dimensiones tienen mas items que otras?,El artículo de este inventario no está en la carpeta 'artículos instrumentos'
-REI40,Rational-Experiential intentory-40,"Keaton, S. A. (2017). Rational‐Experiential Inventory‐40 (REI‐40) (Pacini & Epstein, 1999). The Sourcebook of Listening Research: Methodology and Measures, 530-536.
-https://www.researchgate.net/publication/319444554_Rational-Experiential_Inventory-40_REI-40/link/5a09dbb745851551b78d2638/download","RAb: Abilidad Racional
+",,Ready to review: Algunas dimensiones tienen mas items que otras?,
+REI40,Rational-Experiential intentory-40,"Keaton, S. A. (2017). Rational‐Experiential Inventory‐40 (REI‐40) (Pacini & Epstein, 1999). The Sourcebook of Listening Research: Methodology and Measures, 530-536","RAb: Abilidad Racional
 
 REng: Compromiso Racional
 
@@ -789,7 +784,7 @@ EAb: Abilidad Ecperiencial
 
 EEng: Compromiso Experiencial
 
-",1) rational ability 1- 10. 2) rational engagement 11-20. 3) experiential ability 21-30. 4)experiential engagement 31-40 (los itemes deben ser aleatorizados),40,"Calculo: No hay puntaje total.
+",40,"Calculo: No hay puntaje total.
 
 Items inversos: 1, 2, 3, 4, 5, 11, 13, 15, 17, 19, 21, 26, 28, 30, 34, 36, 37 y 38
 ","Son dos dimensiones con dos sub-escalas en cada una. 
@@ -833,7 +828,7 @@ Dimensión experiencial
 5: 5pts
 
 Definitivamente cierto para mi",,Ready to review,Traducción propia
-RSS,Rosemberg Self-esteem Scale ,"García, J. A., y Olmos, F. C., Matheu, M. L., & Carreño, T. P. (2019). Self esteem levels vs global scores on the Rosenberg self-esteem scale. Heliyon, 5(3), e01378., Rosenberg, M. (2015). Society and the adolescent self-image. Princeton university press.",NA,"Ninguna, es unidimensional.",10,"Cálculo de puntaje: sumatoria de todos los itemes.
+RSS,Rosemberg Self-esteem Scale ,"García, J. A., y Olmos, F. C., Matheu, M. L., & Carreño, T. P. (2019). Self esteem levels vs global scores on the Rosenberg self-esteem scale. Heliyon, 5(3), e01378., Rosenberg, M. (2015). Society and the adolescent self-image. Princeton university press.",NA,10,"Cálculo de puntaje: sumatoria de todos los itemes.
 
 
 Itemes inversos: 3, 5, 8, 9 y 10.
@@ -843,7 +838,7 @@ En desacuerdo: 2pts
 De acuerdo: 3 pts
 Muy de acuerdo: 4pts
 ",,Ready to review,Traducción propia
-RTS,The Revised Transliminality Scale,"Houran, J., Thalbourne, M. A., & Lange, R. (2003). Methodological note: erratum and comment on the use of the Revised Transliminality Scale.",NA,La versión revisada es unidimensional (extraido del abstract del artículo de referencia (Lange et. al. 2000)),29. Se usan SOLO 17 (ver scoring),"Cálculo puntaje: 
+RTS,The Revised Transliminality Scale,"Houran, J., Thalbourne, M. A., & Lange, R. (2003). Methodological note: erratum and comment on the use of the Revised Transliminality Scale.",NA,29. Se usan SOLO 17 (ver scoring),"Cálculo puntaje: 
 a) Primero se suman los items con valor 1, esto es el puntaje raw.
 b) Luego se transforman según valores de escala Rasch. El puntaje Racsh es el que se utiliza para analizar el instrumento
 
@@ -881,9 +876,7 @@ SASS,social adaptation Self-evaluaiton scale ,"Bosc, M., Dubini, A., & Polin, V.
 
 SCB: Conducta centrada en uno mismo
 
-SI: interacción social","3 dimensiones: (1) conducta social, (2) conducta centrada en uno mismo, (3) interacción social. Extraido de la página S61 del artículo de referencia (Bosc, et. al, 1997)
-
-PERO... LA VERSIÓN ESPAÑOLA TIENE 4 FACTORES, NECESITMOS CONSEGUIR EL ARTÍCULO: https://pubmed.ncbi.nlm.nih.gov/10380180/",21,"Cálculo de puntajes: 
+SI: interacción social",21,"Cálculo de puntajes: 
 El item SASS_01 no se puntua: determina si se ve SASS_02 o SASS_03,
 Los siguientes 20 items se suman
 
@@ -965,7 +958,7 @@ Cada respuesta es puntuada en el rango de 0 a 3 pts, la etiqueta de las posibles
         No mucho: 1pto
         Moderadamente: 2pts
         Muchisimo: 3pts",,Ready to review,Traducción propia
-SBS,supernatural belief scale ,"Jong, J., Bluemke, M., & Halberstadt, J. (2013). Fear of death and supernatural beliefs: Developing a new supernatural belief scale to test the relationship. European Journal of Personality, 27(5), 495-506.",No corresponde,"Ninguna, es unidimensional",10,"Cálculo de puntajes: por sumatoria de todos los ítems (tanto positivos como negativos). 
+SBS,supernatural belief scale ,"Jong, J., Bluemke, M., & Halberstadt, J. (2013). Fear of death and supernatural beliefs: Developing a new supernatural belief scale to test the relationship. European Journal of Personality, 27(5), 495-506.",No corresponde,10,"Cálculo de puntajes: por sumatoria de todos los ítems (tanto positivos como negativos). 
 
 Interpretación de los puntajes obtenidos: los extremos de la escala, están diseñados para indicar la prescencia de extrema descreencia o ateísmo (el extremo negativo de la escala) y creencia confiada (el extremo positivo de la escala). Mientras el punto medio de la escala (por ejemplo: 0) indica agnosticismo o incertidumbre.",Unidimensional,"Totalmente en desacuerdo
 
@@ -984,7 +977,7 @@ Totalmente de acuerdo
 Nomenclatura: el signo '-' significa 'menos' (por ejemplo, en palabras se leería: 'menos' 3).",,Ready to review,Traducción propia
 SCSORF,Santa Clara Strength of Religious Faith Questionnaire,"1. Boehm, T. L., & Carter, E. W. (2019). Facets of faith: Spirituality, religiosity, and parents of individuals with intellectual disability. Intellectual and developmental disabilities, 57(6), 512-526; 2. Plante, T. G., & Boccaccini, M. T. (1997). The Santa Clara strength of religious faith questionnaire. Pastoral Psychology, 45(5), 375-387.
 
-Artículo que señala las dimensiones y cálculo de puntaje: Lewis, C. A., Shevlin, M., McGuckin, C., & Navrátil, M. (2001). The Santa Clara strength of religious faith questionnaire: Confirmatory factor analysis. Pastoral Psychology, 49(5), 379-384. ",No corresponde,Unidimensional,10,"
+Artículo que señala las dimensiones y cálculo de puntaje: Lewis, C. A., Shevlin, M., McGuckin, C., & Navrátil, M. (2001). The Santa Clara strength of religious faith questionnaire: Confirmatory factor analysis. Pastoral Psychology, 49(5), 379-384. ",No corresponde,10,"
 Cálculo de puntajes: sumatoria 
 Items invertidos: no corresponde
 Los puntajes pueden variar entre 10 y 40 (siendo 10 el mínimo posible y 40 el máximo posible)
@@ -994,7 +987,7 @@ Interpretación de los puntajes: puntajes más altos reflejan mayores niveles de
 En desacuerdo: 2 ptos
 De acuerdo: 3 ptos
 Totalmente de acuerdo: 4 ptos",,Ready to review,Traducción propia
-SDG,Socio demográfico general,NO TENEMOS ARTÍCULO DE REFERENCIA PARA ESTE INVENTARIO,NO TENEMOS ARTÍCULO DE REFERENCIA PARA ESTE INVENTARIO,NO TENEMOS ARTÍCULO DE REFERENCIA PARA ESTE INVENTARIO,10,"Cálculo: Los datos son descriptivos socio-demográficos.
+SDG,Socio demográfico general,,,10,"Cálculo: Los datos son descriptivos socio-demográficos.
 La conversión de puntaje está en columna conversión nominal a valores",No corresponde,"Nombre participante: 
     Nombre participante
 Sexo:  
@@ -1066,7 +1059,7 @@ Ocupacion B:
 
 Propuesta:
 SDG_10_1 -> SDG_101",,El artículo de este inventario no está en la carpeta 'artículos instrumentos'
-SRA,Sel-reported altruism scale,"Philippe Rushton, J., Chrisjohn, R., & Cynthia Fekken, G. (1981). The altruistic personality and the self-report altruism scale. Personality And Individual Differences, 2(4), 293-302. doi: 10.1016/0191-8869(81)90084-2",No corresponde,"Ninguna, es unidimensional (extraido de la p. 301 del artículo de referencia para el instrumento)",20,"Calculo de puntaje: 
+SRA,Sel-reported altruism scale,"Philippe Rushton, J., Chrisjohn, R., & Cynthia Fekken, G. (1981). The altruistic personality and the self-report altruism scale. Personality And Individual Differences, 2(4), 293-302. doi: 10.1016/0191-8869(81)90084-2",No corresponde,20,"Calculo de puntaje: 
     Sumatoria de puntajes obtenidos en todos los enunciados. 
     Mientras más alto es el puntaje, mayor es el altruísmo. 
 
@@ -1083,7 +1076,7 @@ SRBQP,Self-regulation and belief questionnaire in pandemic,,"CrSM: Creencias y S
 
 CrP: Creencias en Pandemia
 
-At: Ateismo",,5,Sumatoria de todos los items,"Creencias y Salud Mental. Suma Items: 1- 2- 3 
+At: Ateismo",5,Sumatoria de todos los items,"Creencias y Salud Mental. Suma Items: 1- 2- 3 
      
 Creencias en Pandemia. Item: 4 
 
@@ -1098,7 +1091,7 @@ SRSav,SPRINGFIELD RELIGIOSITY SCALE (ABBREVIATED VERSION),"1. Koenig, H. G., Mob
 
 NORA: Actividad Religiosa No Organizacional.
 
-IRS: Religiosidad Intrínsica","Tres dimensiones: (1) actividad religiosa organizacional (itemes 1 y 2), (2) actividad religiosa NO organizacional (itemes 3, 4 y 5),  (3) religiosidad intrinseca (itemes 6, 7, 8, 9, 10, 11, 12, 13, 14, 15).",15,"No se calcula puntaje total de la escala completa, sólo por dimensiones. No se recomienda combinar (o sumar) los puntajes de las tres sub-escalas (es decir: ORA, NORA, IR).
+IRS: Religiosidad Intrínsica",15,"No se calcula puntaje total de la escala completa, sólo por dimensiones. No se recomienda combinar (o sumar) los puntajes de las tres sub-escalas (es decir: ORA, NORA, IR).
 
 Cita extraida del artículo fundacional measures of religiosity: ""but should analyze each of these three dimensions separately, not combine them into a single score"".","Tres dimensiones
 
@@ -1162,7 +1155,7 @@ Inseguro: 3 pts
 Tiende a estar de acuerdo: 4 pts
 Definitivamente de acuerdo: 5 pts
 ",,Ready to review,Traducción propia
-SWBQ,Spiritual wellbeing questionnaire ,"Moodley, T., Esterhuyse, K. G., & Beukes, R. B. (2012). Factor analysis of the spiritual well-being questionnaire using a sample of South African adolescents. Religion and Theology, 19(1-2), 122-151.",,,Revisar. Nuestra versión tiene 26. La de los artículos tiene 20.,"Calculo de puntaje: sumatoria total 
+SWBQ,Spiritual wellbeing questionnaire ,"Moodley, T., Esterhuyse, K. G., & Beukes, R. B. (2012). Factor analysis of the spiritual well-being questionnaire using a sample of South African adolescents. Religion and Theology, 19(1-2), 122-151.",,Revisar. Nuestra versión tiene 26. La de los artículos tiene 20.,"Calculo de puntaje: sumatoria total 
 
 Items inversos: No
 
@@ -1201,7 +1194,7 @@ Itemes inversos: No
 
 Muy alto
 ",,Ready to review: Revisar calculo y nombre de dimensiones en articulo original,Traducción propia
-WEBEXEC,Web based executive funtion questionnaire,"Buchanan, T., Heffernan, T. M., Parrott, A. C., Ling, J., Rodgers, J., & Scholey, A. B. (2010). A short self-report measure of problems with executive function suitable for administration via the internet. Behavior Research Methods, 42(3), 709–714. https://doi.org/10.3758/BRM.42.3.709",NA,"Ninguna, es unidimensional (extraido de la p. 713 del artículo de referencia del instrumento)",6,"Cálculo de puntaje: Se suman los puntajes de los 6 itemes
+WEBEXEC,Web based executive funtion questionnaire,"Buchanan, T., Heffernan, T. M., Parrott, A. C., Ling, J., Rodgers, J., & Scholey, A. B. (2010). A short self-report measure of problems with executive function suitable for administration via the internet. Behavior Research Methods, 42(3), 709–714. https://doi.org/10.3758/BRM.42.3.709",NA,6,"Cálculo de puntaje: Se suman los puntajes de los 6 itemes
 Items inversos: No posee","Cálculo: Es unidimensional, no corresponde","No he tenido problemas: 1pto
 He tenido algunos problemas: 2pts
 He tenido bastantes problemas: 3pts
