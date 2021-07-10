@@ -102,7 +102,7 @@ IRS.push(question006);
 var effort_question = {
     type: 'instructions',
     pages: ['<p>'+ 'Lo estás haciendo muy bien. Ya solo queda una última parte (entre 1 y 2 minutos). Recuerda que es importante que llegues hasta el final para poder enviar tus respuestas.' +'</p>'],
-    data: {trialid: 'effort', procedure: 'IRS'},
+    data: {trialid: 'Instructions_001', procedure: 'IRS'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

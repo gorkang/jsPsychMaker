@@ -25,7 +25,7 @@ questions.push(
       button_label: 'Full screen',
       delay_after: 0,
       fullscreen_mode: true,
-      data: {procedure: 'DASS21'}
+      data: {trialid: 'Fullscreen', procedure: 'DASS21'}
     }],
     conditional_function: function(){
       if(window.innerWidth != screen.width || window.innerHeight != screen.height)
@@ -223,7 +223,7 @@ var effort_question = {
     type: 'instructions',
     pages: ['<p><left><b><big>¡Segunda parte terminada!</big></b><br />'+
     'A continuación comenzaremos con las preguntas para evaluar tus creencias. Esta sección puede resultar más larga que las otras (entre 2 y 4 minutos), pero por favor continúa hasta el final y recuerda que tu aporte es muy valioso. Sigue las instrucciones para responder cada pregunta.' +'</p>'],
-    data: {trialid: 'effort', procedure: 'DASS21'},
+    data: {trialid: 'Instructions_002', procedure: 'DASS21'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
