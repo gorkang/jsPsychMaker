@@ -15,206 +15,252 @@ onkeydown = function block_fkeys(event){
     }
 }
 
-questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];;    //final timeline
+questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
+
+questions.push(
+  {
+    timeline: [{
+      type: 'fullscreen',
+      message: '<p>El experimento entrará en modo pantalla completa</p>',
+      button_label: 'Full screen',
+      delay_after: 0,
+      fullscreen_mode: true,
+      data: {procedure: 'PBS'}
+    }],
+    conditional_function: function(){
+      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
+        return true;
+      else
+        return false;
+    },
+    procedure: 'PBS'
+  }
+);
 
 PBS = [];    //temporal timeline
 
 var instruction_screen_experiment = {
     type: 'instructions',
-    pages: ['<p><left><b><big>PBS</big></b><br />'+
-    'Por favor, responda las siguientes preguntas.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'PBS'},
+    pages: ['<p><left>' +
+    '<p><left><b><big>PBS</big></b><br />'+'Por favor indique para cada frase su nivel de acuerdo o desacuerdo con cada ítem. Para ello utilice la escala de números presentada debajo de cada pregunta. No hay respuestas correctas o incorrectas. Este cuestionario representa sus propias creencias y actitudes. Gracias.' +'</p>'],
+    data: {trialid: 'Instructions', procedure: 'PBS'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
-    }
+    },
+    procedure: 'PBS'
 };
 
-var question01 = {
+var question001 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>1. El alma sigue existiendo aunque el cuerpo pueda morir.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_01', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">El alma sigue existiendo aunque el cuerpo pueda morir.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_001', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question01);
+PBS.push(question001);
 
-var question02 = {
+var question002 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>2. Algunos individuos pueden levitar (levantar) objetos a través de fuerzas mentales.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_02', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Algunos individuos pueden levitar (levantar) objetos a través de fuerzas mentales.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_002', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question02);
+PBS.push(question002);
 
-var question03 = {
+var question003 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>3. La magia negra realmente existe.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_03', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">La magia negra realmente existe.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_003', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question03);
+PBS.push(question003);
 
-var question04 = {
+var question004 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>4. Los gatos negros traen mala suerte.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_04', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Los gatos negros traen mala suerte.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_004', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question04);
+PBS.push(question004);
 
-var question05 = {
+var question005 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>5. Tu mente o alma puede salir del cuerpo y viajar (proyección astral).</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_05', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Tu mente o alma puede salir del cuerpo y viajar (proyección astral).</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_005', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question05);
+PBS.push(question005);
 
-var question06 = {
+var question006 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>6. El abominable hombre de las nieves, o pie grande del Tíbet, existe.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_06', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">El abominable hombre de las nieves, o pie grande del Tíbet, existe.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_006', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question06);
+PBS.push(question006);
 
-var question07 = {
+var question007 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>7. La astrología es una forma precisa de predecir el futuro.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_07', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">La astrología es una forma precisa de predecir el futuro.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_007', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question07);
+PBS.push(question007);
 
-var question08 = {
+var question008 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>8. Existe el diablo.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_08', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Existe el diablo.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_008', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question08);
+PBS.push(question008);
 
-var question09 = {
+var question009 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>9. La telekinesis, mover objetos a través de poderes psíquicos, existe.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_09', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">La telekinesis, mover objetos a través de poderes psíquicos, existe.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_009', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question09);
+PBS.push(question009);
 
-var question10 = {
+var question010 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>10. Las brujas existen.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_10', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Las brujas existen.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_010', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question10);
+PBS.push(question010);
 
-var question11 = {
+var question011 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>11. Si quiebras un espejo, tendrás mala suerte.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_11', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Si quiebras un espejo, tendrás mala suerte.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_011', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question11);
+PBS.push(question011);
 
-var question12 = {
+var question012 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>12. Durante estados alterados, como el sueño o los trances, el espíritu puede salir del cuerpo.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_12', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Durante estados alterados, como el sueño o los trances, el espíritu puede salir del cuerpo.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_012', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question12);
+PBS.push(question012);
 
-var question13 = {
+var question013 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>13. El monstruo del lago Ness en Escocia, existe.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_13', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">El monstruo del lago Ness en Escocia, existe.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_013', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question13);
+PBS.push(question013);
 
-var question14 = {
+var question014 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>14. El horóscopo dice el futuro de las personas de forma precisa.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_14', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">El horóscopo dice el futuro de las personas de forma precisa.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_014', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question14);
+PBS.push(question014);
 
-var question15 = {
+var question015 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>15. Creo en Dios</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_15', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Creo en Dios.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_015', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question15);
+PBS.push(question015);
 
-var question16 = {
+var question016 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>16. Los pensamientos de una persona pueden influir en el movimiento de un objeto físico.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_16', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Los pensamientos de una persona pueden influir en el movimiento de un objeto físico.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_016', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question16);
+PBS.push(question016);
 
-var question17 = {
+var question017 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>17. A través del uso de pócimas y conjuros, es posible lanzar hechizos sobre las personas.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_17', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">A través del uso de pócimas y conjuros, es posible lanzar hechizos sobre las personas.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_017', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question17);
+PBS.push(question017);
 
-var question18 = {
+var question018 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>18. El número “13” es de mala suerte.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_18', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">El número “13” es de mala suerte.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_018', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question18);
+PBS.push(question018);
 
-var question19 = {
+var question019 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>19. La reencarnación existe.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_19', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">La reencarnación existe.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_019', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question19);
+PBS.push(question019);
 
-var question20 = {
+var question020 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>20. Hay vida en otros planetas.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_20', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Hay vida en otros planetas.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_020', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question20);
+PBS.push(question020);
 
-var question21 = {
+var question021 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>21. Algunos psíquicos pueden predecir el futuro de forma precisa.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_21', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Algunos psíquicos pueden predecir el futuro de forma precisa.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_021', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question21);
+PBS.push(question021);
 
-var question22 = {
+var question022 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>22. Existe un Cielo y un Infierno.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_22', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Existe un Cielo y un Infierno.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_022', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question22);
+PBS.push(question022);
 
-var question23 = {
+var question023 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>23. Leer la mente no es posible</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_23', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Leer la mente no es posible.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_023', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question23);
+PBS.push(question023);
 
-var question24 = {
+var question024 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>24. Hay casos reales de brujería</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_24', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Hay casos reales de brujería.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_024', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question24);
+PBS.push(question024);
 
-var question25 = {
+var question025 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>25. Es posible comunicarse con los muertos</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_25', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Es posible comunicarse con los muertos.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_025', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question25);
+PBS.push(question025);
 
-var question26 = {
+var question026 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>26. Algunas personas tienen la inexplicable habilidad de predecir el futuro.</div>", options: ['&nbsp;Muy en desacuerdo', '&nbsp;Moderadamente en desacuerdo', '&nbsp;Un poco en desacuerdo', '&nbsp;No sé / No tengo certeza', '&nbsp;Un poco de acuerdo', '&nbsp;Moderadamente de acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
-  data: {trialid: 'PBS_26', procedure: 'PBS'}
+  questions: [{prompt: '<div class="justified">Algunas personas tienen la inexplicable habilidad de predecir el futuro.</div>', options: ['&nbsp;1 Muy en desacuerdo', '&nbsp;2 Moderadamente en desacuerdo', '&nbsp;3 Un poco en desacuerdo', '&nbsp;4 No sé / No tengo certeza', '&nbsp;5 Un poco de acuerdo', '&nbsp;6 Moderadamente de acuerdo', '&nbsp;7 Muy de acuerdo'], required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'PBS_026', procedure: 'PBS'},
+  procedure: 'PBS'
 };
-PBS.push(question26);
+PBS.push(question026);
 
 PBS.unshift(instruction_screen_experiment);
-questions.push.apply(questions, PBS)
-
+questions.push.apply(questions, PBS);
 
 questions.push({
     type: 'call-function',
