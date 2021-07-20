@@ -87,6 +87,7 @@ var instruction_screen_experiment = {
     pages: ['<p><left>' +
     '<p><left><b><big>Motivos para tu preferencia</big></b><br />'+'Por favor, indica en que grado cada uno de estos motivos influye en tu preferencia.' +'</p>'],
     data: {trialid: 'Instructions', procedure: 'PRFBM'},
+    procedure: 'PRFBM',
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

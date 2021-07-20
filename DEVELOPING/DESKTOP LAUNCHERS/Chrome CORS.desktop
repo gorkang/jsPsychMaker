@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Chrome CORS
-Comment=
-Exec=/usr/bin/google-chrome --disable-web-security --user-data-dir="/home/emrys/.chrome-CORS"
-Icon=/usr/share/icons/hicolor/64x64/apps/google-chrome.png
-Terminal=false
-Type=Application
-StartupNotify=true
