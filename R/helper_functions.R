@@ -18,6 +18,9 @@ check_trialids <- function(local_folder_protocol) {
 
   find_trialids <- function(file_name) {
     
+    # DEBUG
+    # file_name = scripts[1]
+    
     script = read_file(file_name) 
     expres = ".*?trialid: '(.*?)'.*?"
     trialid = gsub(expres, "\\1; \n", script) %>% gsub("^(.*; \n).*", "\\1", .) %>% gsub(";", "", .) %>% gsub(" number \n", "", .)
