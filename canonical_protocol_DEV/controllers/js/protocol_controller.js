@@ -289,7 +289,7 @@ function check_id_status(event) {
                   completed_experiments = [];
                   XMLcall("findAll", "user_task", {keys: ["id_user"], values: [uid]}).then(function(tasks_list) {
                     for (const actual_element in tasks_list) {
-                      XMLcall("findRow", "task", {keys: ["id_task"], values: [actual_element.id_task]}).then(function(actual_task) {
+                      XMLcall("findRow", "task", {keys: ["id_task"], values: [tasks_list[actual_element].id_task]}).then(function(actual_task) {
                         completed_experiments.push(actual_task.task_name);
                       })
                     }
