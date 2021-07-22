@@ -1,16 +1,5 @@
 /* CSCN - Creado MANUALMENTE */
 
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    } else {
-        return;
-    }
-}
-
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 
 //Between variables

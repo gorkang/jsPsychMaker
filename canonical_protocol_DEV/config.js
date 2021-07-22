@@ -2,7 +2,7 @@
 
 // Main parameters -------------------------------------------------------------
 
-pid = 999; // ProtocolID
+pid = 999999; // ProtocolID
 online = false; // Protocol runs online? true/
 max_participants = 100; // Max participants per contition
 
@@ -15,6 +15,7 @@ accept_discarded = false; // If an user is discarded (out of time), should be al
 // REVIEW: puse Consent hardcoded en el index.html
 //first_tasks = ['DEMOGR', 'PRFBM', 'HRPVB','INFCONS','BNT']; // First tasks
 first_tasks = ['HRPVB', 'DEMOGR', 'BNT']; // First tasks
+//first_tasks = ['Between-Within']; // First tasks
 randomly_ordered_tasks = []; // Tasks randomly ordered in between
 last_tasks = ['Goodbye']; // Last tasks
 
@@ -28,13 +29,17 @@ images = [img_folder + 'Baby_cerebro_VC.png',  img_folder + 'Baby_lactancia_VC.p
 audio = [];
 video = [];
 
+all_conditions = {
+  "INFCONS": ["control", "text", "pictorial"]
+}
+
 
 // BETWEEN PARTICIPANTS tasks parameters --------------------------------------
-
+/*
 const conditions = [
   { id_protocol: pid, condition_name: "control", assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: "INFCONS", type: "between"},
   { id_protocol: pid, condition_name: "text", assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: "INFCONS", type: "between"},
   { id_protocol: pid, condition_name: "pictorial", assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: "INFCONS", type: "between"}
-]
+]*/
 
 // REVIEW: He movido a index.html y automatizado la creacion de tasks.

@@ -1,16 +1,5 @@
 /* CSCN - Creado MANUALMENTE */
 
-  onkeydown = function block_fkeys(event){
-      var x = event.which || event.keyCode;
-      if(x == 112 || x == 116){ //blocks f1 and f5 keys
-          console.log("Blocked key");
-          event.preventDefault();
-          return false;
-      } else {
-        return;
-      }
-  }
-
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 
 // Between variables
@@ -91,13 +80,13 @@
         fullscreen_mode: true,
         data: {procedure: 'Between-Within'}
       }],
+      data: {procedure: 'Between-Within'},
       conditional_function: function(){
         if(window.innerWidth != screen.width || window.innerHeight != screen.height)
           return true;
         else
           return false;
-      },
-      procedure: 'Between-Within'
+      }
     }
   );
 
@@ -115,8 +104,7 @@
       show_clickable_nav: true,
       on_trial_start: function(){
           bloquear_enter = 0;
-      },
-      procedure: 'Between-Within'
+      }
   };
 
 // Start within block ----------------------------------------------------------
@@ -254,9 +242,9 @@
       // SCREEN 7: Confidence in Recommendation 2 ------------------------------
 
     ],
+    data: {procedure: 'Between-Within'},
     timeline_variables: within_selection["Between-Within"],
     randomize_order: true, //random order
-    procedure: 'Between-Within'
   };
   temporal_questions.push(within_timeline_01);
 
@@ -280,5 +268,5 @@ questions.push({
       let last_experiment = false;
       saveData(data, online, 'Between-Within', version = 'original', first_experiment, last_experiment);
     },
-    procedure: 'Between-Within'
+    data: {procedure: 'Between-Within'}
 });

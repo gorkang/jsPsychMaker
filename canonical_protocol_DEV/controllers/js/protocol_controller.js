@@ -363,6 +363,8 @@ function obtain_experiments(questions, completed_experiments){
     return !completed_experiments.includes( element );
   } );
 
+  console.log(questions)
+
   // se crea el array con los elementos no completados
   var questions = Object.keys(questions).reduce(function(r, e) {
     if (acceptedValues.includes(questions[e].data["procedure"])) {

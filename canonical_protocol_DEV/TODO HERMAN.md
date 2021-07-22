@@ -6,7 +6,7 @@ Revisar que media preloading esta funcionando:
 
 - He movido todo a media/
 
-  
+
 
 Revisar que he sacado todos los elementos de configuracion a `config.js`
 
@@ -18,13 +18,13 @@ Revisar que `obtain_experiments()` funciona correctamente (parece que si):
 
 - He cambiado if (acceptedValues.includes(questions[e] ["procedure"])) por if (acceptedValues.includes(questions[e]**.data**["procedure"]))
   - Ya NO es necesario el procedure extra.
-  - Una **ventaja** MUY importante es que si no se incluye la linea `data: {trialid: 'BLA', procedure: 'BLA'},` en las preguntas, DA UN ERROR! 
+  - Una **ventaja** MUY importante es que si no se incluye la linea `data: {trialid: 'BLA', procedure: 'BLA'},` en las preguntas, DA UN ERROR!
   - Esto hace imposible correr un protocolo y perder pantallas sin darse cuenta.
-  - La unica "desventaja" que veo es que hay que poner `data: {trialid: 'BLA', procedure: 'BLA'}` en las `call-functions` y `fullscreen`.
+  - La unica "desventaja" que veo es que hay que poner `data: {trialid: 'BLA', procedure: 'BLA'}` en las `call-functions`, `timelines` y `fullscreen`.
 
 
 
-Revisar `mysql_controller.js`, `protocol_controller.js`, etc. 
+Revisar `mysql_controller.js`, `protocol_controller.js`, etc.
 
 - Reducir codigo duplicado
 
@@ -34,11 +34,11 @@ Revisar `mysql_controller.js`, `protocol_controller.js`, etc.
 
 - `protocol_blocked` y `experiment_blocked` hacen lo mismo?
 
-- `blocked` se usa? 
+- `blocked` se usa?
 
 - `accepted discarded` esta funcionando bien?
 
-  
+
 
 Adaptar los cambios hechos a mysql a indexedDB
 
@@ -55,7 +55,7 @@ Asignacion participantes a between conditions:
 
 
 
-Sistema para definir orden de tareas deberia permitir aleatorizar varios grupos de tareas... 
+Sistema para definir orden de tareas deberia permitir aleatorizar varios grupos de tareas...
 
 
 
@@ -87,4 +87,4 @@ LOCK TABLE con alias para ver si mejoran las cosas
 
 Almacenar fechas en mysql con milisegundos
 
-Podemos crear un proceso de revision en consent +1 o similar donde 
+Podemos crear un proceso de revision en consent +1 o similar donde

@@ -1,27 +1,16 @@
 /** CSCN lab **/
 
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-};
-
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
 BNT = [];    // temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    data: {trialid: 'Instructions', procedure: 'BNT'},
-    pages: [`<p><left><p><left><b><big>Conocimiento sobre probabilidades 1/2</big></b><br/>En las siguientes dos pruebas evaluaremos tu habilidad numérica para ver como se relaciona con tu capacidad para comprender consentimientos informados. Trata de contestar lo mejor que puedas <B>sin usar calculadora</B>.</p>`],
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  data: {trialid: 'Instructions', procedure: 'BNT'},
+  pages: [`<p><left><p><left><b><big>Conocimiento sobre probabilidades 1/2</big></b><br/>En las siguientes dos pruebas evaluaremos tu habilidad numérica para ver como se relaciona con tu capacidad para comprender consentimientos informados. Trata de contestar lo mejor que puedas <B>sin usar calculadora</B>.</p>`],
+  show_clickable_nav: true,
+  on_trial_start: function(){
+    bloquear_enter = 0;
+  }
 };
 
 var question01 = {
@@ -38,16 +27,16 @@ var question02 = {
 };
 
 var if_question02 = {
-timeline: [question02],
-data: {trialid: 'BNT_02_if', procedure: 'BNT'},
-conditional_function: function(){
-  let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'BNT_01'))['response'])['Q0']).trim();
- if((data) !=  '25'){
-   return true;
-   } else {
-   return false;
-  }
-},
+  timeline: [question02],
+  data: {trialid: 'BNT_02_if', procedure: 'BNT'},
+  conditional_function: function(){
+    let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'BNT_01'))['response'])['Q0']).trim();
+    if((data) !=  '25'){
+      return true;
+    } else {
+      return false;
+    }
+  },
 };
 BNT.push(if_question02);
 
@@ -58,16 +47,16 @@ var question03 = {
 };
 
 var if_question03 = {
-timeline: [question03],
-data: {trialid: 'BNT_03_if', procedure: 'BNT'},
-conditional_function: function(){
+  timeline: [question03],
+  data: {trialid: 'BNT_03_if', procedure: 'BNT'},
+  conditional_function: function(){
   let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'BNT_01'))['response'])['Q0']).trim();
- if((data) ==  '25'){
-   return true;
+  if((data) ==  '25'){
+    return true;
    } else {
-   return false;
-  }
-},
+    return false;
+   }
+  },
 };
 BNT.push(if_question03);
 
@@ -78,23 +67,23 @@ var question04 = {
 };
 
 var if_question04 = {
-timeline: [question04],
-data: {trialid: 'BNT_04_if', procedure: 'BNT'},
-conditional_function: function(){
-  try {
-    let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'BNT_03'))['response'])['Q0']).trim();
+  timeline: [question04],
+  data: {trialid: 'BNT_04_if', procedure: 'BNT'},
+  conditional_function: function(){
+    try {
+      let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'BNT_03'))['response'])['Q0']).trim();
 
-    if((data) != '20'){
-      return true;
-    } else {
+      if((data) != '20'){
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch(err) {
+      //alert('we dont have BNT_03')
       return false;
     }
-
-  } catch(err) {
-    //alert('we dont have BNT_03')
-    return false;
-  }
-},
+  },
 };
 BNT.push(if_question04);
 
