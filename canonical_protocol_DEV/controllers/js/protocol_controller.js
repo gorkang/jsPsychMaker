@@ -65,7 +65,7 @@ function check_id_status(event) {
               between_selection = {};
               findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(between_list) {
                 for (const actual_element in between_list) {
-                  readIndexedSync("condition", actual_element.id_condition, db).then(function(actual_condition) {
+                  readIndexedSync("condition", between_list[actual_element].id_condition, db).then(function(actual_condition) {
                     if (typeof between_selection[actual_condition.task_name] !== 'undefined')
                       between_selection[actual_condition.task_name].push(actual_condition.condition_name);
                     else
@@ -85,7 +85,7 @@ function check_id_status(event) {
                 completed_experiments = [];
                 findAllIndexedSync("user_task", "id_user", uid, pid, db).then(function(tasks_list) {
                   for (const actual_element in tasks_list) {
-                    readIndexedSync("task", actual_element.id_task, db).then(function(actual_task) {
+                    readIndexedSync("task", tasks_list[actual_element].id_task, db).then(function(actual_task) {
                       completed_experiments.push(actual_task.task_name);
                     })
                   }
@@ -248,7 +248,7 @@ function check_id_status(event) {
                   // REVIEW: Can we do this using map instead of for (???)
                   XMLcall("findAll", "user_task", {keys: ["id_user"], values: [uid]}).then(function(tasks_list) {
                     for (const actual_element in tasks_list) {
-                      XMLcall("findRow", "task", {keys: ["id_task"], values: [actual_element.id_task]}).then(function(actual_task) {
+                      XMLcall("findRow", "task", {keys: ["id_task"], values: [tasks_list[actual_element].id_task]}).then(function(actual_task) {
                         completed_experiments.push(actual_task.task_name);
                       })
                     }
