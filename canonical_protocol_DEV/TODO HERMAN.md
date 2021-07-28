@@ -66,9 +66,6 @@ La funcion `block_fkeys` que esta en todas las tareas, se podria poner en protoc
 Crear funciones para CHECKEAR todos los nombres de trialid, de tarea, etc.
 
 
-
-
-
 ### TODO otros
 
 completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection["INFCONS"][0] });

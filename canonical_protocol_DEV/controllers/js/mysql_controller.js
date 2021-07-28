@@ -177,8 +177,6 @@ function clean_mysql(){
 
 }
 
-
-
 function load_clean_mysql(iterations_for_review, max_participants) {
 
   XMLcall("findAll", "experimental_condition").then(function(condition_data) {

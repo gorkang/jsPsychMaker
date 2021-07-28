@@ -26,6 +26,12 @@ user_assigned = false;
 
 actual_condition_data = [];
 
+// Create condition Array for DB
+var conditions = []
+Object.entries(all_conditions).forEach(([key, value]) => {
+  for(var i=0; i < value.length; i++) { conditions.push({ id_protocol: pid, condition_name: value[i], assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: key, type: "between"}) }
+})
+
 // REVIEW: Ver arriba. No entiendo esto...
 // obtaining final array (if random)
 var all_tasks = (random) ? (['Consent'].concat(first_tasks.concat(jsPsych.randomization.shuffle(randomly_ordered_tasks)))) : (['Consent'].concat(first_tasks.concat(randomly_ordered_tasks)));
@@ -34,14 +40,8 @@ all_tasks = all_tasks.concat(last_tasks);
 // Create tasks Array for DB
 var tasks = []
 for(var i= 0; i < all_tasks.length; i++) {
-  tasks = tasks.push({ id_protocol: pid, task_name: all_tasks[i]})
+  tasks.push({ id_protocol: pid, task_name: all_tasks[i]})
 }
-
-// Create condition Array for DB
-var conditions = []
-Object.entries(all_conditions).forEach(([key, value]) => {
-  for(var i=0; i < value.length; i++) { conditions.push({ id_protocol: pid, condition_name: value[i], assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: key, type: "between"}) }
-})
 
 // Use IndexedDB or MySQL for offline or online protocols
 if (online) {

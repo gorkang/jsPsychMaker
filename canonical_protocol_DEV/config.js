@@ -3,8 +3,8 @@
 // Main parameters -------------------------------------------------------------
 
 pid = 999999; // ProtocolID
-online = false; // Protocol runs online? true/
-max_participants = 100; // Max participants per contition
+online = true; // Protocol runs online? true/
+max_participants = 2; // Max participants per contition
 
 max_time = "10:10:00"; // Max time to complete the protocol
 accept_discarded = false; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots)

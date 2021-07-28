@@ -2,19 +2,24 @@
 
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 
-// Between variables
-  var between_var = {
-      type: ['Image', 'Text']
-  }
-
-// copia de respaldo
-  var original_between_var = JSON.parse(JSON.stringify(between_var));
-
 // Within variables
   var within_var = {
       disease: ['Cáncer', 'Sida', 'Asma'],
       test_quality: ['low_quality', 'high_quality']
   }
+
+  // Randomize order of Within variables
+  within_selection["Between-Within"] = jsPsych.randomization.factorial(within_var, 1, false, false);
+
+  /*
+  // Between variables
+    var between_var = {
+        type: ['Image', 'Text']
+    }
+
+  // copia de respaldo
+    var original_between_var = JSON.parse(JSON.stringify(between_var));
+    
 // se limpia la variable between dependiendo del estado de las condiciones (verificar para multiples variables between)
   for (var i = 0; i < actual_condition_data.length; i++) {
     position = between_var.type.indexOf(actual_condition_data[i].condition_name)
@@ -43,7 +48,7 @@
       within_selection["Between-Within"] = jsPsych.randomization.factorial(within_var, 1, false, false);
     }
   }
-
+*/
 // DATA for experimental conditions --------------------------------------------
 
   // BETWEEN: data asociada al type

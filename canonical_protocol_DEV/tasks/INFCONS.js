@@ -2,6 +2,8 @@
 
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 
+
+  /*
 //Between variables
 var between_var = {
   type: ['control', 'text', 'pictorial']
@@ -43,6 +45,8 @@ var original_between_var = JSON.parse(JSON.stringify(between_var));
   } else {
     alert("user_assigned")
   }
+
+  */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
 
