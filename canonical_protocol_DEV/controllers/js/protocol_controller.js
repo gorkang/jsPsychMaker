@@ -20,7 +20,7 @@ function sleep(milliseconds) {
 }
 
 // obtención de condiciones para usuario nuevo (funciona como promise para que sea sincrónico)
-function condition_selection(all_conditions, user_conditions = {}) {
+function condition_selection(all_conditions, between_selection_temp = {}) {
   return new Promise(
     function(resolve, reject) {
       between_selection = {};
@@ -33,7 +33,7 @@ function condition_selection(all_conditions, user_conditions = {}) {
         actual_min = {}
         temp_condition_task_list = []
 
-        if (Object.keys(user_conditions).length === 0) {
+        if (Object.keys(between_selection_temp).length === 0) {
           // esta parte solo debe ser usada en caso de que sea un usuario nuevo
           // ver si se puede pasar a filter-map
           for (var i = 0; i < condition_data.length; i++) {
@@ -58,17 +58,17 @@ function condition_selection(all_conditions, user_conditions = {}) {
           condition_temp_array = temp_condition_task_list.map(function (task, index, array) { return (task in between_selection) });
         } else {
           // comprobación para discarded
+          //between_selection = between_selection_temp;
           temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; })
-          between_selection = user_conditions;
 
           condition_temp_array = [];
 
-          Object.entries(user_conditions).forEach(([key, val]) => {
+          Object.entries(between_selection_temp).forEach(([key, val]) => {
             // si al filtrar las condiciones, comparandolas con el key-value actual (ejem: key = INFCONS, value = control), sumando el hecho de que sea menor al maximo de participantes, se obtiene un resultado,
             // entonces se agrega a la lista temporal un true, en caso contrario un false
             condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
           })
-          condition_temp_array = user_conditions.map(function (condition, index, array) { return (condition in between_selection) });
+          condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection) });
         }
 
         if (condition_temp_array.includes(false)) {
