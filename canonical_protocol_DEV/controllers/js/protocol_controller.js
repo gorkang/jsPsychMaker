@@ -268,7 +268,8 @@ function check_id_status(event) {
               // REVIEW: revisar si podemos cambiar esto y hacerlo antes, porque es importante tener cargado esto para la funcion condition_selection
               // LOAD **between participants** conditions for the particicipant from the DB (so she can continue where she left off)
               between_selection = {};
-              XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(between_list) {
+              // version anterior para creacion del between_selection
+              /*XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(between_list) {
                 for (const actual_element in between_list) {
                   XMLcall("findRow", "experimental_condition", {keys: ["id_condition"], values: [between_list[actual_element].id_condition]}).then(function(actual_condition) {
                     if (typeof between_selection[actual_condition.task_name] !== 'undefined')
@@ -276,9 +277,21 @@ function check_id_status(event) {
                     else
                       between_selection[actual_condition.task_name] = [actual_condition.condition_name];
                   })
+                }*/
+
+              XMLcall("condition_selection", "", {id: {"id_user": actual_user.id_user}}).then(function (between_selection_temp){
+                // between selection es del tipo [{task1: condition1},{task2: condition2},{task2: condition3}]
+                for (var i = 0; i < between_selection_temp.length; i++) {
+                  let actual_task = Object.keys(between_selection_temp[i])[0];
+                  let actual_condition = Object.values(between_selection_temp[i])[0];
+
+                  // si la tarea existe en el between_selection entonces se agrega al array, en caso contrario el array se crea
+                  if (actual_task in between_selection) {
+                    between_selection[actual_task].push(actual_condition);
+                  } else {
+                    between_selection[actual_task] = [actual_condition];
+                  }
                 }
-                // para asegurarnos del término del for anterior, o al menos de gran parte de él
-                sleep(100);
 
                 if (actual_user.status == "discarded") {
                   // Reset starting date to NOW

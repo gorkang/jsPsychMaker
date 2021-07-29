@@ -30,7 +30,7 @@ function XMLcall (query, table_name, elements = {}) {
             //console.log(answer);
             resolve(answer);
           } else {
-            //console.log(response);
+            console.log(response);
             reject(response);
           }
         }
@@ -68,7 +68,19 @@ function XMLcall (query, table_name, elements = {}) {
           }
         }
 
+      } else if (query == "condition_selection") {
+        base_query["id"] = "";
+        for (var [key, value] of Object.entries(elements["id"])) {
+          base_query["id"] = key + "=";
+          if (value.toString().indexOf("+ 1") != -1 || value.toString().indexOf("- 1") != -1 || isNormalInteger(value.toString())) {
+            base_query["id"] += value
+          } else {
+            base_query["id"] += '"' + value + '"'
+          }
+        }
       } else if (query == "findRow" || query == "findAll") {
+        console.log(table_name);
+        console.log(elements);
         if ('keys' in elements)
           base_query["keys"] = elements["keys"];
         if ('values' in elements)

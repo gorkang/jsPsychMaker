@@ -49,6 +49,36 @@ usleep( $sleep_time );
     //echo($query);
   };
 
+  function condition_selection($data, $conn) {
+
+    $query = "SELECT task_name, condition_name FROM user_condition LEFT JOIN experimental_condition USING (id_condition) WHERE " . $data["id"] . " AND experimental_condition.id_protocol = " . $data["pid"];
+    $result = mysqli_query($conn, $query);
+    //echo($result);
+    echo('[');
+    $starting = true;
+
+    while ($row = $result->fetch_assoc()) {
+      foreach($row as $key=>$value) {
+        if ($starting){
+          $starting = false;
+        } elseif ($starting == false && $key == "task_name") {
+          echo ", ";
+        }
+
+        if ($key == "task_name") {
+          echo('{"' . $value . '": ');
+        } elseif ($key == "condition_name") {
+          echo('"' . $value . '"}');
+        } else {
+          echo ("error en " . $key . " " . $value);
+        }
+
+        //echo('{"' . $key . '": "' . $value . '"}');
+      }
+    }
+    echo(']');
+  };
+
   function findAll($data, $conn) {
 
     $query = "LOCK TABLES " . $data["table_name"] . " WRITE;";
@@ -111,6 +141,8 @@ usleep( $sleep_time );
       }
     }
 
+    //echo($query);
+
     $result = mysqli_query($conn, $query);
 
     while ($row = $result->fetch_assoc()) {
@@ -138,6 +170,8 @@ usleep( $sleep_time );
     findAll($data, $conn);
   } else if ($data["query"] == "findRow") {
     findRow($data, $conn);
+  } else if ($data["query"] == "condition_selection") {
+    condition_selection($data, $conn);
   }
 
   $conn->close();
