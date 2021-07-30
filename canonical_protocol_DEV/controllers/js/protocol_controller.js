@@ -26,16 +26,67 @@ function condition_selection(all_conditions, between_selection_temp = {}) {
       between_selection = {};
       // REVIEW: hay que ver si funciona correctamente en caso de que no existan condiciones en el experimento
       XMLcall("findAll", "experimental_condition").then(function(condition_data) {
+
+        // DEBUG:--------------------------------------------------
+        /*
+        between_selection_temp = {};
+        XMLcall("findAll", "experimental_condition");
+        condition_data = JSON.parse(response);
+        */
+
         //console.log(condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; }));
 
         // se establece un mínimo (respecto a este mínimo seleccionaremos la condicion)
         // diccionario de mínimos para que no se pierda con cambios de tareas en condition_data
-        actual_min = {}
-        temp_condition_task_list = []
+        actual_min = {};
+        temp_condition_task_list = [];
 
         if (Object.keys(between_selection_temp).length === 0) {
           // esta parte solo debe ser usada en caso de que sea un usuario nuevo
           // ver si se puede pasar a filter-map
+
+
+          // NEW VERSION ----------------------------------------------
+          condition_data_temp = [];
+          ARRAY_temp = [];
+
+          // Get array with unique between tasks (we need to select one condition for each one)
+          unique_tasks = [...new Set(condition_data.map(item => item.task_name))];
+
+          // For each of the between tasks (usually just one)
+          for (var i = 0; i < unique_tasks.length; i++) {
+
+            // Temporal array for the condition i
+            ARRAY_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_tasks[i]; });
+            // Min number of assigned_task in array
+            min_assigned_temp = Math.min.apply(Math, ARRAY_temp[i].map(function(value,index) { return value["assigned_task"]; }));
+            // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain. If there are more than one, we get the first one [0]
+            condition_data_temp = ARRAY_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; })[0];
+
+
+            // REVIEW: This is mostly copied from CHECK below. Not sure how to integrate with // comprobación para discarded to avoid duplication
+            if (condition_data_temp === undefined) {
+              // If we can't assign a condition
+              experiment_blocked = true;
+              condition_temp_array = [false];
+              //console.log("Usuario bloqueado por límite en condiciones");
+              alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
+              throw new Error('Usuario bloqueado por límite en condiciones'); // To avoid loading the rest of the questions
+              resolve(false);
+            } else {
+              // If there are slots, write to between_selection[NAME_OF_TASK]
+              between_selection[unique_tasks[i]] = [condition_data_temp["condition_name"]];
+              experiment_blocked = false;
+              condition_temp_array = [true];
+              resolve(true);
+            }
+
+          };
+
+
+
+/*
+          // OLD VERSION -------------------------------------------------
           for (var i = 0; i < condition_data.length; i++) {
             if (condition_data[i]["task_name"] in between_selection) {
               // si la key existe, verificamos que siga siendo el mínimo
@@ -56,6 +107,9 @@ function condition_selection(all_conditions, between_selection_temp = {}) {
 
           // bloqueamos el experimento si alguna de las tareas con condiciones no obtuvo condicion
           condition_temp_array = temp_condition_task_list.map(function (task, index, array) { return (task in between_selection) });
+
+*/
+
         } else {
           // comprobación para discarded
           //between_selection = between_selection_temp;
@@ -71,6 +125,7 @@ function condition_selection(all_conditions, between_selection_temp = {}) {
           condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection) });
         }
 
+        // CHECKS
         if (condition_temp_array.includes(false)) {
           experiment_blocked = true;
           console.log("Usuario bloqueado por límite en condiciones");
@@ -644,22 +699,50 @@ function completed_task_storage(csv, task) {
             })
           }
 
-        // NEW USER ---
-        // Created after first task (Consent) # REVIEW: How we know is the first task (???)
+        // NEW USER ----------------------------------------------------
+        // Created after first task (Consent)
+        // QUESTION: How we know is the first task (???)
+
         } else {
 
+          // Check condition_data table on DB
           XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
-            // With only one between variable: the total participants will be
-            // max_participants * levels of the between variable
-
-            // With more than 1 between variable: total participants number
-            // needs to be divisible by the number of levels of the other
-            // between participants and give an integer
-
             // Use condition_data to check if there are available slots for the condition selected in the BETWEEN task (e.g. between_selection["INFCONS"][0])
-            completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection[Object.keys(between_selection)[0]][0] });
+            // We use Object.keys(between_selection).length to assign +1 to each of the between tasks
 
+            // For each of the between tasks (usually just one)
+            for (var i = 0; i < Object.keys(between_selection).length; i++) {
+
+              // console.log(Object.keys(between_selection)[i]);
+              completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection[Object.keys(between_selection)[i]][0]});
+
+              if (completed_protocol_filtered.length > 0) {
+
+                added_task = completed_protocol_filtered[0]["task_name"]
+                selected_id_condition = completed_protocol_filtered[0].id_condition
+                XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
+
+                // alert("SI hay cupos disponibles en la condition " + selected_id_condition);
+                // console.table(completed_protocol_filtered);
+
+                protocol_blocked = false;
+
+              } else {
+                console.log("NO hay cupos disponibles");
+                alert("NO hay cupos disponibles");
+                protocol_blocked = true;
+                window.location.reload();
+              };
+
+            };
+
+
+          // OLD -------------
+
+          /*
+
+            completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection[Object.keys(between_selection)[0]][0] });
             console.log(between_selection[Object.keys(between_selection)[0]])
 
             // There are available slots
@@ -682,6 +765,9 @@ function completed_task_storage(csv, task) {
               window.location.reload();
             };
 
+            */
+
+
             // REVIEW: Se esta usando realmente la columna blocked? Es necesaria?
             // Antes se hacia if (condition_data[i].blocked == false).
             // Ahora vemos si hay cupos. Imagino que bloqued solo se da cuando no hay cupos (???)
@@ -690,7 +776,7 @@ function completed_task_storage(csv, task) {
               user_assigned = true;
               console.log("User assigned")
 
-              // Se agrega la data a indexedDB en la tabla assigned_users
+              // Se agrega la data a MySQL en la tabla assigned_users
               XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function (actual_user) {
 
                 XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
