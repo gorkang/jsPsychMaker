@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>IEC</big></b><br />'+
     'A continuación, usted encontrará una serie de preguntas relacionadas con distintas experiencias de su vida, debe seleccionar una de las alternativas que aparezca en la lista.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'IEC'},
+    data:{trialid: 'Instructions_01', procedure: 'IEC'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

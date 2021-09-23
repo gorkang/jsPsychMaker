@@ -25,7 +25,7 @@ var instruction_screen_experiment = {
     fullscreen_mode: true,
     message: [`<b><big>Información demográfica</big></b><BR>Por favor, contesta a las siguientes preguntas<BR><BR>`],
     button_label: 'Iniciar el estudio a pantalla completa',
-    data: {trialid: 'Instructions', procedure: 'DEMOGR'},
+    data: {trialid: 'Instructions_01', procedure: 'DEMOGR'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

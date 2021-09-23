@@ -22,7 +22,7 @@ HRPVB = [];    //temporal timeline
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: [`<p><left><p><left><big><b>Percepción de riesgos según modalidad de parto</b></big><br />Indica la probabilidad de que ocurra cada uno de los eventos mencionados.</p>`],
-    data: {trialid: 'Instructions', procedure: 'HRPVB'},
+    data: {trialid: 'Instructions_01', procedure: 'HRPVB'},
     show_clickable_nav: true,
     allow_backward: false,
     on_trial_start: function(){
@@ -160,7 +160,7 @@ HRPVB_MM = [];    //temporal timeline
   var intro_BB = {
       type: 'instructions',
       pages: ['<p><left><p><left><big>Riesgos para <b>' + tipo_sujeto[0] + '</b></p>'], // Esto esta fuera del trial, por lo que usamos tipo_sujeto[0] directamente
-      data: {trialid: 'Instructions_01', procedure: 'HRPVB'},
+      data: {trialid: 'Instructions_02', procedure: 'HRPVB'},
       show_clickable_nav: true,
       allow_backward: false,
       on_trial_start: function(){

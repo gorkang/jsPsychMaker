@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>SRBQP</big></b><br />'+'Por favor, conteste a las siguientes afirmaciones según la escala del 1 al 7.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'SRBQP'},
+    data: {trialid: 'Instructions_01', procedure: 'SRBQP'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

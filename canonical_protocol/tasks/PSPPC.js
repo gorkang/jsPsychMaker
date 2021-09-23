@@ -23,7 +23,7 @@ PSPPC = [];    //temporal timeline
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Percepciones sobre el parto.</big></b><br />'+'Las siguientes preguntas evalúan tus actitudes sobre el parto. Por favor califica qué tan de acuerdo o en desacuerdo estás con las siguientes afirmaciones.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'PSPPC'},
+    data: {trialid: 'Instructions_01', procedure: 'PSPPC'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

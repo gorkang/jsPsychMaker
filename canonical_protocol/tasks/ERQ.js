@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>ERQ</big></b><br />'+
     'Nos gustaría hacerle algunas preguntas sobre su vida emocional, en particular, <br> cómo usted controla (es decir, regula y maneja) sus emociones. Las siguientes <br> preguntas involucran dos aspectos distintos de su vida emocional. Una es su <br> experiencia emocional, o lo que sientes dentro. El otro es su expresión <br> emocional, o cómo usted demuestra sus emociones en la manera que usted <br> habla, o se comporta. Aunque algunas de las siguientes preguntas <br> pueden parecer similares entre sí, difieren de maneras importantes.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'ERQ'},
+    data:{trialid: 'Instructions_01', procedure: 'ERQ'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

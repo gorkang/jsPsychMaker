@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>FDMQ</big></b><br />'+
     'Por favor, responda las siguientes preguntas.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'FDMQ'},
+    data:{trialid: 'Instructions_01', procedure: 'FDMQ'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big></big></b><br />'+
     'Indique su nivel de acuerdo con las siguientes frases.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'SCSORF'},
+    data: {trialid: 'Instructions_01', procedure: 'SCSORF'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>ITC</big></b><br />'+
     'Indica la opción que prefieres dentro de las siguientes preguntas. No hay respuestas correctas ni incorrectas por lo que debes responder respecto de lo que realmente te represente mejor. Los datos de este cuestionario son de exclusivo uso de este estudio y no serán públicos.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'ITC'},
+    data: {trialid: 'Instructions_01', procedure: 'ITC'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

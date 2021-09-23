@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>Cov19Q</big></b><br />'+
     'Por favor, responda las siguientes preguntas.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'Cov19Q'},
+    data: {trialid: 'Instructions_01', procedure: 'Cov19Q'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

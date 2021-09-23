@@ -5,7 +5,7 @@
 pid = 999999; // ProtocolID
 online = true; // Protocol runs online? true/
 max_participants = 3; // Max participants per contition
-
+random_id = false;
 max_time = "00:00:20"; // Max time to complete the protocol
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots)
 
@@ -15,10 +15,12 @@ accept_discarded = true; // If an user is discarded (out of time), should be all
 // REVIEW: puse Consent hardcoded en el index.html
 //first_tasks = ['DEMOGR', 'PRFBM', 'HRPVB','INFCONS','BNT']; // First tasks
 //first_tasks = ['HRPVB', 'DEMOGR', 'BNT']; // First tasks
-first_tasks = ['Between-Within']; // First tasks
-randomly_ordered_tasks = []; // Tasks randomly ordered in between
-last_tasks = ['Goodbye']; // Last tasks
+first_block = ['Between-Within']; // First tasks
+//randomly_ordered_tasks = []; // Tasks randomly ordered in between
+second_block = ['Goodbye']; // Last tasks
 
+
+tasks = [first_block, 'Between-Within', second_block]
 
 // MEDIA preloading ------------------------------------------------------------
 

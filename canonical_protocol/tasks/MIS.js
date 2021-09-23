@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>MIS</big></b><br />'+
     'Por favor, responda las siguientes preguntas.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'MIS'},
+    data:{trialid: 'Instructions_01', procedure: 'MIS'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

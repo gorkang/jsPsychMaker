@@ -56,7 +56,7 @@
       <div class="jspsych-instructions-nav" style="padding: 10px 0px;">
 
         <span id="text_input_uid" hidden="true"></span>
-        <input id="input_uid" type="hidden" required></input>
+        <input id="input_uid" hidden required></input>
         <!--input id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn"></input-->
         <input id="start" type="button" onclick="start_protocol(questions)" value="Continuar" class="jspsych-btn" hidden='true'></input>
       </div>
@@ -64,13 +64,22 @@
   </div>
 
   <script>
-    id_random = jsPsych.randomization.randomID(20);
-    document.getElementById("input_uid").value = id_random;
+    if (random_id) {
+      document.getElementById("input_uid").value = jsPsych.randomization.randomID(20);
+      document.getElementById("input_uid").hidden = true;
+    }
+    else {
+      document.getElementById("input_uid").hidden = false;
+    }
   </script>
 
   <!-- PROTOCOL MACHINERY -->
   <script src="controllers/js/protocol_controller.js"></script>
-  <script> window.onload = check_id_status(); </script>
+  <script>
+    window.onload = function() {
+      check_id_status();
+    };
+  </script>
   <script type="text/javascript" src="controllers/js/css_loading.js"></script>
 
   </body>

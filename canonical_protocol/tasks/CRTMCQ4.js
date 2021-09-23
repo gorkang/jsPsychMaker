@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>CRTMCQ4</big></b><br />'+
     'A continuación verás algunas preguntas que varían en dificultad. Por favor, debes marcar la alternativa que te parezca correcta.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'CRTMCQ4'},
+    data: {trialid: 'Instructions_01', procedure: 'CRTMCQ4'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

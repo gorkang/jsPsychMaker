@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>Preguntas demográficas</big></b><br />'+
     'Por favor, contesta a las siguientes preguntas' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'DEMOGR3'},
+    data: {trialid: 'Instructions_01', procedure: 'DEMOGR3'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

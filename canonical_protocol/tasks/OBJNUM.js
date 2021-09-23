@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: [`<p><left><p><left><b><big>Conocimiento sobre probabilidades 2/2</big></b><br/>Esta es la penúltima prueba del estudio. Trata de contestar las siguientes preguntas lo mejor que puedas <B>sin usar calculadora</B>.</p>`],
       //'<p><left>' + '<p><left><b><big>Conocimiento sobre probabilidades</big></b><br />'+'A continuación te pedimos que intentes contestar una serie de preguntas sobre probabilidades.' +'</p>'
-    data: {trialid: 'Instructions', procedure: 'OBJNUM'},
+    data: {trialid: 'Instructions_01', procedure: 'OBJNUM'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

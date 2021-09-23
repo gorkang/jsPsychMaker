@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big></big></b><br />'+
     'Las siguientes preguntas apuntan a conocer un poco más sobre sus creencias religiosas.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'OTRASRELIG'},
+    data: {trialid: 'Instructions_01', procedure: 'OTRASRELIG'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

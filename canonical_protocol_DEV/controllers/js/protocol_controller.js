@@ -11,13 +11,14 @@ function date_to_mil(date) {
   return secs;
 }
 
+/*
 function sleep(milliseconds) {
   const date = Date.now();
   let currentDate = null;
   do {
     currentDate = Date.now();
   } while (currentDate - date < milliseconds);
-}
+}*/
 
 // obtención de condiciones para usuario nuevo (funciona como promise para que sea sincrónico)
 function condition_selection(all_conditions, between_selection_temp = {}) {
@@ -112,7 +113,6 @@ function condition_selection(all_conditions, between_selection_temp = {}) {
 
         } else {
           // comprobación para discarded
-          //between_selection = between_selection_temp;
           temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; })
 
           condition_temp_array = [];

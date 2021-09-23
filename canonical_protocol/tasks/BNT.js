@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: [`<p><left><p><left><b><big>Conocimiento sobre probabilidades 1/2</big></b><br/>En las siguientes dos pruebas evaluaremos tu habilidad numérica para ver como se relaciona con tu capacidad para comprender consentimientos informados. Trata de contestar lo mejor que puedas <B>sin usar calculadora</B>.</p>`],
     //pages: [`<p><left><p><left><b><big>BNT</big></b><br/>A continuación verás un par de preguntas en las que tu tarea será estimar probabilidades. <BR> Trata de resolverlas lo mejor que puedas <B>sin usar calculadora.</B></p>`],
-    data: {trialid: 'Instructions', procedure: 'BNT'},
+    data: {trialid: 'Instructions_01', procedure: 'BNT'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

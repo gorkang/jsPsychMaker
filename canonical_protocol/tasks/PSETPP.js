@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Percepciones sobre el embarazo, trabajo de parto y parto.</big></b><br />'+'Los siguientes ítems evalúan tus actitudes y sentimientos hacia el embarazo, trabajo de parto y parto. Por favor califica qué tan de acuerdo o en desacuerdo estás con las siguientes afirmaciones.' +'</p>'],
-    data: {trialid: 'Instructions'},
+    data: {trialid: 'Instructions_01'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

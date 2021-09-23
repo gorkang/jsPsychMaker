@@ -24,7 +24,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>CRT7</big></b><br />'+
     'En las siguientes páginas verá varios ítems que difieren en dificultad. Responda todos los que pueda.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'CRT7'},
+    data:{trialid: 'Instructions_01', procedure: 'CRT7'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

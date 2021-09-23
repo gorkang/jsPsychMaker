@@ -25,7 +25,7 @@ var instruction_screen_experiment = {
     pages: ['<p><left><b><big>Preguntas sobre preferencias</big></b><br />'+'Ahora que has podido leer la información del consentimiento, te pedimos que vuelvas a responder a las preguntas sobre riesgos' +'</p>',
             '<p><left>' + '<p><left><big><b>Percepción de riesgos según modalidad de parto</b></big><br />'+'Indica la probabilidad de que ocurra cada uno de los eventos mencionados.' +'</p>'],
 
-    data: {trialid: 'Instructions', procedure: 'HRPVBpost'},
+    data: {trialid: 'Instructions_01', procedure: 'HRPVBpost'},
     show_clickable_nav: true,
     allow_backward: false,
     on_trial_start: function(){
@@ -163,7 +163,7 @@ HRPVBpost_MM = [];    //temporal timeline
   var intro_BB = {
       type: 'instructions',
       pages: ['<p><left><p><left><big>Riesgos para <b>' + tipo_sujeto[0] + '</b></p>'], // Esto esta fuera del trial, por lo que usamos tipo_sujeto[0] directamente
-      data: {trialid: 'Instructions_01', procedure: 'HRPVBpost'},
+      data: {trialid: 'Instructions_02', procedure: 'HRPVBpost'},
       show_clickable_nav: true,
       allow_backward: false,
       on_trial_start: function(){

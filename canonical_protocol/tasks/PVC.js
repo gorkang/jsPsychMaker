@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>DASS-21</big></b><br />'+'Por favor lea las siguientes afirmaciones e indique (0, 1, 2, 3) cuánto esta afirmación le aplicó a usted durante la semana pasada. No hay respuestas correctas o incorrectas. No tome demasiado tiempo para contestar.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'PVC'},
+    data: {trialid: 'Instructions_01', procedure: 'PVC'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

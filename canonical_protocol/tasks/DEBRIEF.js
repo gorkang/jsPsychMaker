@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Última tarea</big></b><br />'+'Por favor, contesta a las siguientes preguntas sobre el estudio' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'DEBRIEF'},
+    data: {trialid: 'Instructions_01', procedure: 'DEBRIEF'},
     procedure: 'DEBRIEF',
     show_clickable_nav: true,
     on_trial_start: function(){

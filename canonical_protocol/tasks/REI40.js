@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>REI40</big></b><br />'+
     'Por favor, responda las siguientes preguntas.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'REI40'},
+    data:{trialid: 'Instructions_01', procedure: 'REI40'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big></big></b><br />'+
     'Por favor responda las siguientes preguntas marcando la opción de respuesta que más lo/a representa.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'SASS'},
+    data: {trialid: 'Instructions_01', procedure: 'SASS'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

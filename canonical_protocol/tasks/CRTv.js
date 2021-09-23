@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>CRTv</big></b><br />'+
     'En las siguientes páginas vas a ver varios ítems que difieren en dificultad. Responde todos los que puedas.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'CRTv'},
+    data:{trialid: 'Instructions_01', procedure: 'CRTv'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

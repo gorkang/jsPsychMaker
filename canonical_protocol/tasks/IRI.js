@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>IRI</big></b><br />'+
     '<br> Las siguientes declaraciones indagan sobre sus pensamientos y sentimientos en una variedad de situaciones. <br> <br> Para cada ítem, indique cuán bien la declaración lo/a describe, seleccionando el número indicado según la escala presentada a continuación: <br> <br> No me describe bien 0 ――― 1 ――― 2 ――― 3 ――― 4 Me describe muy bien ' +'</p> <p> Lea cada ítem atentamente antes de responder. Intente ser lo más sincero/a posible. </p>'],
-    data:{trialid: 'Instructions', procedure: 'IRI'},
+    data:{trialid: 'Instructions_01', procedure: 'IRI'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

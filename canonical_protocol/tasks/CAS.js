@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>CAS</big></b><br />'+'¿En qué medida cada ítem reflejó su comportamiento en los últimos días? Por favor, indíquelo utilizando la escala del 0 al 3. ' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'CAS'},
+    data: {trialid: 'Instructions_01', procedure: 'CAS'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

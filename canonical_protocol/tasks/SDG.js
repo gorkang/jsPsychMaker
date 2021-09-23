@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>Información Sociodemográfica</big></b><br />'+
     'Las preguntas que se le realizarán a continuación son de carácter general. Le recuerdo que toda la información que usted entregue es confidencial y sólo será utilizada con fines académicos.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'SDG'},
+    data:{trialid: 'Instructions_01', procedure: 'SDG'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

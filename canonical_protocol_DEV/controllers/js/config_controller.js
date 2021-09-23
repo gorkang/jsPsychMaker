@@ -9,6 +9,13 @@ onkeydown = function block_fkeys(event){
   }
 }
 
+// limpieza de arrays dentro de arrays
+function flatten(arr) {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.concat(Array.isArray(toFlatten) ? flatten(jsPsych.randomization.shuffle(toFlatten)) : toFlatten);
+  }, []);
+}
+
 // Parameters - Do not change ----------------------------------
 check = true; // REVIEW: ??? que es esto? (lo añadi yo pq daba un error) | linea 101
 
@@ -34,8 +41,12 @@ Object.entries(all_conditions).forEach(([key, value]) => {
 
 // REVIEW: Ver arriba. No entiendo esto...
 // obtaining final array (if random)
-var all_tasks = (random) ? (['Consent'].concat(first_tasks.concat(jsPsych.randomization.shuffle(randomly_ordered_tasks)))) : (['Consent'].concat(first_tasks.concat(randomly_ordered_tasks)));
-all_tasks = all_tasks.concat(last_tasks);
+// limpieza de arrays a lista de tareas
+all_tasks = flatten(tasks);
+
+// OLD VERSION
+//var all_tasks = (random) ? (['Consent'].concat(first_tasks.concat(jsPsych.randomization.shuffle(randomly_ordered_tasks)))) : (['Consent'].concat(first_tasks.concat(randomly_ordered_tasks)));
+//all_tasks = all_tasks.concat(last_tasks);
 
 // Create tasks Array for DB
 var tasks = []

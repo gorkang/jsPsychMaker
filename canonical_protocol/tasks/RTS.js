@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>RTS</big></b><br />'+
     'Por favor responda a las siguientes afirmaciones con un verdadero o falso de acuerdo a la opción que más le identifique. Responda honestamente, no hay respuestas correctas o incorrectas.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'RTS'},
+    data: {trialid: 'Instructions_01', procedure: 'RTS'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

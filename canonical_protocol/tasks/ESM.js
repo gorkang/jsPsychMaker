@@ -26,7 +26,8 @@ ESM = [];    //temporal timeline
   var instruction_screen_experiment = {
     type: 'html-button-response',
     stimulus: '<div style="max-width:600px;"><p>Descripcion de la tarea e instrucciones. ....</p></div>',
-    choices: ['Continue']
+    choices: ['Continue'],
+    data: {trialid: 'Instructions_01', procedure: 'ESM'}
   }
 
   var question01 = {

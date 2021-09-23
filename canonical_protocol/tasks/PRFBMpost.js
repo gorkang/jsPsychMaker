@@ -24,7 +24,7 @@ var instruction_screen_experiment = {
     pages: ['<p><left>' +
     '<p><left><b><big>Preguntas sobre preferencias</big></b><br />'+'Ahora que has podido leer la información del consentimiento, te pedimos que vuelvas a responder a las preguntas sobre preferencias.' +'</p>',
     '<p><left><b><big>Preferencia modalidad de parto</big></b><br />'+'Por favor, contesta a las siguientes preguntas' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'PRFBMpost'},
+    data: {trialid: 'Instructions_01', procedure: 'PRFBMpost'},
     procedure: 'PRFBMpost',
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -88,7 +88,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Motivos para tu preferencia</big></b><br />'+'Por favor, indica en que grado cada uno de estos motivos influye en tu preferencia.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'PRFBMpost'},
+    data: {trialid: 'Instructions_02', procedure: 'PRFBMpost'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

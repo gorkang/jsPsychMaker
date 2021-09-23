@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big></big></b><br />'+
     'A continuación, por favor conteste unas breves preguntas que buscan conocer sobre los cambios que han ocurrido en su vida desde la aparición del COVID-19.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'COVIDCONTROL'},
+    data: {trialid: 'Instructions_01', procedure: 'COVIDCONTROL'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

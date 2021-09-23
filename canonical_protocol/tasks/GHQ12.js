@@ -24,7 +24,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>GHQ12</big></b><br />'+
     '<br> Nos gustaría saber si tiene algún problema médico y cómo ha estado de salud, en general, durante las últimas semanas. Recuerde que sólo debe responder sobre los problemas recientes y los que tiene ahora, NO sobre las que tuvo en el pasado. <br><br> Muchas gracias por su colaboración.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'GHQ12'},
+    data:{trialid: 'Instructions_01', procedure: 'GHQ12'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

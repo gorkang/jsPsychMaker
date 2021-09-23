@@ -43,7 +43,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>IRS</big></b><br />'+'Por favor, conteste a las siguientes preguntas según la escala del 1 al 7.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'IRS'},
+    data: {trialid: 'Instructions_01', procedure: 'IRS'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;

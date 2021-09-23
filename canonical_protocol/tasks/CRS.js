@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>CRS</big></b><br />'+
     'Aquí hay algunas sugerencias sobre cómo buscar u obtener una cita para la religión y las prácticas religiosas. Es necesario responder a todas las preguntas. No hay respuestas correctas o incorrectas, así que responda con sinceridad. Sus respuestas permanecerán anónimas. Lea cada una de las siguientes oraciones y luego seleccione su respuesta.' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'CRS'},
+    data: {trialid: 'Instructions_01', procedure: 'CRS'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
