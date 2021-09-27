@@ -401,7 +401,7 @@ function check_id_status(event) {
   } // valid uid
 }
 
-
+/*
 // función para almacenar elementos en los csv que funcionarán como base de datos
 function database(filename, filedata = "", condition = "", status = ""){
   if (filename == "assigned_users") {
@@ -421,7 +421,7 @@ function database(filename, filedata = "", condition = "", status = ""){
     console.log('DONE: ', xhr.status);
   };
   xhr.send(JSON.stringify({filename: filename, filedata: filedata, condition: condition, status: status}));
-}
+}*/
 
 // En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
 function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
