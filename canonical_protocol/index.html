@@ -6,6 +6,8 @@
   <title>Experimentos CSCN</title>
 
   <link rel="stylesheet" href="jsPsych-6/css/jspsych.css">
+  <link rel="stylesheet" href="controllers/css/BART_column.css">
+
 </head>
 
 <body id="general_body" onload="check_id_status()" style="height:100%;" class=" jspsych-display-element">
@@ -25,6 +27,8 @@
   <script src="jsPsych-6/plugins/jspsych-html-button-response.js"></script>
 
   <!-- Protocol Plugins -->
+  <script src="jsPsych-6/plugins/jspsych-audio-button-response-CSCN-BART.js"></script>
+
   <script src="jsPsych-6/plugins/jspsych-image-button-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
   <script src="jsPsych-6/plugins/jspsych-instructions.js"></script>
@@ -53,6 +57,7 @@
     // not neccesary ordered elements in the middle
     not_ordered_experiments = [
         "AIM",
+        "BART"
         "BNT",
         "bRCOPE",
         "CAS",
@@ -100,7 +105,6 @@
         "SBS",
         "SCSORF",
         "SDG",
-        "simple-between",
         "SRA",
         "SRBQP",
         "SRSav",
@@ -113,12 +117,16 @@
     all_experiments = all_experiments.concat(ending);
 
 
+  // REMEMBER: With jsPsych 7 preloading of all media is automatic 
 
     // imagenes para precarga en protocol_controller
     message_str = 'El protocolo está cargando, espere un momento...';
-
+    
+    audio_folder = 'media/audio/';
     img_folder = 'img/';
-    images = [img_folder + 'Baby_cerebro_VC.png',  img_folder + 'Baby_lactancia_VC.png',  img_folder + 'Baby_respiratorios_VC.png',  img_folder + 'Baby_UCI_VC.png',  img_folder + 'Mother_anestesia_VC.png',  img_folder + 'Mother_depresion_VC.png',  img_folder + 'Mother_histerectomia_VC.png',  img_folder + 'Mother_infeccion_VC.png',  img_folder + 'Mother_lesion_VC.png',  img_folder + 'Mother_paro_VC.png',  img_folder + 'Mother_UCI_VC.png'];
+    
+    audios = [audio_folder + 'BART_inflate.mp3', audio_folder + 'BART_explode.mp3', audio_folder + 'BART_collect.mp3', audio_folder + 'silence.mp3'];
+    images = ['media/img/BART_redBalloon.png', img_folder + 'Baby_cerebro_VC.png',  img_folder + 'Baby_lactancia_VC.png',  img_folder + 'Baby_respiratorios_VC.png',  img_folder + 'Baby_UCI_VC.png',  img_folder + 'Mother_anestesia_VC.png',  img_folder + 'Mother_depresion_VC.png',  img_folder + 'Mother_histerectomia_VC.png',  img_folder + 'Mother_infeccion_VC.png',  img_folder + 'Mother_lesion_VC.png',  img_folder + 'Mother_paro_VC.png',  img_folder + 'Mother_UCI_VC.png'];
     audio = [];
     video = [];
 
