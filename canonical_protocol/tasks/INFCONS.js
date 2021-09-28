@@ -312,37 +312,37 @@ var instruction_screen_experiment = {
     }
 };
 
-var question12 = {
+var question23 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Problemas respiratorios del recién nacido</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_12', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_23', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question12);
+INFCONS.push(question23);
 
-var question13 = {
+var question24 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Lesión en el cerebro del bebe por falta de oxígeno</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_13', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_24', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question13);
+INFCONS.push(question24);
 
-var question14 = {
+var question25 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Hospitalización en cuidados intensivos neonatales</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_14', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_25', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question14);
+INFCONS.push(question25);
 
-var question15 = {
+var question26 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Dificultades para inicio temprano de lactancia materna</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_15', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_26', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question15);
+INFCONS.push(question26);
 
 INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
@@ -363,61 +363,61 @@ var instruction_screen_experiment = {
     }
 };
 
-var question16 = {
+var question27 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Complicaciones de la anestesia</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_16', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_27', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question16);
+INFCONS.push(question27);
 
-var question17 = {
+var question28 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Paro cardíaco</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_17', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_28', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question17);
+INFCONS.push(question28);
 
-var question18 = {
+var question29 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Histerectomía (extracción del útero)</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_18', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_29', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question18);
+INFCONS.push(question29);
 
-var question19 = {
+var question30 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Infección de la herida</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_19', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_30', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question19);
+INFCONS.push(question30);
 
-var question20 = {
+var question31 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Lesión de la vagina</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_20', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_31', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question20);
+INFCONS.push(question31);
 
-var question21 = {
+var question32 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Hospitalización de la madre en cuidados intensivos</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_21', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_32', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question21);
+INFCONS.push(question32);
 
-var question22 = {
+var question33 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Depresión post parto</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_22', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_33', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question22);
+INFCONS.push(question33);
 
 INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
