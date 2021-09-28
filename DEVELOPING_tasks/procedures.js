@@ -2,6 +2,7 @@
 
 // Works with if_question???
 //
+function parse_data() {
 
 for(var i= 0; i < questions.length; i++) {
 
@@ -40,3 +41,4 @@ for(var i= 0; i < questions.length; i++) {
   }
 
  }
+};
