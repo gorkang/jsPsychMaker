@@ -38,7 +38,7 @@ var trial = {
   type:'external-html',
   url: "html/consent-placeholder.html",
   cont_btn: "start",
-  data: {trialid: 'Consent_001', procedure: 'Consent', response: document.getElementById("start").id},
+  data: {trialid: 'Consent_001', procedure: 'Consent', stimulus: 'html/consent-placeholder.html',response: document.getElementById("start").id},
   procedure: 'Consent'
 };
 Consent.push(trial);

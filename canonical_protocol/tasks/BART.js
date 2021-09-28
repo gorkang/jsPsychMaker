@@ -192,7 +192,7 @@ for (var i = 0; i < 30; i++) {
     prompt: function () {
       return '<p id="prompt">&nbsp;&nbsp;&nbsp;&nbsp;Actualmente acumulado: ' + actual_money + ' <br> &nbsp;&nbsp;&nbsp;&nbsp;Número de infladas: ' + actual_rounds + ' <br> &nbsp;&nbsp;&nbsp;&nbsp;Total Acumulado: ' + total_money + '</p>';
     },
-    data: {trialid: 'BART_' + pad(i + 1, 2), procedure: 'BART', stimulus: {explodeRounds: explode_rounds}, response: {status: "safe", rounds: actual_rounds, roundMoney: actual_money, totalMoney: total_money} },
+    data: {trialid: 'BART_' + pad(i + 1, 2), procedure: 'BART', rt: '',stimulus: {explodeRounds: explode_rounds}, response: {status: "safe", rounds: actual_rounds, roundMoney: actual_money, totalMoney: total_money} },
     on_finish: function (data) {
       total_money += actual_money;
       data.response.roundMoney = actual_money;

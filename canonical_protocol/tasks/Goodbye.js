@@ -26,7 +26,7 @@ var instruction_screen_experiment = {
     pages: ['<p><left>' +
     '<p><left><b><big>Gracias por tu participación</big></b><br/><br/>'+ 'Tu código anónimo de participación es: <B>'+ unique_code + '</B><br/><br/>Este código será registrado en nuestro sistema separado de las respuestas que has dado a la encuesta. Enviaselo por correo a estudioparto@uai.cl para verificar tu participación<br/><br/>Muchas gracias por formar parte de este estudio. Si tienes alguna duda o comentario, nos puedes escribir a email.investigador/a@uai.cl' +'</p>Presiona el botón FINALIZAR ESTUDIO para registrar tus respuestas.'],
     button_label_next: 'FINALIZAR ESTUDIO',
-    data: {trialid: 'Goodbye_01', procedure: 'Goodbye', response: unique_code},
+    data: {trialid: 'Goodbye_01', procedure: 'Goodbye', stimulus: '', response: unique_code},
     procedure: 'Goodbye',
     show_clickable_nav: true,
     on_trial_start: function(){
