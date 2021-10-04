@@ -1,6 +1,0 @@
-'canonical_protocol' should have a production ready version of all the tasks
-
-'canonical_protocol_DEV' is where we work on the improvements to the system. Once ready, should test and move to 'canonical_protocol'
-
-'DEVELOPING_tasks' can be used to develop individual tasks
-

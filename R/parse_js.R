@@ -125,18 +125,19 @@ parse_js_file <- function(script_path) {
   return(DF_final)
   
 }
-parse_js_file(script_path = "canonical_protocol/tasks/AIM.js")
-parse_js_file(script_path = "canonical_protocol/tasks/Cov19Q.js")
-parse_js_file(script_path = "canonical_protocol_DEV/tasks/BNT.js")
 
-file_names_raw = list.files("canonical_protocol/tasks", full.names = TRUE)
-
-# It does not work in these tasks. Try to solve? If it fails it is because the protocol has some non-canonical elements (?)
-file_names = file_names_raw[!grepl("Consent|DEMOGR|Goodbye|HRPVB|OTRASRELIG|PVC|SASS|SDG", file_names_raw)]
-
-1:length(file_names) %>% 
-  purrr::map(~ {
-    cat(file_names[.x], "\n")
-    parse_js_file(script_path = file_names[.x])
-    })
+# parse_js_file(script_path = "canonical_protocol/tasks/AIM.js")
+# parse_js_file(script_path = "canonical_protocol/tasks/Cov19Q.js")
+# parse_js_file(script_path = "canonical_protocol_DEV/tasks/BNT.js")
+# 
+# file_names_raw = list.files("canonical_protocol/tasks", full.names = TRUE)
+# 
+# # It does not work in these tasks. Try to solve? If it fails it is because the protocol has some non-canonical elements (?)
+# file_names = file_names_raw[!grepl("Consent|DEMOGR|Goodbye|HRPVB|OTRASRELIG|PVC|SASS|SDG", file_names_raw)]
+# 
+# 1:length(file_names) %>% 
+#   purrr::map(~ {
+#     cat(file_names[.x], "\n")
+#     parse_js_file(script_path = file_names[.x])
+#     })
 

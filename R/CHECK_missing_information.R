@@ -1,7 +1,7 @@
-library(dplyr)
+suppressPackageStartupMessages(library(dplyr))
 library(readr)
 
-DF = read_csv("canonical_protocol/canonical_protocol_details.csv")
+DF = read_csv("canonical_protocol/canonical_protocol_details.csv", show_col_types = FALSE)
 
 tasks = list.files("canonical_protocol/tasks/") %>% gsub("\\.js", "", .) %>% 
   as_tibble() %>% rename(short_name = value)
@@ -9,7 +9,7 @@ tasks = list.files("canonical_protocol/tasks/") %>% gsub("\\.js", "", .) %>%
 
 All_tasks = 
   tasks %>% 
-  left_join(DF)
+  left_join(DF, by = "short_name")
 
 missing_tasks = 
   All_tasks %>% 

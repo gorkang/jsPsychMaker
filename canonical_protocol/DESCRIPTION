@@ -1,0 +1,10 @@
+Package: jsPsychMaker
+Title: Create experimental protocols with jsPsych
+Version: 0.0.1
+Date: 2021-06-29
+Authors@R: c(person("Gorka", "Navarrete", email = "gorkang@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-7678-8656")),
+             person("Herman", "Valencia", email = "herman.valencia.13@sansano.usm.cl", role = c("aut", "cre"), comment = c(ORCID = "")))
+Maintainer: Herman Valencia <herman.valencia.13@sansano.usm.cl>
+License: MIT + file LICENSE
+URL: https://github.com/gorkang/jsPsychMaker
+BugReports: https://github.com/gorkang/jsPsychMaker/issues
