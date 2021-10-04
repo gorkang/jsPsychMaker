@@ -1,0 +1,1201 @@
+short_name,long_name,validation_paper,dimensions_names,number_items,scoring_total,scoring_dimensions,nominal_to_numeric_conversion,observations,Rhelper_status,version
+No spaces or symbols,Full name of task,APA format citation to original validation paper,shortname: longname,Number of items of task/scale,How to calculate the total score of the scale,How to calculate the different dimensiones/subscales of the test,"Details about how to convert the nominal/categorical labels to numbers, etc. ",Any other detailes,What’s the jsPsychHelper correction script status,Version of the task
+AIM,Grupo socioeconomico,,NA,4,"La clasificación del grupo socioeconómico, se efectuará siguiendo los parámetros de la tabla 'CLASIFICACIÓN SEGÚN LOS CÓDIGOS REGISTRADOS EN P1, P2 y P4' (Tabla que puede verse en la celda 24L). Se debe ubicar en la tabla la combinación de las variables ""nivel edicacional alcanzado"" (recogido con la pregunta n°1),  ""tipo de ocupación"" (recogida con la pregunta n°2) y la variable ""tramo de ingreso"" (recogida con la pregunta n°4, que es equivalente a la tabla de 'TRAMO DE INGRESO PARA ENCUESTAS PRESENCIALES Y AUTOADMINISTRADAS'). 
+
+Finalmente, se deberá ubicar la fila en la que se encuentren combinadas todas las variables recogidas, esta indicará el estrato socioeconómico al que pertenece la persona.
+
+--
+
+Las categorías posibles son: AB, C1a, C1b, C2, C3, D y E.
+
+Clasificación según estratos
+
+'Estrato Alto': AB; C1a y C1b
+
+'Estrato Medio': C2 y C3
+
+'Estrato Bajo': D y E
+
+---
+Se invierten los itemes: no corresponde
+
+
+[IMPORTANTE]: Los tramos D y E corresponden a población vulnerable",,"P1. ¿Cuál es el nivel educacional alcanzado (último año aprobado) por el principal
+sostenedor del hogar?
+
+Sin estudios formales: 1
+Básica incompleta; primaria o preparatoria incompleta: 2 
+Básica completa; primaria o preparatoria completa: 3 
+Media científico humanista o media técnico profesional incompleta; humanidades incompletas: 4
+Media científico humanista o media técnico profesional completa; humanidades completas: 5
+Instituto técnico (CFT) o instituto profesional incompleto (carreras de 1 a 3 años): 6
+Instituto técnico (CFT) o instituto profesional completo (carreras de 1 a 3 años); hasta suboficial de FFAA y Carabineros: 7 
+Universitaria incompleta (carreras de 4 o más años): 8 ptos
+Universitaria completa (carreras de 4 o más años); oficial de FFAA y Carabineros : 9
+Postgrado (postítulo, master, magíster, doctor): 10
+
+
+--
+P2. ¿Cuál de las siguientes ocupaciones corresponde al trabajo del principal sostenedor del hogar? [Si el principal sostenedor del hogar está cesante o es jubilado, preguntar por la última ocupación remunerada que tuvo. Si el principal sostenedor tiene más de 1 trabajo, debe registrarse el de mayor ingreso].
+
+Trabajadores no calificados en ventas y servicios, peones agropecuarios, forestales, construcción, et: 1
+Obreros, operarios y artesanos de artes mecánicas y de otros oficios: 2
+Trabajadores de los servicios y vendedores de comercio y mercados: 3
+Agricultores y trabajadores calificados agropecuarios y pesqueros: 4
+Operadores de instalaciones y máquinas y montadores / conductores de vehículos: 5
+Empleados de oficina públicos y privados: 6
+Técnicos y profesionales de nivel medio (incluye hasta suboficiales FFAA y Carabineros): 7
+Profesionales, científicos e intelectuales: 8
+Alto ejecutivo (gerente general o gerente de área o sector) de empresa privadas o públicas. Director o dueño de grandes empresas. Alto directivo del poder ejecutivo, de los cuerpos legislativos y la administración pública (incluye oficiales de FFAA y Carabineros): 9
+Otros grupos no identificados (incluye rentistas, incapacitados, etc): 10
+
+
+--
+Ahora, hablando de su hogar:
+
+P3. Incluyéndose usted, ¿cuántas personas viven en su hogar en la actualidad? No
+considere el servicio doméstico, aunque sea puertas adentro: _______ (el número corresponderá al número de integrantes de la familia de la persona)
+ 
+
+--
+P4. Por favor, piense en ingreso total de su hogar en un mes promedio, considerando el
+aporte de todos sus miembros y otros ingresos adicionales como rentas de propiedades,
+jubilaciones o pensiones. ¿en cuál de estos tramos está el ingreso total mensual de su
+hogar? [Aplicar tramo según respuesta en P3.]
+
+
+
+TRAMOS DE INGRESO PARA ENCUESTAS PRESENCIALES Y AUTOADMINISTRADAS
+
+
+1 Miembro        
+
+Menos de 120 mil: 1
+120 mil – 207 mil: 2
+208 mil – 361 mil: 3
+362 mil – 630 mil: 4
+631 mil – 1.099.000: 5
+1.100.000 – 1.916.000: 6
+Más de 1.916.000: 7
+No Sabe/No Reporta: 99
+
+
+
+2 Miembros
+
+Menos de 194 mil: 1
+194 mil – 336 mil: 2
+337 mil – 586 mil: 3
+587 mil – 1.023.000: 4
+1.024.000 – 1.785.000: 5
+1.786.000 – 3.113.000: 6
+Más de 3.113.000:7
+NS/NR: 99
+
+
+3 Miembros        
+
+Menos de 257 mil: 1
+257 mil – 446 mil: 2
+447 mil – 779 mil: 3
+780 mil – 1.359.000: 4
+1.360.000 – 2.370.000: 5
+2.371.000 – 4.135.000: 6
+Más de 4.135.000: 7
+NS/NR: 99
+
+
+4 Miembros
+
+Menos de 314 mil: 1
+314 mil – 546 mil: 2
+547 mil – 953 mil: 3
+954 mil – 1.662.000: 4
+1.663.000 – 2.899.000: 5
+2.900.000 – 5.057.000: 6
+Más de 5.057.000: 7
+NS/NR: 99
+
+
+5 Miembros        
+
+Menos de 367 mil: 1
+367 mil – 638 mil: 2
+639 mil – 1.114.000 mil: 3
+1.115.000 mil – 1.943.000: 4
+1.944.000 – 3.389.000: 5
+3.3980.000 – 5.912.000: 6
+Más de 5.912.000: 7
+NS/NR: 99
+
+6 Miembros
+
+Menos de 417 mil: 1
+417 mil – 725 mil: 2
+726 mil – 1.265.000 mil: 3
+1.266.000 mil – 2.207.000: 4
+2.208.000 – 3.850.000: 5
+3.851.000 – 6.717.000: 6
+Más de 6.717.000: 7
+NS/NR: 99
+
+7 Miembros o más
+
+Menos de 464 mil: 1
+464 mil – 808 mil: 2
+809 mil – 1.409.000 mil: 3
+1.410.000 mil – 2.459.000: 4
+2.460.000 – 4.289.000: 5
+4.290.000 – 7.482.000: 6
+Más de 7.482.000: 7
+NS/NR: 99
+",,Ready to review: IMPORTANTE revisar bien la implementacion,Recuperado del documento AIM Chile (Febrero del 2018)
+BNT,Berlin Numeracy test,"Cokely, E. T., Galesic, M., Schulz, E., Garcia-Retamero, R., & Ghazal, S. (2012). Measuring Risk Literacy: The Berlin Numeracy Test. Judgment and Decision Making, 7(1), 23",NA,NA,NA,NA,NA,NA,NA,NA
+bRCOPE,Escala de afrontamiento religioso Brief-RCOPE,"Pargament, K. I., Smith, B. W., Koenig, H. G., & Perez, L. (1998). Patterns of positive and negative religious coping with major life stressors. Journal for the scientific study of religion, 710-724.","PRC = Afrontamiento religioso positivo
+
+NRC = Afrontamiento religioso negativo.",14,"Cálculo de puntajes: Sumatoria de todos los ítems.
+ítems de cálculo inverso: No corresponde","Dos dimensiones
+
+Nombre dimension:  1. afrontamiento religioso positivo
+N° Item dimension: 2, 4, 5, 6, 7, 10 y 14;
+Items invertidos: No corresponde.
+Cálculo: sumatoria.
+
+---
+Nombre dimension: 2. afrontamiento religioso negativo 
+N° item dimension: 1, 3, 8, 9, 11, 12 y 13
+Items invertidos: No corresponde.
+Cálculo: sumatoria.
+
+----
+Interpretación de los puntajes obtenidos: Puntuaciones mayores en cada dimensión indican mayores niveles de afrontamiento religioso positivo y de afrontamiento religioso negativo.
+","Nunca: 1 pto
+Casi nunca: 2 pts
+A veces: 3 pts
+Casi siempre:4 pts
+Siempre: 5 pts",,Ready to review,Versión argentina
+CAS,Coronavirus anxiety scale,Lee SA. Coronavirus Anxiety Scale: A brief mental health screener for COVID-19 related anxiety. Death Stud. 2020;44(7):393-401. doi: 10.1080/07481187.2020.1748481. Epub 2020 Apr 16. PMID: 32299304.,,7,"Min: 0 Max: 21
+Se suman los valores de las 7 respuestas que van de 0 a 3",,"0 = no me aplica
+1 = casi nunca me aplica, 
+2 = a veces me aplica 
+3 = me aplica mucho",,,
+Consent,Informed consent,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Cov19Q,Cuestionario covid 19,Creación propia (David Huepe),"PRE: Prevalencia
+
+PGRV: Percepción de la gravedad de la pandemia
+
+TCONS: Teorías conspirativas",,"Calculo:
+    No se calclula puntaje total, no corresponde.","PREVALENCIA (Items 1, 2, 3). PERCEPCIÓN DE GRAVEDAD DE LA PANDEMIA (4). TEORÍAS CONSPIRATIVAS (5, 6, 7, 8, 9).
+
+Prevalencia: 
+        Se considera cada una por separado.
+        Pregunta 1: Contagio de Coronavirus en el ultimo año
+        Pregunta 2: Contagio de Coronavirus por parte de un miembro del hogar durante el último año
+        Pregunta 3: Contagio de Coronavirus por parte de cercanos/conocidos durante el último año 
+  
+Gravedad:
+        Preguntas 4: se considera por separado.
+
+Pensamiento conspirativo: 
+        Preguntas 5, 6, 7, 8, 9 sumatoria de puntajes (a mayor puntaje mas pensamiento conspirativo).
+","Preguntas 1, 2, 3:
+    Si = 1
+    No = 0
+
+Pregunta 4:
+    1pto = Nada grave
+    2pts = Poco grave
+    3pts = Medianamente grave
+    4pts = Muy grave
+    5pts = Extremadamente grave
+
+Pregunta 5, 6, 7, 8, 9
+    
+0pts = Muy en desacuerdo
+1pto =En desacuerdo
+2pts= Ni de acuerdo ni en desacuerdo
+3pts = De acuerdo
+4pts = Muy de acuerdo
+","Para la dimension de prevalencia he creado 3 subdimensiones, ya que se indica que se tienen en cuenta por separado: ""PrevalenciaTu"", ""PrevalenciaHogar"", ""PrevalenciaCercano"".",Ready to review,Creación propia
+COVIDCONTROL,Covid related questions,NA,NA,NA,NA,NA,NA,NA,NA,NA
+CRS,The Centrality of Religiosity Scale,"Huber, S., & Huber, O. W. (2012). The centrality of religiosity scale (CRS). Religions, 3(3), 710-724.","ITC: Intelectual
+
+IDG: Ideológica
+
+PPub: Práctoca pública
+
+PPriv: Práctica privada
+
+EXRel: Experiencia religiosa",15,"Cálculo de puntajes: Promedio de items 
+
+
+Interpretación de los resultados.
+Para No religioso: promedio de entre 1.0 y 2.0
+Para Religioso: promedio entre 2.1 y 3.9
+Para Altamente religioso: promedio entre  4.0 y 5.0
+
+Interpretación de los puntajes obtenidos (esta cita fue extraida del artículo fundacional 'The Centrality of...' (Huber & Huber, 2012)): Para aquellos individuos que en promedio respondan en el rango (nunca/rara vez), es plausible asignarles la categoría de 'no religiosos'. En contraste, el promedio de respuesta entre el rango ""seguido/bastante"" y ""muy seguido/mucho"", probablemente esté expresando que los constructos religiosos están claramente presentes en un sistema de construcción religiosa personal  
+
+","Cinco dimensiones.
+
+Nombre dimension: 1. Intelectual
+Nro items dimension: 1, 6 y 11
+Nro de ítem en trialid (del script): 1, 8 y 15
+Items invertidos: no corresponde
+Calculo: promedio
+
+Nombre dimension: 2. Ideológica
+Nro items dimension: 2, 7 y 12
+Nro de ítem en trialid (del script): 2, 9 y 16
+items invertidos: no corresponde
+Calculo: promedio
+
+Nombre dimension: 3. Práctica pública,
+Nro items dimension: 3, 8 y 13
+Nro de ítem en trialid (del script): 3, 10 y 17
+Items invertidos:no corresponde
+Calculo: promedio
+
+Nombre dimension: 4. Práctica privada
+Nro items dimension: 4, 4b, 9, 9b, 14 y 14b
+Nro de ítem en trialid (del script): 4, 5, 11, 12, 18 y 19
+items invertidos: no corresponde
+Calculo: promedio
+
+Nombre dimension: 5. Experiencia
+Nro items dimension: 5, 5b,10, 10b y 15
+Nro de ítem en trialid (del script): 6, 7, 13, 14 y 20
+Items invertidos: no corresponde
+Calculo: promedio
+","Importancia y creencias: 
+
+1pto = Nada
+2pts = Un poco 
+3pts = Algo
+4pts = Mucho 
+5pts = Demasiado
+
+Preguntas sobre frecuencia: 
+
+1pto = Nunca 
+2pts = Rara vez
+3pts = Ocasionalmente
+4pts = A menudo
+5pts = Muy a menudo.
+",,Ready to review,Traducción propia
+CRT7,Cognitive reflection test 7 items,"Campitelli, G., & Gerrans, P. (2014). Does the cognitive reflection test measure cognitive reflection? A mathematical modeling approach. Memory & cognition, 42(3), 434-447.",NA,7,"Cálculo de puntaje: Sumatoria de todos los itemes
+
+Puntajes inversos: No aplica
+
+Interpretación de los puntajes: Mientras más alto el puntaje, más la 'reflexión cogntiva' en comparación con puntajes menores que reflejan la tendencia a dar una respuestas impulsivas",Cálculo puntajes dimensiones (cuando corresponda): No corresponde,"Respuesta correcta: 1 pto
+
+Respuesta incorrecta: 0 ptos","En este paper se explica como se contstruye la escala de 7 items. DOI: 10.3758/s13428-018-1029-4
+
+""extended seven-item Cognitive Reflection Test, composed of the original three items (Frederick, 2005) and four additional items (Toplak et al., 2014).""",Ready to review,Traducción propia (re-checkear)
+CRTMCQ4,Cognitive reflection test 7 items (Version alternativas),"Sirota, M., & Juanchich, M. (2018). Effect of response format on cognitive reflection: Validating a two- and four-option multiple choice question version of the Cognitive Reflection Test. Behavior Research Methods, 50(6), 2511-2522. doi: 10.3758/s13428-018-1029-4","RFX: Reflexiva
+
+INT: Intuitiva",7 (orden de alternativas tiene que ser aleatorizado!),No corresponde,"Tanto la dimensión intuitiva como la reflexiva se calculan mediante sumatoria directa (NO hay items inversos)
+
+
+Dimensión reflexiva: cada respuesta correcta suma 1 punto (los puntajes posibles son de 0 a 7)
+
+Dimensión intuitiva: cada respuesta correcta suma 1 punto (los puntajes posibles son de 0 a 7)
+","Dimensión reflexiva [TODAS las respuestas CORRECTAS de la dimensión reflexiva, son la opción a. ]
+Dimensión intuitiva [TODAS las respuestas CORRECTAS de la dimensión intuitiva, son la opción b. ]
+
+1. Un bate y una pelota cuestan  $1.100 en total. El bate cuesta $1.000 más que la pelota ¿Cuánto cuesta la pelota? 
+   a. 50 pesos b. 100 pesos c. 90 pesos d.10 pesos
+
+2. Si 5 máquinas se demoran 5 minutos en hacer 5 audífonos ¿Cuánto tiempo se demorarían 100 máquinas en hacer 100 audífonos?
+   a. 5 minutos  b. 100 minutos  c. 20 minutos  d. 500 minutos
+
+3. Parte de la superficie de un lago está cubierta con hojas de lirio. Esta parte, se dobla en tamaño cada día. Si las hojas de lirio demoran 48 días en cubrir el lago completo ¿Cuántos días tardarían en cubrir la mitad del lago?
+   a. 47 días  b. 24 días  c. 12 días  d. 36 días
+
+4. Si José puede tomar un litro de agua en 6 días y María puede tomar un litro de agua en 12 días ¿Cuánto se demorarían ambos en tomar un litro de agua juntos? _____ días.
+   a. 4 días    b. 9 días  c. 12 días   d. 3 días
+
+5. Pedro recibió la quinceava nota más alta y la quinceava nota más baja en su clase ¿Cuántos estudiantes hay en su clase? _____ estudiantes
+   a. 29 estudiantes  b. 30 estudiantes  c. 1 estudiante  d. 15 estudiantes
+
+6. Un hombre compra un cerdo a $60.000, lo vende a $70.000, lo compra de nuevo por $80.000, y lo vuelve a vender finalmente por $90.000 ¿Cuánta plata ha ganado?
+   a. $20.000   b. $10.000  c. $0  d. $30.000
+
+7. Simón decide invertir $8.000.000 en el mercado de acciones un día a inicios de 2008. Seis meses después de haber invertido, el 17 de julio, las acciones que había comprado bajaron 50%. Afortunadamente para Simón, desde el 17 de julio hasta el 17 de octubre, las acciones que compró subieron 75%. En este punto, Simón ha:
+   a, Ha perdido dinero  b. Ha ganado dinero  c. No ha ganado ni perdido dinero.  d. No se puede determinar.",,Ready to review,Traducción propia
+CRTv,Verbal Cognitive Reflection Test,"Sirota, Miroslav, Lenka Kostovičová, Marie Juanchich, Chris Dewberry, and Amanda Claire Marshall. ""Measuring Cognitive Reflection without maths: developing and validating the verbal Cognitive Reflection Test."" (2018).
+
+Measuring cognitive reflection without maths: Development and validation of the verbal cognitive reflection test (2020). DOI: 10.1002/bdm.2213",NA,10,"Cálculo de puntaje: Sumatoria total (se obtiene de la cantidad de respuestas correctas)
+
+Puntajes inversos: No aplica
+
+
+Interpretación de los puntajes: Mientras más alto el puntaje, más la 'reflexión cogniiva. ",Cálculo puntajes dimensiones (cuando corresponda): No corresponde,"Respuesta correcta: 1 pto
+
+Respuesta incorrecta: 0 ptos",,"Issues:
+
+IMPORTANTE: La correccion de esta prueba la tiene que hacer un humano. Ahora hay un conjunto de regular expressions que capturan algunas de las respuestas correctas, pero el lenguaje es complejo.",Traducción propia
+DASS21,Depresión ansiedad y estrés,"Lovibond, P. F., & Lovibond, S. H. (1995). The structure of negative emotional states: Comparison of the Depression Anxiety Stress Scales (DASS) with the Beck Depression and Anxiety Inventories. Behaviour research and therapy, 33(3), 335-343.","depresión
+ansiedad
+Estrés",21,,"Suma items:
+
+Depresión: 3- 5- 10 - 13- 16- 17 - 21 
+Ansiedad: 2 - 4- 7- 9- 15- 19- 20 
+Estrés: 1- 6 - 8- 11- 12- 14 - 18 ","Cada valor representa su número real. 0= 0 puntos, 1 = 1punto, 2= 2 puntos, 3= 3 puntos ",,,
+DEBRIEF,Debrief at end of experiment,NA,NA,NA,NA,NA,NA,NA,NA,NA
+DEMOGR,Demographic scale,NA,NA,NA,NA,NA,NA,NA,NA,NA
+EAR,Escala de Autoestima de Rosenberg,NA,NA,NA,NA,NA,NA,NA,NA,NA
+EmpaTom,"Empatia, Teoria de la mente y Compasión",,,3,,,,,,
+ERQ,Emotion Regulation Questionnaire ,"Gross, J. J., & John, O. P. (2003). Individual differences in two emotion regulation processes: implications for affect, relationships, and well-being. Journal of personality and social psychology, 85(2), 348.","REVC: Re-evaluación cognitiva
+
+SUP: Supreción emocional",10,"Calculo de puntaje: sumatoria de todos los items
+
+Items invertidos: No corresponde","Cálculo dimensión re-evaluacion cognitiva: Sumatoria itemes 1, 3, 5, 7, 8, 10
+Items invertidos: No corresponde
+ 
+Cálculo dimensión supresion emocional: Sumatoria itemes 2, 4, 6, 9
+Items invertidos: No corresponde","Muy en desacuereto: 1 pto
+2pts
+3pts
+Neutro: 4pts
+5pts
+6pts
+Muy de acuerdo: 7pts",,Ready to review,Traducción propia
+ESM,Escala Subjetiva de Memoria,,,11,,,,,,
+FDMQ,Flinders Decision Making Questinnaire,"Mann, L., Burnett, P., Radford, M., & Ford, S. (1997). The Melbourne decision making questionnaire: an instrument for measuring patterns for coping with decisional conflict. Journal Of Behavioral Decision Making, 10(1), 1-19.
+
+Artículo con información para cálculo de puntajes: Oguzhan, C., & Engin Deniz, M. (2015). Study on the validity and reliability of Melbourne Decision Making Scale in Turkey. Educational Research And Reviews, 10(10), 1434-1441. doi: 10.5897/err2015.2273","VIG: Vigilancia
+
+BP: Pasar la pelota
+
+PRCT: Procastinar
+
+HRV: Hipervigilancia",22,"Cálculo de puntaje: promedio 
+
+Itemes inversos: No corresponde
+
+Interpretación de puntajes para la escala total: No corresponde 
+","Cuatro dimensiones.
+
+Nombre dimension: Vigilancia
+Nro items dimension: 1, 2, 3, 4, 5 y 6 (de acuerdo con el orden de nuestro inventario)
+Items invertidos: No corresponde
+Calculo: los puntajes, o bien, se pueden sumar, o bien, se pueden promediar (sin embargo, este último -el promedio- es el que suele usarse en otros artículos)
+
+Nombre dimension: Hipervigilancia
+Nro items dimension: 7, 8, 9, 10 y 11 (de acuerdo con el orden de nuestro inventario)
+items invertidos: No corresponde
+Calculo:  los puntajes, o bien, se pueden sumar, o bien, se pueden promediar (sin embargo, este último -el promedio- es el que suele usarse en otros artículos)
+
+Nombre dimension:  Pasar la pelóta/ transferencia (o ""Buck-passing"" en inglés) 
+Nro items dimension: 12, 13, 14, 15, 16 y 17 (de acuerdo con el orden de nuestro inventarop)
+Items invertidos: No corresónde
+Calculo: los puntajes, o bien, se pueden sumar, o bien, se pueden promediar (sin embargo, este último -el promedio- es el que suele usarse en otros artículos)
+ 
+
+Nombre dimension: Procastinación
+Nro items dimension: 18, 19, 20, 21 y 22 (de acuerdo con el orden de nuestro inventario)
+Items invertidos: No corresponde
+Calculo: los puntajes, o bien, se pueden sumar, o bien, se pueden promediar (sin embargo, este último -el promedio- es el que suele usarse en otros artículos)
+
+--
+
+Interpretación de los puntajes por escala
+
+Vigilancia:  Puntajes altos indican una manera racional y precisa de proceder, con una tendencia a la examinación cuidadosa de todas las opciones posibles.
+
+Hipervigilancia: Puntajes altos indican una búsqueda frenética por una una forma de resolver los conflictos y la persona suele terminar aferrándose impulsivamente a la primera solución que se presenta.
+
+Transferencia: Puntajes altos indican una tendencia a evitar el conflicto, a través de la estrategia de dar a otros la responsabilidad de decidir o justificar la no-resolución de un problema. 
+
+Procastinación: Puntajes altos indican la tendencia a retrasar el momento de tomar decisiones.
+","No es verdad para mi: 0 pts
+A veces es verdad:1 pto
+Es verdad para mi: 2 pts
+",,Ready to review,Traducción propia
+GHQ12,12-item General health questionnaire ,"del Pilar Sánchez-López, M., & Dresch, V. (2008). The 12-Item General Health Questionnaire (GHQ-12): reliability, external validity and factor structure in the Spanish population. Psicothema, 20(4), 839-843.",No corresponde,12,"Cálculo de puntajes: Sumatoria de puntajes obtenidos en todos los enunciados. 
+
+Se invierten los itemes: no corresponde
+
+
+Interpretación de los puntajes: A MAS puntaje, MENOR nivel de salud mental. ","Unidimensional
+
+","Cada respuesta es puntuada en el rango de 0 a 3 pts, la etiqueta de las posibles respuestas depende del item
+
+Item 1
+Mejor que lo habitual: 0pts
+Igual que lo habitual: 1pto
+Menos que lo habitual: 2pts
+Mucho menos que lo habitual: 3pts
+
+--
+Item 2
+No, en absoluto: 0 pts
+No más que lo habitual: 1 pto
+Algo más que lo habitual: 2 pts
+Mucho más que lo habitual: 3pts
+
+--
+Item 3
+Más que lo habitual: 0 pts
+Igual que lo habitual: 1 pto
+Menos que lo habitual: 2 pts
+Mucho menos que lo habital: 3pts
+
+--
+
+Item 4
+
+Más que lo habitual: 0 pts
+Igual que lo habitual: 1 pto
+Menos que lo habitual: 2 pts
+Mucho menos que lo habitual: 3pts
+
+--
+
+Item 5
+
+No, en lo absoluto: 0 pts
+No más que lo habitual: 1 pto
+Algo más que lo habitual: 2 pts
+Mucho más que lo habitual: 3pts
+
+-- 
+
+Item 6
+
+No, en absoluto: 0 pts
+No más que lo habitual: 1 pto
+Algo más que lo habitual: 2 pts
+Mucho más que lo habitual: 3pts
+
+--
+
+Item 7
+Más que lo habitual: 0 pts
+Igual que lo habitual: 1 pto
+Menos que lo habitual: 2 pts
+Mucho menos que lo habitual: 3pts
+
+--
+
+Item 8
+Más capaz que lo habitual: 0 pts
+Igual que lo habitual: 1 pto
+Menos que lo habitual: 2 pts
+Mucho menos que lo habitual: 3pts
+
+--
+
+Item 9
+No, en absoluto: 0 pts
+No más que lo habitual: 1 pto
+Algo más que lo habitual: 2 pts
+Mucho más que lo habitual: 3pts
+
+--
+
+Item 10
+No, en absoluto: 0 pts
+No más que lo habitual: 1 pto
+Algo más que lo habitual: 2 pts
+Mucho más que lo habitual: 3pts
+
+--
+
+Item 11
+No, en absoluto: 0 pts
+No más que lo habitual: 1 pto
+Algo más que lo habitual: 2 pts
+Mucho más que lo habitual: 3pts
+
+--
+
+Item 12
+Más que lo habitual: 0 pts
+Igual que lo habitual: 1 pto
+Menos que lo habitual: 2 pts
+Mucho menos que lo habitual: 3pts
+
+--
+[CRITERIO GENERAL DE PUNTUACIÓN: ""Cuando el ítem está formulado de manera que expresa un síntoma, la respuesta ""menos que de costumbre"" toma el  valor 0 y la respuesta ""mucho más que de costumbre"", toma el valor 3. Pero si el ítem está redactado de manera positiva, los valores para calificar cada categoría se invierten"".]
+",,Ready to review: FALTA REVISAR los valores asignados a algunas alternativas,De la Adaptación Cubana
+Goodbye,Goodbye task,NA,NA,NA,NA,NA,NA,NA,NA,NA
+HRPVB,High risk perception of vaginal birth,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+HRPVBpost,High risk perception of vaginal birth (POST),"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+IDQ,Cuestionario de identificación,,NA,,Calculo: No corresonde,Calculo: No corresponde,"Nombre completo:
+    Nombre completo participante
+
+Edad:
+    Edad participante
+
+Sexo:
+    Mujer = 0
+    Hombre = 1
+    No binario = 2
+
+Nivel educacional:
+    Años de estudio
+
+Comuna residencia:
+    Comuna residencia participante
+
+Número telefóno de contacto:
+    Número telefónico participante.
+
+Dirección correo electrónico: 
+    email participante
+
+Diagóstico enfermedad psiquiátrica:
+    No = 0
+    Si = 1
+    Cual = Especifica diagnostico participante
+
+Tratamiento psiquiatrico:
+    No = 0
+    Si = 1
+    Que tipo de tratamiento: especifica el tratamiento del participante
+
+Consumo problematico de alcohol y drogas:
+    No = 0
+    Si = 1
+
+Tipo de droga:
+    Especifica el tipo de droga consumida por el participante",,Ready to review,
+IEC,Rotters internal-External control scale,"Levenson, H. (1974). Activism and powerful others: Distinctions within the concept of internal-external control. Journal of personality assessment, 38(4), 377-383.","P: Control de otros poderosos
+
+I: Control Interno
+
+C: Control del Azar",24,"Cálculo puntaje: No se calcula puntaje total. No es unidimensional.
+Items inversos: No posee","Nombre dimensión: Azar 
+Items dimension: 2, 6, 7, 10, 12, 14, 16, 24.
+Calculo puntaje: Sumatoria de items.
+Items inversos: No posee
+
+Nombre dimensión: Otros poderosos 
+Items dimension: 3, 8,11,13,15,17, 20, 22.
+Calculo puntaje: sumatoria itemes 
+Items inversos: No posee
+
+Nombre dimensión: Internalidad 
+Items dimension: 1, 4, 5, 9, 18, 19, 21, 23.
+Calculo puntaje: sumatoria itemes 
+Items inversos: No posee","Completamente en desacuerdo = 1pto
+Moderadamente en desacuerdo = 2pts
+Ligeramente en desacuerdo = 3pts
+Ligeramente de acuerdo = 4 pts
+Moderadamente de acuerdo = 5pts
+Completamente de acuerdo = 6pts",,Ready to review,Traducción propia
+INFCONS,Cesarean information brochures,NA,NA,NA,NA,NA,NA,NA,NA,NA
+IRI,Interpersonal reactivity index,"Davis, M. H. (1983). Measuring individual differences in empathy: Evidence for a multidimensional approach. Journal of personality and social psychology, 44(1), 113.","PT: Toma de perspectiva
+
+FS: Fantasía
+
+EC: Preocupación  empática
+
+PD: Incomodidad Personal",28,"Cálculo de puntaje: Se suman todos los puntajes. 
+
+Se invierten los itemes: 3,4,7,12,13,14,15,18,19. ","Cuatro dimensiones.
+
+Nombre dimension: Toma de perspectiva
+Nro items dimension: 3,8,11,15,21,25,28
+Items invertidos: 3 y 15
+Calculo: sumatoria
+
+Nombre dimension: Fantasía
+Nro items dimension: 1,5,7,12,16,23,26
+items invertidos: 7 y 12
+Calculo: sumatoria
+
+Nombre dimension: Preocupación empática
+Nro items dimension: 2,4,9,14,18,20,22
+Items invertidos: 4, 14 y 18
+Calculo: sumatoria
+
+Nombre dimension: Incomodidad personal
+Nro items dimension: 6,10,13,17,19,24,27
+items invertidos: 13 y 19
+Calculo: sumatoria
+","Aparecen puntuaciones numericas en los CSVs
+
+A (No me describe bien) = 0
+B = 1
+C = 2
+D = 3
+E (Me describe muy bien) = 4",,Ready to review,
+IRS,Importance of Rationality Scale,"Ståhl, T., Zaal, M. P., & Skitka, L. J. (2016). Moralized rationality: Relying on logic and evidence in the formation and evaluation of belief can be seen as a moral issue. PloS one, 11(11), e0166332.",NA,6,"Calculo de puntaje: Sumatoria total.
+
+Items inversos: No aplica",Cálculo puntajes dimensiones (cuando corresponda): No corresponde,"1pto:  Totalmente en desacuerdo
+2pts
+3pts
+4pts
+5pts
+6pts
+7pts   Totalmente de acuerdo",,Ready to review,Traducción propia
+ITC,Intertemporal Choice Scale,,,35,,,,,Issues: Faltan instrucciones,
+MIS,Magical ideation scale ,"Eckblad, M., & Chapman, L. J. (1983). Magical ideation as an indicator of schizotypy. Journal of consulting and clinical psychology, 51(2), 215.
+
+Artículo que señala las dimensiones: Garzitto, M., Picardi, A., Fornasari, L., Gigantesco, A., Sala, M., Fagnani, C., ... & Brambilla, P. (2016). Normative data of the Magical Ideation Scale from childhood to adulthood in an Italian cohort. Comprehensive psychiatry, 69, 78-87.",NA,30,"Cálculo de puntajes: Sumatoria de items. 
+
+Items invertidos: 7 de ellos se puntuan inversamente (7,12,13,16,18,23,24) y los restantes 23 se puntúan de manera directa. 
+
+Mientras mayores sean los puntajes más es el Pensamiento Mágico y, por el contrario, mientras menos sean los puntajes obtenidos, esto indica menor pensamiento mágico. 
+
+Score total de 0 a 30",Unidimensional,"Verdadero: 1 pto; 
+Falso: 0 pts",,Ready to review,Traducción propia
+OBJNUM,Lipkus numeracy test,"Lipkus, I. M., Samsa, G., & Rimer, B. K. (2001). General Performance on a Numeracy Scale among Highly Educated Samples. Medical Decision Making, 21(1), 37–44. https://doi.org/10.1177/0272989X0102100105",NA,11,NA,NA,NA,NA,NA,NA
+OTRASRELIG,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+PBS,paranormal belief scale ,"Tobacyk, J. J. (2004). A revised paranormal belief scale. The International Journal of Transpersonal Studies, 23(23), 94-98.","TradR: Creencias religiosas tradicionales
+
+Psi: Psi
+
+BRJ: Brujería
+
+SUPR: Superstición
+
+ESPR: Esspiritismo
+
+EXTR: Formas de vida extraordinaria
+
+PREG: Precognición",26,"Cálculo de puntajes: Promedio de todos los items.
+
+Items invertidos: n°23","Siete dimensiones
+
+Nombre de la dimensión: creencias religiosas tradicionales 
+N° items de cada dimension: 1, 8, 15 22
+Items de punteo inverso: no corresponse
+Cálculo: promedio
+
+Nombre de la dimensión: psi
+N° items de cada dimension: 2, 9,16 y 23
+Items de punteo inverso: 23
+Cálculo: promedio
+
+Nombre de la dimensión: brujería
+N° items de cada dimension: 3, 10, 17 y 24
+Items de punteo inverso: no corresponde
+Cálculo: promedio
+
+Nombre de la dimensión: superstición
+N° items de cada dimension: 4, 11 y 18
+Items de punteo inverso: no corresponde
+Cálculo: promedio
+
+Nombre de la dimensión: espiritualismo
+N° items de cada dimension:  5, 12, 19, 25
+Items de punteo inverso: no corresponde
+Cálculo: promedio
+
+Nombre de la dimensión: formas de vida extraordinaria
+N° items de cada dimension: 6, 13, 20
+Items de punteo inverso: no corresponde
+Cálculo: promedio
+
+Nombre de la dimensión: precognición
+N° items de cada dimension: 7, 14, 21, 26
+Items de punteo inverso: no corresponde
+Cálculo: promedio
+","
+'Muy en desacuerdo': 1 pto
+
+'Moderadamente en desacuerdo': 2pts
+
+'Un poco en desacuerdo': 3pts
+
+'No tengo certeza': 4pts
+
+'Un poco de acuerdo': 5pts
+
+'Moderadamente de acuerdo': 6pts
+
+'Muy de acuerdo': 7pts
+",,Ready to review,Traducción propia
+PRFBM,Preference of birth mode in normal pregnancy,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+PRFBMpost,Preference of birth mode in normal pregnancy (Post),"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+PSETPP,"Percepciones sobre el embarazo, trabajo de parto y parto (Fear of birth scale)","Stoll K, Hauck Y, Downe S, Edmonds J, Gross MM, Malott A, et al. Cross cultural development and psychometric evaluation of a new measure to assess fear of childbirth prior to pregnancy. J Sex Reprod Healthc 2016;8:49–54.",NA,10,NA,NA,NA,NA,NA,NA
+PSPPC,Percepciones sobre el parto por cesárea,"Weeks, F. H., Sadler, M., & Stoll, K. (2020). Preference for caesarean and attitudes toward birth in a Chilean sample of young adults. Women and Birth, 33(2), e159–e165. https://doi.org/10.1016/j.wombi.2019.03.012",NA,NA,NA,NA,NA,NA,NA,NA
+PSS,Perceived Stress scale,"Cohen, S., Kamarck, T., & Mermelstein, R. (1983). A global measure of perceived stress. Journal of health and social behavior, 385-396.",NA,14,"Cálculo: sumatoria de todos los items.
+
+Items invertidos: 4, 5, 6, 7, 9, 10 y 13.",Cálculo dimensión: No corresponde,"Nunca: 0  
+Casi nunca: 1
+De vez en cuando: 2
+A menudo: 3
+Muy a menudo: 4",,Ready to review,Traducción propia
+PVC,Preguntas vacuna COVID-19,,,,,,"Usted se ha vacunado contra el coronavirus / covid -19?
+Si = 1
+No = 0
+
+Si la respuesta es no
+
+Usted se va a vacunar contra el coronavirus covid -19?
+Si = 1
+No = 2
+No estoy seguro = 3",,,
+PWb,Psychological well being-scale ,"Me pregunto de donde se obtuvieron los items del inventario, pues no lo veo en el artículo de referencia.",NA,39,"Cálculo de puntajes: Sumatoria de todos los itemes (no lo dicen explicitamente en los artículos, pero segun los mismos se entiende que es la forma correcta de calcluar)
+Interpretación de los puntajes: los puntajes son directamente proporcionales a los niveles de bienestar, por ejemplo: mientras mayores los puntajes, mayor es el nivel de bienestar.
+
+Items inversos: 4, 5, 8, 9, 13, 15, 20, 22, 25, 29, 30, 34, 36","Seis dimensiones.
+
+Nombre de la dimensión: Autoaceptación
+N° items de cada dimension: 1, 7, 13, 19, 25, 31
+Items de punteo inverso: 13 y 25
+Cálculo: Sumatoria de puntaje (no lo dicen explicitamente en los artículos)
+
+Nombre de la dimensión: Relaciones positivas
+N° items de cada dimension: 2, 8, 14, 20, 26, 32
+Items de punteo inverso: 8, 20 y 26
+Cálculo: Sumatoria de puntaje (no lo dicen explicitamente en los artículos)
+
+Nombre de la dimensión: Autonomía
+N° items de cada dimension: 3, 4, 9, 10, 15, 21, 27 y 33
+Items de punteo inverso: 4, 9, 15, 27 y 33
+Cálculo: Sumatoria de puntaje (no lo dicen explicitamente en los artículos)
+
+Nombre de la dimensión: Dominio del entorno
+N° items de cada dimension: 5, 11, 16, 22, 28 y 39
+Items de punteo inverso: 5 y 22
+Cálculo: Sumatoria de puntaje (no lo dicen explicitamente en los artículos)
+
+Nombre de la dimensión: Crecimiento personal
+N° items de cada dimension:  24, 30, 34, 35, 36, 37 y 38
+Items de punteo inverso: 30, 34 y 36
+Cálculo: Sumatoria de puntaje (no lo dicen explicitamente en los artículos)
+
+Nombre de la dimensión: Propósito en la vida
+N° items de cada dimension: 6, 12, 17, 18, 23 y 29
+Items de punteo inverso: 29
+Cálculo: Sumatoria de puntaje (no lo dicen explicitamente en los artículos)
+","Totalmente en desacuerdo
+
+1: 1pto
+2: 2pts
+3: 3pts
+4: 4pts
+5: 5pts
+6: 6pts
+
+Totalmente de acuerdo
+",,Ready to review: Algunas dimensiones tienen mas items que otras?,
+REI40,Rational-Experiential intentory-40,"Keaton, S. A. (2017). Rational‐Experiential Inventory‐40 (REI‐40) (Pacini & Epstein, 1999). The Sourcebook of Listening Research: Methodology and Measures, 530-536","RAb: Abilidad Racional
+
+REng: Compromiso Racional
+
+EAb: Abilidad Ecperiencial
+
+EEng: Compromiso Experiencial
+
+",40,"Calculo: No hay puntaje total.
+
+Items inversos: 1, 2, 3, 4, 5, 11, 13, 15, 17, 19, 21, 26, 28, 30, 34, 36, 37 y 38
+","Son dos dimensiones con dos sub-escalas en cada una. 
+
+Dimensión racional:
+
+    Calculo dimension: promedio de la sub-escala Habilidad Racional y Compromiso Racional
+
+    Calculo Sub-escala:
+
+        Nombre de la sub-escala: Habilidad Racional
+        N° items de cada dimension: 1, 2, 3, 4, 5, 6, 7, 8, 9 y 10
+        Items invertidos: 1, 2, 3, 4 y 5
+        Cálculo: promedio
+
+        Nombre de la sub-escala: Compromiso racional
+        N° items de cada dimension: 11, 12, 13, 14, 15, 16, 17, 18, 19 y 20
+        Items invertidos: 11, 13, 15, 17 y 19
+        Cálculo: promedio
+
+Dimensión experiencial
+
+    Calculo dimension: promedio de la sub-escala Habilidad Experiecial y Compromiso Experiencial
+ 
+    Calculo Sub-escala:
+
+        Nombre de la sub-escala: Habilidad Experiecial
+        N° items de cada dimension: 21, 22, 23, 24, 25, 26, 27, 28, 29 y 30
+        Items invertidos: 21, 26, 28 y 30
+        Cálculo: promedio
+
+        Nombre de la sub-escala: Compromiso Experiencial
+        N° items de cada dimension: 31, 32, 33, 34, 35, 36, 37, 38, 39 y 40
+        Items invertidos: 34, 36, 37 y 38
+        Cálculo: promedio","Definitivamente no es cierto para mi
+
+1: 1pto
+2: 2pts
+3: 3pts
+4: 4pts
+5: 5pts
+
+Definitivamente cierto para mi",,Ready to review,Traducción propia
+RSS,Rosemberg Self-esteem Scale ,"García, J. A., y Olmos, F. C., Matheu, M. L., & Carreño, T. P. (2019). Self esteem levels vs global scores on the Rosenberg self-esteem scale. Heliyon, 5(3), e01378., Rosenberg, M. (2015). Society and the adolescent self-image. Princeton university press.",NA,10,"Cálculo de puntaje: sumatoria de todos los itemes.
+
+
+Itemes inversos: 3, 5, 8, 9 y 10.
+
+Interpretación de los puntajes: En mínimo de puntaje obtenido es 10 pts (baja autoestima) y el máximo 40 pts (alta autoestima).",Cálculo de dimensión: No corresponde,"Muy en desacuerdo: 1pto
+En desacuerdo: 2pts
+De acuerdo: 3 pts
+Muy de acuerdo: 4pts
+",,Ready to review,Traducción propia
+RTS,The Revised Transliminality Scale,"Houran, J., Thalbourne, M. A., & Lange, R. (2003). Methodological note: erratum and comment on the use of the Revised Transliminality Scale.",NA,29. Se usan SOLO 17 (ver scoring),"Cálculo puntaje: 
+a) Primero se suman los items con valor 1, esto es el puntaje raw.
+b) Luego se transforman según valores de escala Rasch. El puntaje Racsh es el que se utiliza para analizar el instrumento
+
+IMPORTANTE: 
+a) Del total de 29 items, sólo se consideran los items: 2, 3, 4, 5, 8, 9, 12, 13, 16, 18, 19, 20, 21, 22, 25, 26 y 29 (ignorar: 01, 06, 07, 10, 11, 14, 15, 17, 23, 24, 27, 28)
+b) El rango de puntajes raw es 0 a 17 pts.
+c) Conversión raw to Racsh score en columna Conversión nominales a valores
+
+Items inversos: No corresponde
+
+A mayor puntaje, mayor nivel de transliminalidad","Cálculo: Es unidimensional, no corresponde","Puntaje raw:
+Verdadero: 1 pto 
+Falso: 0 pts
+
+Puntaje Racsh: (extraido del documento 21, pag. 606 en carpeta articulos instrumentos)
+0pts = 13.7
+1pto = 15.9
+2pts = 18.3
+3pts = 19.9
+4pts = 21.1
+5pts = 22.1
+6pts = 23.1
+7pts = 24.0
+8pts = 24.9
+9pts = 25.7
+10pts = 26.6
+11pts = 27.5
+12pts = 28.5
+13pts = 29.6
+14pts = 30.9
+15pts = 32.5
+16pts = 35.0
+17pts = 37.3",,Ready to review,Traducción propia
+SASS,social adaptation Self-evaluaiton scale ,"Bosc, M., Dubini, A., & Polin, V. (1997). Development and validation of a social functioning scale, the Social Adaptation Self-evaluation Scale. European Neuropsychopharmacology, 7(1), S57-S70.","SB: Conducta social
+
+SCB: Conducta centrada en uno mismo
+
+SI: interacción social",21,"Cálculo de puntajes: 
+El item SASS_01 no se puntua: determina si se ve SASS_02 o SASS_03,
+Los siguientes 20 items se suman
+
+Los puntajes varían en un rango de 0 a 60. Todas las preguntas deben ser respondidas, menos en el caso de los itemes 1 y 2, en los cuales sólo uno debe ser respondido pues son excluyentes (debido a que la pregunta refiere a si la persona tiene, o no, trabajo). 
+
+Items inversos: 17, 18, 20
+
+Interpretación de los puntajes: mientras menor es el puntaje, menos es el ajuste social, mientras que a mayores puntajes, mayor es el ajuste social.",Calculo: No corresponde,"La pregunta 1 (SASS_01; SI/NO) NO se puntua, es una pregunta llave. Si SI -> item 2 (SASS_02), Si NO -> item 3 (SASS_03)
+
+Cada respuesta es puntuada en el rango de 0 a 3 pts, la etiqueta de las posibles respuestas depende del item. En la nomenclatura de abajo se considera SASS_02 como item 1.
+
+    Items 1, 2, 4
+        Nada: 0 pts
+        Poco: 1 pto
+        Medianamente: 2 pts
+        Mucho: 3pts
+    Items 3,
+        Nada de entusiasmo: 0pts
+        Poco entusiasmo: 1pto
+        Algo de entusiasmo: 2pts
+        Mucho entusiasmo: 3pts
+    Items 5, 7, 10
+        Insatisfactorio: 0pts
+        Justo: 1pto
+        Bueno: 2pts
+        Muy bueno: 3pts
+    Items 6, 
+        Nunca: 0pts
+        Raramente: 1pto
+        Frecuentemente: 2pts
+        Muy frecuentemente: 3pts
+    Items 8,
+        Nadie: 0pts
+        Pocas personas: 1pto
+        Algunas personas: 2pts
+        Muchas personas: 3pts
+    Items, 9
+        Pasivamente: 0pts
+        Moderadamente: 1pto
+        Activamente: 2pts
+        Muy activamente: 3pts
+    Items, 11
+        Ningun valor: 0pts
+        Poco valor:1pto
+        Algún valor: 2pts
+        Gran valor: 3pts
+    Items 12, 
+        Nunca: 0pts
+        Raramente: 1pto
+        A menudo: 2pts
+        Muy a menudo: 3pts
+    Items 13, 
+        Nunca: 0pts
+        Raramente: 1pto
+        La mayor parte del tiempo: 2pts
+        Siempre: 3pts
+    Items 14,
+        Para nada: 0pts
+        Levemente: 1pto
+        Moderadamente: 2
+        Completamente: 3
+    Items 15, 19
+        Para nada: 0pts
+        No mucho: 1pto
+        Moderadamente: 2pts
+        Mucho: 3pts
+    Items 16,
+        Para nada: 0pts
+        Levemente: 1pto
+        Moderadamente: 2pts
+        Mucho: 3pts
+    Items 17, 18, 20
+        Siempre: 0pts
+        A menudo: 1pto
+        A veces: 2pts
+        Nunca: 3pts
+    Items 21,
+        Para nada: 0pts
+        No mucho: 1pto
+        Moderadamente: 2pts
+        Muchisimo: 3pts",,Ready to review,Traducción propia
+SBS,supernatural belief scale ,"Jong, J., Bluemke, M., & Halberstadt, J. (2013). Fear of death and supernatural beliefs: Developing a new supernatural belief scale to test the relationship. European Journal of Personality, 27(5), 495-506.",No corresponde,10,"Cálculo de puntajes: por sumatoria de todos los ítems (tanto positivos como negativos). 
+
+Interpretación de los puntajes obtenidos: los extremos de la escala, están diseñados para indicar la prescencia de extrema descreencia o ateísmo (el extremo negativo de la escala) y creencia confiada (el extremo positivo de la escala). Mientras el punto medio de la escala (por ejemplo: 0) indica agnosticismo o incertidumbre.",Unidimensional,"Totalmente en desacuerdo
+
+-4: -4pts
+-3: -3pts
+-2: -2pts
+-1: -1pto
+0: 0pts
+1: 1pto
+2: 2pts
+3: 3pts
+4: 4pts
+
+Totalmente de acuerdo
+
+Nomenclatura: el signo '-' significa 'menos' (por ejemplo, en palabras se leería: 'menos' 3).",,Ready to review,Traducción propia
+SCSORF,Santa Clara Strength of Religious Faith Questionnaire,"1. Boehm, T. L., & Carter, E. W. (2019). Facets of faith: Spirituality, religiosity, and parents of individuals with intellectual disability. Intellectual and developmental disabilities, 57(6), 512-526; 2. Plante, T. G., & Boccaccini, M. T. (1997). The Santa Clara strength of religious faith questionnaire. Pastoral Psychology, 45(5), 375-387.
+
+Artículo que señala las dimensiones y cálculo de puntaje: Lewis, C. A., Shevlin, M., McGuckin, C., & Navrátil, M. (2001). The Santa Clara strength of religious faith questionnaire: Confirmatory factor analysis. Pastoral Psychology, 49(5), 379-384. ",No corresponde,10,"
+Cálculo de puntajes: sumatoria 
+Items invertidos: no corresponde
+Los puntajes pueden variar entre 10 y 40 (siendo 10 el mínimo posible y 40 el máximo posible)
+
+
+Interpretación de los puntajes: puntajes más altos reflejan mayores niveles de fe religiosa. ",Unidimensional,"Totalmente en desacuerdo:1 pto
+En desacuerdo: 2 ptos
+De acuerdo: 3 ptos
+Totalmente de acuerdo: 4 ptos",,Ready to review,Traducción propia
+SDG,Socio demográfico general,,,10,"Cálculo: Los datos son descriptivos socio-demográficos.
+La conversión de puntaje está en columna conversión nominal a valores",No corresponde,"Nombre participante: 
+    Nombre participante
+Sexo:  
+    1 = Hombre 
+    2 = Mujer
+Fecha de nacimiento:
+    Dia/Mes/Año
+Edad: 
+    edad participante
+Situacion de pareja:
+    1 = Casado (a)                         
+    2 = Conviviente                         
+    3 = Viudo (a)                                 
+    4 = Divorciado/anulado (a)
+    5 = Separado (a)
+    6 = Soltero/sin pareja
+    7 = Soltero/con pareja
+Educacion
+    1 = Sin estudio
+    2 = Básica Incompleta                 
+    3 = Básica Completa                 
+    4 = Media Incompleta                 
+    5 = Media Completa 
+    6 = Técnica Incompleta 
+    7 = Técnica Completa
+    8 = Universitaria Incompleta
+    9 = Universitaria Completa o más
+    10 = No sabe o no aplica
+Años de estudio: 
+    años de estudio
+Comuna de residencia:
+    comuna de residencia
+Problemas psiquiatricos/psiologicos
+    1 = Sí 
+    2 = No
+Cual:
+    problema psiquiatrico/psicologico
+Ficha social:
+    1 = Si tengo registro.
+    2 = No tengo registro.
+Porcentaje ficha social:
+    porcentaje ficha social
+Ocupacion A:
+    1 = Trabaja a tiempo completo                                     
+    2 = Trabaja a tiempo parcial                                     
+    3 = Trabaja esporádicamente                                     
+    4 = Está desempleado(a), pero busca trabajo             
+    5 = Es estudiante                                                     
+    6 = No trabaja, ni busca trabajo
+    7 = Es Ama de casa
+    8 = Está jubilado o pensionado
+    9 = Es Rentista
+    10 = No sabe/No responde
+Ocupacion B:
+    1 = Profesionales
+    2 = Ejecutivos, administrativos, gerentes
+    3 = Comerciantes, vendedores y cajeros
+    4 = Trabajos de apoyo administrativo, incluyendo trabajos eclesiásticos administrativos
+    5 = Trabajo con productos de precisión o artesanías. Técnicos en reparación.
+    6 = Operador de máquinas, instalador, inspectores
+    7 = Ocupaciones de transporte y manejo de carga
+    8 = Obreros, limpiadores de equipos, ayudantes y peones
+    9 = Ocupaciones de servicio, excepto empleados de casa particular
+    10 = Agricultor/ gerente de agricultura
+    11 = Campesino
+    12 = Fuerzas Armadas
+    13 = Empleados casa particular
+    14 = Otro (especifique)","Si se responde ""Si tengo registro."" a la pregunta ""SDG_10"" se pasa a la ""SDG_10_1"". Esta ultima incumple las normas para nombres de trial que establecimos.
+
+Propuesta:
+SDG_10_1 -> SDG_101",,El artículo de este inventario no está en la carpeta 'artículos instrumentos'
+SRA,Sel-reported altruism scale,"Philippe Rushton, J., Chrisjohn, R., & Cynthia Fekken, G. (1981). The altruistic personality and the self-report altruism scale. Personality And Individual Differences, 2(4), 293-302. doi: 10.1016/0191-8869(81)90084-2",No corresponde,20,"Calculo de puntaje: 
+    Sumatoria de puntajes obtenidos en todos los enunciados. 
+    Mientras más alto es el puntaje, mayor es el altruísmo. 
+
+Items inversos:
+    No aplica
+   
+Extraido de las páginas 1 y 3 del artículo de referencia en la carpeta 'artículos instrumentos' (Rushton, J. P., Chrisjohn, R.D., & Fekken, G. C. (1981))","Calculo dimensiones: 
+    Instrumento unidimensional, no corresponde analisis por dimensiones.","Nunca = 0 puntos
+Una vez = 1 punto 
+Más de una vez = 2 puntos 
+A menudo = 3 puntos
+Muy a menudo = 4 puntos",,Ready to review,Traducción propia
+SRBQP,Self-regulation and belief questionnaire in pandemic,,"CrSM: Creencias y Salud Mental 
+
+CrP: Creencias en Pandemia
+
+At: Ateismo",5,Sumatoria de todos los items,"Creencias y Salud Mental. Suma Items: 1- 2- 3 
+     
+Creencias en Pandemia. Item: 4 
+
+Ateísmo. Item: 5","completamente en desacuerdo = 1
+en desacuerdo = 2
+en alguna medida en desacuerdo = 3
+no acuerdo ni desacuerdo = 4
+en alguna medida acuerdo = 5
+de acuerdo = 6
+completamente de acuerdo = 7",,,
+SRSav,SPRINGFIELD RELIGIOSITY SCALE (ABBREVIATED VERSION),"1. Koenig, H. G., Moberg, D. O., & Kvale, J. N. (1988). Religious activities and attitudes of older adults in a geriatric assessment clinic. Journal of the American Geriatrics Society, 36(4), 362-374; 2. Koenig, H. G., Al Zaben, F., Khalifa, D. A., & Al Shohaib, S. (2015). Measures of religiosity. In Measures of personality and social psychological constructs (pp. 530-561). Academic Press.","ORA: Actividad Religiosa Organizacional .
+
+NORA: Actividad Religiosa No Organizacional.
+
+IRS: Religiosidad Intrínsica",15,"No se calcula puntaje total de la escala completa, sólo por dimensiones. No se recomienda combinar (o sumar) los puntajes de las tres sub-escalas (es decir: ORA, NORA, IR).
+
+Cita extraida del artículo fundacional measures of religiosity: ""but should analyze each of these three dimensions separately, not combine them into a single score"".","Tres dimensiones
+
+Nombre dimension: 1. actividades religiosas organizacionales (ORA),
+Nro items dimension: 1, 2
+Items invertidos: 1 y 2
+Calculo: sumatoria
+
+Nombre dimension: 2. actividades religiosas no organizativas (NORA),
+Nro items dimension: 3 , 4 y 5
+items invertidos: n° 4
+Calculo: sumatoria
+
+Nombre dimension: 3. religiosidad intrinsica (IR),
+Nro items dimension: 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+Items invertidos: 8, 14 y 15
+Calculo: sumatoria
+","Items: 1, 2, 
+Varias veces a la semana: 1 pto
+Aproximadamente una vez a la semana: 2 pts
+Varias veces al mes: 3 pts
+Varias veces al año: 4 pts
+Raramente: 5 pts
+Nunca: 6 pts
+
+Items: 3
+Nunca: 1 pto
+Solo ocasionalmente: 2 pts
+Varias veces a la semana: 3 pts
+Una vez al dia: 4 pts
+Dos veces al dia: 5 pts
+Tres o mas veces al dia: 6 pts 
+
+Items: 4
+Varias veces al día: 1pto
+Diario: 2 pts
+Varias veces a la semana: 3 pts
+Varias veces al mes: 4 pts
+Solo ocasionalmente: 5 pts
+Para nada: 6 pts
+
+Items: 5
+Nunca: 1 pto 
+Solo ocasionalmente: 2 pts
+Varias veces al mes: 3 pts
+Varias veces a la semana: 4 pts
+Diario: 5 pts
+Varias veces al día: 6 pts
+
+Items: 6, 7, 8, 9, 10, 11, 12
+Definitivamente no es cierto para mí: 1 pto
+Tiende a no ser cierto: 2 pts
+Inseguro: 3 pts
+Tiende a ser verdad: 4 pts
+Definitivamente es cierto para mí: 5 pts
+
+Items: 13, 14, 15
+Definitivamente en desacuerdo: 1pto
+Tiende a estar en desacuerdo: 2 pts
+Inseguro: 3 pts
+Tiende a estar de acuerdo: 4 pts
+Definitivamente de acuerdo: 5 pts
+",,Ready to review,Traducción propia
+SWBQ,Spiritual wellbeing questionnaire ,"Moodley, T., Esterhuyse, K. G., & Beukes, R. B. (2012). Factor analysis of the spiritual well-being questionnaire using a sample of South African adolescents. Religion and Theology, 19(1-2), 122-151.",,Revisar. Nuestra versión tiene 26. La de los artículos tiene 20.,"Calculo de puntaje: sumatoria total 
+
+Items inversos: No
+
+
+Interpretación de los puntajes: puntajes altos sugieren altos niveles de bienestar espiritual.","Cuatro dimensiones 
+
+Nombre de la dimensión: bienestar espiritual trascendental
+N° items de cada dimension: 2, 6, 11, 13, 15
+Items de punteo inverso: 
+Cálculo: 
+
+Nombre de la dimensión: bienestar espiritual con el entorno
+N° items de cada dimension: 4, 10, 20, 22, 24
+Items de punteo inverso: 
+Cálculo:
+
+Nombre de la dimensión: bienestar espiritual comunal
+N° items de cada dimension: 1, 8, 19, 21, 26
+Items de punteo inverso: 
+Cálculo: 
+
+Nombre de la dimensión: bienestar personal espiritual
+N° items de cada dimension:  5, 9, 14, 16, 18.
+Items de punteo inverso: 
+Cálculo: 
+
+Itemes inversos: No
+
+","Muy bajo
+
+1: 1pto
+2: 2pts
+3: 3pts
+4: 4pts
+5: 5pts
+
+Muy alto
+",,Ready to review: Revisar calculo y nombre de dimensiones en articulo original,Traducción propia
+WEBEXEC,Web based executive funtion questionnaire,"Buchanan, T., Heffernan, T. M., Parrott, A. C., Ling, J., Rodgers, J., & Scholey, A. B. (2010). A short self-report measure of problems with executive function suitable for administration via the internet. Behavior Research Methods, 42(3), 709–714. https://doi.org/10.3758/BRM.42.3.709",NA,6,"Cálculo de puntaje: Se suman los puntajes de los 6 itemes
+Items inversos: No posee","Cálculo: Es unidimensional, no corresponde","No he tenido problemas: 1pto
+He tenido algunos problemas: 2pts
+He tenido bastantes problemas: 3pts
+He tenido muchos problemas: 4pts",,Ready to review,Traducción propia

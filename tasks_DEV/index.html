@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+
+<head>
+  <meta charset='UTF-8'>
+  <title>Experimentos CSCN</title>
+
+  <link rel="stylesheet" href="jsPsych-6/css/jspsych.css">
+  <link rel="stylesheet" href="controllers/css/BART_column.css">
+
+</head>
+
+<body id="general_body" onload="check_id_status()" style="height:100%;" class=" jspsych-display-element">
+
+  <!-- Libreria principal JsPsych -->
+  <script src="jsPsych-6/jspsych.js"></script>
+  <!-- esentials plugins -->
+  <script src="jsPsych-6/plugins/jspsych-call-function.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-preload.js"></script>
+
+  <!-- ADDED -->
+  <script src="jsPsych-6/plugins/jspsych-video-button-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-multi-choice.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-horizontal.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-vertical.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-multi-select.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-html-button-response.js"></script>
+
+  <!-- Protocol Plugins -->
+  <script src="jsPsych-6/plugins/jspsych-audio-button-response-CSCN-BART.js"></script>
+
+  <script src="jsPsych-6/plugins/jspsych-image-button-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-instructions.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-external-html.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-text.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-html-slider-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-html-form.js"></script>
+
+  <script src="controllers/js/save_data.js"></script>
+  <script src="controllers/js/script_loading.js"></script>
+
+  <!-- General Options -->
+  <script>
+    let params = new URLSearchParams(location.search);
+    online = true;
+    uid = 0;
+    pid = 999;
+    random = false;
+
+    // ordered elements at the beginning
+    all_experiments = [];
+
+    // ordered elements at the end
+    ending = ['Goodbye'];
+
+    // not neccesary ordered elements in the middle
+    not_ordered_experiments = [
+        "AIM",
+        "BNT",
+        "bRCOPE",
+        "CAS",
+        "Consent",
+        "Cov19Q",
+        "COVIDCONTROL",
+        "CRS",
+        "CRT7",
+        "CRTMCQ4",
+        "CRTv",
+        "DASS21",
+        "DEBRIEF",
+        "DEMOGR",
+        "EAR",
+        "ERQ",
+        "ESM",
+        "FDMQ",
+        "GHQ12",
+        "HRPVB",
+        "HRPVBpost",
+        "IDQ",
+        "IEC",
+        "INFCONS",
+        "IRI",
+        "IRS",
+        "MIS",
+        "OBJNUM",
+        "OTRASRELIG",
+        "PBS",
+        "PRFBM",
+        "PRFBMpost",
+        "PSETPP",
+        "PSPPC",
+        "PSS",
+        "PVC",
+        "PWb",
+        "REI40",
+        "Report",
+        "RSS",
+        "RTS",
+        "SASS",
+        "SBS",
+        "SCSORF",
+        "SDG",
+        "SRA",
+        "SRBQP",
+        "SRSav",
+        "SWBQ",
+        "WEBEXEC",
+        
+        // Tasks with variable number of screens
+        //"BART", //
+        "EmpaTom"
+
+        ];
+
+    // obtaining final array (if random)
+    var all_experiments = (random) ? (all_experiments.concat(jsPsych.randomization.shuffle(not_ordered_experiments))) : (all_experiments.concat(not_ordered_experiments));
+    all_experiments = all_experiments.concat(ending);
+
+
+  // REMEMBER: With jsPsych 7 preloading of all media is automatic 
+
+    // imagenes para precarga en protocol_controller
+    message_str = 'El protocolo está cargando, espere un momento...';
+    
+    audio_folder = 'media/audio/';
+    img_folder = 'img/';
+    
+    audios = [audio_folder + 'BART_inflate.mp3', audio_folder + 'BART_explode.mp3', audio_folder + 'BART_collect.mp3', audio_folder + 'silence.mp3'];
+    images = ['media/img/BART_redBalloon.png', img_folder + 'Baby_cerebro_VC.png',  img_folder + 'Baby_lactancia_VC.png',  img_folder + 'Baby_respiratorios_VC.png',  img_folder + 'Baby_UCI_VC.png',  img_folder + 'Mother_anestesia_VC.png',  img_folder + 'Mother_depresion_VC.png',  img_folder + 'Mother_histerectomia_VC.png',  img_folder + 'Mother_infeccion_VC.png',  img_folder + 'Mother_lesion_VC.png',  img_folder + 'Mother_paro_VC.png',  img_folder + 'Mother_UCI_VC.png'];
+    audio = [];
+    video = [];
+
+
+    // loading tasks scripts
+    script_loading("tasks", all_experiments);
+  </script>
+
+  <!-- PROTOCOL MACHINERY -->
+  <script src="controllers/js/protocol_controller.js"></script>
+
+
+  <div class="jspsych-content-wrapper">
+    <div id="jspsych-content" class="jspsych-content">
+      <div title="logo">
+        <p style="margin-bottom: 0.2in; line-height: 100%">
+          <img src="img/logo-placeholder.png" name="logo" align="bottom" width="185" height="47" border="0"/>
+        </p>
+      </div>
+      Bienvenida al estudio megatron.<BR><BR>
+
+
+      Este es un protocolo de prueba que incluye TODAS las pruebas disponibles.<BR><BR>
+
+        <div class="jspsych-instructions-nav" style="padding: 10px 0px;">
+          <!--<span id="text_input_uid"> Introduce tu número de celular para empezar (ej. 912345678) </span><BR>
+          <input id="input_uid" type="number" required step="1" min="900000000" max="999999999"></input>
+          <input id="start" type="submit" onclick="check_id_status(event)" value="Comenzar"></input>-->
+        <input id="input_uid" type="hidden" required></input>
+        <input id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn"></input>
+        <input id="start" type="button" onclick="start_protocol(questions)" value="Continuar" hidden='true'></input>
+        </div>
+    </div>
+  </div>
+
+
+
+
+<script>
+  id_random = jsPsych.randomization.randomID(10)
+  var elem = document.getElementById("input_uid").value = id_random;
+</script>
+
+  <script type="text/javascript" src="controllers/js/css_loading.js"></script>
+
+  </body>
+</html>
