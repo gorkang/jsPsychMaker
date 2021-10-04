@@ -1,10 +1,3 @@
----
-title: "README developing jsPsychMaker"
-# author: "Gorka Navarrete"
-# date: "10/4/2021"
-output: html_document
----
-
 ## Directorios y Workflow
 
 
