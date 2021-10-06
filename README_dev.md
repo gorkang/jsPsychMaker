@@ -1,3 +1,13 @@
+## TODO
+
+Estandarizar: 
+
+- TODAS las pruebas tienen: questions.push( check_fullscreen("NOMBRE_PRUEBA") );
+
+- if_questions. Ser consistentes en como se nombran. Ver PVC: PVC_001 es pregunta llave. PVC_001_1 es la if
+
+
+
 ## Directorios y Workflow
 
 

@@ -1,57 +1,23 @@
-/* CSCN - Creado MANUALMENTE */
-
-// EXPERIMENTAL DESIGN ---------------------------------------------------------
-
-
-  /*
-//Between variables
-var between_var = {
-  type: ['control', 'text', 'pictorial']
-};
-
-// copia de respaldo
-var original_between_var = JSON.parse(JSON.stringify(between_var));
+/**
+ * CSCN lab
+/**
+This document was made with test_maker
+*/
 
 
-//var full_design = jsPsych.randomization.factorial(between_var, 1);
-
-// se limpia la variable between dependiendo del estado de las condiciones (verificar para multiples variables between)
-  for (var i = 0; i < actual_condition_data.length; i++) {
-    position = between_var.type.indexOf(actual_condition_data[i].condition_name)
-    if (position != -1) {
-      if (actual_condition_data[i].blocked)
-        between_var.type.splice(position, 1);
-    }
-  }
-
-  if (!user_assigned) {
-    if (between_var.type.length == 0) {
-      experiment_blocked = true;
-      console.log("Usuario bloqueado por límite en condiciones")
-      // Between variables re-definition, skip errors
-      between_var = original_between_var;
-      // Randomly assign a Between variable
-      between_selection["INFCONS"] = [jsPsych.randomization.factorial(between_var, 1)[0].type];
-
-      // Randomize order of Within variables
-      //within_selection["INFCONS"] = jsPsych.randomization.factorial(within_var, 1, false, false);
-    } else {
-      // Randomly assign a Between variable
-      between_selection["INFCONS"] = [jsPsych.randomization.factorial(between_var, 1)[0].type];
-
-      // Randomize order of Within variables
-      //within_selection["INFCONS"] = jsPsych.randomization.factorial(within_var, 1, false, false);
-    }
-  } else {
-    alert("user_assigned")
-  }
-
-  */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
+questions.push( check_fullscreen('INFCONS') );
 
 
-if (between_selection["INFCONS"][0] == 'pictorial') {
+var factors = {condition: ['control', 'text', 'pictorial']}
+
+var full_design = jsPsych.randomization.factorial(factors, 1);
+
+
+
+if (full_design[0].condition == 'pictorial') {
+
 
 INFCONS = [];    //temporal timeline
 
@@ -61,7 +27,7 @@ var instruction_screen_experiment = {
     '<p><left><b><big>Consentimiento informado</big></b><br />'+'Lee el siguiente consentimiento informado detenidamente.<BR><BR>Imagina un embarazo sano (sin enfermedades o complicaciones preexistentes). Ha llegado el momento del parto. Tu te encuentras en buen estado de salud y tu bebé se ha desarrollado normalmente. <BR>En este momento, en el establecimiento de salud te dan un consentimiento informado. Te pedimos que lo leas con atención.' +'</p>',
     '<p><left><b><big></big></b><br />'+'<p align="center"><b>INFORMACIÓN GENERAL</b></p><p align="center" ><b>ASISTENCIA DEL PARTO</b></p><p><u><b>Objetivo</b></u></p><p>Asistir el nacimiento de su bebe en forma espontánea o a través de procedimientos quirúrgicos (cesárea), dependiendo de las condiciones maternas o médicas.&nbsp;</p><p><u><b>En qué consiste la asistencia del parto</b></u></p><p>La <b>atención o asistencia del parto</b> consiste en la extracción de su bebé, pudiendo ser este a través de un parto vaginal o una operación cesárea.</p><ul><li><b>Parto vaginal: </b>Extracción del bebé por el canal vaginal en forma espontánea, con o sin intervenciones como anestesia<li><b>Cesárea: </b> Extracción del bebé por medio de una cirugía. Se realiza una incisión abdominal y una incisión para abrir el útero. A continuación se extrae el bebe y la placenta y finalmente se cierran las incisiones del útero y piel.</ul><p><u><b>Complicaciones y/o potenciales riesgos&nbsp;</b></u></p><p>Si bien el parto es un hecho biológico que puede transcurrir sin dificultades, a veces se presentan complicaciones tanto maternas como fetales, de forma inesperada e imprevisible, que exigen la puesta en marcha de tratamientos y/o procedimientos para resolver la anomalía detectada.</p><p>A continuación te informamos sobre las complicaciones más importantes.</p>' +'</p>',
     '<p><left><b><big>Riesgos para el bebé</big></b><br />'+'' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'INFCONS'},
+    data: {trialid: 'Instructions_01', procedure: 'INFCONS'},
     procedure: 'INFCONS',
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -76,7 +42,7 @@ var question01 = {
   procedure: 'INFCONS'
 };
 INFCONS.push(question01);
-/*
+
 var question02 = {
   type: 'image-button-response',
   stimulus: 'img/Baby_cerebro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
@@ -100,7 +66,7 @@ var question04 = {
   procedure: 'INFCONS'
 };
 INFCONS.push(question04);
-*/
+
 INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS)
@@ -112,7 +78,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Riesgos para la madre</big></b><br />'+'' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'INFCONS'},
+    data: {trialid: 'Instructions_02', procedure: 'INFCONS'},
     procedure: 'INFCONS',
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -127,7 +93,7 @@ var question05 = {
   procedure: 'INFCONS'
 };
 INFCONS.push(question05);
-/*
+
 var question06 = {
   type: 'image-button-response',
   stimulus: 'img/Mother_paro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
@@ -175,14 +141,14 @@ var question11 = {
   procedure: 'INFCONS'
 };
 INFCONS.push(question11);
-*/
+
 INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, INFCONS)
 
 
 
-} else if (between_selection["INFCONS"][0] == 'text') {
+} else if (full_design[0].condition == 'text') {
 
 
 INFCONS = [];    //temporal timeline
@@ -193,10 +159,10 @@ INFCONS = [];    //temporal timeline
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
-    '<p><left><b><big>Consentimiento informado</big></b><br />'+'Lee el siguiente consentimiento informado detenidamente.<BR><BR>Imagina un embarazo sano (sin enfermedades o complicaciones preexistentes). Ha llegado el momento del parto. Tu te encuentras en buen estado de salud y tu bebé se ha desarrollado normalmente. <BR>En este momento, en el establecimiento de salud te dan un consentimiento informado. Te pedimos que lo leas con atención.' +'</p>',
+    '<p><left><b><big>Consentimiento informado</big></b><br />'+'Lee el siguiente consentimiento informado detenidamente.<BR><BR>Imagina un embarazo sano (sin enfermedades o complicaciones preexistentes). Ha llegado el momento del parto.. Tu te encuentras en buen estado de salud y tu bebé se ha desarrollado normalmente. <BR>En este momento, en el establecimiento de salud te dan un consentimiento informado. Te pedimos que lo leas con atención.' +'</p>',
     '<p><left><b><big></big></b><br />'+'<p align="center"><b>INFORMACIÓN GENERAL</b></p><p align="center" ><b>ASISTENCIA DEL PARTO</b></p><p><u><b>Objetivo</b></u></p><p>Asistir el nacimiento de su bebe en forma espontánea o a través de procedimientos quirúrgicos (cesárea), dependiendo de las condiciones maternas o médicas.&nbsp;</p><p><u><b>En qué consiste la asistencia del parto</b></u></p><p>La <b>atención o asistencia del parto</b> consiste en la extracción de su bebé, pudiendo ser este a través de un parto vaginal o una operación cesárea.</p><ul><li><b>Parto vaginal: </b>Extracción del bebé por el canal vaginal en forma espontánea, con o sin intervenciones como anestesia<li><b>Cesárea: </b> Extracción del bebé por medio de una cirugía. Se realiza una incisión abdominal y una incisión para abrir el útero. A continuación se extrae el bebe y la placenta y finalmente se cierran las incisiones del útero y piel.</ul><p><u><b>Complicaciones y/o potenciales riesgos&nbsp;</b></u></p><p>Si bien el parto es un hecho biológico que puede transcurrir sin dificultades, a veces se presentan complicaciones tanto maternas como fetales, de forma inesperada e imprevisible, que exigen la puesta en marcha de tratamientos y/o procedimientos para resolver la anomalía detectada.</p><p>A continuación te informamos sobre las complicaciones más importantes.</p>' +'</p>',
     '<p><left><b><big>Riesgos para el bebé</big></b><br />'+'' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'INFCONS'},
+    data: {trialid: 'Instructions_03', procedure: 'INFCONS'},
     procedure: 'INFCONS',
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -211,7 +177,7 @@ var question12 = {
   procedure: 'INFCONS'
 };
 INFCONS.push(question12);
-/*
+
 var question13 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Lesión en el cerebro del bebe por falta de oxígeno</b></p>Se da en 2 de 1000 partos vaginales y en 2 de 1000 partos por cesarea<BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
@@ -235,7 +201,7 @@ var question15 = {
   procedure: 'INFCONS'
 };
 INFCONS.push(question15);
-*/
+
 INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS)
@@ -247,7 +213,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Riesgos para la madre</big></b><br />'+'' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'INFCONS'},
+    data: {trialid: 'Instructions_04', procedure: 'INFCONS'},
     procedure: 'INFCONS',
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -262,7 +228,7 @@ var question16 = {
   procedure: 'INFCONS'
 };
 INFCONS.push(question16);
-/*
+
 var question17 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Paro cardíaco</b></p>Se da en 0.3 de 1000 partos vaginales y en 1.9 de 1000 partos por cesarea<BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
@@ -310,13 +276,13 @@ var question22 = {
   procedure: 'INFCONS'
 };
 INFCONS.push(question22);
-*/
+
 INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS)
 
 
-} else if (between_selection["INFCONS"][0] == 'control') {
+} else if (full_design[0].condition == 'control') {
 
 
 INFCONS = [];    //temporal timeline
@@ -327,10 +293,10 @@ INFCONS = [];    //temporal timeline
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
-    '<p><left><b><big>Consentimiento informado</big></b><br />'+'Lee el siguiente consentimiento informado detenidamente.<BR><BR>Imagina un embarazo sano (sin enfermedades o complicaciones preexistentes). Ha llegado el momento del parto. Tu te encuentras en buen estado de salud y tu bebé se ha desarrollado normalmente. <BR>En este momento, en el establecimiento de salud te dan un consentimiento informado. Te pedimos que lo leas con atención.' +'</p>',
+    '<p><left><b><big>Consentimiento informado</big></b><br />'+'Lee el siguiente consentimiento informado detenidamente.<BR><BR>Imagina un embarazo sano (sin enfermedades o complicaciones preexistentes). Ha llegado el momento del parto.. Tu te encuentras en buen estado de salud y tu bebé se ha desarrollado normalmente. <BR>En este momento, en el establecimiento de salud te dan un consentimiento informado. Te pedimos que lo leas con atención.' +'</p>',
     '<p><left><b><big></big></b><br />'+'<p align="center"><b>INFORMACIÓN GENERAL</b></p><p align="center" ><b>ASISTENCIA DEL PARTO</b></p><p><u><b>Objetivo</b></u></p><p>Asistir el nacimiento de su bebe en forma espontánea o a través de procedimientos quirúrgicos (cesárea), dependiendo de las condiciones maternas o médicas.&nbsp;</p><p><u><b>En qué consiste la asistencia del parto</b></u></p><p>La <b>atención o asistencia del parto</b> consiste en la extracción de su bebé, pudiendo ser este a través de un parto vaginal o una operación cesárea.</p><ul><li><b>Parto vaginal: </b>Extracción del bebé por el canal vaginal en forma espontánea, con o sin intervenciones como anestesia<li><b>Cesárea: </b> Extracción del bebé por medio de una cirugía. Se realiza una incisión abdominal y una incisión para abrir el útero. A continuación se extrae el bebe y la placenta y finalmente se cierran las incisiones del útero y piel.</ul><p><u><b>Complicaciones y/o potenciales riesgos&nbsp;</b></u></p><p>Si bien el parto es un hecho biológico que puede transcurrir sin dificultades, a veces se presentan complicaciones tanto maternas como fetales, de forma inesperada e imprevisible, que exigen la puesta en marcha de tratamientos y/o procedimientos para resolver la anomalía detectada.</p><p>A continuación te informamos sobre las complicaciones más importantes.</p>' +'</p>',
     '<p><left><b><big>Riesgos para el bebé</big></b><br />'+'' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'INFCONS'},
+    data: {trialid: 'Instructions_05', procedure: 'INFCONS'},
     procedure: 'INFCONS',
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -338,38 +304,38 @@ var instruction_screen_experiment = {
     }
 };
 
-var question12 = {
+var question23 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Problemas respiratorios del recién nacido</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_12', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_23', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question12);
-/*
-var question13 = {
+INFCONS.push(question23);
+
+var question24 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Lesión en el cerebro del bebe por falta de oxígeno</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_13', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_24', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question13);
+INFCONS.push(question24);
 
-var question14 = {
+var question25 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Hospitalización en cuidados intensivos neonatales</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_14', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_25', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question14);
+INFCONS.push(question25);
 
-var question15 = {
+var question26 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para el <B>bebé</B></u></p><BR></u></p><p><b>Dificultades para inicio temprano de lactancia materna</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_15', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_26', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question15);
-*/
+INFCONS.push(question26);
+
 INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS)
@@ -381,7 +347,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Riesgos para la madre</big></b><br />'+'' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'INFCONS'},
+    data: {trialid: 'Instructions_06', procedure: 'INFCONS'},
     procedure: 'INFCONS',
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -389,62 +355,62 @@ var instruction_screen_experiment = {
     }
 };
 
-var question16 = {
+var question27 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Complicaciones de la anestesia</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_16', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_27', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question16);
-/*
-var question17 = {
+INFCONS.push(question27);
+
+var question28 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Paro cardíaco</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_17', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_28', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question17);
+INFCONS.push(question28);
 
-var question18 = {
+var question29 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Histerectomía (extracción del útero)</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_18', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_29', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question18);
+INFCONS.push(question29);
 
-var question19 = {
+var question30 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Infección de la herida</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_19', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_30', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question19);
+INFCONS.push(question30);
 
-var question20 = {
+var question31 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Lesión de la vagina</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_20', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_31', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question20);
+INFCONS.push(question31);
 
-var question21 = {
+var question32 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Hospitalización de la madre en cuidados intensivos</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_21', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_32', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question21);
+INFCONS.push(question32);
 
-var question22 = {
+var question33 = {
   type: 'html-button-response',
   stimulus: '<p><u><p><u>Riesgos para la <B>madre</B></u></p><BR></u></p><p><b>Depresión post parto</b></p><BR><BR>', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
-  data: {trialid: 'INFCONS_22', procedure: 'INFCONS'},
+  data: {trialid: 'INFCONS_33', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
-INFCONS.push(question22);
-*/
+INFCONS.push(question33);
+
 INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS)
@@ -456,6 +422,7 @@ INFCONS.push.apply(questions, INFCONS)
 
 questions.push({
     type: 'call-function',
+    data: {trialid: 'INFCONS_000', procedure: 'INFCONS'},
     func: function(){
       if (online) {
         var data = jsPsych.data.get().filter({procedure: 'INFCONS'}).csv();

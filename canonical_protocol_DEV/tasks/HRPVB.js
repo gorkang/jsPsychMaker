@@ -4,14 +4,17 @@
 This document was made with test_maker
 */
 
+
+
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
+questions.push( check_fullscreen('HRPVB') );
 
 HRPVB = [];    //temporal timeline
 
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: [`<p><left><p><left><big><b>Percepción de riesgos según modalidad de parto</b></big><br />Indica la probabilidad de que ocurra cada uno de los eventos mencionados.</p>`],
-    data: {trialid: 'Instructions', procedure: 'HRPVB'},
+    data: {trialid: 'Instructions_01', procedure: 'HRPVB'},
     show_clickable_nav: true,
     allow_backward: false,
     on_trial_start: function(){
@@ -32,18 +35,18 @@ HRPVB_MM = [];    //temporal timeline
   var tipo_sujeto = ['Bebé', 'Madre']
   var tipo_parto_raw = ['por cesarea', 'vaginal']
 
-  var tipo_problema_BB = ['Problemas respiratorios del recién nacido'/*,
+  var tipo_problema_BB = ['Problemas respiratorios del recién nacido',
                          'Lesión en el cerebro del bebe por falta de oxígeno',
                          'Hospitalización en cuidados intensivos neonatales',
-                         'Dificultades para inicio temprano de lactancia materna'*/]
+                         'Dificultades para inicio temprano de lactancia materna']
 
-   var tipo_problema_MM = ['Complicaciones de la anestesia'/*,
+   var tipo_problema_MM = ['Complicaciones de la anestesia',
                           'Paro cardíaco',
                           'Histerectomía (extracción del útero)',
                           'Infección de la herida',
                           'Lesión de la vagina',
                           'Hospitalización de la madre en cuidados intensivos',
-                          'Depresión post parto'*/]
+                          'Depresión post parto']
 
 
 
@@ -149,8 +152,7 @@ HRPVB_MM = [];    //temporal timeline
   var intro_BB = {
       type: 'instructions',
       pages: ['<p><left><p><left><big>Riesgos para <b>' + tipo_sujeto[0] + '</b></p>'], // Esto esta fuera del trial, por lo que usamos tipo_sujeto[0] directamente
-      data: {trialid: 'Instructions_01', procedure: 'HRPVB'},
-      procedure: 'HRPVB',
+      data: {trialid: 'Instructions_02', procedure: 'HRPVB'},
       show_clickable_nav: true,
       allow_backward: false,
       on_trial_start: function(){
@@ -183,7 +185,7 @@ HRPVB_MM = [];    //temporal timeline
         procedure: 'HRPVB'
       };
       return element;
-    },
+      }
   };
 
 
@@ -200,7 +202,7 @@ HRPVB_MM = [];    //temporal timeline
           procedure: 'HRPVB'
         };
         return element;
-      },
+        }
       }
 
   var test2 = {
@@ -216,29 +218,31 @@ HRPVB_MM = [];    //temporal timeline
           procedure: 'HRPVB'
         };
         return element;
-      },
+        }
     }
 
 
 // Create blocks --------------------------------------------------------
 
   var test_procedure_BB = {
-    timeline: [intro, test1, test2], //
+    timeline: [intro, test1, test2],
     data: {trialid: 'HRPVB_BB', procedure: 'HRPVB'},
     timeline_variables: test_riesgos_BB,
     repetitions: 1,
-    randomize_order: true
+    randomize_order: true,
+    procedure: 'HRPVB'
   }
   HRPVB_BB.push(test_procedure_BB);
   HRPVB_BB.unshift(intro_BB);
 
 
   var test_procedure_MM = {
-    timeline: [intro, test1, test2], //
+    timeline: [intro, test1, test2],
     data: {trialid: 'HRPVB_MM', procedure: 'HRPVB'},
     timeline_variables: test_riesgos_MM,
     repetitions: 1,
-    randomize_order: true
+    randomize_order: true,
+    procedure: 'HRPVB'
   }
   HRPVB_MM.push(test_procedure_MM);
   HRPVB_MM.unshift(intro_MM);
@@ -258,7 +262,7 @@ HRPVB_MM = [];    //temporal timeline
 
 questions.push({
     type: 'call-function',
-    data: {trialid: 'HRPVB_00', procedure: 'HRPVB'},
+    data: {trialid: 'HRPVB_000', procedure: 'HRPVB'},
     func: function(){
       if (online) {
         var data = jsPsych.data.get().filter({procedure: 'HRPVB'}).csv();
@@ -267,4 +271,5 @@ questions.push({
       }
       saveData(data, online, 'HRPVB');
     },
+    procedure: 'HRPVB'
 });

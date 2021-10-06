@@ -4,7 +4,10 @@
 This document was made with test_maker
 */
 
+
+
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
+questions.push( check_fullscreen('Consent') );
 
 Consent = [];    //temporal timeline
 
@@ -13,7 +16,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>Consentimiento informado</big></b><br />'+
     '' +'</p>'],
-    data: {trialid: 'Instructions', procedure: 'Consent'},
+    data: {trialid: 'Instructions_01', procedure: 'Consent'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
@@ -25,9 +28,10 @@ var instruction_screen_experiment = {
 // declare the block.
 var trial = {
   type:'external-html',
-  url: "media/html/consent-nieves.html",
+  url: "html/consent-placeholder.html",
   cont_btn: "start",
-  data: {trialid: 'Consent_001', procedure: 'Consent', response: document.getElementById("start").id},
+  data: {trialid: 'Consent_001', procedure: 'Consent', stimulus: 'html/consent-placeholder.html',response: document.getElementById("start").id},
+  procedure: 'Consent'
 };
 Consent.push(trial);
 
@@ -37,7 +41,7 @@ Consent.push.apply(questions, Consent);
 
 questions.push({
     type: 'call-function',
-    data: {trialid: 'Consent_00', procedure: 'Consent'},
+    data: {trialid: 'Consent_000', procedure: 'Consent'},
     func: function(){
       if (online) {
         var data = jsPsych.data.get().filter({procedure: 'Consent'}).csv();
@@ -46,4 +50,5 @@ questions.push({
       }
       saveData(data, online, 'Consent');
     },
+    procedure: 'Consent'
 });

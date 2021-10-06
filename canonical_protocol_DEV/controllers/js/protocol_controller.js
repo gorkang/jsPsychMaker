@@ -1,7 +1,3 @@
-// Estas dos lineas son solo para poder consultar experimental_condition interactivamente
-// XMLcall("findAll", "experimental_condition", {keys: ["id_protocol"], values: [pid]});
-// condition_data = JSON.parse(response);
-
 function date_to_mil(date) {
   elements = date.split(":");
   secs = 0;
@@ -11,31 +7,33 @@ function date_to_mil(date) {
   return secs;
 }
 
-/*
-function sleep(milliseconds) {
-  const date = Date.now();
-  let currentDate = null;
-  do {
-    currentDate = Date.now();
-  } while (currentDate - date < milliseconds);
-}*/
+function check_fullscreen(task_name) {
+  return ({
+    timeline: [{
+      type: 'fullscreen',
+      message: '<p>El experimento entrará en modo pantalla completa</p>',
+      button_label: 'Full screen',
+      delay_after: 0,
+      fullscreen_mode: true,
+      data: {procedure: task_name}
+    }],
+    data: {procedure: task_name},
+    conditional_function: function(){
+      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
+        return true;
+      else
+        return false;
+    }
+  });
+}
 
 // obtención de condiciones para usuario nuevo (funciona como promise para que sea sincrónico)
-function condition_selection(all_conditions, between_selection_temp = {}) {
+function condition_selection(between_selection_temp = {}) {
   return new Promise(
     function(resolve, reject) {
       between_selection = {};
       // REVIEW: hay que ver si funciona correctamente en caso de que no existan condiciones en el experimento
       XMLcall("findAll", "experimental_condition").then(function(condition_data) {
-
-        // DEBUG:--------------------------------------------------
-        /*
-        between_selection_temp = {};
-        XMLcall("findAll", "experimental_condition");
-        condition_data = JSON.parse(response);
-        */
-
-        //console.log(condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; }));
 
         // se establece un mínimo (respecto a este mínimo seleccionaremos la condicion)
         // diccionario de mínimos para que no se pierda con cambios de tareas en condition_data
@@ -70,7 +68,6 @@ function condition_selection(all_conditions, between_selection_temp = {}) {
               // If we can't assign a condition
               experiment_blocked = true;
               condition_temp_array = [false];
-              //console.log("Usuario bloqueado por límite en condiciones");
               alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
               throw new Error('Usuario bloqueado por límite en condiciones'); // To avoid loading the rest of the questions
               resolve(false);
@@ -83,33 +80,6 @@ function condition_selection(all_conditions, between_selection_temp = {}) {
             }
 
           };
-
-
-
-/*
-          // OLD VERSION -------------------------------------------------
-          for (var i = 0; i < condition_data.length; i++) {
-            if (condition_data[i]["task_name"] in between_selection) {
-              // si la key existe, verificamos que siga siendo el mínimo
-              if (condition_data[i]["assigned_task"] < actual_min["task_name"]) {
-                between_selection[condition_data[i]["task_name"]].push(condition_data[i]["condition_name"])
-                actual_min[condition_data[i]["task_name"]] = condition_data[i]["assigned_task"];
-              }
-            } else {
-              // si no está la key, entonces se agrega al diccionario directamente empezando con el minimo actual
-              // revisamos si no supera el límite, en caso contrario omitimos
-              if (condition_data[i]["assigned_task"] < max_participants) {
-                between_selection[condition_data[i]["task_name"]] = [condition_data[i]["condition_name"]]
-                actual_min[condition_data[i]["task_name"]] = condition_data[i]["assigned_task"];
-              }
-              temp_condition_task_list.push(condition_data[i]["task_name"]);
-            }
-          }
-
-          // bloqueamos el experimento si alguna de las tareas con condiciones no obtuvo condicion
-          condition_temp_array = temp_condition_task_list.map(function (task, index, array) { return (task in between_selection) });
-
-*/
 
         } else {
           // comprobación para discarded
@@ -265,41 +235,10 @@ function check_id_status(event) {
 
     } else if (online == true) {
 
-      // REVIEW: SHOULD DO... start_mysql().then(function(......) { (???)
-
-      // REVIEW: clean_mysql should be done before check_id_status() (???)
-      // This is important because now we say there are no slots before cleaning up discarded
-      // VERY IMPORTANT: Make sure there are no other collisions, for example, in check_id_status(), if the participant already exists and we accept_discarded, the participant can continue!
-      // We don't want to delete the information of discarded participants...
-
-
       // gets experimental_condition table. Checks if there are available slots
       XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
-        /*
-        // We don't filter by value["condition_name"] === between_selection[Object.keys(between_selection)[0]][0] because it is not loaded yet
-        completed_protocol_filtered = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; });
-
-        // NO available slots
-        if (completed_protocol_filtered.length == 0) {
-
-          alert("No hay cupos disponibles")
-          console.log("No available slots #1")
-          //console.table(completed_protocol_filtered)
-
-          // REVIEW: protocol_blocked AND experiment_blocked are DIFF or the SAME (???)
-          // experiment_blocked used also in INFCONS.js SHOULD be protocol_blocked (???)
-          protocol_blocked = true;
-          experiment_blocked = true;
-          //throw new Error("ERROR: no hay cupos disponibles.");
-
-        // Available slots
-        } else {
-
-          console.log("Available slots")
-          //console.table(completed_protocol_filtered)
-        */
-          // Look for uid_external in user table
+        // Look for uid_external in user table
         XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
 
           // NEW user (uid_external not in DB) ---
@@ -307,7 +246,7 @@ function check_id_status(event) {
 
             console.log("New user");
             uid = 0;
-            condition_selection(condition_data).then(function(accepted) {
+            condition_selection().then(function(accepted) {
               // LOAD all the tasks. This also loads the between participants conditions
               script_loading("tasks", all_tasks, completed_experiments, true);
             });
@@ -323,16 +262,6 @@ function check_id_status(event) {
               // REVIEW: revisar si podemos cambiar esto y hacerlo antes, porque es importante tener cargado esto para la funcion condition_selection
               // LOAD **between participants** conditions for the particicipant from the DB (so she can continue where she left off)
               between_selection = {};
-              // version anterior para creacion del between_selection
-              /*XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(between_list) {
-                for (const actual_element in between_list) {
-                  XMLcall("findRow", "experimental_condition", {keys: ["id_condition"], values: [between_list[actual_element].id_condition]}).then(function(actual_condition) {
-                    if (typeof between_selection[actual_condition.task_name] !== 'undefined')
-                      between_selection[actual_condition.task_name].push(actual_condition.condition_name);
-                    else
-                      between_selection[actual_condition.task_name] = [actual_condition.condition_name];
-                  })
-                }*/
 
               XMLcall("condition_selection", "", {id: {"id_user": actual_user.id_user}}).then(function (between_selection_temp){
                 // between selection es del tipo [{task1: condition1},{task2: condition2},{task2: condition3}]
@@ -353,7 +282,7 @@ function check_id_status(event) {
                   actual_time = new Date().toISOString().slice(0, 19);
                   actual_user.start_date = actual_time;
                   // REVIEW: We intert the new date into the DB (???)
-                  condition_selection(condition_data, between_selection).then(function(accepted) {
+                  condition_selection(between_selection).then(function(accepted) {
                     // si la revisión de condiciones resulta positiva podemos agregar al usuario reasignado
                     if (accepted) {
                       // Change status to assigned in table user
@@ -401,28 +330,6 @@ function check_id_status(event) {
   } // valid uid
 }
 
-/*
-// función para almacenar elementos en los csv que funcionarán como base de datos
-function database(filename, filedata = "", condition = "", status = ""){
-  if (filename == "assigned_users") {
-    // obtención de fecha, el slice es para asegurarnos que hayan 2 dígitos en cada elemento
-
-    actual_time = new Date().toISOString().slice(0, 19);
-    filedata += "," + actual_time;
-  }
-  var xhr = new XMLHttpRequest();
-  xhr.open('POST', 'controllers/php/database.php', true);
-  xhr.setRequestHeader('Content-Type', 'application/json');
-  xhr.onprogress = function () {
-    console.log('LOADING: ', xhr.status);
-  };
-
-  xhr.onload = function () {
-    console.log('DONE: ', xhr.status);
-  };
-  xhr.send(JSON.stringify({filename: filename, filedata: filedata, condition: condition, status: status}));
-}*/
-
 // En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
 function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
   input_uid = document.getElementById('input_uid');
@@ -433,6 +340,7 @@ function continue_page_activation(completed_experiments, questions, completed = 
   if (completed_experiments.length != 0 && questions.length != 0) {
     text_input_uid.innerHTML = "Usted ha completado " + (completed_experiments.length).toString() + " tareas de este protocolo. <br> Para continuar donde quedó presione el siguiente botón:";
     start.hidden = false;
+    start.removeAttribute("style");
   } else if ((completed_experiments.length == all_tasks.length) || completed) {
     text_input_uid.innerHTML = "Usted ya ha completado todas las tareas de este protocolo."
   } else if (discarded && !accept_discarded) {
@@ -440,11 +348,12 @@ function continue_page_activation(completed_experiments, questions, completed = 
   } else {
     text_input_uid.innerHTML = "Tareas cargadas.\nPresione el siguiente botón para comenzar con las tareas de este protocolo."
     start.hidden = false;
+    start.removeAttribute("style");
   }
   input_uid.hidden = true;
   if (typeof check !== 'undefined' && check !== null) {
-    console.log(check)
     check.hidden = true;
+    check.setAttribute("style", "display:none !important");
   }
 }
 
@@ -530,7 +439,7 @@ function completed_task_storage(csv, task) {
           }
         }, function(user_not_found) { //se crea nuevo usuario al terminar la primera tarea
           findAllIndexedSync("condition", "id_protocol", pid, pid, db).then(function(condition_data) {
-            // cupos?
+            // verificación de cupos
             all_conditions_tasks = {}
             for (var i = 0; i < condition_data.length; i++) {
               if (!(condition_data[i].task_name in all_conditions_tasks)) {
@@ -714,7 +623,6 @@ function completed_task_storage(csv, task) {
             // For each of the between tasks (usually just one)
             for (var i = 0; i < Object.keys(between_selection).length; i++) {
 
-              // console.log(Object.keys(between_selection)[i]);
               completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection[Object.keys(between_selection)[i]][0]});
 
               if (completed_protocol_filtered.length > 0) {
@@ -722,9 +630,6 @@ function completed_task_storage(csv, task) {
                 added_task = completed_protocol_filtered[0]["task_name"]
                 selected_id_condition = completed_protocol_filtered[0].id_condition
                 XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-
-                // alert("SI hay cupos disponibles en la condition " + selected_id_condition);
-                // console.table(completed_protocol_filtered);
 
                 protocol_blocked = false;
 
@@ -736,37 +641,6 @@ function completed_task_storage(csv, task) {
               };
 
             };
-
-
-          // OLD -------------
-
-          /*
-
-            completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection[Object.keys(between_selection)[0]][0] });
-            console.log(between_selection[Object.keys(between_selection)[0]])
-
-            // There are available slots
-            if (completed_protocol_filtered.length > 0) {
-
-              added_task = completed_protocol_filtered[0]["task_name"]
-              selected_id_condition = completed_protocol_filtered[0].id_condition
-              XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-
-              // alert("SI hay cupos disponibles en la condition " + selected_id_condition);
-              // console.table(completed_protocol_filtered);
-
-              protocol_blocked = false;
-
-            // NO available slots
-            } else {
-              console.log("NO hay cupos disponibles");
-              alert("NO hay cupos disponibles");
-              protocol_blocked = true;
-              window.location.reload();
-            };
-
-            */
-
 
             // REVIEW: Se esta usando realmente la columna blocked? Es necesaria?
             // Antes se hacia if (condition_data[i].blocked == false).

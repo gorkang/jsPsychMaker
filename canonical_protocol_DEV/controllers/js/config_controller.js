@@ -35,8 +35,10 @@ actual_condition_data = [];
 
 // Create condition Array for DB
 var conditions = []
-Object.entries(all_conditions).forEach(([key, value]) => {
-  for(var i=0; i < value.length; i++) { conditions.push({ id_protocol: pid, condition_name: value[i], assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: key, type: "between"}) }
+Object.entries(all_conditions).forEach(([task_name, condition_dict]) => {
+  Object.entries(condition_dict).forEach(([key, conditions_temp]) => {
+    for(var i=0; i < conditions_temp.length; i++) { conditions.push({ id_protocol: pid, condition_key: key, condition_name: conditions_temp[i], assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: task_name, type: "between"}) }
+  })
 })
 
 // REVIEW: Ver arriba. No entiendo esto...

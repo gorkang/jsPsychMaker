@@ -19,7 +19,7 @@
 
   // copia de respaldo
     var original_between_var = JSON.parse(JSON.stringify(between_var));
-
+    
 // se limpia la variable between dependiendo del estado de las condiciones (verificar para multiples variables between)
   for (var i = 0; i < actual_condition_data.length; i++) {
     position = between_var.type.indexOf(actual_condition_data[i].condition_name)
@@ -36,13 +36,13 @@
       // Between variables re-definition, skip errors
       between_var = original_between_var;
       // Randomly assign a Between variable
-      all_conditions["Between-Within"] = [jsPsych.randomization.factorial(between_var, 1)[0].type];
+      between_selection["Between-Within"] = [jsPsych.randomization.factorial(between_var, 1)[0].type];
 
       // Randomize order of Within variables
       within_selection["Between-Within"] = jsPsych.randomization.factorial(within_var, 1, false, false);
     } else {
       // Randomly assign a Between variable
-      all_conditions["Between-Within"] = [jsPsych.randomization.factorial(between_var, 1)[0].type];
+      between_selection["Between-Within"] = [jsPsych.randomization.factorial(between_var, 1)[0].type];
 
       // Randomize order of Within variables
       within_selection["Between-Within"] = jsPsych.randomization.factorial(within_var, 1, false, false);
@@ -103,9 +103,9 @@
 
   var instructions_between_01 = {
       type: 'instructions',
-      pages: ['Instrucciones ' + data_type[all_conditions["Between-Within"][0]]["text"]], //se agrega el texto de la variable between seleccionada
+      pages: ['Instrucciones ' + data_type[between_selection["Between-Within"][0]]["text"]], //se agrega el texto de la variable between seleccionada
       data: {trialid: 'Instructions',
-            condition_between: all_conditions["Between-Within"], procedure: 'Between-Within'},
+            condition_between: between_selection["Between-Within"], procedure: 'Between-Within'},
       show_clickable_nav: true,
       on_trial_start: function(){
           bloquear_enter = 0;
@@ -150,9 +150,9 @@
           // para este caso son 2 columnas, de todas formas esto es definido por la persona que crea el instrumento
           html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + jsPsych.timelineVariable('disease', true) + "" + data_disease[jsPsych.timelineVariable('disease', true)]["disease_description"] + ", se realiza  " + data_disease[jsPsych.timelineVariable('disease', true)]["test_description"] + ".<BR><BR> La enfermedad tiene una prevalencia de 1 de cada " + data_test_quality[jsPsych.timelineVariable('test_quality', true)]["number_PREVALENCE"] + ". La sensibilidad de la prueba es de " + data_test_quality[jsPsych.timelineVariable('test_quality', true)]["number_SENSITIVITY"] + "%. La especificidad de la prueba es de " + data_test_quality[jsPsych.timelineVariable('test_quality', true)]["number_SPECIFICITY"] + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es positivo?, todo esto está asociado a " + data_test_quality[jsPsych.timelineVariable('test_quality', true)]["text"] + '</div>';
           // parte que no es comun para ambas versiones del between (segunda columna) donde esta la imagen:
-          if (all_conditions["Between-Within"][0] == 'Image') {
+          if (between_selection["Between-Within"][0] == 'Image') {
             html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true)]["image"] + '" style="max-width: 100%; max-height: 100%;">' + '</div>';
-          } else if (all_conditions["Between-Within"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
+          } else if (between_selection["Between-Within"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
             html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true)]["image"] + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> '
           }
           html += '</div><style>#column img {vertical-align: middle}</style>';
@@ -167,7 +167,7 @@
               jsPsych.timelineVariable('disease', true),
               jsPsych.timelineVariable('test_quality', true)
             ],
-            condition_between: all_conditions["Between-Within"],
+            condition_between: between_selection["Between-Within"],
             procedure: 'Between-Within'
           };
           return element;
@@ -197,7 +197,7 @@
               jsPsych.timelineVariable('disease', true),
               jsPsych.timelineVariable('test_quality', true)
             ],
-            condition_between: all_conditions,
+            condition_between: between_selection,
             procedure: 'Between-Within'
           };
           return element;
@@ -233,7 +233,7 @@
               jsPsych.timelineVariable('disease', true),
               jsPsych.timelineVariable('test_quality', true)
             ],
-            condition_between: all_conditions,
+            condition_between: between_selection,
             procedure: 'Between-Within'
           };
           return element;

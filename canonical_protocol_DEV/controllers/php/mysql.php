@@ -38,6 +38,7 @@ usleep( $sleep_time );
 
   function insertIntoTable($data, $conn) {
     $query = "INSERT IGNORE INTO " . $data["table_name"] . " (" . $data["keys"] . ") VALUES (" . $data["values"] . ")";
+    //echo($query);
     $result = mysqli_query($conn, $query);
     //echo($result);
   };

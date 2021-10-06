@@ -1,55 +1,23 @@
-
-
 ## TODO
 
-canonical_protocol: actualizar con nuevo sistema (config.js, mysql, etc.)
+Estandarizar: 
 
-- [[IMPORTANTE]]: cualquier mejora que se realice en una prueba tiene que acabar en canonical_protocol
-- Cuando se hacen cambios en canonical_protocol:
-  - Simular monos: CHECK con jsPsychHelpeR
+- TODAS las pruebas tienen: questions.push( check_fullscreen("NOMBRE_PRUEBA") );
 
-
+- if_questions. Ser consistentes en como se nombran. Ver PVC: PVC_001 es pregunta llave. PVC_001_1 es la if
 
 
-
-
-
-Tener un index.html funcionando con id asignado aleatoriamente y otro con id introducido a mano.
-
- - Esto podria ser un parametro en config.js?
-
-
-
-Sistema para definir orden de tareas deberia permitir aleatorizar varios grupos de tareas...
-
-
-
-**TESTS**
-
-- Cada nueva tarea tiene que pasar un conjunto de tests:
-  - Ver https://github.com/jspsych/jsPsych/tree/master/tests
-  - nombres de trialid canonicos
-  - nombres de tarea
-  - No se repiten nombnres de trialid ni de test...
-
-
-
-**LATTER**
-
-Adaptar los cambios hechos a mysql a indexedDB
-
-
-
-## OLD 
 
 Revisar que media preloading esta funcionando:
 
 - He movido todo a media/
 
 
+
 Revisar que he sacado todos los elementos de configuracion a `config.js`
 
 - He hecho un intento que parece funcionar bien
+
 
 
 Revisar que `obtain_experiments()` funciona correctamente (parece que si):
@@ -78,10 +46,11 @@ Revisar `mysql_controller.js`, `protocol_controller.js`, etc.
 
 
 
+Adaptar los cambios hechos a mysql a indexedDB
 
 
 
-
+Tener un index.html funcionando con id asignado aleatoriamente y otro con id introducido a mano.
 
 
 
@@ -92,6 +61,7 @@ Asignacion participantes a between conditions:
 
 
 
+Sistema para definir orden de tareas deberia permitir aleatorizar varios grupos de tareas...
 
 
 
