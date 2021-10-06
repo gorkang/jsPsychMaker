@@ -24,35 +24,35 @@ var instruction_screen_experiment = {
 
 var question01 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">Me preocupa que el dolor del parto sea demasiado intenso</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
+  stimulus: '<div class="justified">Me preocupa que el dolor del parto sea demasiado intenso</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
   data: {trialid: 'PSETPP_01', procedure: 'PSETPP'}
 };
 PSETPP.push(question01);
 
 var question02 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">Tengo miedo al parto</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
+  stimulus: '<div class="justified">Tengo miedo al parto</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
   data: {trialid: 'PSETPP_02', procedure: 'PSETPP'}
 };
 PSETPP.push(question02);
 
 var question03 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">Me preocupa que el bebé pueda sufrir daño</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
+  stimulus: '<div class="justified">Me preocupa que el bebé pueda sufrir daño</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
   data: {trialid: 'PSETPP_03', procedure: 'PSETPP'}
 };
 PSETPP.push(question03);
 
 var question04 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">Temo por complicaciones durante el trabajo de parto y parto</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
+  stimulus: '<div class="justified">Temo por complicaciones durante el trabajo de parto y parto</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
   data: {trialid: 'PSETPP_04', procedure: 'PSETPP'}
 };
 PSETPP.push(question04);
 
 var question05 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">El parto es impredecible y riesgoso</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
+  stimulus: '<div class="justified">El parto es impredecible y riesgoso</div></br>', require_movement: true, slider_number: false, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Muy en desacuerdo", "En desacuerdo", "Parcialmente en desacuerdo", "Parcialmente de acuerdo", "De acuerdo", "Muy de acuerdo"], button_label: "Next",
   data: {trialid: 'PSETPP_05', procedure: 'PSETPP'}
 };
 PSETPP.push(question05);

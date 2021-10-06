@@ -24,7 +24,7 @@ var instruction_screen_experiment = {
 
 var question01 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">¿Qué tan importante considera que es Dios en su vida? </div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 10000000000, min: 1, max: 10, slider_width: 200, start: 3, step: 1, labels: ["Para nada importante", "Muy importante"], button_label: "Next",
+  stimulus: '<div class="justified">¿Qué tan importante considera que es Dios en su vida? </div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 10000000000, min: 1, max: 10, slider_width: 200, slider_start: 3, step: 1, labels: ["Para nada importante", "Muy importante"], button_label: "Next",
   data: {trialid: 'OTRASRELIG_01', procedure: 'OTRASRELIG'},
   procedure: 'OTRASRELIG'
 };

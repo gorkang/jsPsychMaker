@@ -121,8 +121,8 @@ COVIDCONTROL.push(question12);
 
 var question13 = {
   type: 'html-slider-response',
-  //stimulus: '<div class="justified">¿En qué medida considera que las consecuencias de la pandemia han afectado su calidad de vida?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 10000000000, min: 1, max: 10, slider_width: 500, start: 5, step: 1, labels: ["Mi calidad de vida ha disminuido", "Mi calidad de vida ha mejorado"], button_label: "Next",
-  stimulus: '<div class="justified">¿En qué medida considera que las consecuencias de la pandemia han afectado su calidad de vida?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 10000000000, min: 1, max: 10, slider_width: 200, start: 5, step: 1, labels: ["Mi calidad de vida<BR>ha disminuido", "Mi calidad de vida ha<BR>mejorado"], button_label: "Next",
+  //stimulus: '<div class="justified">¿En qué medida considera que las consecuencias de la pandemia han afectado su calidad de vida?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 10000000000, min: 1, max: 10, slider_width: 500, slider_start: 5, step: 1, labels: ["Mi calidad de vida ha disminuido", "Mi calidad de vida ha mejorado"], button_label: "Next",
+  stimulus: '<div class="justified">¿En qué medida considera que las consecuencias de la pandemia han afectado su calidad de vida?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 10000000000, min: 1, max: 10, slider_width: 200, slider_start: 5, step: 1, labels: ["Mi calidad de vida<BR>ha disminuido", "Mi calidad de vida ha<BR>mejorado"], button_label: "Next",
   data: {trialid: 'COVIDCONTROL_13', procedure: 'COVIDCONTROL'},
   procedure: 'COVIDCONTROL'
 };
