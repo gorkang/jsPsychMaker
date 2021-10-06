@@ -37,7 +37,7 @@ var instruction_screen_experiment = {
 
 var question01 = {
   type: 'image-button-response',
-  stimulus: 'img/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_01', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -45,7 +45,7 @@ INFCONS.push(question01);
 
 var question02 = {
   type: 'image-button-response',
-  stimulus: 'img/Baby_cerebro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Baby_cerebro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_02', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -53,7 +53,7 @@ INFCONS.push(question02);
 
 var question03 = {
   type: 'image-button-response',
-  stimulus: 'img/Baby_UCI_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Baby_UCI_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_03', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -61,7 +61,7 @@ INFCONS.push(question03);
 
 var question04 = {
   type: 'image-button-response',
-  stimulus: 'img/Baby_lactancia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Baby_lactancia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_04', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -88,7 +88,7 @@ var instruction_screen_experiment = {
 
 var question05 = {
   type: 'image-button-response',
-  stimulus: 'img/Mother_anestesia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Mother_anestesia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_05', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -96,7 +96,7 @@ INFCONS.push(question05);
 
 var question06 = {
   type: 'image-button-response',
-  stimulus: 'img/Mother_paro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Mother_paro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_06', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -104,7 +104,7 @@ INFCONS.push(question06);
 
 var question07 = {
   type: 'image-button-response',
-  stimulus: 'img/Mother_histerectomia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Mother_histerectomia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_07', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -112,7 +112,7 @@ INFCONS.push(question07);
 
 var question08 = {
   type: 'image-button-response',
-  stimulus: 'img/Mother_infeccion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Mother_infeccion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_08', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -120,7 +120,7 @@ INFCONS.push(question08);
 
 var question09 = {
   type: 'image-button-response',
-  stimulus: 'img/Mother_lesion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Mother_lesion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_09', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -128,7 +128,7 @@ INFCONS.push(question09);
 
 var question10 = {
   type: 'image-button-response',
-  stimulus: 'img/Mother_UCI_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Mother_UCI_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_10', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };
@@ -136,7 +136,7 @@ INFCONS.push(question10);
 
 var question11 = {
   type: 'image-button-response',
-  stimulus: 'img/Mother_depresion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+  stimulus: 'media/img/Mother_depresion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
   data: {trialid: 'INFCONS_11', procedure: 'INFCONS'},
   procedure: 'INFCONS'
 };

@@ -28,7 +28,7 @@ var instruction_screen_experiment = {
 // declare the block.
 var trial = {
   type:'external-html',
-  url: "html/consent-placeholder.html",
+  url: "media/html/consent-placeholder.html",
   cont_btn: "start",
   data: {trialid: 'Consent_001', procedure: 'Consent', stimulus: 'html/consent-placeholder.html',response: document.getElementById("start").id},
   procedure: 'Consent'
