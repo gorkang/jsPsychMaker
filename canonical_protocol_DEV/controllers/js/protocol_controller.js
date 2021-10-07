@@ -32,83 +32,163 @@ function condition_selection(between_selection_temp = {}) {
   return new Promise(
     function(resolve, reject) {
       between_selection = {};
-      // REVIEW: hay que ver si funciona correctamente en caso de que no existan condiciones en el experimento
-      XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
-        // se establece un mínimo (respecto a este mínimo seleccionaremos la condicion)
-        // diccionario de mínimos para que no se pierda con cambios de tareas en condition_data
-        actual_min = {};
-        temp_condition_task_list = [];
+      if (online) {
+        XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
-        if (Object.keys(between_selection_temp).length === 0) {
-          // esta parte solo debe ser usada en caso de que sea un usuario nuevo
-          // ver si se puede pasar a filter-map
+          // se establece un mínimo (respecto a este mínimo seleccionaremos la condicion)
+          // diccionario de mínimos para que no se pierda con cambios de tareas en condition_data
+          actual_min = {};
+          temp_condition_task_list = [];
 
-
-          // NEW VERSION ----------------------------------------------
-          condition_data_temp = [];
-          ARRAY_temp = [];
-
-          // Get array with unique between tasks (we need to select one condition for each one)
-          unique_tasks = [...new Set(condition_data.map(item => item.task_name))];
-
-          // For each of the between tasks (usually just one)
-          for (var i = 0; i < unique_tasks.length; i++) {
-
-            // Temporal array for the condition i
-            ARRAY_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_tasks[i]; });
-            // Min number of assigned_task in array
-            min_assigned_temp = Math.min.apply(Math, ARRAY_temp[i].map(function(value,index) { return value["assigned_task"]; }));
-            // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain. If there are more than one, we get the first one [0]
-            condition_data_temp = ARRAY_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; })[0];
+          if (Object.keys(between_selection_temp).length === 0) {
+            // esta parte solo debe ser usada en caso de que sea un usuario nuevo
+            // ver si se puede pasar a filter-map
 
 
-            // REVIEW: This is mostly copied from CHECK below. Not sure how to integrate with // comprobación para discarded to avoid duplication
-            if (condition_data_temp === undefined) {
-              // If we can't assign a condition
+            // NEW VERSION ----------------------------------------------
+            condition_data_temp = [];
+            ARRAY_temp = [];
+
+            // Get array with unique between tasks (we need to select one condition for each one)
+            unique_tasks = [...new Set(condition_data.map(item => item.task_name))];
+
+            // For each of the between tasks (usually just one)
+            for (var i = 0; i < unique_tasks.length; i++) {
+
+              // Temporal array for the condition i
+              ARRAY_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_tasks[i]; });
+              // Min number of assigned_task in array
+              min_assigned_temp = Math.min.apply(Math, ARRAY_temp[i].map(function(value,index) { return value["assigned_task"]; }));
+              // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain. If there are more than one, we get the first one [0]
+              condition_data_temp = ARRAY_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; })[0];
+
+
+              // REVIEW: This is mostly copied from CHECK below. Not sure how to integrate with // comprobación para discarded to avoid duplication
+              if (condition_data_temp === undefined) {
+                // If we can't assign a condition
+                experiment_blocked = true;
+                condition_temp_array = [false];
+                alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
+                throw new Error('Usuario bloqueado por límite en condiciones'); // To avoid loading the rest of the questions
+                resolve(false);
+              } else {
+                // If there are slots, write to between_selection[NAME_OF_TASK]
+                between_selection[unique_tasks[i]] = [condition_data_temp["condition_name"]];
+                experiment_blocked = false;
+                condition_temp_array = [true];
+                resolve(true);
+              }
+
+            };
+
+          } else {
+            // comprobación para discarded
+            temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; })
+
+            condition_temp_array = [];
+
+            Object.entries(between_selection_temp).forEach(([key, val]) => {
+              // si al filtrar las condiciones, comparandolas con el key-value actual (ejem: key = INFCONS, value = control), sumando el hecho de que sea menor al maximo de participantes, se obtiene un resultado,
+              // entonces se agrega a la lista temporal un true, en caso contrario un false
+              condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
+            })
+            condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection) });
+          }
+
+          // CHECKS
+          if (condition_temp_array.includes(false)) {
+            experiment_blocked = true;
+            console.log("Usuario bloqueado por límite en condiciones");
+            resolve(false);
+          } else {
+            experiment_blocked = false;
+            resolve(true);
+          }
+
+        }, function() {
+          console.log("Error al cargar la seleccion de condiciones.")
+          reject(false)
+        });
+      } else {
+        start_indexeddb().then(function(db) {
+          readAllIndexedSync("condition", db).then(function(condition_data) {
+            // se establece un mínimo (respecto a este mínimo seleccionaremos la condicion)
+            // diccionario de mínimos para que no se pierda con cambios de tareas en condition_data
+            actual_min = {};
+            temp_condition_task_list = [];
+
+            if (Object.keys(between_selection_temp).length === 0) {
+              // esta parte solo debe ser usada en caso de que sea un usuario nuevo
+              // ver si se puede pasar a filter-map
+
+
+              // NEW VERSION ----------------------------------------------
+              condition_data_temp = [];
+              ARRAY_temp = [];
+
+              // Get array with unique between tasks (we need to select one condition for each one)
+              unique_tasks = [...new Set(condition_data.map(item => item.task_name))];
+
+              // For each of the between tasks (usually just one)
+              for (var i = 0; i < unique_tasks.length; i++) {
+
+                // Temporal array for the condition i
+                ARRAY_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_tasks[i]; });
+                // Min number of assigned_task in array
+                min_assigned_temp = Math.min.apply(Math, ARRAY_temp[i].map(function(value,index) { return value["assigned_task"]; }));
+                // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain. If there are more than one, we get the first one [0]
+                condition_data_temp = ARRAY_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; })[0];
+
+
+                // REVIEW: This is mostly copied from CHECK below. Not sure how to integrate with // comprobación para discarded to avoid duplication
+                if (condition_data_temp === undefined) {
+                  // If we can't assign a condition
+                  experiment_blocked = true;
+                  condition_temp_array = [false];
+                  alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
+                  throw new Error('Usuario bloqueado por límite en condiciones'); // To avoid loading the rest of the questions
+                  resolve(false);
+                } else {
+                  // If there are slots, write to between_selection[NAME_OF_TASK]
+                  between_selection[unique_tasks[i]] = [condition_data_temp["condition_name"]];
+                  experiment_blocked = false;
+                  condition_temp_array = [true];
+                  resolve(true);
+                }
+
+              };
+
+            } else {
+              // comprobación para discarded
+              temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; })
+
+              condition_temp_array = [];
+
+              Object.entries(between_selection_temp).forEach(([key, val]) => {
+                // si al filtrar las condiciones, comparandolas con el key-value actual (ejem: key = INFCONS, value = control), sumando el hecho de que sea menor al maximo de participantes, se obtiene un resultado,
+                // entonces se agrega a la lista temporal un true, en caso contrario un false
+                condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
+              })
+              condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection) });
+            }
+
+            // CHECKS
+            if (condition_temp_array.includes(false)) {
               experiment_blocked = true;
-              condition_temp_array = [false];
-              alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
-              throw new Error('Usuario bloqueado por límite en condiciones'); // To avoid loading the rest of the questions
+              console.log("Usuario bloqueado por límite en condiciones");
               resolve(false);
             } else {
-              // If there are slots, write to between_selection[NAME_OF_TASK]
-              between_selection[unique_tasks[i]] = [condition_data_temp["condition_name"]];
               experiment_blocked = false;
-              condition_temp_array = [true];
               resolve(true);
             }
 
-          };
-
-        } else {
-          // comprobación para discarded
-          temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; })
-
-          condition_temp_array = [];
-
-          Object.entries(between_selection_temp).forEach(([key, val]) => {
-            // si al filtrar las condiciones, comparandolas con el key-value actual (ejem: key = INFCONS, value = control), sumando el hecho de que sea menor al maximo de participantes, se obtiene un resultado,
-            // entonces se agrega a la lista temporal un true, en caso contrario un false
-            condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
-          })
-          condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection) });
-        }
-
-        // CHECKS
-        if (condition_temp_array.includes(false)) {
-          experiment_blocked = true;
-          console.log("Usuario bloqueado por límite en condiciones");
-          resolve(false);
-        } else {
-          experiment_blocked = false;
-          resolve(true);
-        }
-
-      }, function() {
-        console.log("Error al cargar la seleccion de condiciones.")
-        reject(false)
-      });
+          }, function() {
+            console.log("Error al cargar la seleccion de condiciones.")
+            reject(false)
+          });
+        });
+      }
     }
   );
 }
@@ -223,7 +303,10 @@ function check_id_status(event) {
           console.log("Usuario Nuevo");
           uid = 0;
           // se carga en caso de que el usuario sea nuevo, además acá se selecciona la condicion
-          script_loading("tasks", all_tasks, completed_experiments, true);
+          condition_selection().then(function(accepted) {
+            // LOAD all the tasks. This also loads the between participants conditions
+            script_loading("tasks", all_tasks, completed_experiments, true);
+          });
         });
       }, function(db) {
         console.log("db not charged")

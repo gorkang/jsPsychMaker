@@ -19,8 +19,7 @@ function saveData(data, online, name, version = 'original') {
     link.setAttribute("href", encodedUri);
 
     // obtención de fecha, el slice es para asegurarnos que hayan 2 dígitos en cada elemento
-    actual_time = new Date().toISOString().slice(0, 19);
-
+    actual_time = (new Date().toISOString().slice(0, 19)).replaceAll(":","");
 
     if (uid_external != -1)
       csv_name = pid + "_" + name + "_" + version + "_" + actual_time + "_" + uid_external + ".csv";
