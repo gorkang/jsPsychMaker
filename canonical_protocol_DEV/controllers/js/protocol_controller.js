@@ -204,6 +204,12 @@ function check_id_status(event) {
   // Checks if the uid is in the URL OR on input_uid
   if ((params.has("uid") || document.getElementById('input_uid').reportValidity())) {
 
+    check = document.getElementById("check");
+    check.setAttribute('disabled', 'true');
+    check.hidden = true;
+    check.setAttribute("style", "display:none !important");
+    input_uid.hidden = true;
+
     if (params.has("uid")) {
       uid_external = params.get('uid');
     } else {
@@ -432,11 +438,6 @@ function continue_page_activation(completed_experiments, questions, completed = 
     text_input_uid.innerHTML = "Tareas cargadas.\nPresione el siguiente botón para comenzar con las tareas de este protocolo."
     start.hidden = false;
     start.removeAttribute("style");
-  }
-  input_uid.hidden = true;
-  if (typeof check !== 'undefined' && check !== null) {
-    check.hidden = true;
-    check.setAttribute("style", "display:none !important");
   }
 }
 
@@ -850,6 +851,7 @@ function completed_task_storage(csv, task) {
 
 // funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
 function start_protocol(questions){
+
   // con el arreglo de questions finalizado se pueden agregar restricciones extras, como el precargado de imágenes (son definidas en index):
   var preload = {
     type: 'preload',

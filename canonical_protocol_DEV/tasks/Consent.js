@@ -16,7 +16,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>Consentimiento informado</big></b><br />'+
     '' +'</p>'],
-    data: {trialid: 'Instructions_01', procedure: 'Consent'},
+    data: {trialid: 'Instructions_001', procedure: 'Consent'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
@@ -30,7 +30,12 @@ var trial = {
   type:'external-html',
   url: "media/html/consent-placeholder.html",
   cont_btn: "start",
-  data: {trialid: 'Consent_001', procedure: 'Consent', stimulus: 'html/consent-placeholder.html',response: document.getElementById("start").id},
+  data: {
+    trialid: 'Consent_001',
+    procedure: 'Consent',
+     stimulus: 'html/consent-nieves.html',
+     response: document.getElementById("start").id
+   },
   procedure: 'Consent'
 };
 Consent.push(trial);

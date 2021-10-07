@@ -19,7 +19,7 @@ if ("maxTouchPoints" in navigator) {
       );
   }
 }
-
+/*
 // se agrega el css específico para el caso de phone o pc
 window.onload = function() {
   link=document.createElement('link');
@@ -31,4 +31,4 @@ window.onload = function() {
     link.href='controllers/css/style_phone.css';
   }
   document.getElementsByTagName('head')[0].appendChild(link);
-}
+}*/

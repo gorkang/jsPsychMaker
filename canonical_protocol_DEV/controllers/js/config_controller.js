@@ -11,20 +11,26 @@ onkeydown = function block_fkeys(event){
 
 // limpieza de arrays dentro de arrays
 function flatten(arr) {
-  return arr.reduce(function (flat, toFlatten) {
-    return flat.concat(Array.isArray(toFlatten) ? flatten(jsPsych.randomization.shuffle(toFlatten)) : toFlatten);
-  }, []);
+
+  let final_arr = [];
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].startsWith('random')) {
+      final_arr = final_arr.concat(jsPsych.randomization.shuffle(window[arr[i]]));
+    } else {
+      final_arr = final_arr.concat(window[arr[i]]);
+    }
+  }
+
+  return final_arr;
 }
 
 // Parameters - Do not change ----------------------------------
-check = true; // REVIEW: ??? que es esto? (lo añadi yo pq daba un error) | linea 101
 
 let params = new URLSearchParams(location.search);
 uid = -1;
 uid_external = -1;
 
 iterations_for_review = 1; // usado para bloquear el experimento en caso de que se superen todas las condiciones
-random = false; // REVIEW: Dado que usamos tres variables (first_tasks, randomly_ordered_tasks y last_tasks), este parametro es redundante, no?
 
 between_selection = {};
 within_selection = {};
@@ -41,14 +47,9 @@ Object.entries(all_conditions).forEach(([task_name, condition_dict]) => {
   })
 })
 
-// REVIEW: Ver arriba. No entiendo esto...
-// obtaining final array (if random)
-// limpieza de arrays a lista de tareas
+// obtaining final array
 all_tasks = flatten(tasks);
 
-// OLD VERSION
-//var all_tasks = (random) ? (['Consent'].concat(first_tasks.concat(jsPsych.randomization.shuffle(randomly_ordered_tasks)))) : (['Consent'].concat(first_tasks.concat(randomly_ordered_tasks)));
-//all_tasks = all_tasks.concat(last_tasks);
 
 // Create tasks Array for DB
 var tasks = []

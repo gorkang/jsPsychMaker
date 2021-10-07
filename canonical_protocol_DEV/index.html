@@ -43,22 +43,10 @@
 
   <div class="jspsych-content-wrapper">
     <div id="jspsych-content" class="jspsych-content">
-      <div title="logo">
-        <p style="margin-bottom: 0.2in; line-height: 100%">
-          <img src="media/img/logo-trans-UAI.png" name="UAI" align="bottom" width="185" height="47" border="0"/>
-        </p>
-      </div>
-      LA INTRO DEBERIA SER TAMBIEN UNA VARIABLE DEL config.js?<BR><BR>
-
-      Si tienes alguna duda, puedes escribirnos a: CORREO<BR><BR>
-
-      Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="media/img/compatible_chrome.gif" name="Chrome" align="bottom" border="0"/></a> para continuar.<BR><BR>
-
       <div class="jspsych-instructions-nav" style="padding: 10px 0px;">
-
-        <span id="text_input_uid" hidden="true"></span>
-        <input id="input_uid" hidden required></input>
-        <input id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn"></input>
+        <span id="text_input_uid"></span><br><br>
+        <input id="input_uid" hidden="true" required></input>
+        <input style="display:none !important" id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn"></input>
         <input style="display:none !important" id="start" type="button" onclick="start_protocol(questions)" value="Continuar" class="jspsych-btn" hidden></input>
       </div>
     </div>
@@ -67,10 +55,12 @@
   <script>
     if (random_id) {
       document.getElementById("input_uid").value = jsPsych.randomization.randomID(20);
-      document.getElementById("input_uid").hidden = true;
     }
     else {
-      document.getElementById("input_uid").hidden = false;
+      if (!params.has("uid"))
+        text_input_uid.innerHTML = intro;
+        document.getElementById("check").removeAttribute("style");
+        document.getElementById("input_uid").hidden = false;
     }
   </script>
 
@@ -78,6 +68,18 @@
   <script src="controllers/js/protocol_controller.js"></script>
   <script>
     window.onload = function() {
+
+      // carga css (css_loading.js)
+      link=document.createElement('link');
+      link.rel='stylesheet';
+      link.type = 'text/css';
+      if (!hasTouchScreen) {
+        link.href='controllers/css/style.css';
+      } else {
+        link.href='controllers/css/style_phone.css';
+      }
+      document.getElementsByTagName('head')[0].appendChild(link);
+
       check_id_status();
     };
   </script>
