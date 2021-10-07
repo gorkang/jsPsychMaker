@@ -8,7 +8,7 @@ This document was made with test_maker
 
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-questions.push( check_fullscreen('EmpaTom') );;    //final timeline
+questions.push( check_fullscreen('EmpaTom') );    //final timeline
 
 EmpaTom = [];    //temporal timeline
 

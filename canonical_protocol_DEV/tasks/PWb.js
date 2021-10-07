@@ -7,7 +7,7 @@ This document was made with test_maker
 
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-questions.push( check_fullscreen('PWb') );;    //final timeline
+questions.push( check_fullscreen('PWb') );    //final timeline
 
 PWb = [];    //temporal timeline
 
