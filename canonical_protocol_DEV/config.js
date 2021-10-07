@@ -12,15 +12,69 @@ accept_discarded = true; // If an user is discarded (out of time), should be all
 
 // ORDER OF TASKS --------------------------------------------------------------
 
-// REVIEW: puse Consent hardcoded en el index.html
 //first_tasks = ['DEMOGR', 'PRFBM', 'HRPVB','INFCONS','BNT']; // First tasks
 // falta el caso de tareas full random
-first_tasks = ['Consent']; // First tasks
-randomly_ordered_tasks = []; // Tasks randomly ordered in between
-last_tasks = ['Goodbye']; // Last tasks
+randomly_ordered_tasks = ['']; // First tasks
+first_tasks = [
+  "Consent",
+  "AIM",
+//"BART",
+"BNT",
+"bRCOPE",
+"CAS",
+"Cov19Q",
+"COVIDCONTROL",
+"CRS",
+"CRT7",
+"CRTMCQ4",
+"CRTv",
+"DASS21",
+"DEBRIEF",
+"DEMOGR",
+"EAR",
+"EmpaTom",
+"ERQ",
+"ESM",
+"FDMQ",
+"GHQ12",
+"Goodbye",
+"HRPVB",
+"HRPVBpost",
+"IDQ",
+"IEC",
+"INFCONS",
+"IRI",
+"IRS",
+"MIS",
+"OBJNUM",
+"OTRASRELIG",
+"PBS",
+"PRFBM",
+"PRFBMpost",
+"PSETPP",
+"PSPPC",
+"PSS",
+"PVC",
+"PWb",
+"REI40",
+"Report",
+"RSS",
+"RTS",
+"SASS",
+"SBS",
+"SCSORF",
+"SDG",
+"SRA",
+"SRBQP",
+"SRSav",
+"SWBQ",
+"WEBEXEC"]; // Tasks randomly ordered in between
+last_tasks = ['']; // Last tasks
 
 
-tasks = ['FONDECYT', first_tasks, 'FONDECYT', last_tasks]
+//tasks = [first_tasks, randomly_ordered_tasks, last_tasks]
+tasks = [first_tasks]
+
 
 // MEDIA preloading ------------------------------------------------------------
 
