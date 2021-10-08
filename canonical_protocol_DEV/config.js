@@ -25,9 +25,11 @@ tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks']
 */
 
 ALL_tasks = [
+
+//"FONDECYT",
+  
 "Consent",
 "AIM",
-"BART",
 "BNT",
 "bRCOPE",
 "CAS",
@@ -80,7 +82,10 @@ ALL_tasks = [
 
 // Between tasks [random order unavoidable]
 "FONDECYT",
-"INFCONS"
+"INFCONS",
+
+// More randomness
+"BART"
 
 ];
 

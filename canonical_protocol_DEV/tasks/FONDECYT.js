@@ -35,6 +35,7 @@
 
   // contador para secciones
   num = 0;
+  num_index = num;
 
 // BEGIN EXPERIMENT -------------------------------------------------------------
 
@@ -90,11 +91,13 @@
           type: 'instructions',
           pages: function() {
             num += 1;
+            num_index = num - 1;
             return (["Ensayo " + num + " de 4"]);
           },
           data: {
-            trialid: 'within_01',
-            condition_within: within_selection["FONDECYT"]["timeline_01"],
+            trialid: 'FONDECYT_01_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_01"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           },
@@ -122,8 +125,9 @@
         data: function () {
           // hay que conversar sobre lo que quedará guardado en stimulus del survey-html-form, esto incluye la modificacion del plugin
           var element = {
-            trialid: 'within_02',
-            condition_within: within_selection["FONDECYT"]["timeline_01"],
+            trialid: 'FONDECYT_02_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_01"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -135,10 +139,10 @@
       {
         type: 'survey-multi-choice-vertical',
         questions: function() {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'within_02'})).select('response').values[(jsPsych.data.get().filter({trialid: 'within_02'})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_02_' + num})).select('response').values.length - 1] ) );
           return [
             {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en within_01 se puede obtener con answers[0]
+              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
               prompt: '<div class="justified">Has dicho que la probabilidad es del ' + answers[0] + '% ¿Recomendarias esta prueba de <u>screening</u> para detectar ' + "cáncer" + ' a tu paciente?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
@@ -148,8 +152,9 @@
         },
         data: function () {
           var element = {
-            trialid: 'within_03',
-            condition_within: within_selection["FONDECYT"]["timeline_01"],
+            trialid: 'FONDECYT_03_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_01"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -161,7 +166,7 @@
       {
         type: 'html-slider-response',
         stimulus: function () {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'within_03'})).select('response').values[(jsPsych.data.get().filter({trialid: 'within_03'})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_03_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_03_' + num})).select('response').values.length - 1] ) );
           if (answers[0].trim() == 'Si') {
             return "<div class='justified'>¿Con qué seguridad recomendarías la prueba de <u>screening</u> para la enfermedad " + "cáncer" + "?</div></br>";
           } else if (answers[0].trim() == 'No') {
@@ -181,8 +186,9 @@
         button_label: "Siguiente",
         data: function () {
           var element = {
-            trialid: 'within_04',
-            condition_within: within_selection["FONDECYT"]["timeline_01"],
+            trialid: 'FONDECYT_04_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_01"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -196,7 +202,7 @@
         questions: function() {
           return [
             {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en within_01 se puede obtener con answers[0]
+              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
               prompt: '<div class="justified">Prueba diagnóstica es biopsia. <br> Probabilidad de infección 1%.<br><br> Resultado de prueba es <b>' + ((jsPsych.timelineVariable('test_quality', true)  == "lowQuality") ? ("POSITIVO") : ("NEGATIVO")) + '</b>. <br> Recomendarías prueba diagnostica ?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
@@ -206,8 +212,9 @@
         },
         data: function () {
           var element = {
-            trialid: 'within_05',
-            condition_within: within_selection["FONDECYT"]["timeline_01"],
+            trialid: 'FONDECYT_05_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_01"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -219,7 +226,7 @@
       {
         type: 'html-slider-response',
         stimulus: function () {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'within_05'})).select('response').values[(jsPsych.data.get().filter({trialid: 'within_05'})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_05_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_05_' + num})).select('response').values.length - 1] ) );
           if (answers[0].trim() == 'Si') {
             return "<div class='justified'>¿Con qué seguridad recomendarías la prueba diagnóstica para la enfermedad " + "cáncer" + "?</div></br>";
           } else if (answers[0].trim() == 'No') {
@@ -239,8 +246,9 @@
         button_label: "Siguiente",
         data: function () {
           var element = {
-            trialid: 'within_06',
-            condition_within: within_selection["FONDECYT"]["timeline_01"],
+            trialid: 'FONDECYT_06_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_01"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -270,8 +278,9 @@
             return (["Ensayo " + num + " de 4"]);
           },
           data: {
-            trialid: 'within_07',
-            condition_within: within_selection["FONDECYT"]["timeline_01"],
+            trialid: 'FONDECYT_07_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_02"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           },
@@ -299,8 +308,9 @@
         data: function () {
           // hay que conversar sobre lo que quedará guardado en stimulus del survey-html-form, esto incluye la modificacion del plugin
           var element = {
-            trialid: 'within_08',
-            condition_within: within_selection["FONDECYT"]["timeline_02"],
+            trialid: 'FONDECYT_08_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_02"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -312,10 +322,10 @@
       {
         type: 'survey-multi-choice-vertical',
         questions: function() {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'within_08'})).select('response').values[(jsPsych.data.get().filter({trialid: 'within_08'})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_08_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_08_' + num})).select('response').values.length - 1] ) );
           return [
             {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en within_01 se puede obtener con answers[0]
+              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
               prompt: '<div class="justified">Has dicho que la probabilidad es del ' + answers[0] + '% ¿Recomendarias esta prueba para detectar ' + "WDI" + ' a tu paciente?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
@@ -325,8 +335,9 @@
         },
         data: function () {
           var element = {
-            trialid: 'within_09',
-            condition_within: within_selection["FONDECYT"]["timeline_02"],
+            trialid: 'FONDECYT_09_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_02"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -338,7 +349,7 @@
       {
         type: 'html-slider-response',
         stimulus: function () {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'within_09'})).select('response').values[(jsPsych.data.get().filter({trialid: 'within_09'})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_09_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_09_' + num})).select('response').values.length - 1] ) );
           if (answers[0].trim() == 'Si') {
             return "<div class='justified'>¿Con qué seguridad recomendarías la prueba <u>diagnóstica</u> para la enfermedad " + "WDI" + "?</div></br>";
           } else if (answers[0].trim() == 'No') {
@@ -358,8 +369,9 @@
         button_label: "Siguiente",
         data: function () {
           var element = {
-            trialid: 'within_10',
-            condition_within: within_selection["FONDECYT"]["timeline_02"],
+            trialid: 'FONDECYT_10_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_02"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -373,7 +385,7 @@
         questions: function() {
           return [
             {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en within_01 se puede obtener con answers[0]
+              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
               prompt: '<div class="justified">El tratamiento es Trombolisis. <br> Probabilidad de hemorragia 2%.<br><br> Resultado de prueba es <b>' + ((jsPsych.timelineVariable('test_quality', true)  == "lowQuality") ? ("NEGATIVO") : ("POSITIVO")) + '</b>. <br> ¿Recomendarías el tratamiento?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
@@ -383,8 +395,9 @@
         },
         data: function () {
           var element = {
-            trialid: 'within_11',
-            condition_within: within_selection["FONDECYT"]["timeline_02"],
+            trialid: 'FONDECYT_11_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_02"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
@@ -396,7 +409,7 @@
       {
         type: 'html-slider-response',
         stimulus: function () {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'within_11'})).select('response').values[(jsPsych.data.get().filter({trialid: 'within_11'})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_11_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_11_' + num})).select('response').values.length - 1] ) );
           if (answers[0].trim() == 'Si') {
             return "<div class='justified'>¿Con qué seguridad recomendarías el tratamiento para la enfermedad " + "WDI" + "?</div></br>";
           } else if (answers[0].trim() == 'No') {
@@ -416,8 +429,9 @@
         button_label: "Siguiente",
         data: function () {
           var element = {
-            trialid: 'within_12',
-            condition_within: within_selection["FONDECYT"]["timeline_02"],
+            trialid: 'FONDECYT_12_' + num,
+            //condition_within: within_selection["FONDECYT"]["timeline_02"],
+            condition_within: Object.entries(data_test_quality)[num_index][0],
             condition_between: between_selection["FONDECYT"],
             procedure: 'FONDECYT'
           };
