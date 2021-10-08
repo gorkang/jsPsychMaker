@@ -15,22 +15,6 @@ function start_indexeddb() {
         window.alert("Your browser doesn't support a stable version of IndexedDB.")
       }
 
-      /*
-      // NOW in config.js //
-
-      const conditions = [
-        { id_protocol: pid, condition_name: "Text", assigned_task: 0, completed_protocol: 0, blocked: false, task_name: "Between-Within", type: "between"},
-        { id_protocol: pid, condition_name: "Image", assigned_task: 0, completed_protocol: 0, blocked: false, task_name: "Between-Within", type: "between" }
-      ]
-
-      const tasks = [
-        { id_protocol: pid, task_name: "Welcome"},
-        { id_protocol: pid, task_name: "Between-Within"},
-        { id_protocol: pid, task_name: "Goodbye"},
-      ]
-      */
-
-      // REVIEW: NO veo esto en mysql
       const protocol_stats = { id_protocol: pid, counter: 0, created_date: new Date(), max_participants: max_participants, last_revision: "None"}
 
       var db;

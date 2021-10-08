@@ -80,11 +80,11 @@ function condition_selection(between_selection_temp = {}) {
                 resolve(true);
               }
 
-            };
+            }
 
           } else {
             // comprobación para discarded
-            temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; })
+            temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; });
 
             condition_temp_array = [];
 
@@ -92,8 +92,8 @@ function condition_selection(between_selection_temp = {}) {
               // si al filtrar las condiciones, comparandolas con el key-value actual (ejem: key = INFCONS, value = control), sumando el hecho de que sea menor al maximo de participantes, se obtiene un resultado,
               // entonces se agrega a la lista temporal un true, en caso contrario un false
               condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
-            })
-            condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection) });
+            });
+            condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection); });
           }
 
           // CHECKS
@@ -107,8 +107,8 @@ function condition_selection(between_selection_temp = {}) {
           }
 
         }, function() {
-          console.log("Error al cargar la seleccion de condiciones.")
-          reject(false)
+          console.log("Error al cargar la seleccion de condiciones.");
+          reject(false);
         });
       } else {
         start_indexeddb().then(function(db) {
@@ -157,11 +157,11 @@ function condition_selection(between_selection_temp = {}) {
                   resolve(true);
                 }
 
-              };
+              }
 
             } else {
               // comprobación para discarded
-              temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; })
+              temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; });
 
               condition_temp_array = [];
 
@@ -169,8 +169,8 @@ function condition_selection(between_selection_temp = {}) {
                 // si al filtrar las condiciones, comparandolas con el key-value actual (ejem: key = INFCONS, value = control), sumando el hecho de que sea menor al maximo de participantes, se obtiene un resultado,
                 // entonces se agrega a la lista temporal un true, en caso contrario un false
                 condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
-              })
-              condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection) });
+              });
+              condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection); });
             }
 
             // CHECKS
@@ -184,8 +184,8 @@ function condition_selection(between_selection_temp = {}) {
             }
 
           }, function() {
-            console.log("Error al cargar la seleccion de condiciones.")
-            reject(false)
+            console.log("Error al cargar la seleccion de condiciones.");
+            reject(false);
           });
         });
       }
@@ -218,7 +218,7 @@ function check_id_status(event) {
 
     experiment_blocked = false;
     if (typeof questions !== 'undefined') {
-      questions = []
+      questions = [];
     }
 
 
@@ -250,7 +250,7 @@ function check_id_status(event) {
                       between_selection[actual_condition.task_name].push(actual_condition.condition_name);
                     else
                       between_selection[actual_condition.task_name] = [actual_condition.condition_name];
-                  })
+                  });
                 }
 
                 for (var [key, value] of Object.entries(between_selection)) {
@@ -267,12 +267,12 @@ function check_id_status(event) {
                   for (const actual_element in tasks_list) {
                     readIndexedSync("task", tasks_list[actual_element].id_task, db).then(function(actual_task) {
                       completed_experiments.push(actual_task.task_name);
-                    })
+                    });
                   }
                   // se carga en caso de que el usuario esté asignado
                   script_loading("tasks", all_tasks, completed_experiments);
-                })
-              })
+                });
+              });
             }
           } else if (actual_user.status == "completed") {
             console.log("Usuario finalizado.");
@@ -290,7 +290,7 @@ function check_id_status(event) {
                     between_selection[actual_condition.task_name].push(actual_condition.condition_name);
                   else
                     between_selection[actual_condition.task_name] = [actual_condition.condition_name];
-                })
+                });
               }
 
               completed_experiments = [];
@@ -298,12 +298,12 @@ function check_id_status(event) {
                 for (const actual_element in tasks_list) {
                   readIndexedSync("task", tasks_list[actual_element].id_task, db).then(function(actual_task) {
                     completed_experiments.push(actual_task.task_name);
-                  })
+                  });
                 }
                 // se carga en caso de que el usuario esté asignado
                 script_loading("tasks", all_tasks, completed_experiments);
-              })
-            })
+              });
+            });
           }
         }, function(new_element) {
           console.log("Usuario Nuevo");
@@ -315,8 +315,8 @@ function check_id_status(event) {
           });
         });
       }, function(db) {
-        console.log("db not charged")
-      })
+        console.log("db not charged");
+      });
 
 
 // ONLINE check_id_status() ------------------------------------------------------------
@@ -383,7 +383,7 @@ function check_id_status(event) {
 
                             // REVIEW: This assigned_task + 1 is inside a for loop (???)
                             XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-                          })
+                          });
                         }
                       }
                       XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
@@ -402,16 +402,16 @@ function check_id_status(event) {
                   for (const actual_element in tasks_list) {
                     XMLcall("findRow", "task", {keys: ["id_task"], values: [tasks_list[actual_element].id_task]}).then(function(actual_task) {
                       completed_experiments.push(actual_task.task_name);
-                    })
+                    });
                   }
                   // se carga en caso de que el usuario esté asignado
                   script_loading("tasks", all_tasks, completed_experiments);
-                })
-              })
+                });
+              });
             }
           } // user in DB
         }, function (error) {
-          console.log("User search error")
+          console.log("User search error");
         }); // uid_external in user table
         //}; completed_protocol_filtered.length == 0
       }); // Available slots XMLcall
@@ -431,11 +431,11 @@ function continue_page_activation(completed_experiments, questions, completed = 
     start.hidden = false;
     start.removeAttribute("style");
   } else if ((completed_experiments.length == all_tasks.length) || completed) {
-    text_input_uid.innerHTML = "Usted ya ha completado todas las tareas de este protocolo."
+    text_input_uid.innerHTML = "Usted ya ha completado todas las tareas de este protocolo.";
   } else if (discarded && !accept_discarded) {
-    text_input_uid.innerHTML = "Este usuario fue descartado del protocolo, comuníquese con un administrador para poder volver a ingresar."
+    text_input_uid.innerHTML = "Este usuario fue descartado del protocolo, comuníquese con un administrador para poder volver a ingresar.";
   } else {
-    text_input_uid.innerHTML = "Tareas cargadas.\nPresione el siguiente botón para comenzar con las tareas de este protocolo."
+    text_input_uid.innerHTML = "Tareas cargadas.\nPresione el siguiente botón para comenzar con las tareas de este protocolo.";
     start.hidden = false;
     start.removeAttribute("style");
   }
@@ -451,17 +451,17 @@ function obtain_experiments(questions, completed_experiments){
   // se crea el array con los elementos no completados
   var questions = Object.keys(questions).reduce(function(r, e) {
     if (acceptedValues.includes(questions[e].data["procedure"])) {
-      r[e] = questions[e]
+      r[e] = questions[e];
     }
     return r;
-  }, [])
+  }, []);
 
   // se limpia el array de los elementos vacios
   var questions = questions.filter(function (el) {
     return el != null;
   });
 
-  return questions
+  return questions;
 }
 
 //Saves the data in database
@@ -483,7 +483,7 @@ function completed_task_storage(csv, task) {
           if (actual_user.status == "discarded") {
             findAllIndexedSync("condition", "id_protocol", pid, pid, db).then(function(condition_data) {
               // cupos?
-              all_conditions_tasks = {}
+              all_conditions_tasks = {};
               for (var i = 0; i < condition_data.length; i++) {
                 if (!(condition_data[i].task_name in all_conditions_tasks)) {
                   all_conditions_tasks[condition_data[i].task_name] = false;
@@ -495,7 +495,7 @@ function completed_task_storage(csv, task) {
                 }
                 if (all_conditions_tasks[condition_data[i].task_name] == false) {
                   if (condition_data[i].blocked == false)
-                    all_conditions_tasks[condition_data[i].task_name] = true
+                    all_conditions_tasks[condition_data[i].task_name] = true;
                 }
               }
 
@@ -513,18 +513,18 @@ function completed_task_storage(csv, task) {
                 updateIndexed("user", uid, "start_date", actual_time, db);
                 updateIndexed("user", uid, "status", "assigned", db);
 
-                console.log("Asignado")
+                console.log("Asignado");
 
               } else {
                 console.log("Usuario bloqueado por límite en condiciones");
                 alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
               }
-            })
+            });
           }
         }, function(user_not_found) { //se crea nuevo usuario al terminar la primera tarea
           findAllIndexedSync("condition", "id_protocol", pid, pid, db).then(function(condition_data) {
             // verificación de cupos
-            all_conditions_tasks = {}
+            all_conditions_tasks = {};
             for (var i = 0; i < condition_data.length; i++) {
               if (!(condition_data[i].task_name in all_conditions_tasks)) {
                 all_conditions_tasks[condition_data[i].task_name] = false;
@@ -536,7 +536,7 @@ function completed_task_storage(csv, task) {
               }
               if (all_conditions_tasks[condition_data[i].task_name] == false) {
                 if (condition_data[i].blocked == false)
-                  all_conditions_tasks[condition_data[i].task_name] = true
+                  all_conditions_tasks[condition_data[i].task_name] = true;
               }
             }
 
@@ -549,7 +549,7 @@ function completed_task_storage(csv, task) {
 
             if (!protocol_blocked) {
               user_assigned = true;
-              console.log("Asignado")
+              console.log("Asignado");
 
               // Se agrega la data a indexedDB en la tabla assigned_users
               addIndexed("user", { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time/*, completed_tasks: [experiment], between_selection: between_selection, within_selection: within_selection*/}, db);
@@ -559,7 +559,7 @@ function completed_task_storage(csv, task) {
                 //completed_tasks
                 findIndexedSync("task", "task_name", task, pid, db).then(function(actual_task) {
                   addIndexed("user_task", { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}, db);
-                })
+                });
 
                 //between_selection
                 Object.entries(between_selection).forEach(([key, value]) => {
@@ -567,10 +567,10 @@ function completed_task_storage(csv, task) {
                     findIndexedSync("condition", "condition_name", between_selection[key][i], pid, db).then(function(actual_condition) {
                       addIndexed("user_condition", { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid}, db);
                       updateIndexed("condition", actual_condition.id_condition, "assigned_task", "+", db);
-                    })
+                    });
                   }
                 });
-              })
+              });
 
               // Se aumenta el contador general en el sistema
               updateIndexed("protocol", pid, "counter", "+", db);
@@ -578,8 +578,8 @@ function completed_task_storage(csv, task) {
               console.log("Usuario bloqueado por límite en condiciones");
               alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
             }
-          })
-        })
+          });
+        });
 
       } else if (user_assigned && !experiment_blocked) {
         // revisar si puede continuar o si ya no hay cupos o si ya no tiene tiempo
@@ -588,7 +588,7 @@ function completed_task_storage(csv, task) {
             if (actual_user.status == "assigned") {
               if (!accept_discarded) {
                 max_sec = date_to_mil(max_time);
-                actual_time = new Date
+                actual_time = new Date;
 
                 if ((actual_time - new Date(actual_user.start_date))/1000 > max_sec) {
                   updateIndexed("user", uid, "status", "discarded", db);
@@ -597,17 +597,17 @@ function completed_task_storage(csv, task) {
                     for (var i = 0; i < user_conditions.length; i++) {
                       updateIndexed("condition", user_conditions[i].id_condition, "assigned_task", "-", db);
                     }
-                  })
+                  });
                   updateIndexed("protocol", pid, "counter", "-", db);
-                  alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.")
+                  alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.");
                   console.log("Usuario descartado por límite de tiempo 1.");
                   window.location.reload();
                 }
               }
             } else {
               if (!last_task) {
-                alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.")
-                console.log("Usuario sin el status de asignado")
+                alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.");
+                console.log("Usuario sin el status de asignado");
                 console.log(actual_user);
               }
             }
@@ -615,19 +615,19 @@ function completed_task_storage(csv, task) {
             if (actual_user.status == "assigned" || actual_user.status == "completed") {
               findIndexedSync("task", "task_name", task, pid, db).then(function(actual_task) {
                 addIndexed("user_task", { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}, db);
-              })
+              });
             }
 
           }, function(user_not_found) {
             console.log("user not found");
             console.log(user_not_found);
-          })
-        })
+          });
+        });
       }
 
     }, function () {
       console.log("Problemas al cargar la base de datos al terminar la tarea " + task + ".");
-    })
+    });
 
 
   // ONLINE completed_task_storage() ----------------------------------------------
@@ -654,7 +654,7 @@ function completed_task_storage(csv, task) {
           if (actual_user.status == "discarded") {
             XMLcall("findAll", "experimental_condition").then(function(condition_data) {
               // cupos?
-              all_conditions_tasks = {}
+              all_conditions_tasks = {};
               for (var i = 0; i < condition_data.length; i++) {
                 if (!(condition_data[i].task_name in all_conditions_tasks)) {
                   all_conditions_tasks[condition_data[i].task_name] = false;
@@ -666,7 +666,7 @@ function completed_task_storage(csv, task) {
                 }
                 if (all_conditions_tasks[condition_data[i].task_name] == false) {
                   if (condition_data[i].blocked == false)
-                    all_conditions_tasks[condition_data[i].task_name] = true
+                    all_conditions_tasks[condition_data[i].task_name] = true;
                 }
               }
 
@@ -680,7 +680,7 @@ function completed_task_storage(csv, task) {
               // We accept discarded and protocol is not blocked (available slots?)
               if (!protocol_blocked && accept_discarded) {
                 user_assigned = true;
-                console.log("User assigned")
+                console.log("User assigned");
 
                 // Se agrega la data a indexedDB en la tabla user
                 XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"start_date": actual_time}});
@@ -689,7 +689,7 @@ function completed_task_storage(csv, task) {
                 console.log("Usuario bloqueado por límite en condiciones");
                 alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
               }
-            })
+            });
           }
 
         // NEW USER ----------------------------------------------------
@@ -711,8 +711,8 @@ function completed_task_storage(csv, task) {
 
               if (completed_protocol_filtered.length > 0) {
 
-                added_task = completed_protocol_filtered[0]["task_name"]
-                selected_id_condition = completed_protocol_filtered[0].id_condition
+                added_task = completed_protocol_filtered[0]["task_name"];
+                selected_id_condition = completed_protocol_filtered[0].id_condition;
                 XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
 
                 protocol_blocked = false;
@@ -722,9 +722,9 @@ function completed_task_storage(csv, task) {
                 alert("NO hay cupos disponibles");
                 protocol_blocked = true;
                 window.location.reload();
-              };
+              }
 
-            };
+            }
 
             // REVIEW: Se esta usando realmente la columna blocked? Es necesaria?
             // Antes se hacia if (condition_data[i].blocked == false).
@@ -732,7 +732,7 @@ function completed_task_storage(csv, task) {
 
             if (!protocol_blocked) {
               user_assigned = true;
-              console.log("User assigned")
+              console.log("User assigned");
 
               // Se agrega la data a MySQL en la tabla assigned_users
               XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function (actual_user) {
@@ -741,7 +741,7 @@ function completed_task_storage(csv, task) {
                   uid = actual_user.id_user;
                   XMLcall("findRow", "task", {keys: ["task_name"], values: [task]}).then(function(actual_task) {
                     XMLcall("insertIntoTable", "user_task", {dict: { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}});
-                  })
+                  });
 
                   //between_selection
                   Object.entries(between_selection).forEach(([key, value]) => {
@@ -749,10 +749,10 @@ function completed_task_storage(csv, task) {
                       XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [between_selection[key][i]]}).then(function(actual_condition) {
                         XMLcall("insertIntoTable", "user_condition", {dict: { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid}});
 
-                      })
+                      });
                     }
                   });
-                })
+                });
               });
 
               // Se aumenta el contador general en el sistema
@@ -761,11 +761,11 @@ function completed_task_storage(csv, task) {
               console.log("Usuario bloqueado por límite en condiciones");
               alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
             }
-          })
+          });
         }
       }, function(user_not_found) {
-        console.log("error en base de datos (busqueda de user)")
-      })
+        console.log("error en base de datos (busqueda de user)");
+      });
 
     // USER already assigned and experiment NOT blocked
     } else if (user_assigned && !experiment_blocked) {
@@ -809,9 +809,9 @@ function completed_task_storage(csv, task) {
                     for (var i = 0; i < user_conditions.length; i++) {
                       XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
                     }
-                  })
+                  });
                   XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter - 1"}});
-                  alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal.")
+                  alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal.");
 
                   console.log("User discarded because it is over the max_time (#2).");
                   window.location.reload();
@@ -822,7 +822,7 @@ function completed_task_storage(csv, task) {
             } else {
               // If it is not in the last_task
               if (!last_task) {
-                alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.")
+                alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.");
                 console.log("User discarded: actual_user.status != assigned.");
                 window.location.reload();
               }
@@ -831,7 +831,7 @@ function completed_task_storage(csv, task) {
             if (actual_user.status == "assigned" || actual_user.status == "completed") {
               XMLcall("findRow", "task", {keys: ["task_name"], values: [task]}).then(function(actual_task) {
                 XMLcall("insertIntoTable", "user_task", {dict: { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}});
-              })
+              });
             }
 
           // USER NOT in user table in DB
@@ -841,69 +841,70 @@ function completed_task_storage(csv, task) {
              // REVIEW: SHOULD do a window.location.reload(); (???)
           }
         }, function(user_not_found) {
-          console.log("error en base de datos (busqueda de user)")
-          })
-        })
-      }
-    }
-  }
-
-
-// funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
-function start_protocol(questions){
-
-  // con el arreglo de questions finalizado se pueden agregar restricciones extras, como el precargado de imágenes (son definidas en index):
-  var preload = {
-    type: 'preload',
-    show_progress_bar: true,
-    message: 'El protocolo está cargando, espere un momento...',
-    images: images,
-    audio: audio,
-    video: video
-  }
-  questions.unshift({type: 'preload', images: images});
-
-  // almacenamiento de data en base de datos (csv)
-  questions.push({
-    type: 'call-function',
-    func: function () {
-      if (online == false) {
-        start_indexeddb().then(function(db) {
-          updateIndexed("user", uid, "status", "completed", db);
-
-          findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(user_conditions) {
-            for (var i = 0; i < user_conditions.length; i++) {
-              updateIndexed("condition", user_conditions[i].id_condition, "completed_protocol", "+", db);
-            }
-          }, function() {console.log("final update user_condition table not found")})
-        }, function() {
-          console.log("db not charged")
+          console.log("error en base de datos (busqueda de user)");
+          });
         });
-      } else if (online == true) {
-        XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "completed"}});
-        XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(user_conditions) {
-          for (var i = 0; i < user_conditions.length; i++) {
-            XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"completed_protocol": "completed_protocol + 1"}});
-          }
-        }, function() {console.log("final update user_condition table not found")})
       }
     }
-  });
+  }
 
-  questions.push({
-    type: 'fullscreen',
-    fullscreen_mode: false
-  })
 
-  jsPsych.init({
-    timeline: questions,
-    override_safe_mode: true,
-    show_progress_bar: true,
-    message_progress_bar: 'Porcentaje completado',
-    fullscreen: true,
-    on_interaction_data_update: function(data){
-      if (data.event == 'fullscreenexit'){
-        alert("Si sales de pantalla completa pueden perderse datos. Por favor, pulsa F11 para volver al experimento.")
-      }}
-  })
-}
+
+  // funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
+  function start_protocol(questions){
+
+    // con el arreglo de questions finalizado se pueden agregar restricciones extras, como el precargado de imágenes (son definidas en index):
+    var preload = {
+      type: 'preload',
+      show_progress_bar: true,
+      message: 'El protocolo está cargando, espere un momento...',
+      images: images,
+      audio: audio,
+      video: video
+    };
+    questions.unshift({type: 'preload', images: images});
+
+    // almacenamiento de data en base de datos (csv)
+    questions.push({
+      type: 'call-function',
+      func: function () {
+        if (online == false) {
+          start_indexeddb().then(function(db) {
+            updateIndexed("user", uid, "status", "completed", db);
+
+            findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(user_conditions) {
+              for (var i = 0; i < user_conditions.length; i++) {
+                updateIndexed("condition", user_conditions[i].id_condition, "completed_protocol", "+", db);
+              }
+            }, function() {console.log("final update user_condition table not found");});
+          }, function() {
+            console.log("db not charged");
+          });
+        } else if (online == true) {
+          XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "completed"}});
+          XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(user_conditions) {
+            for (var i = 0; i < user_conditions.length; i++) {
+              XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"completed_protocol": "completed_protocol + 1"}});
+            }
+          }, function() {console.log("final update user_condition table not found");});
+        }
+      }
+    });
+
+    questions.push({
+      type: 'fullscreen',
+      fullscreen_mode: false
+    });
+
+    jsPsych.init({
+      timeline: questions,
+      override_safe_mode: true,
+      show_progress_bar: true,
+      message_progress_bar: 'Porcentaje completado',
+      fullscreen: true,
+      on_interaction_data_update: function(data){
+        if (data.event == 'fullscreenexit'){
+          alert("Si sales de pantalla completa pueden perderse datos. Por favor, pulsa F11 para volver al experimento.");
+        }}
+    });
+  }
