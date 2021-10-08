@@ -12,7 +12,11 @@ $sleep_time = rand (1, 10);
 usleep( $sleep_time );
 
 
-  require_once '/srv/users/user-cscn/apps/uai-cscn/.secrets_mysql.php';
+  require_once '../../../../../../../../.secrets_mysql.php';
+  
+  // If running task in tests/ folder
+  // require_once '../../../../../../../../../.secrets_mysql.php';
+
 
 /* The file .secrets_mysql.php contains the following information:
   $servername = "";

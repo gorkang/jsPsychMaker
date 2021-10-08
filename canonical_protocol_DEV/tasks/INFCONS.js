@@ -10,7 +10,7 @@ questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? 
 questions.push( check_fullscreen('INFCONS') );
 
 
-var factors = {condition: ['control', 'text', 'pictorial']}
+var factors = {condition: ['control', 'text', 'pictorial']};
 
 var full_design = jsPsych.randomization.factorial(factors, 1);
 
@@ -67,9 +67,9 @@ var question04 = {
 };
 INFCONS.push(question04);
 
-INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
-INFCONS.push.apply(questions, INFCONS)
+INFCONS.push.apply(questions, INFCONS);
 
 
 INFCONS = [];    //temporal timeline
@@ -142,9 +142,9 @@ var question11 = {
 };
 INFCONS.push(question11);
 
-INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
-questions.push.apply(questions, INFCONS)
+questions.push.apply(questions, INFCONS);
 
 
 
@@ -202,9 +202,9 @@ var question15 = {
 };
 INFCONS.push(question15);
 
-INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
-INFCONS.push.apply(questions, INFCONS)
+INFCONS.push.apply(questions, INFCONS);
 
 
 INFCONS = [];    //temporal timeline
@@ -277,9 +277,9 @@ var question22 = {
 };
 INFCONS.push(question22);
 
-INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
-INFCONS.push.apply(questions, INFCONS)
+INFCONS.push.apply(questions, INFCONS);
 
 
 } else if (full_design[0].condition == 'control') {
@@ -336,9 +336,9 @@ var question26 = {
 };
 INFCONS.push(question26);
 
-INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
-INFCONS.push.apply(questions, INFCONS)
+INFCONS.push.apply(questions, INFCONS);
 
 
 INFCONS = [];    //temporal timeline
@@ -411,9 +411,9 @@ var question33 = {
 };
 INFCONS.push(question33);
 
-INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
-INFCONS.push.apply(questions, INFCONS)
+INFCONS.push.apply(questions, INFCONS);
 
 
 }

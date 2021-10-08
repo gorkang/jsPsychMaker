@@ -252,7 +252,7 @@ HRPVB_MM = [];    //temporal timeline
 // Randomize order of blocks ------------------------------------------------
 
   var order_blocks = ['HRPVB_BB','HRPVB_MM'];
-  order_blocks = jsPsych.randomization.repeat(order_blocks,1);
+  if (debug_mode == 'false') order_blocks = jsPsych.randomization.repeat(order_blocks,1);
 
   // Present blocks in random order
   order_blocks.push.apply(questions, window[order_blocks[0]]);

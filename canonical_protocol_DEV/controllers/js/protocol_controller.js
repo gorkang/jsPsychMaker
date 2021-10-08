@@ -435,7 +435,7 @@ function continue_page_activation(completed_experiments, questions, completed = 
   } else if (discarded && !accept_discarded) {
     text_input_uid.innerHTML = "Este usuario fue descartado del protocolo, comuníquese con un administrador para poder volver a ingresar.";
   } else {
-    text_input_uid.innerHTML = "Tareas cargadas.\nPresione el siguiente botón para comenzar con las tareas de este protocolo.";
+    text_input_uid.innerHTML = (intro_HTML).concat("<br><br>Tareas cargadas.<br>Presione el siguiente botón para comenzar con las tareas de este protocolo.");
     start.hidden = false;
     start.removeAttribute("style");
   }
@@ -859,7 +859,7 @@ function completed_task_storage(csv, task) {
       show_progress_bar: true,
       message: 'El protocolo está cargando, espere un momento...',
       images: images,
-      audio: audio,
+      audios: audios,
       video: video
     };
     questions.unshift({type: 'preload', images: images});

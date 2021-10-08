@@ -135,9 +135,9 @@ PRFBM.push(question07);
 
 
 // Randomize order of questions
-PRFBM = jsPsych.randomization.repeat(PRFBM,1);
+if (debug_mode == 'false') PRFBM = jsPsych.randomization.repeat(PRFBM,1);
 PRFBM.unshift(instruction_screen_experiment);
-PRFBM.push.apply(questions, PRFBM)
+PRFBM.push.apply(questions, PRFBM);
 
 questions.push({
     type: 'call-function',

@@ -33,7 +33,7 @@ total_money = 0;
 
 // numbers for probabilities
 numbers = [1, 5, 10, 14, 18, 23, 27, 31, 36, 40, 44, 49, 53, 57, 62, 66, 70, 75, 79, 83, 88, 92, 96, 101, 105, 109, 114, 118, 122, 128];
-numbers = jsPsych.randomization.repeat(numbers, 1)
+if (debug_mode == 'false') numbers = jsPsych.randomization.repeat(numbers, 1);
 
 balloon_img = images[0];
 audio_inflate = audios[0];

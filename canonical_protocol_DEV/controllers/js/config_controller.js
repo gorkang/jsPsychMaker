@@ -52,9 +52,9 @@ all_tasks = flatten(tasks);
 
 
 // Create tasks Array for DB
-var tasks = []
+var tasks = [];
 for(var i= 0; i < all_tasks.length; i++) {
-  tasks.push({ id_protocol: pid, task_name: all_tasks[i]})
+  tasks.push({ id_protocol: pid, task_name: all_tasks[i]});
 }
 
 // Use IndexedDB or MySQL for offline or online protocols

@@ -6,7 +6,7 @@
   var within_var = {
     //disease: ['Cancer', 'Stroke'],
     test_quality: ['lowQuality', 'highQuality']
-  }
+  };
 
   // Randomize order of Within variables
   within_selection["FONDECYT"] = {
@@ -18,20 +18,20 @@
   data_disease = {
     'Cancer': {number_PREVALENCE_x: 1, number_PREVALENCE_y: 105, number_SENSITIVITY: 95, number_SPECIFICITY: 88, disease_description: "cáncer de mama", test_description: "una mamografía"},
     'Stroke': {number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "infarto cerebral", test_description: "una resonancia Weighted Difussion Imaging"},
-  }
+  };
 
   // WITHIN: data asociada al test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/img/VPP_low.png'},
-    'highQuality_Cancer': {image: 'media/img/VPN_high.png'},
-    'lowQuality_Stroke': {image: 'media/img/VPN_low.png'},
-    'highQuality_Stroke': {image: 'media/img/VPP_high.png'}
-  }
+    'lowQuality_Cancer': {image: 'media/img/VPP_low.png', type_image: 'positivo'},
+    'highQuality_Cancer': {image: 'media/img/VPN_high.png', type_image: 'negativo'},
+    'lowQuality_Stroke': {image: 'media/img/VPN_low.png', type_image: 'negativo'},
+    'highQuality_Stroke': {image: 'media/img/VPP_high.png', type_image: 'positivo'}
+  };
 
   data_type = {
     'Image': {text: "para el caso de una prueba con imágenes."},
     'Text': {text: "para el caso de una prueba de solo texto."}
-  }
+  };
 
   // contador para secciones
   num = 0;
@@ -58,7 +58,7 @@
       }
   };
 
-  FONDECYT = []
+  FONDECYT = [];
 
   // hay que revisar toda la data, para este caso, test_quality y disease
   for (const [key, value] of Object.entries(data_test_quality)) {
@@ -108,12 +108,12 @@
           // parte comun para ambas partes del between
           var html = '<div class="row" style="display: flex; align-items: center">';
           // para este caso son 2 columnas, de todas formas esto es definido por la persona que crea el instrumento
-          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Cancer"]["disease_description"] + ", se realiza  " + data_disease["Cancer"]["test_description"] + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Cancer"]["number_PREVALENCE_x"] + " de cada " + data_disease["Cancer"]["number_PREVALENCE_y"] + ". La sensibilidad de la prueba es de " + data_disease["Cancer"]["number_SENSITIVITY"] + "%. La especificidad de la prueba es de " + data_disease["Cancer"]["number_SPECIFICITY"] + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es positivo?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
+          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Cancer"]["disease_description"] + ", se realiza  " + data_disease["Cancer"]["test_description"] + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Cancer"]["number_PREVALENCE_x"] + " de cada " + data_disease["Cancer"]["number_PREVALENCE_y"] + ". La sensibilidad de la prueba es de " + data_disease["Cancer"]["number_SENSITIVITY"] + "%. La especificidad de la prueba es de " + data_disease["Cancer"]["number_SPECIFICITY"] + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"].type_image + "?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
           // parte que no es comun para ambas versiones del between (segunda columna) donde esta la imagen:
           if (between_selection["FONDECYT"][0] == 'Image') {
             html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"]["image"] + '" style="max-width: 100%; max-height: 100%;">' + '</div>';
           } else if (between_selection["FONDECYT"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
-            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"]["image"] + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> '
+            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"]["image"] + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
           }
           html += '</div><style>#column img {vertical-align: middle}</style>';
           html += '<p><input name ="Q0" type="number" required min=0 max=100 value autofocus> %</p>'
@@ -202,7 +202,7 @@
               required: true,
               horizontal: false
             }
-          ]
+          ];
         },
         data: function () {
           var element = {
@@ -285,7 +285,7 @@
           // parte comun para ambas partes del between
           var html = '<div class="row" style="display: flex; align-items: center">';
           // para este caso son 2 columnas, de todas formas esto es definido por la persona que crea el instrumento
-          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Stroke"]["disease_description"] + ", se realiza  " + data_disease["Stroke"]["test_description"] + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Stroke"]["number_PREVALENCE_x"] + " de cada " + data_disease["Stroke"]["number_PREVALENCE_y"] + ". La sensibilidad de la prueba es de " + data_disease["Stroke"]["number_SENSITIVITY"] + "%. La especificidad de la prueba es de " + data_disease["Stroke"]["number_SPECIFICITY"] + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es positivo?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
+          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Stroke"]["disease_description"] + ", se realiza  " + data_disease["Stroke"]["test_description"] + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Stroke"]["number_PREVALENCE_x"] + " de cada " + data_disease["Stroke"]["number_PREVALENCE_y"] + ". La sensibilidad de la prueba es de " + data_disease["Stroke"]["number_SENSITIVITY"] + "%. La especificidad de la prueba es de " + data_disease["Stroke"]["number_SPECIFICITY"] + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Stroke"].type_image + "?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
           // parte que no es comun para ambas versiones del between (segunda columna) donde esta la imagen:
           if (between_selection["FONDECYT"][0] == 'Image') {
             html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Stroke"]["image"] + '" style="max-width: 100%; max-height: 100%;">' + '</div>';
@@ -434,7 +434,7 @@
 
   // within block finished
 
-  FONDECYT = jsPsych.randomization.repeat(FONDECYT,1);
+  if (debug_mode == 'false') FONDECYT = jsPsych.randomization.repeat(FONDECYT,1);
   console.log(FONDECYT);
   FONDECYT.unshift(instructions_between_01);
   questions.push.apply(questions, FONDECYT);

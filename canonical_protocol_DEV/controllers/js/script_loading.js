@@ -5,7 +5,7 @@ function script_loading(folder, array, completed_experiments = [], new_element =
 	script.async = false;
 
   if (folder != "")
-    script.src = folder + "/"
+    script.src = folder + "/";
   script.src += array[index] + ".js";
 
 	document.getElementsByTagName("head")[0].appendChild(script);
@@ -20,6 +20,6 @@ function script_loading(folder, array, completed_experiments = [], new_element =
 				questions = obtain_experiments(questions, completed_experiments);
 				continue_page_activation(completed_experiments, questions);
 			}
-		}
+		};
 	}
 }

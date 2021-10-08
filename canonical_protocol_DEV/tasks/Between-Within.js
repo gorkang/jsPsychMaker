@@ -255,7 +255,7 @@
 
 // within block finished
 
-  temporal_questions = jsPsych.randomization.repeat(temporal_questions,1);
+  if (debug_mode == 'false') temporal_questions = jsPsych.randomization.repeat(temporal_questions,1);
   temporal_questions.unshift(instructions_between_01);
   questions.push.apply(questions, temporal_questions);
 

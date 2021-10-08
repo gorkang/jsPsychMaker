@@ -57,9 +57,9 @@ var question05 = {
 };
 PSETPP.push(question05);
 
-PSETPP = jsPsych.randomization.repeat(PSETPP,1);
+if (debug_mode == 'false') PSETPP = jsPsych.randomization.repeat(PSETPP,1);
 PSETPP.unshift(instruction_screen_experiment);
-PSETPP.push.apply(questions, PSETPP)
+PSETPP.push.apply(questions, PSETPP);
 
 questions.push({
     type: 'call-function',

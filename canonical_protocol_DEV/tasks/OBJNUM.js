@@ -85,9 +85,9 @@ var question09 = {
 };
 OBJNUM.push(question09);
 
-OBJNUM = jsPsych.randomization.repeat(OBJNUM,1);
+if (debug_mode == 'false') OBJNUM = jsPsych.randomization.repeat(OBJNUM,1);
 OBJNUM.unshift(instruction_screen_experiment);
-questions.push.apply(questions, OBJNUM)
+questions.push.apply(questions, OBJNUM);
 
 
 questions.push({

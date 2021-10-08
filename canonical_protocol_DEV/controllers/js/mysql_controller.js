@@ -34,7 +34,7 @@ function XMLcall (query, table_name, elements = {}) {
             reject(response);
           }
         }
-      }
+      };
 
       xhr.open('POST', 'controllers/php/mysql.php');
       xhr.setRequestHeader('Content-Type', 'application/json');
@@ -87,39 +87,14 @@ function XMLcall (query, table_name, elements = {}) {
 
       xhr.send(JSON.stringify(base_query));
     }
-  )
+  );
 }
 
 function start_mysqldb(pid, max_participants) {
+  // REVIEW: start_mysqldb() should be used ONLY if we don't already have the DB
 
-  // Ver mysql.php para detalles de como se hacen las llamadas mysql
+  // See mysql.php for the source of the mysql calls
 
-/*
-// NOW in config.js //
-
-  const conditions = [
-    { id_protocol: pid, condition_name: "control", assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: "INFCONS", type: "between"},
-    { id_protocol: pid, condition_name: "text", assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: "INFCONS", type: "between"},
-    { id_protocol: pid, condition_name: "pictorial", assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: "INFCONS", type: "between"}
-  ]
-
-  const tasks = [
-    { id_protocol: pid, task_name: "Consent"},
-    { id_protocol: pid, task_name: "DEMOGR"},
-    { id_protocol: pid, task_name: "PSETPP"},
-    { id_protocol: pid, task_name: "PSPPC"},
-    { id_protocol: pid, task_name: "PRFBM"},
-    { id_protocol: pid, task_name: "HRPVB"},
-    { id_protocol: pid, task_name: "INFCONS"},
-    { id_protocol: pid, task_name: "HRPVBpost"},
-    { id_protocol: pid, task_name: "PRFBMpost"},
-    { id_protocol: pid, task_name: "BNT"},
-    { id_protocol: pid, task_name: "OBJNUM"},
-    { id_protocol: pid, task_name: "DEBRIEF"},
-    { id_protocol: pid, task_name: "Goodbye"},
-  ]
-
-*/
   XMLcall("createTable", "protocol", {keys: "id_protocol INT NOT NULL PRIMARY KEY DEFAULT 0, counter INT NOT NULL DEFAULT 0, last_revision TIMESTAMP DEFAULT CURRENT_TIMESTAMP, max_participants INT NOT NULL DEFAULT " + max_participants.toString()});
   XMLcall("createTable", "experimental_condition", {keys: "id_condition INT AUTO_INCREMENT NOT NULL PRIMARY KEY, id_protocol INT NOT NULL DEFAULT 0, assigned_task INT NOT NULL DEFAULT 0, blocked BOOLEAN NOT NULL DEFAULT 0, completed_protocol INT NOT NULL DEFAULT 0, condition_key VARCHAR(255) NOT NULL, condition_name VARCHAR(255) NOT NULL, task_name VARCHAR(255) NOT NULL, type VARCHAR(255), UNIQUE KEY unique_combination (id_protocol, condition_name)"});
 
@@ -154,7 +129,6 @@ function clean_mysql(){
     */
 
     max_sec = date_to_mil(max_time);
-    //actual_time = new Date
     actual_time = new Date().toISOString().slice(0, 19);
 
     // REVIEW: FILTERING to loop only amongst NON completed. SHOULD BE ONLY amongst assigned (???)
@@ -163,7 +137,6 @@ function clean_mysql(){
     for (var i = 0; i < users.length; i++) {
 
       DBtime = users[i].start_date; // Date already stored in ISO format
-      //DBtime = new Date(users[i].start_date).toISOString().slice(0, 19);
 
       // si es que la diferencia de tiempo supera la máxima cantidad de segundos entonces el usuario es descartado y removido de los usuarios asignados
       if ((new Date(actual_time) - new Date(DBtime))/1000 > max_sec && users[i].status == "assigned") {
@@ -211,14 +184,11 @@ function load_clean_mysql(iterations_for_review, max_participants) {
 
         XMLcall("updateTable", "experimental_condition", {id: {"id_condition": condition_data[i].id_condition}, data: {"blocked": true}});
 
-        //updateIndexed("condition", condition_data[i].id_condition, "blocked", true, db);
-
       } else {
         condition_data[i].blocked = false;
 
         XMLcall("updateTable", "experimental_condition", {id: {"id_condition": condition_data[i].id_condition}, data: {"blocked": false}});
 
-        //updateIndexed("condition", condition_data[i].id_condition, "blocked", false, db);
       }
     }
     actual_condition_data = condition_data;

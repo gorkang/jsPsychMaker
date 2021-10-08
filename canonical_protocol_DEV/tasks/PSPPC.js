@@ -64,9 +64,9 @@ var question06 = {
 };
 PSPPC.push(question06);
 
-PSPPC = jsPsych.randomization.repeat(PSPPC,1);
+if (debug_mode == 'false') PSPPC = jsPsych.randomization.repeat(PSPPC,1);
 //PSPPC.unshift(instruction_screen_experiment);
-PSPPC.push.apply(questions, PSPPC)
+PSPPC.push.apply(questions, PSPPC);
 
 
 questions.push({

@@ -1,13 +1,14 @@
 // Configuration file
 
 // Main parameters -------------------------------------------------------------
-pid = 999999; // Protocol ID [number]
-online = false; // Protocol runs online [true/false]
+pid = 999; // Protocol ID [number]
+online = true; // Protocol runs online [true/false]
 max_participants = 30; // Max participants per contition [number]
-random_id = false; // Assign random id to participants [true/false]
+random_id = true; // Assign random id to participants [true/false]
 max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
 
+debug_mode = true;
 
 // ORDER OF TASKS --------------------------------------------------------------
 /*
@@ -26,7 +27,7 @@ tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks']
 ALL_tasks = [
 "Consent",
 "AIM",
-//"BART",
+"BART",
 "BNT",
 "bRCOPE",
 "CAS",
@@ -50,7 +51,6 @@ ALL_tasks = [
 "HRPVBpost",
 "IDQ",
 "IEC",
-"INFCONS",
 "IRI",
 "IRS",
 "MIS",
@@ -76,7 +76,13 @@ ALL_tasks = [
 "SRBQP",
 "SRSav",
 "SWBQ",
-"WEBEXEC"];
+"WEBEXEC",
+
+// Between tasks [random order unavoidable]
+"FONDECYT",
+"INFCONS"
+
+];
 
 
 tasks = ['ALL_tasks'];
@@ -86,8 +92,10 @@ message_str = 'El protocolo está cargando, espere un momento...'; // Message wh
 
 // media to preload in protocol_controller
 img_folder = 'media/img/';
-images = [img_folder + 'VPP_low.png',  img_folder + 'VPP_high.png', img_folder + 'VPN_low.png',  img_folder + 'VPN_high.png', ];
-audio = [];
+audio_folder = 'media/audio/';
+
+images = [img_folder + 'VPP_low.png',  img_folder + 'VPP_high.png', img_folder + 'VPN_low.png',  img_folder + 'VPN_high.png', img_folder + 'BART_redBalloon.png'];
+audios = [audio_folder + 'BART_inflate.mp3', audio_folder + 'BART_explode.mp3', audio_folder + 'BART_collect.mp3', audio_folder + 'silence.mp3'];
 video = ['media/vid/Entrevista1.mp4'];
 
 
@@ -98,7 +106,7 @@ all_conditions = {
   };
 
 // INTRO [index.html] ----------------------------------------------------------
-intro = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="media/img/logo-trans-UAI.png" name="UAI" align="bottom" width="185" height="47" border="0"/></p></div>' +
+intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="media/img/logo-trans-UAI.png" name="UAI" align="bottom" width="185" height="47" border="0"/></p></div>' +
   'LA INTRO DEBERIA SER TAMBIEN UNA VARIABLE DEL config.js?<BR><BR>' +
   'Si tienes alguna duda, puedes escribirnos a: CORREO<BR><BR>' +
   'Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="media/img/compatible_chrome.gif" name="Chrome" align="bottom" border="0"/></a> para continuar.';
