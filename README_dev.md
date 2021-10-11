@@ -1,9 +1,23 @@
-## TODO
+## HECHO
+
 
 **Al empezar protocolo canonical la pantalla estaba en blanco MUCHO tiempo (3 a 6 segundos!)`**
 
 - He puesto un mensaje en <span id="text_input_uid"> para que se vea mientras se cargan las cosas.
 
+- Solo se carga el script necesario (indexedDB o MySQL)
+    - SEPARADO completamente indexedDB y MySQL. protocol_controller.js queda vacio
+    - Cargamos 1 archivo menos, y es mas pequeño
+  
+- JUNTADO todas las funciones genericas en un helper_functions.js
+  - css_loading.js
+  - save_data.js
+  - script_loading.js
+  - algunas cosas de protocol_controller.js
+  - ...
+
+
+## TODO
 
 ### FONDECYT
 
@@ -30,17 +44,8 @@
   - 3 veces: query: "findAll" table_name: "experimental_condition" (???)
   
 - Scripts: 
-  - Solo cargar los necesarios (e.g. indexedDB o MySQL)
-    - SEPARAR completamente indexedDB y MySQL ?Ahora en protocol_controller.js estan juntos
-    - Cargamos 1 archivo menos, y es mas pequeño
-  - Usar solo los plugins de tareas, etc.
-  - JUNTAR todas las funciones genericas en un helper_functions.js (?)
-    - css_loading.js
-    - save_data.js
-    - script_loading.js
-    - ...
+  + Usar solo los plugins de tareas del protoclo, etc.
     
-- Cargar plugins una vez esta ya cargado el index
 - Imagenes tinyficadas: https://tinypng.com/
 
 

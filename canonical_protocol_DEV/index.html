@@ -8,65 +8,51 @@
 
   <!-- Protocol Configuration -->
   <script src="config.js"></script>
-  <script>if (debug_mode == true) alert("debug_mode == true: RANDOMIZATION of items is OFF")</script>
-  <script src="controllers/js/protocol_controller.js"></script>
+  <script>if (debug_mode === true) alert("debug_mode == true: RANDOMIZATION of items is OFF");</script>
+
+  <!-- Helper functions -->
+  <script src="controllers/js/helper_functions.js"></script>
 
 </head>
+
 
 <body id="general_body" style="height:100%;" class=" jspsych-display-element">
 
   <div class="jspsych-content-wrapper">
     <div id="jspsych-content" class="jspsych-content">
       <div class="jspsych-instructions-nav" style="padding: 10px 0px; align: center">
-        <span id="text_input_uid">Cargando protocolo... <BR><BR><img src="media/img/loading.gif" name="UAI" align="bottom"border="0"/></span><br><br>
-        <input id="input_uid" hidden="true" required></input>
-        <input style="display:none !important" id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn"></input>
-        <input style="display:none !important" id="start" type="button" onclick="start_protocol(questions)" value="Continuar" class="jspsych-btn" hidden></input>
+        <span id="text_input_uid">Cargando protocolo... <BR><BR><img src="media/img/loading.gif" name="UAI" align="bottom" border="0"/></span><br><br>
+        <input id="input_uid" hidden="true" required>
+        <input style="display:none !important" id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn">
+        <input style="display:none !important" id="start" type="button" onclick="start_protocol(questions)" value="Continuar" class="jspsych-btn" hidden>
       </div>
     </div>
   </div>
 
-  <!-- Helper functions -->
-  <script src="controllers/js/helper_functions.js"></script>
 
   <!-- Main jsPsych library -->
   <script src="jsPsych-6/jspsych.js"></script>
-  
-  <!-- Database initialization and control -->
-  <script src="controllers/js/mysql_controller.js"></script>
-  <script src="controllers/js/indexedDB_controller.js"></script>
 
   <script>
     if (random_id) {
       document.getElementById("input_uid").value = jsPsych.randomization.randomID(20);
-    }
-    else {
-      if (!params.has("uid"))
+    } else {
+      if (!params.has("uid")) {
         text_input_uid.innerHTML = intro_HTML;
         document.getElementById("check").removeAttribute("style");
         document.getElementById("input_uid").hidden = false;
+      }
     }
   </script>
 
 
-
-<script>
-
-// Use IndexedDB or MySQL for offline or online protocols
-if (online) {
-  //start_mysqldb(pid, max_participants);
-  load_clean_mysql(iterations_for_review, max_participants);
-} else {
-  load_clean_indexeddb(iterations_for_review, max_participants);
-}
-
-</script>
 
   <!-- LOAD Protocol Plugins at the end -->
   
   <!-- Esential plugins -->
   <script src="jsPsych-6/plugins/jspsych-call-function.js"></script>
   <script src="jsPsych-6/plugins/jspsych-preload.js"></script>
+  
   <!-- Protocol Plugins: CANONICAL -->
   <script src="jsPsych-6/plugins/jspsych-video-button-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice.js"></script>
@@ -99,6 +85,22 @@ if (online) {
       document.getElementsByTagName('head')[0].appendChild(link);
       check_id_status();
     };
+  </script>
+
+
+  <!-- Database initialization and control -->
+  <script>
+  // Load online (mysql_controller) or offline (indexedDB_controller) controller script
+  // Last line of the scripts will perform the DB check/clean
+  var head = document.getElementsByTagName('head')[0];
+  var js = document.createElement("script");
+  js.type = "text/javascript";
+  if (online) {
+    js.src = "controllers/js/mysql_controller.js";
+  } else {
+      js.src = "controllers/js/indexedDB_controller.js";
+  }
+  head.appendChild(js);
   </script>
 
   </body>
