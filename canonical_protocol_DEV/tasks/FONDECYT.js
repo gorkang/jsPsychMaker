@@ -1,5 +1,17 @@
 /* CSCN - Creado MANUALMENTE */
 
+// IMPORTANT ----------
+
+// - First screen trialid is always FONDECYT_01_0
+// - THIS experiment can be done in a single timeline?
+// - condition_within NEEDS TO BE THE COMBINATION OF THE TWO WITHIN CARS: e.g. lowQuality_Cancer, etc.
+//    + Quick fix? condition_within: Object.entries(data_test_quality)[num_item][0],
+//    + Had to create num_item...
+//
+
+
+
+
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 
 // Within variables
@@ -35,14 +47,18 @@
 
   // contador para secciones
   num = 0;
-  num_index = num;
+  num_item = num;
+
+
 
 // BEGIN EXPERIMENT -------------------------------------------------------------
 
   // array final
   questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
   questions.push( check_fullscreen("FONDECYT") );
+
+
+
 
 // Start between block ---------------------------------------------------------
 
@@ -51,8 +67,9 @@
   var instructions_between_01 = {
       type: 'instructions',
       pages: ['Instrucciones ' + data_type[between_selection["FONDECYT"][0]]["text"]], //se agrega el texto de la variable between seleccionada
-      data: {trialid: 'Instructions',
-            condition_between: between_selection["FONDECYT"], procedure: 'FONDECYT'},
+      data: {trialid: 'Instructions_001',
+            condition_between: between_selection["FONDECYT"][0],
+            procedure: 'FONDECYT'},
       show_clickable_nav: true,
       on_trial_start: function(){
           bloquear_enter = 0;
@@ -79,9 +96,13 @@
   // console.log(img);
   // console.log(img.height);
 
-  // blocks => Screening or Diagnostic
 
-  // Start within block ----------------------------------------------------------
+
+
+// blocks => Screening or Diagnostic
+
+// BLOCK 1: Start within block ---------------------------------------------------------
+// --------------------------------------------------------------------------------------
 
   var within_timeline_01 = {
     timeline: [
@@ -90,15 +111,18 @@
       {
           type: 'instructions',
           pages: function() {
+            // num and num_item changes DO NOT reach the 'data:' section below
+            // so trialid: 'FONDECYT_01_' + num , is always FONDECYT_01_0
             num += 1;
-            num_index = num - 1;
+            num_item = num - 1;
             return (["Ensayo " + num + " de 4"]);
           },
           data: {
-            trialid: 'FONDECYT_01_' + num,
+            trialid: 'FONDECYT_01_' + num ,
             //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            // condition_within NEEDS TO BE THE COMBINATION OF THE TWO WITHIN CARS: e.g. lowQuality_Cancer, etc.
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           },
           show_clickable_nav: true
@@ -127,8 +151,8 @@
           var element = {
             trialid: 'FONDECYT_02_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -141,8 +165,7 @@
         questions: function() {
           answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_02_' + num})).select('response').values.length - 1] ) );
           return [
-            {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
+            {// para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
               prompt: '<div class="justified">Has dicho que la probabilidad es del ' + answers[0] + '% ¿Recomendarias esta prueba de <u>screening</u> para detectar ' + "cáncer" + ' a tu paciente?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
@@ -154,8 +177,8 @@
           var element = {
             trialid: 'FONDECYT_03_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -188,8 +211,8 @@
           var element = {
             trialid: 'FONDECYT_04_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -214,8 +237,8 @@
           var element = {
             trialid: 'FONDECYT_05_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -248,8 +271,8 @@
           var element = {
             trialid: 'FONDECYT_06_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -257,7 +280,7 @@
       }
 
     ],
-    data: {procedure: 'FONDECYT', testing: "1"},
+    data: {procedure: 'FONDECYT', trialidxxx: "FONDECYT_01_" + num},
     timeline_variables: within_selection["FONDECYT"]["timeline_01"],
     randomize_order: true, //random order
   };
@@ -265,7 +288,11 @@
 
   // within block finished
 
-  // Start within block ----------------------------------------------------------
+
+
+
+  // BLOCK 2: Start within block ----------------------------------------------------------
+  // --------------------------------------------------------------------------------------
 
   var within_timeline_02 = {
     timeline: [
@@ -280,8 +307,8 @@
           data: {
             trialid: 'FONDECYT_07_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           },
           show_clickable_nav: true
@@ -310,8 +337,8 @@
           var element = {
             trialid: 'FONDECYT_08_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -337,8 +364,8 @@
           var element = {
             trialid: 'FONDECYT_09_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -371,8 +398,8 @@
           var element = {
             trialid: 'FONDECYT_10_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -397,8 +424,8 @@
           var element = {
             trialid: 'FONDECYT_11_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -431,8 +458,8 @@
           var element = {
             trialid: 'FONDECYT_12_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_index][0],
-            condition_between: between_selection["FONDECYT"],
+            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
@@ -440,7 +467,7 @@
       }
 
     ],
-    data: {procedure: 'FONDECYT', testing: "2"},
+    data: {procedure: 'FONDECYT', trialidxxx: "FONDECYT_01" + num},
     timeline_variables: within_selection["FONDECYT"]["timeline_02"],
     randomize_order: true, //random order
   };

@@ -29,23 +29,52 @@
   <script src="jsPsych-6/plugins/jspsych-survey-text.js"></script>
   <script src="jsPsych-6/plugins/jspsych-html-slider-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-html-form.js"></script>
-  
+
   <!-- Protocol Plugins: CUSTOM -->
   <script src="jsPsych-6/plugins/jspsych-audio-button-response-CSCN-BART.js"></script>
 
 
   <!-- Controllers -->
+  <!--
   <script src="controllers/js/script_loading.js"></script>
 
   <!-- Database initialization and control -->
+  <!--
   <script src="controllers/js/mysql_controller.js"></script>
   <script src="controllers/js/indexedDB_controller.js"></script>
   <script src="controllers/js/save_data.js"></script>
-
+  -->
   <!-- Protocol Configuration -->
   <script src="config.js"></script>
   <script>if (debug_mode == true) alert("debug_mode == true: RANDOMIZATION of items is OFF")</script>
+  <script src="controllers/js/helper_functions.js"></script>
+  <script src="controllers/js/protocol_controller.js"></script>
+
+  <script src="controllers/js/mysql_controller.js"></script>
+  <script src="controllers/js/indexedDB_controller.js"></script>
+
+
+<!--
   <script src="controllers/js/config_controller.js"></script>
+  <script type="text/javascript" src="controllers/js/css_loading.js"></script>
+
+-->
+
+<script>
+
+// FROM config_controller.js -------------------------------------------------------------
+
+// Use IndexedDB or MySQL for offline or online protocols
+if (online) {
+  //includeJs("controllers/js/mysql_controller.js")
+  start_mysqldb(pid, max_participants);
+  load_clean_mysql(iterations_for_review, max_participants);
+} else {
+  //includeJs("controllers/js/indexedDB_controller.js")
+  load_clean_indexeddb(iterations_for_review, max_participants);
+}
+</script>
+
 
   <div class="jspsych-content-wrapper">
     <div id="jspsych-content" class="jspsych-content">
@@ -64,14 +93,13 @@
     }
     else {
       if (!params.has("uid"))
-        text_input_uid.innerHTML = intro;
+        text_input_uid.innerHTML = intro_HTML;
         document.getElementById("check").removeAttribute("style");
         document.getElementById("input_uid").hidden = false;
     }
   </script>
 
   <!-- PROTOCOL MACHINERY -->
-  <script src="controllers/js/protocol_controller.js"></script>
   <script>
     window.onload = function() {
 
@@ -89,7 +117,6 @@
       check_id_status();
     };
   </script>
-  <script type="text/javascript" src="controllers/js/css_loading.js"></script>
 
   </body>
 </html>
