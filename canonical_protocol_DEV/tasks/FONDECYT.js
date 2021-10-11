@@ -2,9 +2,9 @@
 
 // IMPORTANT ----------
 
-// - First screen trialid is always FONDECYT_01_0
 // - THIS experiment can be done in a single timeline?
-// - condition_within NEEDS TO BE THE COMBINATION OF THE TWO WITHIN CARS: e.g. lowQuality_Cancer, etc.
+// - First screen trialid is always FONDECYT_01_0
+// - condition_within NEEDS TO BE THE COMBINATION OF THE TWO WITHIN VARS: e.g. lowQuality_Cancer, etc.
 //    + Quick fix? condition_within: Object.entries(data_test_quality)[num_item][0],
 //    + Had to create num_item...
 //

@@ -12,9 +12,10 @@ $sleep_time = rand (1, 10);
 usleep( $sleep_time );
 
 
+  // If running task in protocols/ folder:
   //require_once '../../../../../../../../.secrets_mysql.php';
 
-  // If running task in tests/ folder
+  // If running task in protocols/tests/ folder:
    require_once '../../../../../../../../../.secrets_mysql.php';
 
 
