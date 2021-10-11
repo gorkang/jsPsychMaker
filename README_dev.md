@@ -6,8 +6,12 @@
 - He puesto un mensaje en <span id="text_input_uid"> para que se vea mientras se cargan las cosas.
 
 - Solo se carga el script necesario (indexedDB o MySQL)
-    - SEPARADO completamente indexedDB y MySQL. protocol_controller.js queda vacio
-    - Cargamos 1 archivo menos, y es mas pequeño
+    - SEPARADO completamente indexedDB y MySQL. 
+      + Mas facil debugear
+      + protocol_controller.js queda vacio
+      + Cargamos 1 archivo menos, y es mas pequeño
+    - El sistema usado probablemente no sea el mejor. 
+      + No aparece mensaje en consola ni alerta cuando el uid ya existe.
   
 - JUNTADO todas las funciones genericas en un helper_functions.js
   - css_loading.js
@@ -18,6 +22,8 @@
 
 
 ## TODO
+
+CUANDO UID YA EXISTE EN MYSQL, NO APARECE MENSAJE
 
 ### FONDECYT
 
