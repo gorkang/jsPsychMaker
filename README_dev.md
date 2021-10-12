@@ -1,5 +1,27 @@
-## HECHO
+## REMEMBER
 
+- condition_within y condition_between tienen que estar en `camelCase`: 
+
+  + `condition1`
+  + `condition1_condition2`
+  + `complexCondition1_complexCondition2`
+
+- ||REVISAR|| condition_within deberia ser parte del trialid? Por ejemplo, FONDECYT_01_complexCondition1_complexCondition2, o FONDECYT_01_1_complexCondition1_complexCondition2 (???)
+  + Si es asi, deberiamos revisar todas las tareas que tienen algun componente within para que funcionen de manera consistente: 
+    + FONDECYT
+    + INFCONS
+    + HRPVB
+    + ...
+    
+En tareas como HRPVB probablemente haya que usar un diccionario. No se como es la sintaxis exactamente, pero necesitamos un shortName para cada item, que se insertaria en el trialid:
+
+var tipo_problema_BB = [problemasRespiratorios: 'Problemas respiratorios del recién nacido',
+                        lesionCerebro: 'Lesión en el cerebro del bebe por falta de oxígeno',
+                        hospitalizacion: 'Hospitalización en cuidados intensivos neonatales',
+                        lactancia: 'Dificultades para inicio temprano de lactancia materna']
+    
+
+## HECHO
 
 **Al empezar protocolo canonical la pantalla estaba en blanco MUCHO tiempo (3 a 6 segundos!)`**
 
