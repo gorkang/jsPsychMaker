@@ -7,24 +7,32 @@
 */
 
 // Random sleep for a few ms to avoid clashes when checking assigned_task in the DB
-// If we manage to lock the table this can go
+// REVIEW: If we manage to lock the table this can go
 $sleep_time = rand (1, 10);
 usleep( $sleep_time );
 
 
-  // If running task in protocols/ folder:
-  //require_once '../../../../../../../../.secrets_mysql.php';
-
-  // If running task in protocols/tests/ folder:
-   require_once '../../../../../../../../../.secrets_mysql.php';
-
+// MySQL credentials: .secrets_mysql.php --------------------------------------
 
 /* The file .secrets_mysql.php contains the following information:
   $servername = "";
   $username = "";
   $password = "";
   $dbname = "";
-  */
+*/
+
+// Path to .secrets_mysql.php is different if running in protocols/test/ or protocols/
+$url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
+
+if (strpos($url,'test') !== false) {
+  // If running task in protocols/tests/ folder:
+  require_once '../../../../../../../../../.secrets_mysql.php';
+} else {
+  // If running task in protocols/ folder:
+  require_once '../../../../../../../../.secrets_mysql.php';
+}
+
+
 
   $data = json_decode(file_get_contents('php://input'), true);
 
