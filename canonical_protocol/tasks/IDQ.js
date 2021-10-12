@@ -101,6 +101,7 @@ var question10 = {
 
 var if_question10 = {
     timeline: [question10],
+    data: {trialid: 'IDQ_10_if', procedure: 'IDQ'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -129,6 +130,7 @@ var question12 = {
 
 var if_question12 = {
     timeline: [question12],
+    data: {trialid: 'IDQ_12_if', procedure: 'IDQ'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -157,6 +159,7 @@ var question14 = {
 
 var if_question14 = {
     timeline: [question14],
+    data: {trialid: 'IDQ_14_if', procedure: 'IDQ'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed

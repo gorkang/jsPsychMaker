@@ -108,6 +108,8 @@ var question09 = {
 
 var if_question09 = {
 timeline: [question09],
+data: {trialid: 'DEMOGR_09_if', procedure: 'DEMOGR'},
+
 conditional_function: function(){
   let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'DEMOGR_08'))['response'])['Q0']).trim();
  if((data) ==  'Universidad incompleta' | (data) ==  'Universidad completa' | (data) ==  'Postgrado incompleta' | (data) ==  'Postgrado completa' | (data) ==  'Magíster o Doctorado incompleta' | (data) ==  'Magíster o Doctorado completa'){

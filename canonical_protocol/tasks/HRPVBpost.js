@@ -203,7 +203,7 @@ HRPVBpost_MM = [];    //temporal timeline
   var test1 = {
     type: 'html-slider-response',
       stimulus: function () {return '<div class="justified"><p><U><B>' + jsPsych.timelineVariable('sujeto') + '</B> en un <span style="color: #' + jsPsych.timelineVariable('stimulus1')[0] + '"><B>parto ' + jsPsych.timelineVariable('stimulus1')[1] + '</B></span></U><BR><BR><BR>Indica la probabilidad de que ocurra lo siguiente:<BR><BR><B>' + jsPsych.timelineVariable('intro') + '</B></div></br>'},
-      require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 0.1, labels: ["Muy baja", "Muy alta"], button_label: "Next",
+      require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 0.1, labels: ["Muy baja", "Muy alta"], button_label: "Next",
       data: function () {
         var element = {
           //trialid: 'HRPVBpost_01',
@@ -219,7 +219,7 @@ HRPVBpost_MM = [];    //temporal timeline
   var test2 = {
     type: 'html-slider-response',
       stimulus: function () {return '<div class="justified"><p><U><B>' + jsPsych.timelineVariable('sujeto') + '</B> en un <span style="color: #' + jsPsych.timelineVariable('stimulus2')[0] + '"><B>parto ' + jsPsych.timelineVariable('stimulus2')[1] + '</B></span></U><BR><BR><BR>Indica la probabilidad de que ocurra lo siguiente:<BR><BR><B>' + jsPsych.timelineVariable('intro') + '</B></div></br>'},
-      require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 0.1, labels: ["Muy baja", "Muy alta"], button_label: "Next",
+      require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 0.1, labels: ["Muy baja", "Muy alta"], button_label: "Next",
       data: function () {
         var element = {
           //trialid: 'HRPVBpost_02',
@@ -236,7 +236,8 @@ HRPVBpost_MM = [];    //temporal timeline
 // Create blocks --------------------------------------------------------
 
   var test_procedure_BB = {
-    timeline: [intro, test1, test2], //
+    timeline: [intro, test1, test2],
+    data: {trialid: 'HRPVBpost_BB', procedure: 'HRPVBpost'},
     timeline_variables: test_riesgos_BB,
     repetitions: 1,
     randomize_order: true,
@@ -247,7 +248,8 @@ HRPVBpost_MM = [];    //temporal timeline
 
 
   var test_procedure_MM = {
-    timeline: [intro, test1, test2], //
+    timeline: [intro, test1, test2],
+    data: {trialid: 'HRPVBpost_MM', procedure: 'HRPVBpost'},
     timeline_variables: test_riesgos_MM,
     repetitions: 1,
     randomize_order: true,

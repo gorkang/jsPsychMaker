@@ -4,17 +4,6 @@
 This document was made with test_maker
 */
 
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
-
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
 
 PRFBM = [];    //temporal timeline
@@ -39,12 +28,13 @@ PRFBM.push(question01);
 
 var question02 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">¿Cuán fuerte es tu preferencia por el parto vaginal?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Nada fuerte", "Muy fuerte"], button_label: "Next",
+  stimulus: '<div class="justified">¿Cuán fuerte es tu preferencia por el parto vaginal?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Nada fuerte", "Muy fuerte"], button_label: "Next",
   data: {trialid: 'PRFBM_02', procedure: 'PRFBM'}
 };
 
 var if_question02 = {
 timeline: [question02],
+data: {trialid: 'PRFBM_02_if', procedure: 'PRFBM'},
 conditional_function: function(){
   let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'PRFBM_01'))['response'])['Q0']).trim();
  if((data) ==  'Parto vaginal (extracción del bebé por el canal vaginal en forma espontánea, con o sin intervenciones como anestesia)'){
@@ -59,12 +49,13 @@ PRFBM.push(if_question02);
 
 var question03 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">¿Cuán fuerte es tu preferencia por el parto por cesárea?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Nada fuerte", "Muy fuerte"], button_label: "Next",
+  stimulus: '<div class="justified">¿Cuán fuerte es tu preferencia por el parto por cesárea?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Nada fuerte", "Muy fuerte"], button_label: "Next",
   data: {trialid: 'PRFBM_03', procedure: 'PRFBM'}
 };
 
 var if_question03 = {
 timeline: [question03],
+data: {trialid: 'PRFBM_03_if', procedure: 'PRFBM'},
 conditional_function: function(){
   let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'PRFBM_01'))['response'])['Q0']).trim();
  if((data) ==  'Parto por cesárea (extracción del bebé por medio de una cirugía con anestesia. Se realiza una incisión abdominal y una incisión para abrir el útero)'){

@@ -16,7 +16,7 @@ onkeydown = function block_fkeys(event){
     }
 }
 
-questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];;    //final timeline
+questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];    //final timeline
 
 EmpaTom = [];    //temporal timeline
 
@@ -25,6 +25,7 @@ EmpaTom = [];    //temporal timeline
   // then video preloading will be disabled to prevent CORS errors
   var preload = {
     type: 'preload',
+    data: {trialid: 'preload_01', procedure: 'EmpaTom'},
     auto_preload: true
   }
 
@@ -53,14 +54,14 @@ EmpaTom = [];    //temporal timeline
 
   var question02 = {
     type: 'html-slider-response',
-    stimulus: "<div class='justified'>¿Cómo te sientes?</div></br>", require_movement:true, required: true, min: 1, max: 7, slider_width: 500, start: 4, step: 1, labels: ["Mal", "Neutro", "Bien"], button_label: "Siguiente",
+    stimulus: "<div class='justified'>¿Cómo te sientes?</div></br>", require_movement:true, required: true, min: 1, max: 7, slider_width: 500, slider_start: 4, step: 1, labels: ["Mal", "Neutro", "Bien"], button_label: "Siguiente",
     data: {trialid: 'EmpaTom_02', procedure: 'EmpaTom'}
   };
   EmpaTom.push(question02);
 
   var question03 = {
     type: 'html-slider-response',
-    stimulus: "<div class='justified'>¿Cuánta compasión sentiste por Tom?</div></br>", require_movement:true, required: true, min: 1, max: 7, slider_width: 500, start: 4, step: 1, labels: ["Nada", "Mucha"], button_label: "Siguiente",
+    stimulus: "<div class='justified'>¿Cuánta compasión sentiste por Tom?</div></br>", require_movement:true, required: true, min: 1, max: 7, slider_width: 500, slider_start: 4, step: 1, labels: ["Nada", "Mucha"], button_label: "Siguiente",
     data: {trialid: 'EmpaTom_03', procedure: 'EmpaTom'}
   };
   EmpaTom.push(question03);

@@ -157,27 +157,6 @@ function collect() {
 }
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
-questions.push(
-  {
-    timeline: [{
-      type: 'fullscreen',
-      message: '<p>El experimento entrará en modo pantalla completa</p>',
-      button_label: 'Pantalla Completa',
-      delay_after: 0,
-      fullscreen_mode: true,
-      data: {procedure: 'BART'}
-    }],
-    conditional_function: function(){
-      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
-        return true;
-      else
-        return false;
-    },
-    procedure: 'BART'
-  }
-);
-
 BART = [];
 
 for (var i = 0; i < 30; i++) {

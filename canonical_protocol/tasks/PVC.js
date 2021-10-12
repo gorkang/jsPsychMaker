@@ -16,27 +16,6 @@ onkeydown = function block_fkeys(event){
 }
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
-questions.push(
-  {
-    timeline: [{
-      type: 'fullscreen',
-      message: '<p>El experimento entrará en modo pantalla completa</p>',
-      button_label: 'Full screen',
-      delay_after: 0,
-      fullscreen_mode: true,
-      data: {procedure: 'PVC'}
-    }],
-    conditional_function: function(){
-      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
-        return true;
-      else
-        return false;
-    },
-    procedure: 'PVC'
-  }
-);
-
 PVC = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -68,6 +47,7 @@ var question001_1 = {
 
 var if_question001_1 = {
   timeline: [question001_1],
+  data: {trialid: 'PVC_001_1_if', procedure: 'PVC'},
   conditional_function: function(){
     let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'PVC_001'))['response'])['Q0']).trim();
     if((data) ==  'No'){

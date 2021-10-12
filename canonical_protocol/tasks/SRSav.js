@@ -15,7 +15,7 @@ onkeydown = function block_fkeys(event){
     }
 }
 
-questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];;    //final timeline
+questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];    //final timeline
 
 SRSav = [];    //temporal timeline
 

@@ -16,27 +16,6 @@ onkeydown = function block_fkeys(event){
 }
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
-questions.push(
-  {
-    timeline: [{
-      type: 'fullscreen',
-      message: '<p>El experimento entrará en modo pantalla completa</p>',
-      button_label: 'Full screen',
-      delay_after: 0,
-      fullscreen_mode: true,
-      data: {procedure: 'SASS'}
-    }],
-    conditional_function: function(){
-      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
-        return true;
-      else
-        return false;
-    },
-    procedure: 'SASS'
-  }
-);
-
 SASS = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -68,6 +47,7 @@ var question02 = {
 
 var if_question02 = {
   timeline: [question02],
+  data: {trialid: 'SASS_02_if', procedure: 'SASS'},
   conditional_function: function(){
     let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'SASS_01'))['response'])['Q0']).trim();
    if((data) ==  'Si'){
@@ -90,6 +70,7 @@ var question03 = {
 
 var if_question03 = {
   timeline: [question03],
+  data: {trialid: 'SASS_03_if', procedure: 'SASS'},
   conditional_function: function(){
     let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'SASS_01'))['response'])['Q0']).trim();
    if((data) ==  'No'){

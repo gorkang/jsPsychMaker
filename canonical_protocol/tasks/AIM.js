@@ -16,27 +16,6 @@ onkeydown = function block_fkeys(event){
 }
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
-questions.push(
-  {
-    timeline: [{
-      type: 'fullscreen',
-      message: '<p>El experimento entrará en modo pantalla completa</p>',
-      button_label: 'Full screen',
-      delay_after: 0,
-      fullscreen_mode: true,
-      data: {procedure: 'AIM'}
-    }],
-    conditional_function: function(){
-      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
-        return true;
-      else
-        return false;
-    },
-    procedure: 'AIM'
-  }
-);
-
 AIM = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -84,6 +63,7 @@ var question04 = {
 
 var if_question04 = {
     timeline: [question04],
+    data: {trialid: 'AIM_04_if', procedure: 'AIM'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -108,6 +88,7 @@ var question05 = {
 
 var if_question05 = {
     timeline: [question05],
+    data: {trialid: 'AIM_05_if', procedure: 'AIM'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -132,6 +113,7 @@ var question06 = {
 
 var if_question06 = {
     timeline: [question06],
+    data: {trialid: 'AIM_06_if', procedure: 'AIM'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -156,6 +138,7 @@ var question07 = {
 
 var if_question07 = {
     timeline: [question07],
+    data: {trialid: 'AIM_07_if', procedure: 'AIM'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -180,6 +163,7 @@ var question08 = {
 
 var if_question08 = {
     timeline: [question08],
+    data: {trialid: 'AIM_08_if', procedure: 'AIM'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -204,6 +188,7 @@ var question09 = {
 
 var if_question09 = {
     timeline: [question09],
+    data: {trialid: 'AIM_09_if', procedure: 'AIM'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed
@@ -228,6 +213,7 @@ var question10 = {
 
 var if_question10 = {
     timeline: [question10],
+    data: {trialid: 'AIM_10_if', procedure: 'AIM'},
     conditional_function: function(){
         // get the data from the previous trial,
         // and check which key was pressed

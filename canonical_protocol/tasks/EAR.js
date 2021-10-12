@@ -16,27 +16,6 @@ onkeydown = function block_fkeys(event){
 }
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
-questions.push(
-  {
-    timeline: [{
-      type: 'fullscreen',
-      message: '<p>El experimento entrará en modo pantalla completa</p>',
-      button_label: 'Full screen',
-      delay_after: 0,
-      fullscreen_mode: true,
-      data: {procedure: 'EAR'}
-    }],
-    conditional_function: function(){
-      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
-        return true;
-      else
-        return false;
-    },
-    procedure: 'EAR'
-  }
-);
-
 EAR = [];    //temporal timeline
 
 var instruction_screen_experiment = {

@@ -16,7 +16,6 @@ onkeydown = function block_fkeys(event){
 }
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
 PRFBMpost = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -41,12 +40,13 @@ PRFBMpost.push(question01);
 
 var question02 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">¿Cuán fuerte es tu preferencia por el parto vaginal?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Nada fuerte", "Muy fuerte"], button_label: "Next",
+  stimulus: '<div class="justified">¿Cuán fuerte es tu preferencia por el parto vaginal?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Nada fuerte", "Muy fuerte"], button_label: "Next",
   data: {trialid: 'PRFBMpost_02', procedure: 'PRFBMpost'}
 };
 
 var if_question02 = {
 timeline: [question02],
+data: {trialid: 'PRFBMpost_02_if', procedure: 'PRFBM'},
 conditional_function: function(){
   let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'PRFBMpost_01'))['response'])['Q0']).trim();
  if((data) ==  'Parto vaginal (extracción del bebé por el canal vaginal en forma espontánea, con o sin intervenciones como anestesia)'){
@@ -61,12 +61,13 @@ PRFBMpost.push(if_question02);
 
 var question03 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">¿Cuán fuerte es tu preferencia por el parto por cesárea?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, start: 50, step: 1, labels: ["Nada fuerte", "Muy fuerte"], button_label: "Next",
+  stimulus: '<div class="justified">¿Cuán fuerte es tu preferencia por el parto por cesárea?</div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 1e+10, min: 0, max: 100, slider_width: 500, slider_start: 50, step: 1, labels: ["Nada fuerte", "Muy fuerte"], button_label: "Next",
   data: {trialid: 'PRFBMpost_03', procedure: 'PRFBMpost'}
 };
 
 var if_question03 = {
 timeline: [question03],
+data: {trialid: 'PRFBM_03_if', procedure: 'PRFBM'},
 conditional_function: function(){
   let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'PRFBMpost_01'))['response'])['Q0']).trim();
  if((data) ==  'Parto por cesárea (extracción del bebé por medio de una cirugía con anestesia. Se realiza una incisión abdominal y una incisión para abrir el útero)'){

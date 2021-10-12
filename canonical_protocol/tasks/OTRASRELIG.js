@@ -16,27 +16,6 @@ onkeydown = function block_fkeys(event){
 }
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
-questions.push(
-  {
-    timeline: [{
-      type: 'fullscreen',
-      message: '<p>El experimento entrará en modo pantalla completa</p>',
-      button_label: 'Full screen',
-      delay_after: 0,
-      fullscreen_mode: true,
-      data: {procedure: 'OTRASRELIG'}
-    }],
-    conditional_function: function(){
-      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
-        return true;
-      else
-        return false;
-    },
-    procedure: 'OTRASRELIG'
-  }
-);
-
 OTRASRELIG = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -53,7 +32,7 @@ var instruction_screen_experiment = {
 
 var question01 = {
   type: 'html-slider-response',
-  stimulus: '<div class="justified">¿Qué tan importante considera que es Dios en su vida? </div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 10000000000, min: 1, max: 10, slider_width: 200, start: 3, step: 1, labels: ["Para nada importante", "Muy importante"], button_label: "Next",
+  stimulus: '<div class="justified">¿Qué tan importante considera que es Dios en su vida? </div></br>', require_movement: true, slider_number: true, required: true, stimulus_duration: 10000000000, min: 1, max: 10, slider_width: 200, slider_start: 3, step: 1, labels: ["Para nada importante", "Muy importante"], button_label: "Next",
   data: {trialid: 'OTRASRELIG_01', procedure: 'OTRASRELIG'},
   procedure: 'OTRASRELIG'
 };
@@ -108,6 +87,7 @@ var question07 = {
 
 var if_question07 = {
   timeline: [question07],
+  data: {trialid: 'OTRASRELIG_07_if', procedure: 'OTRASRELIG'},
   conditional_function: function(){
     let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'OTRASRELIG_06'))['response'])['Q0']).trim();
    if((data) ==  'Religioso(a), de otra afiliación.'){
@@ -138,6 +118,7 @@ var question09 = {
 
 var if_question09 = {
   timeline: [question09],
+  data: {trialid: 'OTRASRELIG_09_if', procedure: 'OTRASRELIG'},
   conditional_function: function(){
     let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'OTRASRELIG_08'))['response'])['Q0']).trim();
    if((data) ==  'Otro'){
