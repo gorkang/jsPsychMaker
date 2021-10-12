@@ -20,6 +20,10 @@
   - algunas cosas de protocol_controller.js
   - ...
 
+- .secrets_mysql.php:
+  + PHP lee la URL y cambia el path a .secrets_mysql.php si estamos en protocols/tests/ o protocols/
+
+- Si hay un mismo numero de assigned, se selecciona una al azar, no la primera
 
 ## TODO
 
@@ -46,9 +50,6 @@
   - Para las task: ahorramos pruebas en protocolo - 1
   
 
-- .secrets_mysql.php:
-  + Ahora hay que cambiar manualmente la linea require_once '../../../../../../../../../.secrets_mysql.php'; si se esta en protocol/tests/ o protocol/
-  + Se puede hacer que PHP lea la URL y vea si esta tests/ ?
 
 
 - Scripts: 
