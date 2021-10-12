@@ -221,14 +221,14 @@ function continue_page_activation(completed_experiments, questions, completed = 
 
   // se selecciona el texto a mostrar y si es que se muestra o no el botón para continuar con el protocolo en el punto en el que quedó
   if (completed_experiments.length != 0 && questions.length != 0) {
-    text_input_uid.innerHTML = "Usted ha completado " + (completed_experiments.length).toString() + " tareas de este protocolo. <br> Para continuar donde quedó presione el siguiente botón:";
+    text_input_uid.innerHTML = "Ya has completado " + (completed_experiments.length).toString() + " de " + (all_tasks.length).toString() + " tareas de este protocolo. <br><br> Para continuar con las " + (all_tasks.length - completed_experiments.length).toString() + " últimas tareas, presiona el botón.";
     start.hidden = false;
     start.removeAttribute("style");
   } else if ((completed_experiments.length == all_tasks.length) || completed) {
     text_input_uid.innerHTML = "Ya has completado todas las tareas de este protocolo.";
   } else if (discarded && !accept_discarded) {
-    text_input_uid.innerHTML = "Este usuario fue descartado del protocolo, comunícate con un administrador para poder volver a ingresar.";
-  } else {
+    text_input_uid.innerHTML = "Este participante fue descartado del protocolo por superar el tiempo asignado.";
+  } else { // New participant
     text_input_uid.innerHTML = (intro_HTML).concat("<br><br>Presiona el siguiente botón para comenzar.");
     start.hidden = false;
     start.removeAttribute("style");

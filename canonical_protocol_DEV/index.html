@@ -36,12 +36,13 @@
   <script>
     if (random_id) {
       document.getElementById("input_uid").value = jsPsych.randomization.randomID(20);
+      // REVIEW: Aqui no avanza si se pasa el uid por URL?
     } else {
-      if (!params.has("uid")) {
+      if (!params.has("uid")){
         text_input_uid.innerHTML = intro_HTML;
         document.getElementById("check").removeAttribute("style");
         document.getElementById("input_uid").hidden = false;
-      }
+      } 
     }
   </script>
 

@@ -349,12 +349,14 @@ function check_id_status(event) {
 
           console.log("New user");
           uid = 0;
+          text_input_uid.innerHTML = 'Nuevo participante. Iniciando experimento... <BR><BR><img src="media/img/loading.gif" name="UAI" align="bottom" border="0"/>';
+
           condition_selection().then(function(accepted) {
             // LOAD all the tasks. This also loads the between participants conditions
             script_loading("tasks", all_tasks, completed_experiments, true);
           });
 
-        // User found in DB
+        // User found in DB ---
         } else {
 
           // Fetch internal DB uid
@@ -384,13 +386,15 @@ function check_id_status(event) {
                 // Reset starting date to NOW
                 actual_time = new Date().toISOString().slice(0, 19);
                 actual_user.start_date = actual_time;
-                // REVIEW: We intert the new date into the DB (???)
+
                 condition_selection(between_selection).then(function(accepted) {
                   // si la revisión de condiciones resulta positiva podemos agregar al usuario reasignado
                   if (accepted) {
                     // Change status to assigned in table user
                     XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "assigned"}});
-                    console.log("Usuario re-assigned.");
+                    console.log("Usuario re-assignado.");
+                    text_input_uid.innerHTML = 'Tiempo excedido. Recuperando datos de participante... <BR><BR><img src="media/img/loading.gif" name="UAI" align="bottom" border="0"/>';
+
                     for (var [key, value] of Object.entries(between_selection)) {
                       for (var i = 0; i < value.length; i++) {
                         XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [value[i]]}).then(function(actual_condition) {
@@ -409,6 +413,7 @@ function check_id_status(event) {
               } else {
                 console.log("User previously assigned.");
                 user_assigned = true;
+                text_input_uid.innerHTML = 'Participante encontrado. Cargando estado... <BR><BR><img src="media/img/loading.gif" name="UAI" align="bottom" border="0"/>';
               }
 
               completed_experiments = [];
@@ -422,6 +427,9 @@ function check_id_status(event) {
                 script_loading("tasks", all_tasks, completed_experiments);
               });
             });
+          } else if (actual_user.status == "completed") {
+            console.log("User already completed the protocol.")
+            text_input_uid.innerHTML = "El participante ya completó el protocolo";
           }
         } // user in DB
       }, function (error) {
@@ -654,7 +662,7 @@ function completed_task_storage(csv, task) {
         });
       });
     }
-    
+
   }
 
 

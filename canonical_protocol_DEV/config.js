@@ -4,7 +4,7 @@
 pid = 999; // Protocol ID [number]
 online = true; // Protocol runs online [true/false]
 max_participants = 30; // Max participants per contition [number]
-random_id = true; // Assign random id to participants [true/false]
+random_id = false; // Assign random id to participants [true/false]
 max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
 
