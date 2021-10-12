@@ -18,6 +18,10 @@ function json_can_parsed(data) {
   }
 }
 
+
+
+// XMLcall() ------------------------------------------------------------------
+
 function XMLcall (query, table_name, elements = {}) {
   return new Promise(
     function(resolve, reject) {
@@ -45,7 +49,7 @@ function XMLcall (query, table_name, elements = {}) {
         base_query["keys"] = elements["keys"];
       } else if (query == "insertIntoTable") {
         keys = Object.keys(elements["dict"]).join();
-        values = '"' + Object.values(elements["dict"]).join('","') + '"'
+        values = '"' + Object.values(elements["dict"]).join('","') + '"';
         base_query["keys"] = keys;
         base_query["values"] = values;
       } else if (query == "updateTable") { //update "1" element from mysql table
@@ -90,6 +94,10 @@ function XMLcall (query, table_name, elements = {}) {
   );
 }
 
+
+
+// start_mysqldb() -------------------------------------------------------------
+
 function start_mysqldb(pid, max_participants) {
   // REVIEW: start_mysqldb() should be used ONLY if we don't already have the DB
 
@@ -114,6 +122,10 @@ function start_mysqldb(pid, max_participants) {
     XMLcall("insertIntoTable", "task", {dict: tasks[i]});
   }
 }
+
+
+
+// clean_mysql() ---------------------------------------------------------------
 
 function clean_mysql(){
 
@@ -161,6 +173,10 @@ function clean_mysql(){
 
 }
 
+
+
+// load_clean_mysql() ----------------------------------------------------------
+
 function load_clean_mysql(iterations_for_review, max_participants) {
 
 
@@ -205,24 +221,9 @@ function load_clean_mysql(iterations_for_review, max_participants) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// condition_selection() --------------------------------------------------------
 // obtención de condiciones para usuario nuevo (funciona como promise para que sea sincrónico)
+
 function condition_selection(between_selection_temp = {}) {
   return new Promise(
     function(resolve, reject) {
@@ -235,49 +236,60 @@ function condition_selection(between_selection_temp = {}) {
           actual_min = {};
           temp_condition_task_list = [];
 
+
+          // NEW PARTICIPANTS ---
           if (Object.keys(between_selection_temp).length === 0) {
-            // esta parte solo debe ser usada en caso de que sea un usuario nuevo
-            // ver si se puede pasar a filter-map
-
-
-            // NEW VERSION ----------------------------------------------
+            
             condition_data_temp = [];
-            ARRAY_temp = [];
+            ARRAY_between_temp = [];
 
             // Get array with unique between tasks (we need to select one condition for each one)
-            unique_tasks = [...new Set(condition_data.map(item => item.task_name))];
+            unique_between_tasks = [...new Set(condition_data.map(item => item.task_name))];
 
             // For each of the between tasks (usually just one)
-            for (var i = 0; i < unique_tasks.length; i++) {
+            for (var i = 0; i < unique_between_tasks.length; i++) {
 
               // Temporal array for the condition i
-              ARRAY_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_tasks[i]; });
-              // Min number of assigned_task in array
-              min_assigned_temp = Math.min.apply(Math, ARRAY_temp[i].map(function(value,index) { return value["assigned_task"]; }));
-              // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain. If there are more than one, we get the first one [0]
-              condition_data_temp = ARRAY_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; })[0];
+              ARRAY_between_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_between_tasks[i]; });
+              
+              // Min number of participants assigned to a condition (assigned_task in array)
+              min_assigned_temp = Math.min.apply(Math, ARRAY_between_temp[i].map(function(value,index) { return value["assigned_task"]; }));
+              
+              // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
+              // If there are more than one condition with the same number of assigned participants, we get one of them randomly
+              available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
+              randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY[0].length).fill().map((element, index) => index), 1);
+              condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
+              
+              if (debug_mode === true) {
+                console.log("All conditions");
+                console.log(ARRAY_between_temp);
+                console.log("Available conditions (conditions with == number of assigned OR condition with min assign)");
+                console.log(available_conditions_ARRAY);
+                console.log("Selected index: " + randomly_selected_index);
+              }
+              
 
-
-              // REVIEW: This is mostly copied from CHECK below. Not sure how to integrate with // comprobación para discarded to avoid duplication
+              // If we can't assign a condition
               if (condition_data_temp === undefined) {
-                // If we can't assign a condition
                 experiment_blocked = true;
                 condition_temp_array = [false];
                 alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
                 throw new Error('Usuario bloqueado por límite en condiciones'); // To avoid loading the rest of the questions
                 resolve(false);
+              // If there are slots, write to between_selection[NAME_OF_TASK]
               } else {
-                // If there are slots, write to between_selection[NAME_OF_TASK]
-                between_selection[unique_tasks[i]] = [condition_data_temp["condition_name"]];
+                between_selection[unique_between_tasks[i]] = [condition_data_temp["condition_name"]];
                 experiment_blocked = false;
                 condition_temp_array = [true];
                 resolve(true);
               }
-
             }
 
+          // DISCARDED PARTICIPANTS ---
           } else {
-            // comprobación para discarded
+            
+            // REVIEW:  temp_accepted_conditions NO se usa para nada (?????)
             temp_accepted_conditions = condition_data.filter(function(value,index) { return value["assigned_task"] < max_participants; });
 
             condition_temp_array = [];
@@ -309,10 +321,13 @@ function condition_selection(between_selection_temp = {}) {
   );
 }
 
+
+
+
+// check_id_status() --------------------------------------------------------
+
 // Used on index.html. Verify status of user id
 function check_id_status(event) {
-
-  // Divided in OFFLINE and ONLINE sections. OFFLINE uses IndexedDB, ONLINE uses MySQL
 
   // We have id in either URL (uid) or POST (input_uid)
   // On the DB, the uid/input_uid is called uid_external.
@@ -381,7 +396,8 @@ function check_id_status(event) {
                   between_selection[actual_task] = [actual_condition];
                 }
               }
-
+              
+              // DISCARDED user ---
               if (actual_user.status == "discarded") {
                 // Reset starting date to NOW
                 actual_time = new Date().toISOString().slice(0, 19);
@@ -410,6 +426,8 @@ function check_id_status(event) {
                     user_assigned = true;
                   }
                 });
+                
+              // ASSIGNED user --- 
               } else {
                 console.log("User previously assigned.");
                 user_assigned = true;
@@ -442,6 +460,8 @@ function check_id_status(event) {
 }
 
 
+
+// completed_task_storage() --------------------------------------------------------
 
 //Saves the data in database
 function completed_task_storage(csv, task) {
