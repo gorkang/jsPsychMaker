@@ -8,7 +8,7 @@ random_id = false; // Assign random id to participants [true/false]
 max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
 
-debug_mode = false;
+debug_mode = true;
 
 // ORDER OF TASKS --------------------------------------------------------------
 /*
@@ -21,12 +21,13 @@ secuentially_ordered_tasks_1 = ['']; // Block of tasks in sequential order
 
 // Final array of tasks [build combining the above blocks]
   // The order of the tasks in the arrays starting with "random" will be randomized
+  // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];
 tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks']
 */
 
 ALL_tasks = [
 
-"FONDECYT",
+//"FONDECYT",
 
 "Consent",
 "AIM",
