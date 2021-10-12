@@ -35,11 +35,12 @@ total_money = 0;
 numbers = [1, 5, 10, 14, 18, 23, 27, 31, 36, 40, 44, 49, 53, 57, 62, 66, 70, 75, 79, 83, 88, 92, 96, 101, 105, 109, 114, 118, 122, 128];
 if (debug_mode == 'false') numbers = jsPsych.randomization.repeat(numbers, 1);
 
-balloon_img = images[0];
-audio_inflate = audios[0];
-audio_explode = audios[1];
-audio_collect = audios[2];
-audio_silence = audios[3];
+balloon_img = 'media/img/BART_redBalloon.png';
+audio_inflate = 'media/audio/BART_inflate.mp3';
+audio_explode = 'media/audio/BART_explode.mp3';
+audio_collect = 'media/audio/BART_collect.mp3';
+audio_silence = 'media/audio/silence.mp3';
+
 
 actual_status = "safe";
 
@@ -84,7 +85,7 @@ function inflate(actual_number) {
       setupTrial();
     })
     .catch(function (err) {
-      console.error(err)
+      console.error(err);
     });
 
   function setupTrial() {
@@ -127,7 +128,7 @@ function collect() {
       setupTrial();
     })
     .catch(function (err) {
-      console.error(err)
+      console.error(err);
     });
 
   function setupTrial() {
