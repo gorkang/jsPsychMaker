@@ -258,7 +258,7 @@ function condition_selection(between_selection_temp = {}) {
               // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
               // If there are more than one condition with the same number of assigned participants, we get one of them randomly
               available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
-              randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY[0].length).fill().map((element, index) => index), 1);
+              randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
               condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
               
               if (debug_mode === true) {

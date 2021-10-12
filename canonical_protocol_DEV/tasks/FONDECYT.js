@@ -135,7 +135,7 @@
           // parte comun para ambas partes del between
           var html = '<div class="row" style="display: flex; align-items: center">';
           // para este caso son 2 columnas, de todas formas esto es definido por la persona que crea el instrumento
-          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Cancer"]["disease_description"] + ", se realiza  " + data_disease["Cancer"]["test_description"] + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Cancer"]["number_PREVALENCE_x"] + " de cada " + data_disease["Cancer"]["number_PREVALENCE_y"] + ". La sensibilidad de la prueba es de " + data_disease["Cancer"]["number_SENSITIVITY"] + "%. La especificidad de la prueba es de " + data_disease["Cancer"]["number_SPECIFICITY"] + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"].type_image + "?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
+          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Cancer"].disease_description + ", se realiza  " + data_disease["Cancer"].test_description + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Cancer"].number_PREVALENCE_x + " de cada " + data_disease["Cancer"].number_PREVALENCE_y + ". La sensibilidad de la prueba es de " + data_disease["Cancer"].number_SENSITIVITY + "%. La especificidad de la prueba es de " + data_disease["Cancer"].number_SPECIFICITY + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"].type_image + "?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
           // parte que no es comun para ambas versiones del between (segunda columna) donde esta la imagen:
           if (between_selection["FONDECYT"][0] == 'Image') {
             html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"]["image"] + '" style="max-width: 100%; max-height: 100%;">' + '</div>';
@@ -143,7 +143,7 @@
             html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"]["image"] + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
           }
           html += '</div><style>#column img {vertical-align: middle}</style>';
-          html += '<p><input name ="Q0" type="number" required min=0 max=100 value autofocus> %</p>'
+          html += '<p><input name ="Q0" type="number" required min=0 max=100 value autofocus> %</p>';
           return html;
         },
         data: function () {
@@ -171,7 +171,7 @@
               required: true,
               horizontal: false
             }
-          ]
+          ];
         },
         data: function () {
           var element = {
@@ -281,7 +281,7 @@
 
     ],
     data: {procedure: 'FONDECYT', trialidxxx: "FONDECYT_01_" + num},
-    timeline_variables: within_selection["FONDECYT"]["timeline_01"],
+    timeline_variables: within_selection["FONDECYT"].timeline_01,
     randomize_order: true, //random order
   };
   FONDECYT.push(within_timeline_01);
@@ -302,6 +302,7 @@
           type: 'instructions',
           pages: function() {
             num += 1;
+            num_item = num - 1;
             return (["Ensayo " + num + " de 4"]);
           },
           data: {
@@ -321,7 +322,7 @@
           // parte comun para ambas partes del between
           var html = '<div class="row" style="display: flex; align-items: center">';
           // para este caso son 2 columnas, de todas formas esto es definido por la persona que crea el instrumento
-          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Stroke"]["disease_description"] + ", se realiza  " + data_disease["Stroke"]["test_description"] + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Stroke"]["number_PREVALENCE_x"] + " de cada " + data_disease["Stroke"]["number_PREVALENCE_y"] + ". La sensibilidad de la prueba es de " + data_disease["Stroke"]["number_SENSITIVITY"] + "%. La especificidad de la prueba es de " + data_disease["Stroke"]["number_SPECIFICITY"] + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Stroke"].type_image + "?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
+          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Stroke"].disease_description + ", se realiza  " + data_disease["Stroke"].test_description + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Stroke"].number_PREVALENCE_x + " de cada " + data_disease["Stroke"].number_PREVALENCE_y + ". La sensibilidad de la prueba es de " + data_disease["Stroke"].number_SENSITIVITY + "%. La especificidad de la prueba es de " + data_disease["Stroke"].number_SPECIFICITY + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Stroke"].type_image + "?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
           // parte que no es comun para ambas versiones del between (segunda columna) donde esta la imagen:
           if (between_selection["FONDECYT"][0] == 'Image') {
             html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Stroke"]["image"] + '" style="max-width: 100%; max-height: 100%;">' + '</div>';
