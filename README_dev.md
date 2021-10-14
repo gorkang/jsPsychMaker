@@ -1,3 +1,11 @@
+# TODO 
+
+- Si es la primera vez que se accede a un protocolo (No existe en MySQL) y "all_conditions = {};" (No hay ninguna condicion between), da un error sobre que condition_temp_array no esta definido en mysql_controller.js
+
+- Separar img usadas en canonical de las de las tareas. Meter loading.gif, chrome y logo uai... en controllers/media???
+
+
+
 ## REMEMBER
 
 - condition_within y condition_between tienen que estar en `camelCase`: 
@@ -15,11 +23,13 @@
     
 En tareas como HRPVB probablemente haya que usar un diccionario. No se como es la sintaxis exactamente, pero necesitamos un shortName para cada item, que se insertaria en el trialid:
 
+```
 var tipo_problema_BB = [problemasRespiratorios: 'Problemas respiratorios del recién nacido',
                         lesionCerebro: 'Lesión en el cerebro del bebe por falta de oxígeno',
                         hospitalizacion: 'Hospitalización en cuidados intensivos neonatales',
                         lactancia: 'Dificultades para inicio temprano de lactancia materna']
-    
+```
+
 
 ## HECHO
 
