@@ -1,53 +1,61 @@
 /* CSCN - Creado MANUALMENTE */
 
-// IMPORTANT ----------
-
-// - THIS experiment can be done in a single timeline?
-// - First screen trialid is always FONDECYT_01_0
-// - condition_within NEEDS TO BE THE COMBINATION OF THE TWO WITHIN VARS: e.g. lowQuality_Cancer, etc.
-//    + Quick fix? condition_within: Object.entries(data_test_quality)[num_item][0],
-//    + Had to create num_item...
-//
-
-
-
-
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 
-// Within variables
-  var within_var = {
-    //disease: ['Cancer', 'Stroke'],
-    test_quality: ['lowQuality', 'highQuality']
-  };
+  // Within variables
+  var disease = {disease: ['Cancer', 'Stroke']};
+  var test_quality = {test_quality: ['lowQuality', 'highQuality']};
 
-  // Randomize order of Within variables
-  within_selection["FONDECYT"] = {
-    timeline_01: jsPsych.randomization.factorial(within_var, 1, false, false),
-    timeline_02: jsPsych.randomization.factorial(within_var, 1, false, false)
-  };
+  // Randomize sex for stroke problem
+  var sex = {sex: ['un hombre', 'una mujer']};
+  sex_randomized = jsPsych.randomization.factorial(sex, 1, false, false);
+
+  // Randomize order of disease block
+  disease_order = jsPsych.randomization.factorial(disease, 1, false, false);
+
+  // Create test_quality orders for each block
+  test_quality_order = [];
+  test_quality_order.push(jsPsych.randomization.factorial(test_quality, 1, false, false));
+  test_quality_order.push(jsPsych.randomization.factorial(test_quality, 1, false, false));
+
+  // Create final array
+  within_selection["FONDECYT"] = [];
+  for (var i = 0; i < disease_order.length; i++) {
+    for (var j = 0; j < disease_order.length; j++) {
+      within_selection["FONDECYT"].push({ disease: disease_order[i]["disease"], test_quality: test_quality_order[i][j]["test_quality"] });
+    }
+  }
+  if (debug_mode === true) console.table(within_selection["FONDECYT"]);
 
   // WITHIN conditions.
   data_disease = {
-    'Cancer': {number_PREVALENCE_x: 1, number_PREVALENCE_y: 105, number_SENSITIVITY: 95, number_SPECIFICITY: 88, disease_description: "cáncer de mama", test_description: "una mamografía"},
-    'Stroke': {number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "infarto cerebral", test_description: "una resonancia Weighted Difussion Imaging"},
+    'Cancer': {description_context1: "Imagina que acude a tu consulta preguntando por el screening para cáncer de mama ",
+              description_context2: " de 40 años con peso normal y estado de salud aparentemente normal.<BR><BR>Su historia clínica no presenta antecedentes familiares de cáncer, no consume alcohol ni drogas habitualmente.",
+              number_PREVALENCE_x: 1, number_PREVALENCE_y: 105, number_SENSITIVITY: 95, number_SPECIFICITY: 88, disease_description: "cáncer de mama",
+              test_description: "mamografía", test1: "de screening", follow_up: "prueba diagnóstica", follow_up_name: "biopsia",
+              follow_up_details: "La prueba diagnóstica recomendada cuando hay sospecha de cáncer de mama es una biopsia del tejido mamario", follow_up_risk: "infección del 1%"},
+    'Stroke': {description_context1: "Imagina que acude a urgencias con sospecha de infarto cerebral ",
+              description_context2: " de 40 años con peso normal, y una leve disartria (dificultad para articular palabras).<BR><BR>Su historia clínica no presenta antecedentes familiares de infarto cerebral, no consume alcohol ni drogas habitualmente.",
+              number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "infarto cerebral",
+              test_description: "resonancia Weighted Difussion Imaging", test1: "diagnóstica", follow_up: "tratamiento", follow_up_name: "trombolisis",
+              follow_up_details: "El tratamiento recomendado cuando hay sospecha de infarto cerebral es la trombolisis", follow_up_risk: "hermorragia del 2%"},
   };
 
   // WITHIN: data asociada al test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/img/VPP_low.png', type_image: 'positivo'},
-    'highQuality_Cancer': {image: 'media/img/VPN_high.png', type_image: 'negativo'},
-    'lowQuality_Stroke': {image: 'media/img/VPN_low.png', type_image: 'negativo'},
-    'highQuality_Stroke': {image: 'media/img/VPP_high.png', type_image: 'positivo'}
+    'lowQuality_Cancer': {image: 'media/img/VPP_low.png', type_image: 'positivo', sex_patient: sex["sex"][1]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/img/VPN_high.png', type_image: 'negativo', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/img/VPN_low.png', type_image: 'negativo', sex_patient: sex_randomized[0]["sex"]},
+    'highQuality_Stroke': {image: 'media/img/VPP_high.png', type_image: 'positivo', sex_patient: sex_randomized[1]["sex"]}
   };
 
   data_type = {
-    'Image': {text: "para el caso de una prueba con imágenes."},
-    'Text': {text: "para el caso de una prueba de solo texto."}
+    'Image': {text: "A continuación verás 4 casos de personas que llegan a una consulta o a urgencias. Por favor, lee con atencion los casos y responde lo mejor que puedas. <BR>Veras imágenes... estas representan el PPV o NPV..."},
+    'Text': {text: "A continuación verás 4 casos de personas que llegan a una consulta o a urgencias. Por favor, lee con atencion los casos y responde lo mejor que puedas."}
   };
 
   // contador para secciones
   num = 0;
-  num_item = num;
 
 
 
@@ -56,27 +64,12 @@
   // array final
   questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
   questions.push( check_fullscreen("FONDECYT") );
-
-
-
-
-// Start between block ---------------------------------------------------------
-
-// first option between block --------------------------------------------------
-
-  var instructions_between_01 = {
-      type: 'instructions',
-      pages: ['Instrucciones ' + data_type[between_selection["FONDECYT"][0]]["text"]], //se agrega el texto de la variable between seleccionada
-      data: {trialid: 'Instructions_001',
-            condition_between: between_selection["FONDECYT"][0],
-            procedure: 'FONDECYT'},
-      show_clickable_nav: true,
-      on_trial_start: function(){
-          bloquear_enter = 0;
-      }
-  };
-
   FONDECYT = [];
+
+
+
+
+
 
   // hay que revisar toda la data, para este caso, test_quality y disease
   for (const [key, value] of Object.entries(data_test_quality)) {
@@ -98,8 +91,21 @@
 
 
 
+// Instructions -----------------------------------------------------------------------------
 
-// blocks => Screening or Diagnostic
+  var instructions_between_01 = {
+      type: 'instructions',
+      pages: ['<h1>Instrucciones</h1><BR>' + data_type[between_selection["FONDECYT"][0]]["text"]], //se agrega el texto de la variable between seleccionada
+      data: {trialid: 'Instructions_001',
+            condition_between: between_selection["FONDECYT"][0],
+            procedure: 'FONDECYT'},
+      show_clickable_nav: true,
+      on_trial_start: function(){
+          bloquear_enter = 0;
+      }
+  };
+
+
 
 // BLOCK 1: Start within block ---------------------------------------------------------
 // --------------------------------------------------------------------------------------
@@ -111,22 +117,26 @@
       {
           type: 'instructions',
           pages: function() {
-            // num and num_item changes DO NOT reach the 'data:' section below
-            // so trialid: 'FONDECYT_01_' + num , is always FONDECYT_01_0
             num += 1;
-            num_item = num - 1;
-            return (["Ensayo " + num + " de 4"]);
+            return (["<h2>Caso " + num + " de 4</h1><BR>" +
+            data_disease[jsPsych.timelineVariable('disease', true)].description_context1 +
+            data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient +
+            data_disease[jsPsych.timelineVariable('disease', true)].description_context2 +
+            "<BR>"
+          ]);
           },
-          data: {
-            trialid: 'FONDECYT_01_' + num ,
-            //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            // condition_within NEEDS TO BE THE COMBINATION OF THE TWO WITHIN CARS: e.g. lowQuality_Cancer, etc.
-            condition_within: Object.entries(data_test_quality)[num_item][0],
-            condition_between: between_selection["FONDECYT"][0],
-            procedure: 'FONDECYT'
+          data: function () {
+            element = {
+              trialid: 'FONDECYT_01_' + num,
+              condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
+              condition_between: between_selection["FONDECYT"][0],
+              procedure: 'FONDECYT'
+            };
+            return element;
           },
           show_clickable_nav: true
       },
+
 
       // SCREEN 2: Disease and test description --------------------------------
       {
@@ -135,12 +145,18 @@
           // parte comun para ambas partes del between
           var html = '<div class="row" style="display: flex; align-items: center">';
           // para este caso son 2 columnas, de todas formas esto es definido por la persona que crea el instrumento
-          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Cancer"].disease_description + ", se realiza  " + data_disease["Cancer"].test_description + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Cancer"].number_PREVALENCE_x + " de cada " + data_disease["Cancer"].number_PREVALENCE_y + ". La sensibilidad de la prueba es de " + data_disease["Cancer"].number_SENSITIVITY + "%. La especificidad de la prueba es de " + data_disease["Cancer"].number_SPECIFICITY + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"].type_image + "?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
-          // parte que no es comun para ambas versiones del between (segunda columna) donde esta la imagen:
+          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description +
+          ", se realiza una " + data_disease[jsPsych.timelineVariable('disease', true)].test_description +
+          ".<BR><BR> El " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " tiene una prevalencia del " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_x + " de cada " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_y +
+          ".<BR><BR> La " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " tiene una sensibilidad del " + data_disease[jsPsych.timelineVariable('disease', true)].number_SENSITIVITY + "% y una especificidad del " + data_disease[jsPsych.timelineVariable('disease', true)].number_SPECIFICITY +
+          "%. <BR><BR> ¿Cual es la probabilidad de tener un " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " si el resultado de la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "?" + '</div>';
+          /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
+
+          // BETWEEN variable [picture / no picture]:
           if (between_selection["FONDECYT"][0] == 'Image') {
-            html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"]["image"] + '" style="max-width: 100%; max-height: 100%;">' + '</div>';
+            html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 100%; max-height: 100%;">' + '</div>';
           } else if (between_selection["FONDECYT"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
-            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Cancer"]["image"] + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
+            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
           }
           html += '</div><style>#column img {vertical-align: middle}</style>';
           html += '<p><input name ="Q0" type="number" required min=0 max=100 value autofocus> %</p>';
@@ -151,13 +167,14 @@
           var element = {
             trialid: 'FONDECYT_02_' + num,
             //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
         }
       },
+
 
       // SCREEN 3: Recommendation 1  -------------------------------------------
       {
@@ -166,7 +183,9 @@
           answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_02_' + num})).select('response').values.length - 1] ) );
           return [
             {// para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
-              prompt: '<div class="justified">Has dicho que la probabilidad es del ' + answers[0] + '% ¿Recomendarias esta prueba de <u>screening</u> para detectar ' + "cáncer" + ' a tu paciente?</div>',
+              prompt: '<div class="justified">Has dicho que la probabilidad es del ' + answers[0] +
+              '%<BR><BR>¿Recomendarias la ' + data_disease[jsPsych.timelineVariable('disease', true)].test_description + ' como prueba <u>' + data_disease[jsPsych.timelineVariable('disease', true)].test1 +
+              '</u> para detectar ' + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + ' a tu paciente?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
               horizontal: false
@@ -176,8 +195,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT_03_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
@@ -185,39 +203,35 @@
         }
       },
 
+
       // SCREEN 4: Confidence in Recommendation 1 ------------------------------
       {
         type: 'html-slider-response',
         stimulus: function () {
           answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_03_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_03_' + num})).select('response').values.length - 1] ) );
           if (answers[0].trim() == 'Si') {
-            return "<div class='justified'>¿Con qué seguridad recomendarías la prueba de <u>screening</u> para la enfermedad " + "cáncer" + "?</div></br>";
+            return "<div class='justified'>¿Con qué seguridad recomendarías la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " como prueba <u>" + data_disease[jsPsych.timelineVariable('disease', true)].test1 + "</u> para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
           } else if (answers[0].trim() == 'No') {
-            return "<div class='justified'>¿Con qué seguridad NO recomendarías la prueba de <u>screening</u> para la enfermedad " + "cáncer" + "?</div></br>";
+            return "<div class='justified'>¿Con qué seguridad NO recomendarías la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " como prueba <u>" + data_disease[jsPsych.timelineVariable('disease', true)].test1 + "</u> para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
           }
         },
-        stimulus_duration: 10000000000,
         require_movement:true,
-        required: true,
-        min: 0,
-        max: 100,
+        min: 0, max: 100, start: 50, step: 1,
         slider_width: 500,
-        start: 50,
-        step: 1,
         slider_number: true,
         labels: ['Poca', 'Mucha'],
         button_label: "Siguiente",
         data: function () {
           var element = {
             trialid: 'FONDECYT_04_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
         }
       },
+
 
       // SCREEN 5: Recommendation 2  -------------------------------------------
       {
@@ -226,7 +240,10 @@
           return [
             {
               // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
-              prompt: '<div class="justified">Prueba diagnóstica es biopsia. <br> Probabilidad de infección 1%.<br><br> Resultado de prueba es <b>' + ((jsPsych.timelineVariable('test_quality', true)  == "lowQuality") ? ("POSITIVO") : ("NEGATIVO")) + '</b>. <br> Recomendarías prueba diagnostica ?</div>',
+              prompt: '<div class="justified">' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_details +
+              '.Cuando se aplica, existe una probabilidad de ' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_risk +
+              '.<br><br>Imagina que el resultado de prueba es <b>'+ data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image.toUpperCase() +
+              '</b>.<br><br> Recomendarías la ' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + " como "  + data_disease[jsPsych.timelineVariable('disease', true)].follow_up + '?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
               horizontal: false
@@ -236,14 +253,14 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT_05_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
           return element;
         }
       },
+
 
       // SCREEN 6: Confidence in Recommendation 2 ------------------------------
       {
@@ -251,27 +268,21 @@
         stimulus: function () {
           answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_05_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_05_' + num})).select('response').values.length - 1] ) );
           if (answers[0].trim() == 'Si') {
-            return "<div class='justified'>¿Con qué seguridad recomendarías la prueba diagnóstica para la enfermedad " + "cáncer" + "?</div></br>";
+            return "<div class='justified'>¿Con qué seguridad recomendarías la " + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + " como "  + data_disease[jsPsych.timelineVariable('disease', true)].follow_up + " para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
           } else if (answers[0].trim() == 'No') {
-            return "<div class='justified'>¿Con qué seguridad NO recomendarías la prueba diagnóstica para la enfermedad " + "cáncer" + "?</div></br>";
+            return "<div class='justified'>¿Con qué seguridad NO recomendarías la " + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + " como "  + data_disease[jsPsych.timelineVariable('disease', true)].follow_up + " para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
           }
         },
-        stimulus_duration: 10000000000,
         require_movement:true,
-        required: true,
-        min: 0,
-        max: 100,
+        min: 0, max: 100, start: 50, step: 1,
         slider_width: 500,
-        start: 50,
-        step: 1,
         slider_number: true,
         labels: ['Poca', 'Mucha'],
         button_label: "Siguiente",
         data: function () {
           var element = {
             trialid: 'FONDECYT_06_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_01"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
@@ -280,208 +291,21 @@
       }
 
     ],
-    data: {procedure: 'FONDECYT', trialidxxx: "FONDECYT_01_" + num},
-    timeline_variables: within_selection["FONDECYT"].timeline_01,
-    randomize_order: true, //random order
+    data: {procedure: 'FONDECYT'},
+    timeline_variables: within_selection["FONDECYT"],
+    randomize_order: false, //random order
   };
   FONDECYT.push(within_timeline_01);
 
   // within block finished
 
-
-
-
-  // BLOCK 2: Start within block ----------------------------------------------------------
-  // --------------------------------------------------------------------------------------
-
-  var within_timeline_02 = {
-    timeline: [
-
-      // SCREEN 1: Item index --------------------------------------------------
-      {
-          type: 'instructions',
-          pages: function() {
-            num += 1;
-            num_item = num - 1;
-            return (["Ensayo " + num + " de 4"]);
-          },
-          data: {
-            trialid: 'FONDECYT_07_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
-            condition_between: between_selection["FONDECYT"][0],
-            procedure: 'FONDECYT'
-          },
-          show_clickable_nav: true
-      },
-
-      // SCREEN 2: Disease and test description --------------------------------
-      {
-        type: 'survey-html-form',
-        html: function() {
-          // parte comun para ambas partes del between
-          var html = '<div class="row" style="display: flex; align-items: center">';
-          // para este caso son 2 columnas, de todas formas esto es definido por la persona que crea el instrumento
-          html += '<div class="column" style="float: left; width: 50%">' + "Para detectar " + data_disease["Stroke"].disease_description + ", se realiza  " + data_disease["Stroke"].test_description + ".<BR><BR> La enfermedad tiene una prevalencia de " + data_disease["Stroke"].number_PREVALENCE_x + " de cada " + data_disease["Stroke"].number_PREVALENCE_y + ". La sensibilidad de la prueba es de " + data_disease["Stroke"].number_SENSITIVITY + "%. La especificidad de la prueba es de " + data_disease["Stroke"].number_SPECIFICITY + "%. <BR><BR> ¿Cual es la probabilidad de tener la enfermedad si el resultado es " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Stroke"].type_image + "?" /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/ + '</div>';
-          // parte que no es comun para ambas versiones del between (segunda columna) donde esta la imagen:
-          if (between_selection["FONDECYT"][0] == 'Image') {
-            html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Stroke"]["image"] + '" style="max-width: 100%; max-height: 100%;">' + '</div>';
-          } else if (between_selection["FONDECYT"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
-            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + "Stroke"]["image"] + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> '
-          }
-          html += '</div><style>#column img {vertical-align: middle}</style>';
-          html += '<p><input name ="Q0" type="number" required min=0 max=100 value autofocus> %</p>'
-          return html;
-        },
-        data: function () {
-          // hay que conversar sobre lo que quedará guardado en stimulus del survey-html-form, esto incluye la modificacion del plugin
-          var element = {
-            trialid: 'FONDECYT_08_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
-            condition_between: between_selection["FONDECYT"][0],
-            procedure: 'FONDECYT'
-          };
-          return element;
-        }
-      },
-
-      // SCREEN 3: Recommendation 1  -------------------------------------------
-      {
-        type: 'survey-multi-choice-vertical',
-        questions: function() {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_08_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_08_' + num})).select('response').values.length - 1] ) );
-          return [
-            {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
-              prompt: '<div class="justified">Has dicho que la probabilidad es del ' + answers[0] + '% ¿Recomendarias esta prueba para detectar ' + "WDI" + ' a tu paciente?</div>',
-              options: ['&nbsp;Si', '&nbsp;No'],
-              required: true,
-              horizontal: false
-            }
-          ]
-        },
-        data: function () {
-          var element = {
-            trialid: 'FONDECYT_09_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
-            condition_between: between_selection["FONDECYT"][0],
-            procedure: 'FONDECYT'
-          };
-          return element;
-        }
-      },
-
-      // SCREEN 4: Confidence in Recommendation 1 ------------------------------
-      {
-        type: 'html-slider-response',
-        stimulus: function () {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_09_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_09_' + num})).select('response').values.length - 1] ) );
-          if (answers[0].trim() == 'Si') {
-            return "<div class='justified'>¿Con qué seguridad recomendarías la prueba <u>diagnóstica</u> para la enfermedad " + "WDI" + "?</div></br>";
-          } else if (answers[0].trim() == 'No') {
-            return "<div class='justified'>¿Con qué seguridad NO recomendarías la prueba <u>diagnóstica</u> para la enfermedad " + "WDI" + "?</div></br>";
-          }
-        },
-        stimulus_duration: 10000000000,
-        require_movement:true,
-        required: true,
-        min: 0,
-        max: 100,
-        slider_width: 500,
-        start: 50,
-        step: 1,
-        slider_number: true,
-        labels: ['Poca', 'Mucha'],
-        button_label: "Siguiente",
-        data: function () {
-          var element = {
-            trialid: 'FONDECYT_10_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
-            condition_between: between_selection["FONDECYT"][0],
-            procedure: 'FONDECYT'
-          };
-          return element;
-        }
-      },
-
-      // SCREEN 5: Recommendation 2  -------------------------------------------
-      {
-        type: 'survey-multi-choice-vertical',
-        questions: function() {
-          return [
-            {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT_01 se puede obtener con answers[0]
-              prompt: '<div class="justified">El tratamiento es Trombolisis. <br> Probabilidad de hemorragia 2%.<br><br> Resultado de prueba es <b>' + ((jsPsych.timelineVariable('test_quality', true)  == "lowQuality") ? ("NEGATIVO") : ("POSITIVO")) + '</b>. <br> ¿Recomendarías el tratamiento?</div>',
-              options: ['&nbsp;Si', '&nbsp;No'],
-              required: true,
-              horizontal: false
-            }
-          ]
-        },
-        data: function () {
-          var element = {
-            trialid: 'FONDECYT_11_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
-            condition_between: between_selection["FONDECYT"][0],
-            procedure: 'FONDECYT'
-          };
-          return element;
-        }
-      },
-
-      // SCREEN 6: Confidence in Recommendation 2 ------------------------------
-      {
-        type: 'html-slider-response',
-        stimulus: function () {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT_11_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT_11_' + num})).select('response').values.length - 1] ) );
-          if (answers[0].trim() == 'Si') {
-            return "<div class='justified'>¿Con qué seguridad recomendarías el tratamiento para la enfermedad " + "WDI" + "?</div></br>";
-          } else if (answers[0].trim() == 'No') {
-            return "<div class='justified'>¿Con qué seguridad NO recomendarías el tratamiento para la enfermedad " + "WDI" + "?</div></br>";
-          }
-        },
-        stimulus_duration: 10000000000,
-        require_movement:true,
-        required: true,
-        min: 0,
-        max: 100,
-        slider_width: 500,
-        start: 50,
-        step: 1,
-        slider_number: true,
-        labels: ['Poca', 'Mucha'],
-        button_label: "Siguiente",
-        data: function () {
-          var element = {
-            trialid: 'FONDECYT_12_' + num,
-            //condition_within: within_selection["FONDECYT"]["timeline_02"],
-            condition_within: Object.entries(data_test_quality)[num_item][0],
-            condition_between: between_selection["FONDECYT"][0],
-            procedure: 'FONDECYT'
-          };
-          return element;
-        }
-      }
-
-    ],
-    data: {procedure: 'FONDECYT', trialidxxx: "FONDECYT_01" + num},
-    timeline_variables: within_selection["FONDECYT"]["timeline_02"],
-    randomize_order: true, //random order
-  };
-  FONDECYT.push(within_timeline_02);
-
-  // within block finished
-
-  if (debug_mode == 'false') FONDECYT = jsPsych.randomization.repeat(FONDECYT,1);
-  console.log(FONDECYT);
   FONDECYT.unshift(instructions_between_01);
   questions.push.apply(questions, FONDECYT);
 
+  if (debug_mode == 'true') console.table(within_timeline_01.timeline_variables)
+
 // between block finished ------------------------------------------------------
+
 
 questions.push({
     type: 'call-function',
