@@ -2,13 +2,13 @@
 
 // Main parameters -------------------------------------------------------------
 pid = 999; // Protocol ID [number]
-online = false; // Protocol runs online [true/false]
+online = true; // Protocol runs online [true/false]
 max_participants = 30; // Max participants per contition [number]
-random_id = true; // Assign random id to participants [true/false]
+random_id = false; // Assign random id to participants [true/false]
 max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
 
-debug_mode = false;
+debug_mode = true;
 
 // ORDER OF TASKS --------------------------------------------------------------
 /*
@@ -21,16 +21,17 @@ secuentially_ordered_tasks_1 = ['']; // Block of tasks in sequential order
 
 // Final array of tasks [build combining the above blocks]
   // The order of the tasks in the arrays starting with "random" will be randomized
+  // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];
 tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks']
 */
 
 ALL_tasks = [
 
 "FONDECYT",
-
+/*
 "Consent",
 "AIM",
-"BNT"/*,
+"BNT",
 "bRCOPE",
 "CAS",
 "Cov19Q",
@@ -87,8 +88,7 @@ ALL_tasks = [
 "EmpaTom",
 "BART",
 "Goodbye"
-*/
-];
+*/];
 
 
 tasks = ['ALL_tasks'];
@@ -112,7 +112,7 @@ all_conditions = {
   };
 
 // INTRO [index.html] ----------------------------------------------------------
-intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="media/img/logo-trans-UAI.png" name="UAI" align="bottom" width="185" height="47" border="0"/></p></div>' +
-  'LA INTRO DEBERIA SER TAMBIEN UNA VARIABLE DEL config.js?<BR><BR>' +
-  'Si tienes alguna duda, puedes escribirnos a: CORREO<BR><BR>' +
-  'Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="media/img/compatible_chrome.gif" name="Chrome" align="bottom" border="0"/></a> para continuar.';
+intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="media/img/logo-trans-UAI.png" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div>' +
+  'Para cambiar este texto, edita la variable intro_HTML en config.js<BR><BR>' +
+  'Si tienes alguna duda, puedes escribirnos a: <mailto::CORREO@CORREO.COM>CORREO@CORREO.COM</mailto><BR><BR>' +
+  'Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="media/img/compatible_chrome.gif" name="Chrome" align="bottom" border="0"/></a>';

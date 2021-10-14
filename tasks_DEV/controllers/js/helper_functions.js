@@ -1,3 +1,4 @@
+
 // css_loading.js -------------------------------------------------------------
 
 // detection for touchscreen, used for css selection
@@ -49,7 +50,7 @@ onkeydown = function block_fkeys(event){
   } else {
     return;
   }
-}
+};
 
 // limpieza de arrays dentro de arrays
 function flatten(arr) {
@@ -81,12 +82,12 @@ user_assigned = false;
 actual_condition_data = [];
 
 // Create condition Array for DB
-var conditions = []
+var conditions = [];
 Object.entries(all_conditions).forEach(([task_name, condition_dict]) => {
   Object.entries(condition_dict).forEach(([key, conditions_temp]) => {
     for(var i=0; i < conditions_temp.length; i++) { conditions.push({ id_protocol: pid, condition_key: key, condition_name: conditions_temp[i], assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: task_name, type: "between"}) }
-  })
-})
+  });
+});
 
 // obtaining final array
 all_tasks = flatten(tasks);
@@ -174,4 +175,145 @@ function script_loading(folder, array, completed_experiments = [], new_element =
 			}
 		};
 	}
+}
+
+
+
+
+
+// protocol_controller.js -------------------------------------------------------------
+
+function date_to_mil(date) {
+  elements = date.split(":");
+  secs = 0;
+  for (var i = 0; i < elements.reverse().length; i++) {
+    secs += elements[i]*(60**i);
+  }
+  return secs;
+}
+
+function check_fullscreen(task_name) {
+  return ({
+    timeline: [{
+      type: 'fullscreen',
+      message: '<p>El experimento entrará en modo pantalla completa</p>',
+      button_label: 'Full screen',
+      delay_after: 0,
+      fullscreen_mode: true,
+      data: {procedure: task_name}
+    }],
+    data: {procedure: task_name},
+    conditional_function: function(){
+      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
+        return true;
+      else
+        return false;
+    }
+  });
+}
+
+
+// En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
+function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
+  input_uid = document.getElementById('input_uid');
+  check = document.getElementById('check');
+  start = document.getElementById('start');
+
+  // se selecciona el texto a mostrar y si es que se muestra o no el botón para continuar con el protocolo en el punto en el que quedó
+  if (completed_experiments.length != 0 && questions.length != 0) {
+    text_input_uid.innerHTML = "Ya has completado " + (completed_experiments.length).toString() + " de " + (all_tasks.length).toString() + " tareas de este protocolo. <br><br> Para continuar con las " + (all_tasks.length - completed_experiments.length).toString() + " últimas tareas, presiona el botón.";
+    start.hidden = false;
+    start.removeAttribute("style");
+  } else if ((completed_experiments.length == all_tasks.length) || completed) {
+    text_input_uid.innerHTML = "Ya has completado todas las tareas de este protocolo.";
+  } else if (discarded && !accept_discarded) {
+    text_input_uid.innerHTML = "Este participante fue descartado del protocolo por superar el tiempo asignado.";
+  } else { // New participant
+    text_input_uid.innerHTML = (intro_HTML).concat("<br><br>Presiona el siguiente botón para comenzar.");
+    start.hidden = false;
+    start.removeAttribute("style");
+  }
+}
+
+// filtrador de elementos por questions["procedure"]
+function obtain_experiments(questions, completed_experiments){
+  // se filtran los experimentos completados para obtener los faltantes
+  acceptedValues = all_tasks.filter( function( element ) {
+    return !completed_experiments.includes( element );
+  } );
+
+  // se crea el array con los elementos no completados
+  var questions = Object.keys(questions).reduce(function(r, e) {
+    if (acceptedValues.includes(questions[e].data["procedure"])) {
+      r[e] = questions[e];
+    }
+    return r;
+  }, []);
+
+  // se limpia el array de los elementos vacios
+  var questions = questions.filter(function (el) {
+    return el != null;
+  });
+
+  return questions;
+}
+
+
+// funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
+function start_protocol(questions){
+
+  // con el arreglo de questions finalizado se pueden agregar restricciones extras, como el precargado de imágenes (son definidas en index):
+  var preload = {
+    type: 'preload',
+    show_progress_bar: true,
+    message: 'El protocolo está cargando, espere un momento...',
+    images: images,
+    audios: audios,
+    video: video
+  };
+  questions.unshift({type: 'preload', images: images});
+
+  // almacenamiento de data en base de datos (csv)
+  questions.push({
+    type: 'call-function',
+    func: function () {
+      if (online == false) {
+        start_indexeddb().then(function(db) {
+          updateIndexed("user", uid, "status", "completed", db);
+
+          findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(user_conditions) {
+            for (var i = 0; i < user_conditions.length; i++) {
+              updateIndexed("condition", user_conditions[i].id_condition, "completed_protocol", "+", db);
+            }
+          }, function() {console.log("final update user_condition table not found");});
+        }, function() {
+          console.log("db not charged");
+        });
+      } else if (online == true) {
+        XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "completed"}});
+        XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(user_conditions) {
+          for (var i = 0; i < user_conditions.length; i++) {
+            XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"completed_protocol": "completed_protocol + 1"}});
+          }
+        }, function() {console.log("final update user_condition table not found");});
+      }
+    }
+  });
+
+  questions.push({
+    type: 'fullscreen',
+    fullscreen_mode: false
+  });
+
+  jsPsych.init({
+    timeline: questions,
+    override_safe_mode: true,
+    show_progress_bar: true,
+    message_progress_bar: 'Porcentaje completado',
+    fullscreen: true,
+    on_interaction_data_update: function(data){
+      if (data.event == 'fullscreenexit'){
+        alert("Si sales de pantalla completa pueden perderse datos. Por favor, pulsa F11 para volver al experimento.");
+      }}
+  });
 }

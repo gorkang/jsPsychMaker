@@ -45,7 +45,7 @@ jsPsych.plugins['preload'] = (function() {
         },
         message: {
           type: jsPsych.plugins.parameterType.HTML_STRING,
-          default: 'Cargando tareas...',
+          default: 'Cargando imágenes...',
           description: 'HTML-formatted message to be shown above the progress bar while the files are loading.'
         },
         show_progress_bar: {
