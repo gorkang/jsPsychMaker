@@ -288,6 +288,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'ITC'}).json();
       }
       saveData(data, online, 'ITC');
-    },
-    procedure: 'ITC'
+    }
 });

@@ -219,6 +219,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'SWBQ', procedure: 'SWBQ'}).json();
       }
       saveData(data, online, 'SWBQ');
-    },
-    procedure: 'SWBQ'
+    }
 });

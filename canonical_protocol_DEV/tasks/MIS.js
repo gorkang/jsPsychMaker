@@ -246,6 +246,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'MIS'}).json();
       }
       saveData(data, online, 'MIS');
-    },
-    procedure: 'MIS'
+    }
 });

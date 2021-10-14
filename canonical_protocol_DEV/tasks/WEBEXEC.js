@@ -78,6 +78,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'WEBEXEC'}).json();
       }
       saveData(data, online, 'WEBEXEC');
-    },
-    procedure: 'WEBEXEC'
+    }
 });

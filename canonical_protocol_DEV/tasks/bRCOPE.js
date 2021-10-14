@@ -133,6 +133,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'bRCOPE'}).json();
       }
       saveData(data, online, 'bRCOPE');
-    },
-    procedure: 'bRCOPE'
+    }
 });

@@ -205,6 +205,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'SDG'}).json();
       }
       saveData(data, online, 'SDG');
-    },
-    procedure: 'SDG'
+    }
 });

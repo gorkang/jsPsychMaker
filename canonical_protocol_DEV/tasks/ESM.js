@@ -116,6 +116,5 @@ ESM = [];    //temporal timeline
           var data = jsPsych.data.get().filter({procedure: 'ESM'}).json();
         }
         saveData(data, online, 'ESM');
-      },
-      procedure: 'ESM'
+      }
   });

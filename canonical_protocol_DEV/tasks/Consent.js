@@ -35,8 +35,7 @@ var trial = {
     procedure: 'Consent',
      stimulus: 'html/consent-nieves.html',
      response: document.getElementById("start").id
-   },
-  procedure: 'Consent'
+   }
 };
 Consent.push(trial);
 
@@ -54,6 +53,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'Consent'}).json();
       }
       saveData(data, online, 'Consent');
-    },
-    procedure: 'Consent'
+    }
 });

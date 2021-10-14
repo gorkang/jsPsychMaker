@@ -18,63 +18,55 @@ var instruction_screen_experiment = {
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
-    },
-    procedure: 'CAS'
+    }
 };
 
 var question001 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Me siento mal cuando pienso en COVID-19.</div>', options: ['&nbsp;0 No me sucede', '&nbsp;1 Casi nunca me sucede', '&nbsp;2 A veces me sucede', '&nbsp;3 Me sucede mucho'], required: true, random_options: false, horizontal: false}],
-  data: {trialid: 'CAS_001', procedure: 'CAS'},
-  procedure: 'CAS'
+  data: {trialid: 'CAS_001', procedure: 'CAS'}
 };
 CAS.push(question001);
 
 var question002 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Siento que se me acelera el corazón cuando leo sobre COVID-19.</div>', options: ['&nbsp;0 No me sucede', '&nbsp;1 Casi nunca me sucede', '&nbsp;2 A veces me sucede', '&nbsp;3 Me sucede mucho'], required: true, random_options: false, horizontal: false}],
-  data: {trialid: 'CAS_002', procedure: 'CAS'},
-  procedure: 'CAS'
+  data: {trialid: 'CAS_002', procedure: 'CAS'}
 };
 CAS.push(question002);
 
 var question003 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Me siento ansioso con respecto a COVID-19.</div>', options: ['&nbsp;0 No me sucede', '&nbsp;1 Casi nunca me sucede', '&nbsp;2 A veces me sucede', '&nbsp;3 Me sucede mucho'], required: true, random_options: false, horizontal: false}],
-  data: {trialid: 'CAS_003', procedure: 'CAS'},
-  procedure: 'CAS'
+  data: {trialid: 'CAS_003', procedure: 'CAS'}
 };
 CAS.push(question003);
 
 var question004 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Me siento incómodo cuando leo noticias sobre COVID-19.</div>', options: ['&nbsp;0 No me sucede', '&nbsp;1 Casi nunca me sucede', '&nbsp;2 A veces me sucede', '&nbsp;3 Me sucede mucho'], required: true, random_options: false, horizontal: false}],
-  data: {trialid: 'CAS_004', procedure: 'CAS'},
-  procedure: 'CAS'
+  data: {trialid: 'CAS_004', procedure: 'CAS'}
 };
 CAS.push(question004);
 
 var question005 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Me cuesta relajarme cuando pienso en COVID-19.</div>', options: ['&nbsp;0 No me sucede', '&nbsp;1 Casi nunca me sucede', '&nbsp;2 A veces me sucede', '&nbsp;3 Me sucede mucho'], required: true, random_options: false, horizontal: false}],
-  data: {trialid: 'CAS_005', procedure: 'CAS'},
-  procedure: 'CAS'
+  data: {trialid: 'CAS_005', procedure: 'CAS'}
 };
 CAS.push(question005);
 
 var question006 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Siento que puedo entrar en pánico cuando me pongo al día sobre COVID-19.</div>', options: ['&nbsp;0 No me sucede', '&nbsp;1 Casi nunca me sucede', '&nbsp;2 A veces me sucede', '&nbsp;3 Me sucede mucho'], required: true, random_options: false, horizontal: false}],
-  data: {trialid: 'CAS_006', procedure: 'CAS'},
-  procedure: 'CAS'
+  data: {trialid: 'CAS_006', procedure: 'CAS'}
 };
 CAS.push(question006);
 
 var question007 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Tengo miedo de infectarme con COVID-19.</div>', options: ['&nbsp;0 No me sucede', '&nbsp;1 Casi nunca me sucede', '&nbsp;2 A veces me sucede', '&nbsp;3 Me sucede mucho'], required: true, random_options: false, horizontal: false}],
-  data: {trialid: 'CAS_007', procedure: 'CAS'},
-  procedure: 'CAS'
+  data: {trialid: 'CAS_007', procedure: 'CAS'}
 };
 CAS.push(question007);
 
@@ -91,6 +83,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'CAS'}).json();
       }
       saveData(data, online, 'CAS');
-    },
-    procedure: 'CAS'
+    }
 });

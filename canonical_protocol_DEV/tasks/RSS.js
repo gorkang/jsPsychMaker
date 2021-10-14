@@ -107,6 +107,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'RSS'}).json();
       }
       saveData(data, online, 'RSS');
-    },
-    procedure: 'RSS'
+    }
 });

@@ -127,7 +127,7 @@
           },
           data: function () {
             element = {
-              trialid: 'FONDECYT_01_' + num,
+              trialid: 'FONDECYT_01_' + (parseInt(num) + 1).toString(),
               condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
               condition_between: between_selection["FONDECYT"][0],
               procedure: 'FONDECYT'

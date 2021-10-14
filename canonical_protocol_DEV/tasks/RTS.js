@@ -239,6 +239,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'RTS'}).json();
       }
       saveData(data, online, 'RTS');
-    },
-    procedure: 'RTS'
+    }
 });

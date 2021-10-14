@@ -232,6 +232,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'IRI'}).json();
       }
       saveData(data, online, 'IRI');
-    },
-    procedure: 'IRI'
+    }
 });

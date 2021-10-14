@@ -176,6 +176,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'SRA'}).json();
       }
       saveData(data, online, 'SRA');
-    },
-    procedure: 'SRA'
+    }
 });

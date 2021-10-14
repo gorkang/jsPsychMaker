@@ -99,6 +99,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'Cov19Q'}).json();
       }
       saveData(data, online, 'Cov19Q');
-    },
-    procedure: 'Cov19Q'
+    }
 });

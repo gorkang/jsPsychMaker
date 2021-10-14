@@ -71,6 +71,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'PSETPP'}).json();
       }
       saveData(data, online, 'PSETPP');
-    },
-    procedure: 'PSETPP'
+    }
 });

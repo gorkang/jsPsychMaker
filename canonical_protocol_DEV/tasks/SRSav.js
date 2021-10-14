@@ -173,6 +173,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'SRSav'}).json();
       }
       saveData(data, online, 'SRSav');
-    },
-    procedure: 'SRSav'
+    }
 });

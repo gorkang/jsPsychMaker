@@ -189,6 +189,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'FDMQ'}).json();
       }
       saveData(data, online, 'FDMQ');
-    },
-    procedure: 'FDMQ'
+    }
 });

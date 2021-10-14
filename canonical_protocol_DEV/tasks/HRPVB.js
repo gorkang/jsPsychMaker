@@ -270,6 +270,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'HRPVB'}).json();
       }
       saveData(data, online, 'HRPVB');
-    },
-    procedure: 'HRPVB'
+    }
 });

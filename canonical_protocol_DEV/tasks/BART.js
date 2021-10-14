@@ -192,6 +192,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'BART'}).json();
       }
       saveData(data, online, 'BART');
-    },
-    procedure: 'BART'
+    }
 });

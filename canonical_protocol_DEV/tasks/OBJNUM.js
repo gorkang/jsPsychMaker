@@ -100,6 +100,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'OBJNUM'}).json();
       }
       saveData(data, online, 'OBJNUM');
-    },
-    procedure: 'OBJNUM'
+    }
 });

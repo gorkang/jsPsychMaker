@@ -106,6 +106,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'ERQ'}).json();
       }
       saveData(data, online, 'ERQ');
-    },
-    procedure: 'ERQ'
+    }
 });

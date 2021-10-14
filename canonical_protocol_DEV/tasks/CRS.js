@@ -175,6 +175,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'CRS'}).json();
       }
       saveData(data, online, 'CRS');
-    },
-    procedure: 'CRS'
+    }
 });

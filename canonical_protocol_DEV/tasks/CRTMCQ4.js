@@ -85,6 +85,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'CRTMCQ4'}).json();
       }
       saveData(data, online, 'CRTMCQ4');
-    },
-    procedure: 'CRTMCQ4'
+    }
 });

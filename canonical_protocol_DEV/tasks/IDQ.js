@@ -178,6 +178,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'IDQ'}).json();
       }
       saveData(data, online, 'IDQ');
-    },
-    procedure: 'IDQ'
+    }
 });

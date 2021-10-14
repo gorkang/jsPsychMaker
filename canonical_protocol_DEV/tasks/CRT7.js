@@ -85,6 +85,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'CRT7'}).json();
       }
       saveData(data, online, 'CRT7');
-    },
-    procedure: 'CRT7'
+    }
 });

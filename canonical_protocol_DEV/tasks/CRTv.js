@@ -105,6 +105,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'CRTv'}).json();
       }
       saveData(data, online, 'CRTv');
-    },
-    procedure: 'CRTv'
+    }
 });

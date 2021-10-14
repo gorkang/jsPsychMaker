@@ -317,6 +317,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'REI40'}).json();
       }
       saveData(data, online, 'REI40');
-    },
-    procedure: 'REI40'
+    }
 });

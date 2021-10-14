@@ -106,6 +106,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'SBS'}).json();
       }
       saveData(data, online, 'SBS');
-    },
-    procedure: 'SBS'
+    }
 });

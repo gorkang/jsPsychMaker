@@ -79,6 +79,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'PSPPC'}).json();
       }
       saveData(data, online, 'PSPPC');
-    },
-    procedure: 'PSPPC'
+    }
 });

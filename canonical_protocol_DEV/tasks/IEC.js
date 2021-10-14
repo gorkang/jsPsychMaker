@@ -204,6 +204,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'IEC'}).json();
       }
       saveData(data, online, 'IEC');
-    },
-    procedure: 'IEC'
+    }
 });

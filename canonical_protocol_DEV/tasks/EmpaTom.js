@@ -82,6 +82,5 @@ EmpaTom = [];    //temporal timeline
           var data = jsPsych.data.get().filter({procedure: 'EmpaTom'}).json();
         }
         saveData(data, online, 'EmpaTom');
-      },
-      procedure: 'EmpaTom'
+      }
   });

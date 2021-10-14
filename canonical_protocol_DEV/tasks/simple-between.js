@@ -118,6 +118,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'INFCONS'}).json();
       }
       saveData(data, online, 'INFCONS');
-    },
-    procedure: 'INFCONS'
+    }
 });

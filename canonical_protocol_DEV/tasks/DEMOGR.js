@@ -207,6 +207,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'DEMOGR'}).json();
       }
       saveData(data, online, 'DEMOGR');
-    },
-    procedure: 'DEMOGR'
+    }
 });

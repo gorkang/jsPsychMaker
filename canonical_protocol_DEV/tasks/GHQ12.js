@@ -120,6 +120,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'GHQ12'}).json();
       }
       saveData(data, online, 'GHQ12');
-    },
-    procedure: 'GHQ12'
+    }
 });

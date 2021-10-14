@@ -309,6 +309,5 @@ questions.push({
         var data = jsPsych.data.get().filter({procedure: 'PWb'}).json();
       }
       saveData(data, online, 'PWb');
-    },
-    procedure: 'PWb'
+    }
 });
