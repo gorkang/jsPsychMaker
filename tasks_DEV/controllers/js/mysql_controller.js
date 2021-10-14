@@ -364,7 +364,7 @@ function check_id_status(event) {
 
           console.log("New user");
           uid = 0;
-          text_input_uid.innerHTML = 'Nuevo participante. Iniciando experimento... <BR><BR><img src="media/img/loading.gif" name="UAI" align="bottom" border="0"/>';
+          text_input_uid.innerHTML = 'Nuevo participante. Iniciando experimento... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
 
           condition_selection().then(function(accepted) {
             // LOAD all the tasks. This also loads the between participants conditions
@@ -409,7 +409,7 @@ function check_id_status(event) {
                     // Change status to assigned in table user
                     XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "assigned"}});
                     console.log("Usuario re-assignado.");
-                    text_input_uid.innerHTML = 'Tiempo excedido. Recuperando datos de participante... <BR><BR><img src="media/img/loading.gif" name="UAI" align="bottom" border="0"/>';
+                    text_input_uid.innerHTML = 'Tiempo excedido. Recuperando datos de participante... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
 
                     for (var [key, value] of Object.entries(between_selection)) {
                       for (var i = 0; i < value.length; i++) {
@@ -431,7 +431,7 @@ function check_id_status(event) {
               } else {
                 console.log("User previously assigned.");
                 user_assigned = true;
-                text_input_uid.innerHTML = 'Participante encontrado. Cargando estado... <BR><BR><img src="media/img/loading.gif" name="UAI" align="bottom" border="0"/>';
+                text_input_uid.innerHTML = 'Participante encontrado. Cargando estado... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
               }
 
               completed_experiments = [];

@@ -26,69 +26,10 @@ tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks']
 */
 
 ALL_tasks = [
-
-"FONDECYT",
-/*
 "Consent",
-"AIM",
-"BNT",
-"bRCOPE",
-"CAS",
-"Cov19Q",
-"COVIDCONTROL",
-"CRS",
-"CRT7",
-"CRTMCQ4",
-"CRTv",
-"DASS21",
-"DEBRIEF",
-"DEMOGR",
-"EAR",
-"ERQ",
-"ESM",
-"FDMQ",
-"GHQ12",
-"IDQ",
-"IEC",
-"IRI",
-"IRS",
-"MIS",
-"OBJNUM",
-"OTRASRELIG",
-"PBS",
-"PSETPP",
-"PSPPC",
-"PSS",
-"PVC",
-"PWb",
-"REI40",
-"Report",
-"RSS",
-"RTS",
-"SASS",
-"SBS",
-"SCSORF",
-"SDG",
-"SRA",
-"SRBQP",
-"SRSav",
-"SWBQ",
-"WEBEXEC",
-
-// Between tasks [random order unavoidable]
-"HRPVB",
-"HRPVBpost",
-"PRFBM",
-"PRFBMpost",
-
 "FONDECYT",
-"INFCONS",
-
-// More randomness
-"EmpaTom",
-"BART",
 "Goodbye"
-*/];
+];
 
 
 tasks = ['ALL_tasks'];
@@ -112,7 +53,7 @@ all_conditions = {
   };
 
 // INTRO [index.html] ----------------------------------------------------------
-intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="media/img/logo-trans-UAI.png" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div>' +
+intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="controllers/media/logo.png" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div>' +
   'Para cambiar este texto, edita la variable intro_HTML en config.js<BR><BR>' +
   'Si tienes alguna duda, puedes escribirnos a: <mailto::CORREO@CORREO.COM>CORREO@CORREO.COM</mailto><BR><BR>' +
-  'Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="media/img/compatible_chrome.gif" name="Chrome" align="bottom" border="0"/></a>';
+  'Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="controllers/media/compatible_chrome.gif" name="Chrome" align="bottom" border="0"/></a>';
