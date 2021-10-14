@@ -152,6 +152,7 @@ function saveData(data, online, name, version = 'original') {
 // script_loading.js -------------------------------------------------------------
 
 // carga de todos los scripts de un array de una carpeta específica
+// TODO: Explicar que hace 'new_element' e 'index'
 function script_loading(folder, array, completed_experiments = [], new_element = false, index = 0) {
 	var script = document.createElement("script");
 	script.type = "text/javascript";
@@ -237,10 +238,15 @@ function continue_page_activation(completed_experiments, questions, completed = 
 
 // filtrador de elementos por questions["procedure"]
 function obtain_experiments(questions, completed_experiments){
-  // se filtran los experimentos completados para obtener los faltantes
+
+  if (debug_mode === true) console.log("obtain_experiments() [[ completed_experiments: " + completed_experiments.length + " || questions_before: " + questions.length + " ]]")  
+
+    // se filtran los experimentos completados para obtener los faltantes
   acceptedValues = all_tasks.filter( function( element ) {
     return !completed_experiments.includes( element );
   } );
+  
+  if (debug_mode === true) console.log("obtain_experiments(): [[ " + acceptedValues.length + " ]]")  
 
   // se crea el array con los elementos no completados
   var questions = Object.keys(questions).reduce(function(r, e) {
@@ -254,6 +260,8 @@ function obtain_experiments(questions, completed_experiments){
   var questions = questions.filter(function (el) {
     return el != null;
   });
+  
+  if (debug_mode === true) console.log("obtain_experiments() [[ questions_after: " + questions.length + " ]]")  
 
   return questions;
 }
