@@ -26,8 +26,67 @@ tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks']
 */
 
 ALL_tasks = [
+
+//"FONDECYT",
+
 "Consent",
+"AIM",
+"BNT",
+"bRCOPE",
+"CAS",
+"Cov19Q",
+"COVIDCONTROL",
+"CRS",
+"CRT7",
+"CRTMCQ4",
+"CRTv",
+"DASS21",
+"DEBRIEF",
+"DEMOGR",
+"EAR",
+"ERQ",
+"ESM",
+"FDMQ",
+"GHQ12",
+"IDQ",
+"IEC",
+"IRI",
+"IRS",
+"MIS",
+"OBJNUM",
+"OTRASRELIG",
+"PBS",
+"PSETPP",
+"PSPPC",
+"PSS",
+"PVC",
+"PWb",
+"REI40",
+"Report",
+"RSS",
+"RTS",
+"SASS",
+"SBS",
+"SCSORF",
+"SDG",
+"SRA",
+"SRBQP",
+"SRSav",
+"SWBQ",
+"WEBEXEC",
+
+// Between tasks [random order unavoidable]
+"HRPVB",
+"HRPVBpost",
+"PRFBM",
+"PRFBMpost",
+
 "FONDECYT",
+"INFCONS",
+
+// More randomness
+"EmpaTom",
+"BART",
 "Goodbye"
 ];
 

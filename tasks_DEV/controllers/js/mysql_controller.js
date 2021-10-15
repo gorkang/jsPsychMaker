@@ -22,7 +22,8 @@ function json_can_parsed(data) {
 
 // XMLcall() ------------------------------------------------------------------
 
-function XMLcall (query, table_name, elements = {}) {
+// wait_for_response makes the calles synchronic
+function XMLcall (query, table_name, elements = {}, wait_for_response = false) {
   return new Promise(
     function(resolve, reject) {
       var xhr = new XMLHttpRequest();
@@ -30,8 +31,9 @@ function XMLcall (query, table_name, elements = {}) {
         if (xhr.readyState == XMLHttpRequest.DONE) {
           response = (xhr.responseText);
           if (json_can_parsed (response)) {
-            answer = (response != "") ? JSON.parse(response) : {};
-            //console.log(answer);
+            answer = (response !== "") ? JSON.parse(response) : {};
+            if (debug_mode === true) console.log(query + " // " + table_name);
+            if (debug_mode === true) console.log(answer);
             resolve(answer);
           } else {
             console.log(response);
@@ -40,53 +42,60 @@ function XMLcall (query, table_name, elements = {}) {
         }
       };
 
-      xhr.open('POST', 'controllers/php/mysql.php');
+      // By default perform asynchronous calls.
+      if (wait_for_response === true) {
+        xhr.open('POST', 'controllers/php/mysql.php', false);  
+      } else {
+        xhr.open('POST', 'controllers/php/mysql.php');
+      }
+      
       xhr.setRequestHeader('Content-Type', 'application/json');
 
       base_query = {"query": query, "table_name": table_name, "pid": pid};
 
       if (query == "createTable") {
-        base_query["keys"] = elements["keys"];
+        base_query.keys = elements.keys;
       } else if (query == "insertIntoTable") {
-        keys = Object.keys(elements["dict"]).join();
-        values = '"' + Object.values(elements["dict"]).join('","') + '"';
-        base_query["keys"] = keys;
-        base_query["values"] = values;
+        keys = Object.keys(elements.dict).join();
+        values = '"' + Object.values(elements.dict).join('","') + '"';
+        base_query.keys = keys;
+        base_query.values = values;
       } else if (query == "updateTable") { //update "1" element from mysql table
-        base_query["id"] = "";
-        for (var [key, value] of Object.entries(elements["id"])) {
-          base_query["id"] = key + "=";
+        base_query.id = "";
+        for (var [key, value] of Object.entries(elements.id)) {
+          base_query.id = key + "=";
           if (value.toString().indexOf("+ 1") != -1 || value.toString().indexOf("- 1") != -1 || isNormalInteger(value.toString())) {
-            base_query["id"] += value
+            base_query.id += value;
           } else {
-            base_query["id"] += '"' + value + '"'
+            base_query.id += '"' + value + '"';
           }
         }
-        base_query["data"] = "";
-        for (var [key, value] of Object.entries(elements["data"])) {
-          base_query["data"] = key + "=";
+        base_query.data = "";
+        for (var [key, value] of Object.entries(elements.data)) {
+          base_query.data = key + "=";
           if (value.toString().indexOf("+ 1") != -1 || value.toString().indexOf("- 1") != -1 || isNormalInteger(value.toString())) {
-            base_query["data"] += value
+            base_query.data += value;
           } else {
-            base_query["data"] += '"' + value + '"'
+            base_query.data += '"' + value + '"';
           }
         }
 
       } else if (query == "condition_selection") {
-        base_query["id"] = "";
-        for (var [key, value] of Object.entries(elements["id"])) {
-          base_query["id"] = key + "=";
+        base_query.id = "";
+        for (var [key, value] of Object.entries(elements.id)) {
+          base_query.id = key + "=";
           if (value.toString().indexOf("+ 1") != -1 || value.toString().indexOf("- 1") != -1 || isNormalInteger(value.toString())) {
-            base_query["id"] += value
+            base_query.id += value;
           } else {
-            base_query["id"] += '"' + value + '"'
+            base_query.id += '"' + value + '"';
           }
         }
+
       } else if (query == "findRow" || query == "findAll") {
         if ('keys' in elements)
-          base_query["keys"] = elements["keys"];
+          base_query.keys = elements.keys;
         if ('values' in elements)
-          base_query["values"] = elements["values"];
+          base_query.values = elements.values;
       }
 
       xhr.send(JSON.stringify(base_query));
@@ -134,6 +143,7 @@ function clean_mysql(){
   // This is important because now we say there are no slots before cleaning up discarded
   // Make sure there are no other collisions, for example, in check_id_status(), if the participant already exists and we accept_discarded, the participant can continue!
 
+  
   XMLcall("findAll", "user").then(function(users) {
 
     /*
@@ -163,13 +173,13 @@ function clean_mysql(){
           for (var i = 0; i < user_conditions.length; i++) {
             XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
           }
-        })
+        });
 
       }
     }
   }, function (error) {
-    console.log("User Table not found")
-  })
+    console.log("User Table not found");
+  });
 
 }
 
@@ -303,7 +313,8 @@ function condition_selection(between_selection_temp = {}) {
           }
 
           // CHECKS
-          if (condition_temp_array.includes(false)) {
+          if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
+          //if (condition_temp_array.includes(false)) {
             experiment_blocked = true;
             console.log("Usuario bloqueado por límite en condiciones");
             resolve(false);
@@ -359,7 +370,8 @@ function check_id_status(event) {
       // Look for uid_external in user table
       XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
 
-        // NEW user (uid_external not in DB) ---
+        // [[NEW USER]] (uid_external not in DB) ******************
+        //*********************************************************
         if (Object.keys(actual_user).length === 0 && actual_user.constructor === Object) {
 
           console.log("New user");
@@ -397,7 +409,8 @@ function check_id_status(event) {
                 }
               }
               
-              // DISCARDED user ---
+              // [[DISCARDED USER]] *************************************
+              //*********************************************************
               if (actual_user.status == "discarded") {
                 // Reset starting date to NOW
                 actual_time = new Date().toISOString().slice(0, 19);
@@ -427,24 +440,48 @@ function check_id_status(event) {
                   }
                 });
                 
-              // ASSIGNED user --- 
+              
+              // [[ASSIGNED USER]] **************************************
+              //*********************************************************
               } else {
+                
                 console.log("User previously assigned.");
                 user_assigned = true;
                 text_input_uid.innerHTML = 'Participante encontrado. Cargando estado... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
               }
+              
+              if (debug_mode === true) console.log("check_id_status() [[ completed_experiments_before: " + completed_experiments.length + " || uid: " + uid + " ]]");  
 
               completed_experiments = [];
-              XMLcall("findAll", "user_task", {keys: ["id_user"], values: [uid]}).then(function(tasks_list) {
+              
+              // TODO: THIS should be a single call to get the tasks names, instead of a call, a loop, and a call for each idtask -----------------------------------------------------------------
+                  // SELECT user.id_user, task.task_name FROM user LEFT JOIN user_task USING (id_user) LEFT JOIN task USING (id_task) WHERE id_user = 1053
+              // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+              
+              XMLcall("findAll", "user_task", {keys: ["id_user"], values: [uid]}, wait_for_response = true).then(function(tasks_list) {
+                //console.log("In XMLcall");
+                //console.log(tasks_list);
+                
                 for (const actual_element in tasks_list) {
-                  XMLcall("findRow", "task", {keys: ["id_task"], values: [tasks_list[actual_element].id_task]}).then(function(actual_task) {
+                  
+                  XMLcall("findRow", "task", {keys: ["id_task"], values: [tasks_list[actual_element].id_task]}, wait_for_response = true).then(function(actual_task) {
                     completed_experiments.push(actual_task.task_name);
                   });
+                  
                 }
+                
+                if (debug_mode === true) console.log("check_id_status() [[ completed_experiments: " + completed_experiments.length + " || all_tasks: " + all_tasks.length + " ]]")  
+                
                 // se carga en caso de que el usuario esté asignado
                 script_loading("tasks", all_tasks, completed_experiments);
               });
+              // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+              // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+              
             });
+            
+          // [[COMPLETED USER]] *************************************
+          //*********************************************************
           } else if (actual_user.status == "completed") {
             console.log("User already completed the protocol.")
             text_input_uid.innerHTML = "El participante ya completó el protocolo";
@@ -688,5 +725,5 @@ function completed_task_storage(csv, task) {
 
 
 // IF here, we are online
-start_mysqldb(pid, max_participants); // SHOULD be launched only if pid is not in DB
+if (debug_mode === true) start_mysqldb(pid, max_participants); // SHOULD be launched only if pid is not in DB
 load_clean_mysql(iterations_for_review, max_participants);

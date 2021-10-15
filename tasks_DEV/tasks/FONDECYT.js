@@ -22,7 +22,7 @@
   within_selection["FONDECYT"] = [];
   for (var i = 0; i < disease_order.length; i++) {
     for (var j = 0; j < disease_order.length; j++) {
-      within_selection["FONDECYT"].push({ disease: disease_order[i].disease, test_quality: test_quality_order[i][j].test_quality });
+      within_selection["FONDECYT"].push({ disease: disease_order[i]["disease"], test_quality: test_quality_order[i][j]["test_quality"] });
     }
   }
   if (debug_mode === true) console.table(within_selection["FONDECYT"]);
@@ -43,10 +43,10 @@
 
   // WITHIN: data asociada al test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/img/VPP_low.png', type_image: 'positivo', sex_patient: sex.sex[1]}, // sex always woman
-    'highQuality_Cancer': {image: 'media/img/VPN_high.png', type_image: 'negativo', sex_patient: sex.sex[1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/img/VPN_low.png', type_image: 'negativo', sex_patient: sex_randomized[0].sex},
-    'highQuality_Stroke': {image: 'media/img/VPP_high.png', type_image: 'positivo', sex_patient: sex_randomized[1].sex}
+    'lowQuality_Cancer': {image: 'media/img/VPP_low.png', type_image: 'positivo', sex_patient: sex["sex"][1]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/img/VPN_high.png', type_image: 'negativo', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/img/VPN_low.png', type_image: 'negativo', sex_patient: sex_randomized[0]["sex"]},
+    'highQuality_Stroke': {image: 'media/img/VPP_high.png', type_image: 'positivo', sex_patient: sex_randomized[1]["sex"]}
   };
 
   data_type = {
@@ -95,7 +95,7 @@
 
   var instructions_between_01 = {
       type: 'instructions',
-      pages: ['<h1>Instrucciones</h1>' + data_type[between_selection["FONDECYT"][0]]["text"] + '<BR>'],
+      pages: ['<h1>Instrucciones</h1><BR>' + data_type[between_selection["FONDECYT"][0]]["text"]], //se agrega el texto de la variable between seleccionada
       data: {trialid: 'Instructions_001',
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'},
@@ -118,7 +118,7 @@
           type: 'instructions',
           pages: function() {
             num += 1;
-            return (["<h2>Caso " + num + " de 4</h2>" +
+            return (["<h2>Caso " + num + " de 4</h1><BR>" +
             data_disease[jsPsych.timelineVariable('disease', true)].description_context1 +
             data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient +
             data_disease[jsPsych.timelineVariable('disease', true)].description_context2 +
@@ -127,8 +127,8 @@
           },
           data: function () {
             element = {
-              trialid: 'FONDECYT_01_' + num,
-              condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+              trialid: 'FONDECYT_01_' + (parseInt(num) + 1).toString(),
+              condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
               condition_between: between_selection["FONDECYT"][0],
               procedure: 'FONDECYT'
             };
@@ -166,8 +166,8 @@
           // hay que conversar sobre lo que quedará guardado en stimulus del survey-html-form, esto incluye la modificacion del plugin
           var element = {
             trialid: 'FONDECYT_02_' + num,
-            //condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            //condition_within: within_selection["FONDECYT"]["timeline_01"],
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
@@ -195,8 +195,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT_03_' + num,
-            //condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
@@ -225,8 +224,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT_04_' + num,
-            //condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
@@ -255,8 +253,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT_05_' + num,
-            //condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
@@ -285,8 +282,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT_06_' + num,
-            //condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
             condition_between: between_selection["FONDECYT"][0],
             procedure: 'FONDECYT'
           };
