@@ -68,9 +68,6 @@
 
 
 
-
-
-
   // hay que revisar toda la data, para este caso, test_quality y disease
   for (const [key, value] of Object.entries(data_test_quality)) {
     if ('image' in data_test_quality[key]) {
@@ -309,6 +306,7 @@
 
 questions.push({
     type: 'call-function',
+    data: {trialid: 'FONDECYT_000', procedure: 'FONDECYT'},
     func: function(){
       if (online) {
         var data = jsPsych.data.get().filter({procedure: 'FONDECYT'}).csv();
@@ -318,6 +316,5 @@ questions.push({
       let first_experiment = true;
       let last_experiment = false;
       saveData(data, online, 'FONDECYT', version = 'original', first_experiment, last_experiment);
-    },
-    data: {procedure: 'FONDECYT'}
+    }
 });

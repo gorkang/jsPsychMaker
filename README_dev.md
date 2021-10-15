@@ -1,5 +1,16 @@
 # TODO 
 
+- Para que se usa database.php???
+
+- Error cuando algun item no tiene procedure en data. Test para buscarlo y avisar de donde esta el problema!!!!
+```
+Uncaught TypeError: Cannot read properties of undefined (reading 'procedure')
+    at helper_functions.js:253
+    at Array.reduce (<anonymous>)
+    at obtain_experiments (helper_functions.js:252)
+    at HTMLScriptElement.script.onload (helper_functions.js:174)
+```    
+
 - Si es la primera vez que se accede a un protocolo (No existe en MySQL) y "all_conditions = {};" (No hay ninguna condicion between), da un error sobre que condition_temp_array no esta definido en mysql_controller.js
 
 - Separar img usadas en canonical de las de las tareas. Meter loading.gif, chrome y logo uai... en controllers/media???

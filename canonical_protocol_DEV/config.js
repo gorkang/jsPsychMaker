@@ -27,8 +27,8 @@ tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks']
 
 ALL_tasks = [
 
-//"FONDECYT",
-
+"Consent", "FONDECYT", "Goodbye"
+/*
 "Consent",
 "AIM",
 "BNT",
@@ -88,6 +88,7 @@ ALL_tasks = [
 "EmpaTom",
 "BART",
 "Goodbye"
+*/
 ];
 
 

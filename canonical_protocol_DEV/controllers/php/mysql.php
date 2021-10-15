@@ -14,12 +14,16 @@ usleep( $sleep_time );
 
 // MySQL credentials: .secrets_mysql.php --------------------------------------
 
+  // DO NOT FILL THE PARAMETERS HERE
+  // .secrets_mysql.php SHOULD NOT BE IN A PUBLIC FOLDER OR REPOSITORY
+
 /* The file .secrets_mysql.php contains the following information:
   $servername = "";
   $username = "";
   $password = "";
   $dbname = "";
 */
+
 
 // Path to .secrets_mysql.php is different if running in protocols/test/ or protocols/
 $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
@@ -35,6 +39,8 @@ if (strpos($url,'test') !== false) {
 
 
   $data = json_decode(file_get_contents('php://input'), true);
+// REMEMBER: delete me
+// echo '<pre>'; print_r($data); echo '</pre>';
 
   // Create connection
   $conn = new mysqli($servername, $username, $password, $dbname);
@@ -43,6 +49,58 @@ if (strpos($url,'test') !== false) {
   if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
   }
+
+
+// FUNCTIONS -----------------------------------------------------------------
+
+
+  // general_query  ----------------------------------------------------
+  // -------------------------------------------------------------------
+
+  function general_query($data, $conn) {
+ 
+    $query = $data["sql"] . " WHERE " . $data["id"] . " AND task.id_protocol = " . $data["pid"];
+    // echo($query);
+  
+      if (array_key_exists('keys', $data) && array_key_exists('values', $data)) {
+        for ($i=0; $i < count($data["keys"]); $i++) {
+          $query = $query . " AND " . $data["keys"][$i] . " = " . $data["values"][$i];
+        }
+      }
+  
+      echo("[");
+      $starting = true;
+      $query = $query . ";";
+      $result = mysqli_query($conn, $query);
+  
+      while ($row = $result->fetch_assoc()) {
+        $first = true;
+        if ($starting){
+          echo "{";
+          $starting = false;
+        } else {
+          echo ", {";
+        }
+  
+        foreach($row as $key=>$value) {
+          if ($first) {
+            $first = false;
+          } else {
+            echo ", ";
+          }
+          echo ('"' . $key . '"' . ': "' . $value . '"');
+        }
+        echo '}';
+      }
+      echo("]");
+
+  };
+  
+  // -------------------------------------------------------------------
+  // -------------------------------------------------------------------
+  
+  
+
 
   function createTable($data, $conn) {
     $query = "CREATE TABLE IF NOT EXISTS " . $data["table_name"] . " (" . $data["keys"] .")";
@@ -62,6 +120,7 @@ if (strpos($url,'test') !== false) {
     $result = mysqli_query($conn, $query);
     //echo($query);
   };
+
 
   function condition_selection($data, $conn) {
 
@@ -93,17 +152,13 @@ if (strpos($url,'test') !== false) {
     echo(']');
   };
 
-  function findAll($data, $conn) {
 
+  function findAll($data, $conn) {
+  
     $query = "LOCK TABLES " . $data["table_name"] . " WRITE;";
     $result = mysqli_query($conn, $query);
 
     $query = "SELECT * from " . $data["table_name"] . " WHERE id_protocol = " . $data["pid"];
-    /*
-    $query = "LOCK TABLES " . $data["table_name"] . " WRITE;
-              SELECT * from " . $data["table_name"] . " WHERE id_protocol = " . $data["pid"] . ";
-              UNLOCK TABLES; ";
-    */
 
     if (array_key_exists('keys', $data) && array_key_exists('values', $data)) {
       for ($i=0; $i < count($data["keys"]); $i++) {
@@ -145,6 +200,7 @@ if (strpos($url,'test') !== false) {
 
   }
 
+
   function findRow($data, $conn) {
 
     $query = "SELECT * from " . $data["table_name"] . " WHERE id_protocol = " . $data["pid"];
@@ -174,6 +230,9 @@ if (strpos($url,'test') !== false) {
     }
   }
 
+
+
+// Function to use depending on the 'query' parameter
   if ($data["query"] == "createTable") {
     createTable($data, $conn);
   } else if ($data["query"] == "insertIntoTable") {
@@ -186,6 +245,8 @@ if (strpos($url,'test') !== false) {
     findRow($data, $conn);
   } else if ($data["query"] == "condition_selection") {
     condition_selection($data, $conn);
+  } else if ($data["query"] == "general_query") {
+    general_query($data, $conn);
   }
 
   $conn->close();
