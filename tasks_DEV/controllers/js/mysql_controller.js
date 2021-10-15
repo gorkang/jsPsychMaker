@@ -23,7 +23,7 @@ function json_can_parsed(data) {
 // XMLcall() ------------------------------------------------------------------
 
 // wait_for_response makes the calles synchronic
-function XMLcall (query, table_name, elements = {}, wait_for_response = false) {
+function XMLcall (query, table_name, elements = {}, sql = "", wait_for_response = false) {
   return new Promise(
     function(resolve, reject) {
       var xhr = new XMLHttpRequest();
@@ -51,7 +51,7 @@ function XMLcall (query, table_name, elements = {}, wait_for_response = false) {
       
       xhr.setRequestHeader('Content-Type', 'application/json');
 
-      base_query = {"query": query, "table_name": table_name, "pid": pid};
+      base_query = {"query": query, "table_name": table_name, "pid": pid, "sql": sql};
 
       if (query == "createTable") {
         base_query.keys = elements.keys;
@@ -90,6 +90,24 @@ function XMLcall (query, table_name, elements = {}, wait_for_response = false) {
             base_query.id += '"' + value + '"';
           }
         }
+
+
+  // NEW GENERAL QUERY -------------------------------------------------------------
+  
+      } else if (query == "general_query") {
+        console.log(elements);
+        
+        // CHECK general_query sql is a SELECT
+        if (!Object.entries(elements.sql)[0][1].startsWith("SELECT")) throw (new Error('general_query ERROR'));
+
+        // Put elements in SQL query
+        base_query.id = Object.entries(elements.id)[0][0] + "=" +  Object.entries(elements.id)[0][1];
+        base_query.sql = Object.entries(elements.sql)[0][1];
+  
+        console.log(base_query);
+
+// ----------------------------------------------------------------------------------
+
 
       } else if (query == "findRow" || query == "findAll") {
         if ('keys' in elements)
@@ -232,6 +250,9 @@ function load_clean_mysql(iterations_for_review, max_participants) {
 
 
 // condition_selection() --------------------------------------------------------
+
+// RETURNS true if there are slots available, false if not.
+// Writes between_selection, experiment_blocked, condition_temp_array
 // obtención de condiciones para usuario nuevo (funciona como promise para que sea sincrónico)
 
 function condition_selection(between_selection_temp = {}) {
@@ -247,7 +268,9 @@ function condition_selection(between_selection_temp = {}) {
           temp_condition_task_list = [];
 
 
-          // NEW PARTICIPANTS ---
+          // [[NEW PARTICIPANTS]] ----------------------------------------------
+          // -------------------------------------------------------------------
+          
           if (Object.keys(between_selection_temp).length === 0) {
             
             condition_data_temp = [];
@@ -296,7 +319,8 @@ function condition_selection(between_selection_temp = {}) {
               }
             }
 
-          // DISCARDED PARTICIPANTS ---
+          // [[DISCARDED PARTICIPANTS]] ----------------------------------------
+          // -------------------------------------------------------------------
           } else {
             
             // REVIEW:  temp_accepted_conditions NO se usa para nada (?????)
@@ -314,7 +338,6 @@ function condition_selection(between_selection_temp = {}) {
 
           // CHECKS
           if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
-          //if (condition_temp_array.includes(false)) {
             experiment_blocked = true;
             console.log("Usuario bloqueado por límite en condiciones");
             resolve(false);
@@ -370,8 +393,10 @@ function check_id_status(event) {
       // Look for uid_external in user table
       XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
 
-        // [[NEW USER]] (uid_external not in DB) ******************
-        //*********************************************************
+
+        // [[NEW USER]] (uid_external not in DB) -------------------------------
+        // ---------------------------------------------------------------------
+        
         if (Object.keys(actual_user).length === 0 && actual_user.constructor === Object) {
 
           console.log("New user");
@@ -383,19 +408,25 @@ function check_id_status(event) {
             script_loading("tasks", all_tasks, completed_experiments, true);
           });
 
-        // User found in DB ---
+
+
+        // [[OLD USER]] (uid_external is in DB) --------------------------------
+        // ---------------------------------------------------------------------
+        // Can be discarded or assigned
+        
         } else {
 
           // Fetch internal DB uid
           uid = actual_user.id_user;
 
+          // assigned or discarded but recoverable
           if (actual_user.status == "assigned" || (accept_discarded && actual_user.status == "discarded")) {
 
-            // REVIEW: revisar si podemos cambiar esto y hacerlo antes, porque es importante tener cargado esto para la funcion condition_selection
-            // LOAD **between participants** conditions for the particicipant from the DB (so she can continue where she left off)
+
+            // GET **BETWEEN PARTICIPANTS** conditions for the particicipant from the DB (so she can continue where she left off)
             between_selection = {};
 
-            XMLcall("condition_selection", "", {id: {"id_user": actual_user.id_user}}).then(function (between_selection_temp){
+            XMLcall("condition_selection", "", {id: {"id_user": uid}}).then(function (between_selection_temp){
               // between selection es del tipo [{task1: condition1},{task2: condition2},{task2: condition3}]
               for (var i = 0; i < between_selection_temp.length; i++) {
                 let actual_task = Object.keys(between_selection_temp[i])[0];
@@ -409,16 +440,21 @@ function check_id_status(event) {
                 }
               }
               
-              // [[DISCARDED USER]] *************************************
-              //*********************************************************
+              
+              // [[DISCARDED USER]] --------------------------------------------
+              
               if (actual_user.status == "discarded") {
-                // Reset starting date to NOW
-                actual_time = new Date().toISOString().slice(0, 19);
-                actual_user.start_date = actual_time;
 
+                // CHECK 
                 condition_selection(between_selection).then(function(accepted) {
+                  
                   // si la revisión de condiciones resulta positiva podemos agregar al usuario reasignado
                   if (accepted) {
+                  
+                    // Reset starting date to NOW
+                    actual_time = new Date().toISOString().slice(0, 19);
+                    actual_user.start_date = actual_time;
+                    
                     // Change status to assigned in table user
                     XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "assigned"}});
                     console.log("Usuario re-assignado.");
@@ -441,8 +477,8 @@ function check_id_status(event) {
                 });
                 
               
-              // [[ASSIGNED USER]] **************************************
-              //*********************************************************
+              // [[ASSIGNED USER]] --------------------------------------------
+              
               } else {
                 
                 console.log("User previously assigned.");
@@ -450,14 +486,13 @@ function check_id_status(event) {
                 text_input_uid.innerHTML = 'Participante encontrado. Cargando estado... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
               }
               
-              if (debug_mode === true) console.log("check_id_status() [[ completed_experiments_before: " + completed_experiments.length + " || uid: " + uid + " ]]");  
-
               completed_experiments = [];
               
               // TODO: THIS should be a single call to get the tasks names, instead of a call, a loop, and a call for each idtask -----------------------------------------------------------------
                   // SELECT user.id_user, task.task_name FROM user LEFT JOIN user_task USING (id_user) LEFT JOIN task USING (id_task) WHERE id_user = 1053
               // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
               
+              /*
               XMLcall("findAll", "user_task", {keys: ["id_user"], values: [uid]}, wait_for_response = true).then(function(tasks_list) {
                 //console.log("In XMLcall");
                 //console.log(tasks_list);
@@ -474,6 +509,16 @@ function check_id_status(event) {
                 
                 // se carga en caso de que el usuario esté asignado
                 script_loading("tasks", all_tasks, completed_experiments);
+              });
+              */
+              
+              
+              XMLcall(query = "general_query", table_name = "", elements = {sql: {"sql_call": "SELECT task.task_name FROM user LEFT JOIN user_task USING (id_user) LEFT JOIN task USING (id_task)"}, id: {"id_user": uid}}).then(function(tasks_list) {
+                
+               if (debug_mode === true) console.log("check_id_status() [[ completed_experiments: " + completed_experiments.length + " || all_tasks: " + all_tasks.length + " ]]")  
+                completed_experiments =  answer.map(a => a.task_name); // Extract all elements of object answer to completed_experiments
+                script_loading("tasks", all_tasks, completed_experiments);
+
               });
               // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
               // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -500,7 +545,7 @@ function check_id_status(event) {
 
 // completed_task_storage() --------------------------------------------------------
 
-//Saves the data in database
+// Saves the data of a task in the DB
 function completed_task_storage(csv, task) {
 
   if (task == all_tasks[all_tasks.length - 1])
@@ -510,7 +555,10 @@ function completed_task_storage(csv, task) {
 
 
   // REVIEW: Explain the origin and use of user_assigned and experiment_blocked
-  // User NOT assigned and experiment NOT blocked
+  
+  
+  // [[NEW OR DISCARDED]] -------------------------------------------------------
+    // User NOT assigned and experiment NOT blocked
   if (!user_assigned && !experiment_blocked) {
     XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
 
@@ -518,16 +566,16 @@ function completed_task_storage(csv, task) {
       if ("status" in actual_user) {
 
 
-        // REVIEW: THIS CHUNK is almost identical to the check_id_status() one.
-        // 1. USE filter here instead of for loop.
-        // 2. Can we have a function to do this and use it here and in check_id_status() (???)
-
         // REVIEW: for accept_discarded protocols!
 
-        // USER Discarded
+
+        // [[USER Discarded]] --------------------------------------------------
+        // ---------------------------------------------------------------------
+        
         if (actual_user.status == "discarded") {
           XMLcall("findAll", "experimental_condition").then(function(condition_data) {
-            // cupos?
+            
+            // CHECK if we have available slots
             all_conditions_tasks = {};
             for (var i = 0; i < condition_data.length; i++) {
               if (!(condition_data[i].task_name in all_conditions_tasks)) {
@@ -544,19 +592,23 @@ function completed_task_storage(csv, task) {
               }
             }
 
+            // Default
             let protocol_blocked = false;
 
+            // REVIEW: What happens IF we have multiple between conditions?
             Object.keys(all_conditions_tasks).forEach(function(key) {
               if (all_conditions_tasks[key] == false)
                 protocol_blocked = true;
             });
 
-            // We accept discarded and protocol is not blocked (available slots?)
+            // IF accept_discarded and there are available slots (protocol_blocked = false)
             if (!protocol_blocked && accept_discarded) {
               user_assigned = true;
               console.log("User assigned");
 
-              // Se agrega la data a indexedDB en la tabla user
+              // Update start_date and status of participant in user table
+                // IMPROVE: This should be a SINGLE call
+                // REVIEW: SHOULD WE assigned_task +1 in this case? When a participant is discarded, assigned_task - 1?
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"start_date": actual_time}});
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
             } else {
@@ -566,58 +618,70 @@ function completed_task_storage(csv, task) {
           });
         }
 
-      // NEW USER ----------------------------------------------------
-      // Created after first task (Consent)
-      // QUESTION: How we know is the first task (???)
+
+      // [[NEW USER]] ----------------------------------------------------------
+      // First task //
+      // -----------------------------------------------------------------------
+      
+      // AFTER COMPLETING FIRST TASK (Should be Consent. NOT enforced)
+      // We know it's the first task because it's a NEW USER (NO "status" in actual_user))
 
       } else {
 
         // Check condition_data table on DB
         XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
-          // Use condition_data to check if there are available slots for the condition selected in the BETWEEN task (e.g. between_selection["INFCONS"][0])
-          // We use Object.keys(between_selection).length to assign +1 to each of the between tasks
+
+          // CHECK if there are available slots --------------------------------
+          
+            // Use condition_data to check if there are available slots for the condition selected in the BETWEEN task (e.g. between_selection["INFCONS"][0])
+            // We use Object.keys(between_selection).length to assign +1 to each of the between tasks
 
           // For each of the between tasks (usually just one)
           for (var i = 0; i < Object.keys(between_selection).length; i++) {
 
             completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection[Object.keys(between_selection)[i]][0]});
 
+            // Available slots
             if (completed_protocol_filtered.length > 0) {
-
+              console.log("Cupos disponibles");
               added_task = completed_protocol_filtered[0]["task_name"];
               selected_id_condition = completed_protocol_filtered[0].id_condition;
               XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-
               protocol_blocked = false;
 
+            // NO slots available
             } else {
               console.log("NO hay cupos disponibles");
               alert("NO hay cupos disponibles");
               protocol_blocked = true;
-              window.location.reload();
+              window.location.reload(); // RELOAD website (REVIEW: can cause an infinite loop if uid in URL?)
             }
 
           }
 
-          // REVIEW: Se esta usando realmente la columna blocked? Es necesaria?
-          // Antes se hacia if (condition_data[i].blocked == false).
-          // Ahora vemos si hay cupos. Imagino que bloqued solo se da cuando no hay cupos (???)
-
+          
+          // AVAILABLE SLOTS --------------------------------------------------
           if (!protocol_blocked) {
             user_assigned = true;
             console.log("User assigned");
 
-            // Se agrega la data a MySQL en la tabla assigned_users
+            // ADD data to user table 
             XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function (actual_user) {
 
+              // GET DB internal uid
               XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
                 uid = actual_user.id_user;
+                
+                // GET id_task for the task
                 XMLcall("findRow", "task", {keys: ["task_name"], values: [task]}).then(function(actual_task) {
+                  
+                  // INSERT details in user_task
                   XMLcall("insertIntoTable", "user_task", {dict: { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}});
+                  
                 });
 
-                //between_selection
+                // INSERT between_selection condition for user
                 Object.entries(between_selection).forEach(([key, value]) => {
                   for (var i = 0; i < between_selection[key].length; i++) {
                     XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [between_selection[key][i]]}).then(function(actual_condition) {
@@ -629,8 +693,11 @@ function completed_task_storage(csv, task) {
               });
             });
 
-            // Se aumenta el contador general en el sistema
+            // UPDATE general counter in table protocol
             XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
+            
+            
+          // NO SLOTS AVAILABLE ------------------------------------------------
           } else {
             console.log("Usuario bloqueado por límite en condiciones");
             alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
@@ -641,20 +708,24 @@ function completed_task_storage(csv, task) {
       console.log("error en base de datos (busqueda de user)");
     });
 
-  // USER already assigned and experiment NOT blocked
+
+  // [[USER already assigned]] ---------------------------------------------------------
+  // Second to last tasks  //
+  // ---------------------------------------------------------------------------
+  // experiment NOT blocked
   } else if (user_assigned && !experiment_blocked) {
 
-    // REVIEW: if this is working OK.
+    // REVIEW: WHY are we doing "XMLcall("findAll", "experimental_condition").then(function(condition_data) {" (???) condition_data NOT used here (???)
 
     // CHECK if user can continue: Enough slots & max_time
-    // REVIEW: WHY are we doing "XMLcall("findAll", "experimental_condition").then(function(condition_data) {" (???) condition_data NOT used here (???)
     XMLcall("findAll", "experimental_condition").then(function(condition_data) {
       XMLcall("findRow", "user", {keys: ["id_user"], values: [uid]}).then(function(actual_user) {
 
-        // USER exists in user table in DB (REVIEW: WE are in the if (user_assigned) condition. WHY this double check (?)
+        // USER exists in user table in DB 
         if ("status" in actual_user) {
 
           // USER assigned
+            //REVIEW: WE are in the if (user_assigned) condition. WHY this double check (?)
           if (actual_user.status == "assigned") {
 
             // CLEAN UP based on max_sec (over time limit)
@@ -671,7 +742,8 @@ function completed_task_storage(csv, task) {
               //if ((actual_time - DBtime)/1000 > max_sec) {
               if ((new Date(actual_time) - new Date(DBtime))/1000 > max_sec) {
 
-                console.log("actual_time: " + actual_time + " || DBtime" + DBtime + "||" + actual_time - DBtime);
+                console.log("actual_time: " + actual_time + " || DBtime" + DBtime + "||" + Date(actual_time) - Date(DBtime));
+                console.log("actual_time - DBtime: " + Date(actual_time) - Date(DBtime));
                 //console.log("ID: " + actual_user.id_user + " [" + actual_user.status + "] || actual_time: " + actual_time + " || DBtime: " + DBtime + " || " + (new Date(actual_time) - new Date(DBtime))/1000 + " > " + max_sec);
 
                 // SET status = discarded in user table in DB
