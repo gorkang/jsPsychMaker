@@ -1,14 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
 questions.push( check_fullscreen('WEBEXEC') );
-
 WEBEXEC = [];    //final timeline
 
 var instruction_screen_experiment = {

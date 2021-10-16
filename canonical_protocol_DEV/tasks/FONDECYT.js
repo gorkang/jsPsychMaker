@@ -1,4 +1,4 @@
-/* CSCN - Creado MANUALMENTE */
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 

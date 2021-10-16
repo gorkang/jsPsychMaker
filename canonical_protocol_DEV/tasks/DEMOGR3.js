@@ -1,42 +1,9 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
-questions.push(
-  {
-    timeline: [{
-      type: 'fullscreen',
-      message: '<p>El experimento entrará en modo pantalla completa</p>',
-      button_label: 'Full screen',
-      delay_after: 0,
-      fullscreen_mode: true,
-      data: {procedure: 'DEMOGR3'}
-    }],
-    conditional_function: function(){
-      if(window.innerWidth != screen.width || window.innerHeight != screen.height)
-        return true;
-      else
-        return false;
-    }
-  }
-);
-
+questions.push( check_fullscreen('DEMOGR3') );
 DEMOGR3 = [];    //temporal timeline
+
 
 var instruction_screen_experiment = {
     type: 'instructions',

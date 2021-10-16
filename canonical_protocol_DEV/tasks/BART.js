@@ -1,9 +1,4 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 
 function pad(num, size) {

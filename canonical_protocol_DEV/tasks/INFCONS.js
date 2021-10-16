@@ -1,25 +1,13 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
 questions.push( check_fullscreen('INFCONS') );
-
+INFCONS = [];    //temporal timeline
 
 var factors = {condition: ['control', 'text', 'pictorial']};
-
 var full_design = jsPsych.randomization.factorial(factors, 1);
-
-
-
 if (full_design[0].condition == 'pictorial') {
 
-
-INFCONS = [];    //temporal timeline
 
 var instruction_screen_experiment = {
     type: 'instructions',

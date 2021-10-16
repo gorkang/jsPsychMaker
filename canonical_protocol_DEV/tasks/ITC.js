@@ -1,22 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];;    //final timeline
-
+questions.push( check_fullscreen('ITC') );
 ITC = [];    //temporal timeline
 
 var instruction_screen_experiment = {
