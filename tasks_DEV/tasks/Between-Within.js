@@ -1,4 +1,4 @@
-/* CSCN - Creado MANUALMENTE */
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 
@@ -6,7 +6,7 @@
   var within_var = {
       disease: ['Cáncer', 'Sida', 'Asma'],
       test_quality: ['low_quality', 'high_quality']
-  }
+  };
 
   // Randomize order of Within variables
   within_selection["Between-Within"] = jsPsych.randomization.factorial(within_var, 1, false, false);
