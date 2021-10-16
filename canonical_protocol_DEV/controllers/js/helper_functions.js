@@ -1,4 +1,18 @@
 
+// CHECKS ----------------------------------------------------------------------
+ 
+  // Online mode while running locally
+   URL_web = window.location.href;
+   if (URL_web.startsWith("file:///") & online === true) alert("ERROR: You are running locally but online = true [see config.js]");
+   
+   // Offline mode while running on server
+   URL_web = window.location.href;
+   if (URL_web.startsWith("http") & online === false) alert("ERROR: You are running on a server but online = false [see config.js]");
+   
+// ----------------------------------------------------------------------------
+
+
+
 // css_loading.js -------------------------------------------------------------
 
 // detection for touchscreen, used for css selection
@@ -38,34 +52,6 @@ window.onload = function() {
 
 
 
-
-// config_controller.js -------------------------------------------------------------
-
-onkeydown = function block_fkeys(event){
-  var x = event.which || event.keyCode;
-  if(x == 112 || x == 116){ //blocks f1 and f5 keys
-    console.log("Blocked key");
-    event.preventDefault();
-    return false;
-  } else {
-    return;
-  }
-};
-
-// limpieza de arrays dentro de arrays
-function flatten(arr) {
-
-  let final_arr = [];
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i].startsWith('random')) {
-      final_arr = final_arr.concat(jsPsych.randomization.shuffle(window[arr[i]]));
-    } else {
-      final_arr = final_arr.concat(window[arr[i]]);
-    }
-  }
-  return final_arr;
-}
-
 // Parameters - Do not change ----------------------------------
 
 let params = new URLSearchParams(location.search);
@@ -99,15 +85,36 @@ for(var i= 0; i < all_tasks.length; i++) {
   tasks.push({ id_protocol: pid, task_name: all_tasks[i]});
 }
 
-/*
-// Use IndexedDB or MySQL for offline or online protocols
-if (online) {
-  start_mysqldb(pid, max_participants);
-  load_clean_mysql(iterations_for_review, max_participants);
-} else {
-  load_clean_indexeddb(iterations_for_review, max_participants);
+
+
+
+// config_controller.js -------------------------------------------------------------
+
+onkeydown = function block_fkeys(event){
+  var x = event.which || event.keyCode;
+  if(x == 112 || x == 116){ //blocks f1 and f5 keys
+    console.log("Blocked key");
+    event.preventDefault();
+    return false;
+  } else {
+    return;
+  }
+};
+
+// limpieza de arrays dentro de arrays
+function flatten(arr) {
+
+  let final_arr = [];
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].startsWith('random')) {
+      final_arr = final_arr.concat(jsPsych.randomization.shuffle(window[arr[i]]));
+    } else {
+      final_arr = final_arr.concat(window[arr[i]]);
+    }
+  }
+  return final_arr;
 }
-*/
+
 
 
 // save_data.js -------------------------------------------------------------
@@ -151,14 +158,14 @@ function saveData(data, online, name, version = 'original') {
 
 // script_loading.js -------------------------------------------------------------
 
-// carga de todos los scripts de un array de una carpeta específica
-// TODO: Explicar que hace 'new_element' e 'index'
+// Load all experiments in a folder included in an array
+// REVIEW: Explicar que hace 'new_element' e 'index'
 function script_loading(folder, array, completed_experiments = [], new_element = false, index = 0) {
 	var script = document.createElement("script");
 	script.type = "text/javascript";
 	script.async = false;
 
-  if (folder != "")
+  if (folder !== "")
     script.src = folder + "/";
   script.src += array[index] + ".js";
 
@@ -177,9 +184,6 @@ function script_loading(folder, array, completed_experiments = [], new_element =
 		};
 	}
 }
-
-
-
 
 
 // protocol_controller.js -------------------------------------------------------------
@@ -214,15 +218,27 @@ function check_fullscreen(task_name) {
 }
 
 
+
+
 // En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
 function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
+  
   input_uid = document.getElementById('input_uid');
   check = document.getElementById('check');
   start = document.getElementById('start');
+  
+  // Time variables
+  actual_time = new Date().toISOString().slice(0, 19);
+  DBtime = user_start_date;
+  seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
+  hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
+  minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON));
+  discard_time_message = " <B>Tu cupo caducará en " + hours_until_discarded + " horas [" + minutes_until_discarded + " minutos].</B>";
+      
 
   // se selecciona el texto a mostrar y si es que se muestra o no el botón para continuar con el protocolo en el punto en el que quedó
-  if (completed_experiments.length != 0 && questions.length != 0) {
-    text_input_uid.innerHTML = "Ya has completado " + (completed_experiments.length).toString() + " de " + (all_tasks.length).toString() + " tareas de este protocolo. <br><br> Para continuar con las " + (all_tasks.length - completed_experiments.length).toString() + " últimas tareas, presiona el botón.";
+  if (completed_experiments.length !== 0 && questions.length !== 0) {
+    text_input_uid.innerHTML = "Ya has completado " + (completed_experiments.length).toString() + " de " + (all_tasks.length).toString() + " tareas. <br><br> Para continuar con las " + (all_tasks.length - completed_experiments.length).toString() + " últimas tareas, presiona el botón. " + discard_time_message;
     start.hidden = false;
     start.removeAttribute("style");
   } else if ((completed_experiments.length == all_tasks.length) || completed) {
@@ -239,18 +255,18 @@ function continue_page_activation(completed_experiments, questions, completed = 
 // filtrador de elementos por questions["procedure"]
 function obtain_experiments(questions, completed_experiments){
 
-  if (debug_mode === true) console.log("obtain_experiments() [[ completed_experiments: " + completed_experiments.length + " || questions_before: " + questions.length + " ]]")  
+  if (debug_mode === true) console.log("obtain_experiments() [[ completed_experiments: " + completed_experiments.length + " || questions_before: " + questions.length + " ]]");
 
     // se filtran los experimentos completados para obtener los faltantes
   acceptedValues = all_tasks.filter( function( element ) {
     return !completed_experiments.includes( element );
   } );
   
-  if (debug_mode === true) console.log("obtain_experiments(): [[ " + acceptedValues.length + " ]]")  
+  if (debug_mode === true) console.log("obtain_experiments(): [[ " + acceptedValues.length + " ]]");
 
   // se crea el array con los elementos no completados
   var questions = Object.keys(questions).reduce(function(r, e) {
-    if (acceptedValues.includes(questions[e].data["procedure"])) {
+    if (acceptedValues.includes(questions[e].data.procedure)) {
       r[e] = questions[e];
     }
     return r;
@@ -258,10 +274,10 @@ function obtain_experiments(questions, completed_experiments){
 
   // se limpia el array de los elementos vacios
   var questions = questions.filter(function (el) {
-    return el != null;
+    return el !== null;
   });
   
-  if (debug_mode === true) console.log("obtain_experiments() [[ questions_after: " + questions.length + " ]]")  
+  if (debug_mode === true) console.log("obtain_experiments() [[ questions_after: " + questions.length + " ]]");
 
   return questions;
 }
@@ -285,7 +301,7 @@ function start_protocol(questions){
   questions.push({
     type: 'call-function',
     func: function () {
-      if (online == false) {
+      if (online === false) {
         start_indexeddb().then(function(db) {
           updateIndexed("user", uid, "status", "completed", db);
 
@@ -297,7 +313,7 @@ function start_protocol(questions){
         }, function() {
           console.log("db not charged");
         });
-      } else if (online == true) {
+      } else if (online === true) {
         XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "completed"}});
         XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(user_conditions) {
           for (var i = 0; i < user_conditions.length; i++) {

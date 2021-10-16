@@ -415,6 +415,9 @@ function check_id_status(event) {
         // Can be discarded or assigned
         
         } else {
+          
+          // Make user_start_date a global variable so we can use it in continue_page_activation()
+          globalThis.user_start_date = actual_user.start_date;
 
           // Fetch internal DB uid
           uid = actual_user.id_user;
@@ -738,11 +741,14 @@ function completed_task_storage(csv, task) {
 
               actual_time = new Date().toISOString().slice(0, 19);
               DBtime = actual_user.start_date;
+              seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
+              hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
+              minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON) * 100) / 100;
 
-              //if ((actual_time - DBtime)/1000 > max_sec) {
-              if ((new Date(actual_time) - new Date(DBtime))/1000 > max_sec) {
+              // IF user ran out of time
+              if (seconds_since_start > max_sec) {
 
-                console.log("actual_time: " + actual_time + " || DBtime" + DBtime + "||" + Date(actual_time) - Date(DBtime));
+                console.log("actual_time: " + actual_time + " || DBtime" + DBtime + " || Started " + seconds_since_start + " seconds ago || Time ends in " + hours_until_discarded + " hours [" + minutes_until_discarded + " minutes]");
                 console.log("actual_time - DBtime: " + Date(actual_time) - Date(DBtime));
                 //console.log("ID: " + actual_user.id_user + " [" + actual_user.status + "] || actual_time: " + actual_time + " || DBtime: " + DBtime + " || " + (new Date(actual_time) - new Date(DBtime))/1000 + " > " + max_sec);
 
@@ -764,7 +770,7 @@ function completed_task_storage(csv, task) {
               }
             }
 
-          // USER statis is NOT assigned
+          // USER status is NOT assigned
           } else {
             // If it is not in the last_task
             if (!last_task) {
