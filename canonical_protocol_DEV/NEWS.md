@@ -1,4 +1,4 @@
-# jsPsychMaker 0.0.1.9999
+# jsPsychMaker 0.2.0
 
 Major updates  
 
@@ -16,6 +16,15 @@ Major updates
 * Media reorganization
   * Task-related media moved to media/ folder
   * Essential media (e.g. loading.gif) now in controllers/media
+
+
+Minor updates
+
+* Added check and informative message for online/offline
 * Informative messages while loading protocol
 * Added debug_mode
 * Avoid some SQL calls inside loops 
+
+
+* Tasks
+  + Consent changed so the input is a js variable instead of an html file (to avoid CORS issues)

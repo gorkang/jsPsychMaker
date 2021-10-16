@@ -2,6 +2,11 @@
 
 - Para que se usa database.php???
 
+- Añadir mensajes informativos mientras esta cargando a IndexedDB controller??? (`text_input_uid.innerHTML`)
+  + Tal vez no es necesario pq IndexedDB es muy rapido?
+
+
+
 ### CATCH ERRORS AND GIVE INFORMATIVE MESSAGES
 
 - Error cuando algun item no tiene procedure en data. Test para buscarlo y avisar de donde esta el problema!!!!
