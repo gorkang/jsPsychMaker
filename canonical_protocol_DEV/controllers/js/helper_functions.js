@@ -1,14 +1,14 @@
 
 // CHECKS ----------------------------------------------------------------------
- 
+
   // Online mode while running locally
    URL_web = window.location.href;
    if (URL_web.startsWith("file:///") & online === true) alert("ERROR: You are running locally but online = true [see config.js]");
-   
+
    // Offline mode while running on server
    URL_web = window.location.href;
    if (URL_web.startsWith("http") & online === false) alert("ERROR: You are running on a server but online = false [see config.js]");
-   
+
 // ----------------------------------------------------------------------------
 
 
@@ -219,22 +219,41 @@ function check_fullscreen(task_name) {
 
 
 
+function call_function(task_name) {
+
+  questions.push({
+      type: 'call-function',
+      data: {trialid: task_name + '_000', procedure: task_name},
+      func: function(){
+        if (online) {
+          var data = jsPsych.data.get().filter({procedure: task_name}).csv();
+        } else {
+          var data = jsPsych.data.get().filter({procedure: task_name}).json();
+        }
+        saveData(data, online, task_name);
+      }
+  });
+
+}
+
 
 // En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
 function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
-  
+
   input_uid = document.getElementById('input_uid');
   check = document.getElementById('check');
   start = document.getElementById('start');
-  
+
   // Time variables
   actual_time = new Date().toISOString().slice(0, 19);
+  max_sec = date_to_mil(max_time);
+  if (typeof user_start_date == 'undefined') user_start_date = ""
   DBtime = user_start_date;
   seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
   hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
   minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON));
   discard_time_message = " <B>Tu cupo caducará en " + hours_until_discarded + " horas [" + minutes_until_discarded + " minutos].</B>";
-      
+
 
   // se selecciona el texto a mostrar y si es que se muestra o no el botón para continuar con el protocolo en el punto en el que quedó
   if (completed_experiments.length !== 0 && questions.length !== 0) {
@@ -261,7 +280,7 @@ function obtain_experiments(questions, completed_experiments){
   acceptedValues = all_tasks.filter( function( element ) {
     return !completed_experiments.includes( element );
   } );
-  
+
   if (debug_mode === true) console.log("obtain_experiments(): [[ " + acceptedValues.length + " ]]");
 
   // se crea el array con los elementos no completados
@@ -276,7 +295,7 @@ function obtain_experiments(questions, completed_experiments){
   var questions = questions.filter(function (el) {
     return el !== null;
   });
-  
+
   if (debug_mode === true) console.log("obtain_experiments() [[ questions_after: " + questions.length + " ]]");
 
   return questions;
