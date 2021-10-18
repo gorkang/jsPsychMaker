@@ -32,16 +32,17 @@ var question01 = {
     trialid: 'Consent_001',
     procedure: 'Consent'
    }
-  
-  
+
+
 };
 Consent.push(question01);
 
 
 Consent.unshift(instruction_screen_experiment);
 Consent.push.apply(questions, Consent);
+call_function("Consent");
 
-
+/*
 questions.push({
     type: 'call-function',
     data: {trialid: 'Consent_000', procedure: 'Consent'},
@@ -54,3 +55,4 @@ questions.push({
       saveData(data, online, 'Consent');
     }
 });
+*/
