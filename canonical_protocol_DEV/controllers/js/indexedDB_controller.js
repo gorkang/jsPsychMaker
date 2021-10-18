@@ -15,7 +15,8 @@ function start_indexeddb() {
         window.alert("Your browser doesn't support a stable version of IndexedDB.");
       }
 
-      const protocol_stats = { id_protocol: pid, counter: 0, created_date: new Date(), max_participants: max_participants, last_revision: "None"};
+      const protocol_stats = { id_protocol: pid, counter: 0, created_date: new Date().toISOString().slice(0, 19), max_participants: max_participants, last_revision: "None"};
+      //const user_extras = { id_protocol: pid, counter: 0, start_date: new Date().toISOString().slice(0, 19)};
 
       var db;
       var request = window.indexedDB.open("user_management", 1);
@@ -62,7 +63,9 @@ function clean_indexeddb(db){
   readAllIndexedSync("user", db).then(
     function (results) {
       max_sec = date_to_mil(max_time);
-      actual_time = new Date();
+      //actual_time = new Date();
+      actual_time = new Date().toISOString().slice(0, 19);
+
       for (var i = 0; i < results.length; i++) {
         // si es que la diferencia de tiempo supera la máxima cantidad de segundos entonces el usuario es descartado y removido de los usuarios asignados
         if ((actual_time - new Date(results[i].start_date))/1000 > max_sec && results[i].status == "assigned") {
@@ -330,20 +333,7 @@ function removeIndexed(table, id, db) {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// condition_selection() --------------------------------------------------------
 
 
 // obtención de condiciones para usuario nuevo (funciona como promise para que sea sincrónico)
@@ -360,31 +350,53 @@ function condition_selection(between_selection_temp = {}) {
             temp_condition_task_list = [];
 
             if (Object.keys(between_selection_temp).length === 0) {
-              // esta parte solo debe ser usada en caso de que sea un usuario nuevo
-              // ver si se puede pasar a filter-map
 
-
-              // NEW VERSION ----------------------------------------------
               condition_data_temp = [];
-              ARRAY_temp = [];
+              ARRAY_between_temp = [];
 
               // Get array with unique between tasks (we need to select one condition for each one)
-              unique_tasks = [...new Set(condition_data.map(item => item.task_name))];
+              unique_between_tasks = [...new Set(condition_data.map(item => item.task_name))];
 
               // For each of the between tasks (usually just one)
-              for (var i = 0; i < unique_tasks.length; i++) {
+              for (var i = 0; i < unique_between_tasks.length; i++) {
 
+/*
+// OLD VERSION
                 // Temporal array for the condition i
                 ARRAY_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_tasks[i]; });
+
                 // Min number of assigned_task in array
                 min_assigned_temp = Math.min.apply(Math, ARRAY_temp[i].map(function(value,index) { return value["assigned_task"]; }));
                 // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain. If there are more than one, we get the first one [0]
                 condition_data_temp = ARRAY_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; })[0];
+*/
+
+// NEW VERSION -----------------
+    // Temporal array for the condition i
+    ARRAY_between_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_between_tasks[i]; });
+
+    // Min number of participants assigned to a condition (assigned_task in array)
+    min_assigned_temp = Math.min.apply(Math, ARRAY_between_temp[i].map(function(value,index) { return value["assigned_task"]; }));
+
+    // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
+    // If there are more than one condition with the same number of assigned participants, we get one of them randomly
+    available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
+    randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
+    condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
+
+    if (debug_mode === true) {
+      console.log("All conditions");
+      console.log(ARRAY_between_temp);
+      console.log("Available conditions (conditions with == number of assigned OR condition with min assign)");
+      console.log(available_conditions_ARRAY);
+      console.log("Selected index: " + randomly_selected_index);
+    }
+// -------------------------------
 
 
-                // REVIEW: This is mostly copied from CHECK below. Not sure how to integrate with // comprobación para discarded to avoid duplication
+
+                // If we can't assign a condition
                 if (condition_data_temp === undefined) {
-                  // If we can't assign a condition
                   experiment_blocked = true;
                   condition_temp_array = [false];
                   alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
@@ -392,13 +404,17 @@ function condition_selection(between_selection_temp = {}) {
                   resolve(false);
                 } else {
                   // If there are slots, write to between_selection[NAME_OF_TASK]
-                  between_selection[unique_tasks[i]] = [condition_data_temp["condition_name"]];
+                  // OLD // between_selection[unique_tasks[i]] = [condition_data_temp["condition_name"]];
+                  between_selection[unique_between_tasks[i]] = [condition_data_temp["condition_name"]];
                   experiment_blocked = false;
                   condition_temp_array = [true];
                   resolve(true);
                 }
 
               }
+
+            // [[DISCARDED PARTICIPANTS]] ----------------------------------------
+            // -------------------------------------------------------------------
 
             } else {
               // comprobación para discarded
@@ -415,7 +431,9 @@ function condition_selection(between_selection_temp = {}) {
             }
 
             // CHECKS
-            if (condition_temp_array.includes(false)) {
+            //if (condition_temp_array.includes(false)) {
+            if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
+
               experiment_blocked = true;
               console.log("Usuario bloqueado por límite en condiciones");
               resolve(false);
@@ -429,15 +447,16 @@ function condition_selection(between_selection_temp = {}) {
             reject(false);
           });
         });
-      
+
     }
   );
 }
 
+
+// check_id_status() --------------------------------------------------------
+
 // Used on index.html. Verify status of user id
 function check_id_status(event) {
-
-  // Divided in OFFLINE and ONLINE sections. OFFLINE uses IndexedDB, ONLINE uses MySQL
 
   // We have id in either URL (uid) or POST (input_uid)
   // On the DB, the uid/input_uid is called uid_external.
@@ -465,16 +484,36 @@ function check_id_status(event) {
       // carga de tareas (solo puede ser realizada una vez se tenga el id, ya que no se deben sobreescribir las between ya creadas)
       start_indexeddb().then(function(db) {
         findIndexedSync("user", "uid_external", uid_external, pid, db).then(function(actual_user) {
+
+          // Fetch internal DB uid
           uid = actual_user.id_user;
+
+          // Make user_start_date a global variable so we can use it in continue_page_activation()
+          globalThis.user_start_date = actual_user.start_date;
+
+
+// REVIEW
+// En mysql tenemos seccion [[OLD USER]] (uid_external is in DB) where user Can be discarded or assigned
+// Esto permite compartir el select de condition_selection y la carga de tareas no realizadas
+
+          // [[DISCARDED USER]] --------------------------------------------
+          // ---------------------------------------------------------------
+
           if (actual_user.status == "discarded") {
             console.log("Usuario descartado.");
+
             if (accept_discarded) {
 
               actual_time = new Date().toISOString().slice(0, 19);
-
               actual_user.start_date = actual_time;
+
+
+
               // Se agrega la data a indexedDB en la tabla assigned_users
               updateIndexed("user", actual_user.id_user, "status", "assigned", db);
+              console.log("Usuario re-assignado.");
+              text_input_uid.innerHTML = 'Tiempo excedido. Recuperando datos de participante... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
+
 
               // se cargan las condiciones del usuario asignados
               user_assigned = true;
@@ -510,14 +549,26 @@ function check_id_status(event) {
                 });
               });
             }
+
+
+          // [[COMPLETED USER]] --------------------------------------------
+          // ---------------------------------------------------------------
+
           } else if (actual_user.status == "completed") {
             console.log("Usuario finalizado.");
             completed_experiments = actual_user.completed_experiments;
             continue_page_activation([], [], true);
+
+
+          // [[ASSIGNED USER]] --------------------------------------------
+          // --------------------------------------------------------------
+
           } else if (actual_user.status == "assigned") {
-            console.log("Usuario Asignado Anteriormente");
-            // se cargan las condiciones del usuario asignados
+            console.log("User previously assigned.");
             user_assigned = true;
+            text_input_uid.innerHTML = 'Participante encontrado. Cargando estado... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
+
+            // se cargan las condiciones del usuario asignados
             between_selection = {};
             findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(between_list) {
               for (const actual_element in between_list) {
@@ -536,11 +587,22 @@ function check_id_status(event) {
                     completed_experiments.push(actual_task.task_name);
                   });
                 }
+
+                // IMPORTANT: completed_experiments TIENE QUE ESTAR COMPLETO ANTES DE CONTINUAR.
+                // EN MYSQL HACEMOS UNA SOLA CONSULTA CON LEFT JOIN PARA ASEGURARNOS
+                
+                // DELETEME WHEN FIXED ----------------------
+                LONG_COMPUTATION = Array.from(Array(50000000).keys());
+                // END DELETEME ------------------------------
+                
                 // se carga en caso de que el usuario esté asignado
                 script_loading("tasks", all_tasks, completed_experiments);
               });
             });
           }
+
+        // [[NEW USER]] --------------------------------------------------
+        // ---------------------------------------------------------------
         }, function(new_element) {
           console.log("Usuario Nuevo");
           uid = 0;
@@ -554,10 +616,6 @@ function check_id_status(event) {
         console.log("db not charged");
       });
 
-
-// ONLINE check_id_status() ------------------------------------------------------------
-// -------------------------------------------------------------------------------------
-
   } // valid uid
 }
 
@@ -566,18 +624,26 @@ function check_id_status(event) {
 //Saves the data in database
 function completed_task_storage(csv, task) {
 
-  if (task == all_tasks[all_tasks.length - 1])
-    last_task = true;
-
   actual_time = new Date().toISOString().slice(0, 19);
 
+  if (task == all_tasks[all_tasks.length - 1])
 
-  // OFFLINE completed_task_storage() ---------------------------------------------
-  // ------------------------------------------------------------------------------
+    last_task = true;
+    //actual_time = new Date().toISOString().slice(0, 19);
+
 
     start_indexeddb().then(function(db) {
+
+      // [[NEW OR DISCARDED]] -------------------------------------------------------
+        // User NOT assigned and experiment NOT blocked
+
       if (!user_assigned && !experiment_blocked) {
         readIndexedSync("user", uid, db).then(function(actual_user) {
+
+
+          // [[USER Discarded]] --------------------------------------------------
+          // ---------------------------------------------------------------------
+
           if (actual_user.status == "discarded") {
             findAllIndexedSync("condition", "id_protocol", pid, pid, db).then(function(condition_data) {
               // cupos?
@@ -606,12 +672,12 @@ function completed_task_storage(csv, task) {
 
               if (!protocol_blocked && accept_discarded) {
                 user_assigned = true;
+                console.log("User re-assigned");
+                //console.log(actual_time)
 
                 // Se agrega la data a indexedDB en la tabla assigned_users
                 updateIndexed("user", uid, "start_date", actual_time, db);
                 updateIndexed("user", uid, "status", "assigned", db);
-
-                console.log("Asignado");
 
               } else {
                 console.log("Usuario bloqueado por límite en condiciones");
@@ -619,9 +685,22 @@ function completed_task_storage(csv, task) {
               }
             });
           }
+
+        // [[NEW USER]] ----------------------------------------------------------
+        // First task //
+        // -----------------------------------------------------------------------
+
+        // AFTER COMPLETING FIRST TASK (Should be Consent. NOT enforced)
+
         }, function(user_not_found) { //se crea nuevo usuario al terminar la primera tarea
+
           findAllIndexedSync("condition", "id_protocol", pid, pid, db).then(function(condition_data) {
-            // verificación de cupos
+
+            // CHECK if there are available slots --------------------------------
+
+              // Use condition_data to check if there are available slots for the condition selected in the BETWEEN task (e.g. between_selection["INFCONS"][0])
+              // We use Object.keys(between_selection).length to assign +1 to each of the between tasks
+
             all_conditions_tasks = {};
             for (var i = 0; i < condition_data.length; i++) {
               if (!(condition_data[i].task_name in all_conditions_tasks)) {
@@ -645,33 +724,52 @@ function completed_task_storage(csv, task) {
                 protocol_blocked = true;
             });
 
+
+            // AVAILABLE SLOTS --------------------------------------------------
+
             if (!protocol_blocked) {
               user_assigned = true;
-              console.log("Asignado");
+
+              // REVIEW: If actual_time not defined here, gets FORMAT1, but we NEED FORMAT2
+              // Not sure where the actual_time with the wrong format comes from.
+              //console.log(actual_time) // FORMAT1: 2021-10-18T112550
+              actual_time = new Date().toISOString().slice(0, 19);
+              //console.log(actual_time) // FORMAT2: 2021-10-18T11:25:50
+              console.log("User assigned");
+
+
 
               // Se agrega la data a indexedDB en la tabla assigned_users
               addIndexed("user", { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time/*, completed_tasks: [experiment], between_selection: between_selection, within_selection: within_selection*/}, db);
 
+              // GET DB internal uid
               findIndexedSync("user", "uid_external", uid_external, pid, db).then(function(actual_user) {
                 uid = actual_user.id_user;
-                //completed_tasks
+
+                // GET id_task for the task
                 findIndexedSync("task", "task_name", task, pid, db).then(function(actual_task) {
+
+                  // INSERT details in user_task
                   addIndexed("user_task", { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}, db);
+
                 });
 
-                //between_selection
+                // INSERT between_selection condition for user
                 Object.entries(between_selection).forEach(([key, value]) => {
                   for (var i = 0; i < between_selection[key].length; i++) {
                     findIndexedSync("condition", "condition_name", between_selection[key][i], pid, db).then(function(actual_condition) {
                       addIndexed("user_condition", { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid}, db);
                       updateIndexed("condition", actual_condition.id_condition, "assigned_task", "+", db);
+
                     });
                   }
                 });
               });
 
-              // Se aumenta el contador general en el sistema
+              // UPDATE general counter in table protocol
               updateIndexed("protocol", pid, "counter", "+", db);
+
+            // NO SLOTS AVAILABLE ------------------------------------------------
             } else {
               console.log("Usuario bloqueado por límite en condiciones");
               alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
@@ -679,34 +777,64 @@ function completed_task_storage(csv, task) {
           });
         });
 
+
+      // [[USER already assigned]] ---------------------------------------------------------
+      // Second to last tasks  //
+      // -----------------------------------------------------------------------------------
       } else if (user_assigned && !experiment_blocked) {
+
+        // REVIEW: condition_data NOT used here (???)
+
         // revisar si puede continuar o si ya no hay cupos o si ya no tiene tiempo
         readAllIndexedSync("condition", db).then(function(condition_data) {
           readIndexedSync("user", uid, db).then(function(actual_user) {
+
+            // USER assigned
             if (actual_user.status == "assigned") {
+
               if (!accept_discarded) {
                 max_sec = date_to_mil(max_time);
-                actual_time = new Date;
+                //actual_time = new Date;
 
-                if ((actual_time - new Date(actual_user.start_date))/1000 > max_sec) {
+                actual_time = new Date().toISOString().slice(0, 19);
+                DBtime = actual_user.start_date;
+                seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
+                hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
+                minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON) * 100) / 100;
+                console.log("actual_time: " + actual_time + " || DBtime" + DBtime + " || Started " + seconds_since_start + " seconds ago || Time ends in " + hours_until_discarded + " hours [" + minutes_until_discarded + " minutes]");
+                console.log("actual_time - DBtime: " + Date(actual_time) - Date(DBtime));
+
+                // IF user ran out of time
+                if (seconds_since_start > max_sec) {
+
+                  console.log("actual_time: " + actual_time + " || DBtime" + DBtime + " || Started " + seconds_since_start + " seconds ago || Time ends in " + hours_until_discarded + " hours [" + minutes_until_discarded + " minutes]");
+                  console.log("actual_time - DBtime: " + Date(actual_time) - Date(DBtime));
+
+                  // SET status = discarded in user table in DB
                   updateIndexed("user", uid, "status", "discarded", db);
 
                   findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(user_conditions) {
+                    console.log(user_conditions);
                     for (var i = 0; i < user_conditions.length; i++) {
                       updateIndexed("condition", user_conditions[i].id_condition, "assigned_task", "-", db);
                     }
                   });
                   updateIndexed("protocol", pid, "counter", "-", db);
                   alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.");
-                  console.log("Usuario descartado por límite de tiempo 1.");
+
+                  console.log("User discarded because it is over the max_time (#2).");
                   window.location.reload();
                 }
               }
+
+            // USER status is NOT assigned
             } else {
+              // If it is not in the last_task
               if (!last_task) {
                 alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.");
-                console.log("Usuario sin el status de asignado");
-                console.log(actual_user);
+                console.log("User discarded: actual_user.status != assigned.");
+                window.location.reload();
+                //console.log(actual_user);
               }
             }
 
@@ -717,8 +845,8 @@ function completed_task_storage(csv, task) {
             }
 
           }, function(user_not_found) {
-            console.log("user not found");
-            console.log(user_not_found);
+            alert("Usuario no encontrado");
+            console.log("user_not_found");
           });
         });
       }
