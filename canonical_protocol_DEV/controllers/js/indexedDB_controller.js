@@ -39,7 +39,7 @@ function start_indexeddb() {
         // stats del protocolo
         protocol_table = db.createObjectStore("protocol", {keyPath: "id_protocol"});
         // condiciones
-        condition_table = db.createObjectStore("condition", {keyPath: "id_condition", autoIncrement:true });
+        condition_table = db.createObjectStore("experimental_condition", {keyPath: "id_condition", autoIncrement:true });
         // tareas
         task_table = db.createObjectStore("task", {keyPath: "id_task", autoIncrement:true });
 
@@ -74,7 +74,7 @@ function clean_indexeddb(db){
 
           findAllIndexedSync("user_condition", "id_user", results[i].id_user, pid, db).then(function(user_conditions) {
             for (var i = 0; i < user_conditions.length; i++) {
-              updateIndexed("condition", user_conditions[i].id_condition, "assigned_task", "-", db);
+              updateIndexed("experimental_condition", user_conditions[i].id_condition, "assigned_task", "-", db);
             }
           });
 
@@ -89,7 +89,7 @@ function clean_indexeddb(db){
 // loading tasks scripts, wait for db charged, then wait for read conditions table, then enable check button
 function load_clean_indexeddb(iterations_for_review, max_participants) {
   start_indexeddb().then(function(db) {
-    readAllIndexedSync("condition", db).then(function(condition_data) {
+    readAllIndexedSync("experimental_condition", db).then(function(condition_data) {
       // limpieza de base de datos
       //readAllIndexedSync("protocol", db).then(function(actual_stats) {
       findIndexedSync("protocol", "id_protocol", pid, pid, db).then(function(actual_stats) {
@@ -106,10 +106,10 @@ function load_clean_indexeddb(iterations_for_review, max_participants) {
       for (var i = 0; i < condition_data.length; i++) {
         if (condition_data[i].assigned_task >= max_participants) {
           condition_data[i].blocked = true;
-          updateIndexed("condition", condition_data[i].id_condition, "blocked", true, db);
+          updateIndexed("experimental_condition", condition_data[i].id_condition, "blocked", true, db);
         } else {
           condition_data[i].blocked = false;
-          updateIndexed("condition", condition_data[i].id_condition, "blocked", false, db);
+          updateIndexed("experimental_condition", condition_data[i].id_condition, "blocked", false, db);
         }
       }
       actual_condition_data = condition_data;
@@ -250,6 +250,37 @@ function findAllIndexedSync(table, column, keyword, pid, db){
   );
 }
 
+// funcion para obtener elementos de una base de datos basados en un filtro en forma de array
+function findArrayFromIndexedSync(table, column, keyword_list, pid, db){
+  return new Promise(
+    function(resolve, reject) {
+      array = [];
+
+      var transaction   = db.transaction([table], "readwrite");
+      var objectStore   = transaction.objectStore(table);
+      var request       = objectStore.openCursor();
+
+      request.onerror = function(event) {
+        reject(console.log('request find error'));
+      };
+
+      request.onsuccess = function(event) {
+        var cursor = event.target.result;
+        if (cursor) {
+          if (keyword_list.includes(cursor.value[column])) {
+            if (cursor.value.id_protocol == pid) {
+              array.push(cursor.value);
+            }
+          }
+          cursor.continue();
+        } else {
+          resolve(array);
+        }
+      }
+    }
+  );
+}
+
 function updateFindedIndexed(table, data, variable, new_data = "", db) {
   var objectStore = db.transaction([table], "readwrite").objectStore(table);
   // update the value(s) in the object that we want to change
@@ -343,7 +374,7 @@ function condition_selection(between_selection_temp = {}) {
       between_selection = {};
 
       start_indexeddb().then(function(db) {
-          readAllIndexedSync("condition", db).then(function(condition_data) {
+          readAllIndexedSync("experimental_condition", db).then(function(condition_data) {
             // se establece un mínimo (respecto a este mínimo seleccionaremos la condicion)
             // diccionario de mínimos para que no se pierda con cambios de tareas en condition_data
             actual_min = {};
@@ -520,7 +551,7 @@ function check_id_status(event) {
               between_selection = {};
               findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(between_list) {
                 for (const actual_element in between_list) {
-                  readIndexedSync("condition", between_list[actual_element].id_condition, db).then(function(actual_condition) {
+                  readIndexedSync("experimental_condition", between_list[actual_element].id_condition, db).then(function(actual_condition) {
                     if (typeof between_selection[actual_condition.task_name] !== 'undefined')
                       between_selection[actual_condition.task_name].push(actual_condition.condition_name);
                     else
@@ -530,22 +561,33 @@ function check_id_status(event) {
 
                 for (var [key, value] of Object.entries(between_selection)) {
                   for (var i = 0; i < value.length; i++) {
-                    findIndexedSync("condition", "condition_name", value[i], pid, db).then(function(actual_condition) {
-                      updateFindedIndexed("condition", actual_condition, "assigned_task", "+", db);
+                    findIndexedSync("experimental_condition", "condition_name", value[i], pid, db).then(function(actual_condition) {
+                      updateFindedIndexed("experimental_condition", actual_condition, "assigned_task", "+", db);
                     });
                   }
                 }
                 updateIndexed("protocol", pid, "counter", "+", db);
 
                 completed_experiments = [];
+
                 findAllIndexedSync("user_task", "id_user", uid, pid, db).then(function(tasks_list) {
+                  // funcion para obtener elementos de una base de datos basados en un filtro en forma de array (se le entregan los id_tasks obtenidos de user_task)
+                  findArrayFromIndexedSync("task", "id_task", Array.from(tasks_list, x => x.id_task), pid, db).then(function(all_tasks_list){
+                    completed_experiments = Array.from(all_tasks_list, x => x.task_name);
+                    //console.log(completed_experiments)
+
+                    // se carga en caso de que el usuario esté asignado
+                    script_loading("tasks", all_tasks, completed_experiments);
+                  });
+
+                /*findAllIndexedSync("user_task", "id_user", uid, pid, db).then(function(tasks_list) {
                   for (const actual_element in tasks_list) {
                     readIndexedSync("task", tasks_list[actual_element].id_task, db).then(function(actual_task) {
                       completed_experiments.push(actual_task.task_name);
                     });
                   }
                   // se carga en caso de que el usuario esté asignado
-                  script_loading("tasks", all_tasks, completed_experiments);
+                  script_loading("tasks", all_tasks, completed_experiments);*/
                 });
               });
             }
@@ -572,7 +614,7 @@ function check_id_status(event) {
             between_selection = {};
             findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(between_list) {
               for (const actual_element in between_list) {
-                readIndexedSync("condition", between_list[actual_element].id_condition, db).then(function(actual_condition) {
+                readIndexedSync("experimental_condition", between_list[actual_element].id_condition, db).then(function(actual_condition) {
                   if (typeof between_selection[actual_condition.task_name] !== 'undefined')
                     between_selection[actual_condition.task_name].push(actual_condition.condition_name);
                   else
@@ -582,21 +624,28 @@ function check_id_status(event) {
 
               completed_experiments = [];
               findAllIndexedSync("user_task", "id_user", uid, pid, db).then(function(tasks_list) {
+                // funcion para obtener elementos de una base de datos basados en un filtro en forma de array (se le entregan los id_tasks obtenidos de user_task)
+                findArrayFromIndexedSync("task", "id_task", Array.from(tasks_list, x => x.id_task), pid, db).then(function(all_tasks_list){
+                  completed_experiments = Array.from(all_tasks_list, x => x.task_name);
+                  //console.log(completed_experiments)
+
+                  // se carga en caso de que el usuario esté asignado
+                  script_loading("tasks", all_tasks, completed_experiments);
+                });
+                /*console.log("tasks_list");
                 for (const actual_element in tasks_list) {
                   readIndexedSync("task", tasks_list[actual_element].id_task, db).then(function(actual_task) {
                     completed_experiments.push(actual_task.task_name);
                   });
-                }
+                }*/
 
                 // IMPORTANT: completed_experiments TIENE QUE ESTAR COMPLETO ANTES DE CONTINUAR.
                 // EN MYSQL HACEMOS UNA SOLA CONSULTA CON LEFT JOIN PARA ASEGURARNOS
-                
+
                 // DELETEME WHEN FIXED ----------------------
-                LONG_COMPUTATION = Array.from(Array(50000000).keys());
+                // LONG_COMPUTATION = Array.from(Array(20000000).keys());
                 // END DELETEME ------------------------------
-                
-                // se carga en caso de que el usuario esté asignado
-                script_loading("tasks", all_tasks, completed_experiments);
+
               });
             });
           }
@@ -609,6 +658,11 @@ function check_id_status(event) {
           // se carga en caso de que el usuario sea nuevo, además acá se selecciona la condicion
           condition_selection().then(function(accepted) {
             // LOAD all the tasks. This also loads the between participants conditions
+
+            // DELETEME WHEN FIXED ----------------------
+            LONG_COMPUTATION = Array.from(Array(20000000).keys());
+            // END DELETEME ------------------------------
+
             script_loading("tasks", all_tasks, completed_experiments, true);
           });
         });
@@ -645,7 +699,7 @@ function completed_task_storage(csv, task) {
           // ---------------------------------------------------------------------
 
           if (actual_user.status == "discarded") {
-            findAllIndexedSync("condition", "id_protocol", pid, pid, db).then(function(condition_data) {
+            findAllIndexedSync("experimental_condition", "id_protocol", pid, pid, db).then(function(condition_data) {
               // cupos?
               all_conditions_tasks = {};
               for (var i = 0; i < condition_data.length; i++) {
@@ -694,7 +748,7 @@ function completed_task_storage(csv, task) {
 
         }, function(user_not_found) { //se crea nuevo usuario al terminar la primera tarea
 
-          findAllIndexedSync("condition", "id_protocol", pid, pid, db).then(function(condition_data) {
+          findAllIndexedSync("experimental_condition", "id_protocol", pid, pid, db).then(function(condition_data) {
 
             // CHECK if there are available slots --------------------------------
 
@@ -757,9 +811,9 @@ function completed_task_storage(csv, task) {
                 // INSERT between_selection condition for user
                 Object.entries(between_selection).forEach(([key, value]) => {
                   for (var i = 0; i < between_selection[key].length; i++) {
-                    findIndexedSync("condition", "condition_name", between_selection[key][i], pid, db).then(function(actual_condition) {
+                    findIndexedSync("experimental_condition", "condition_name", between_selection[key][i], pid, db).then(function(actual_condition) {
                       addIndexed("user_condition", { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid}, db);
-                      updateIndexed("condition", actual_condition.id_condition, "assigned_task", "+", db);
+                      updateIndexed("experimental_condition", actual_condition.id_condition, "assigned_task", "+", db);
 
                     });
                   }
@@ -786,7 +840,7 @@ function completed_task_storage(csv, task) {
         // REVIEW: condition_data NOT used here (???)
 
         // revisar si puede continuar o si ya no hay cupos o si ya no tiene tiempo
-        readAllIndexedSync("condition", db).then(function(condition_data) {
+        readAllIndexedSync("experimental_condition", db).then(function(condition_data) {
           readIndexedSync("user", uid, db).then(function(actual_user) {
 
             // USER assigned
@@ -816,7 +870,7 @@ function completed_task_storage(csv, task) {
                   findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(user_conditions) {
                     console.log(user_conditions);
                     for (var i = 0; i < user_conditions.length; i++) {
-                      updateIndexed("condition", user_conditions[i].id_condition, "assigned_task", "-", db);
+                      updateIndexed("experimental_condition", user_conditions[i].id_condition, "assigned_task", "-", db);
                     }
                   });
                   updateIndexed("protocol", pid, "counter", "-", db);
