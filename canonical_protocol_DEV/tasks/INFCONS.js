@@ -369,15 +369,4 @@ INFCONS.push.apply(questions, INFCONS);
 
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'INFCONS_000', procedure: 'INFCONS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'INFCONS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'INFCONS'}).json();
-      }
-      saveData(data, online, 'INFCONS');
-    }
-});
+call_function("INFCONS");

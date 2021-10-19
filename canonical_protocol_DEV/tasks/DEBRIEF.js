@@ -34,15 +34,4 @@ DEBRIEF.unshift(instruction_screen_experiment);
 DEBRIEF.push.apply(questions, DEBRIEF)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'DEBRIEF_000', procedure: 'DEBRIEF'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'DEBRIEF'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'DEBRIEF'}).json();
-      }
-      saveData(data, online, 'DEBRIEF');
-    }
-});
+call_function("DEBRIEF");

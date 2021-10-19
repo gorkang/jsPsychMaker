@@ -102,15 +102,4 @@ GHQ12.push(question12);
 GHQ12.unshift(instruction_screen_experiment);
 questions.push.apply(questions, GHQ12)
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'GHQ12_000', procedure: 'GHQ12'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'GHQ12'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'GHQ12'}).json();
-      }
-      saveData(data, online, 'GHQ12');
-    }
-});
+call_function("GHQ12");

@@ -81,15 +81,4 @@ IBT.push(question09);
 IBT.unshift(instruction_screen_experiment);
 questions.push.apply(questions, IBT);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'IBT_000', procedure: 'IBT'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'IBT'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'IBT'}).json();
-      }
-      saveData(data, online, 'IBT');
-    }
-});
+call_function("IBT");

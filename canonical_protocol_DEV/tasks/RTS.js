@@ -222,15 +222,4 @@ RTS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, RTS)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'RTS_000', procedure: 'RTS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'RTS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'RTS'}).json();
-      }
-      saveData(data, online, 'RTS');
-    }
-});
+call_function("RTS");

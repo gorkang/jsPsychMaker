@@ -68,17 +68,4 @@ CRTMCQ4.push(question07);
 
 CRTMCQ4.unshift(instruction_screen_experiment);
 questions.push.apply(questions, CRTMCQ4);
-
-
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'CRTMCQ4_000', procedure: 'CRTMCQ4'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'CRTMCQ4'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'CRTMCQ4'}).json();
-      }
-      saveData(data, online, 'CRTMCQ4');
-    }
-});
+call_function("CRTMCQ4");

@@ -177,15 +177,4 @@ for (var i = 0; i < 30; i++) {
 
 questions.push.apply(questions, BART);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'BART_000', procedure: 'BART'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'BART'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'BART'}).json();
-      }
-      saveData(data, online, 'BART');
-    }
-});
+call_function("BART");

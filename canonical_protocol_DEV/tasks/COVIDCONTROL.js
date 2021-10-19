@@ -112,15 +112,4 @@ COVIDCONTROL.push(question13);
 COVIDCONTROL.unshift(instruction_screen_experiment);
 questions.push.apply(questions, COVIDCONTROL);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'COVIDCONTROL_000', procedure: 'COVIDCONTROL'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'COVIDCONTROL'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'COVIDCONTROL'}).json();
-      }
-      saveData(data, online, 'COVIDCONTROL');
-    }
-});
+call_function("COVIDCONTROL");

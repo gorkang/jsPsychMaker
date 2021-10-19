@@ -159,15 +159,4 @@ SRA.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SRA)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'SRA_000', procedure: 'SRA'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'SRA'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'SRA'}).json();
-      }
-      saveData(data, online, 'SRA');
-    }
-});
+call_function("SRA");

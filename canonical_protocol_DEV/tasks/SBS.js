@@ -89,15 +89,4 @@ SBS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SBS)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'SBS_000', procedure: 'SBS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'SBS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'SBS'}).json();
-      }
-      saveData(data, online, 'SBS');
-    }
-});
+call_function("SBS");

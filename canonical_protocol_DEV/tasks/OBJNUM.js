@@ -83,15 +83,4 @@ OBJNUM.unshift(instruction_screen_experiment);
 questions.push.apply(questions, OBJNUM);
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'OBJNUM_000', procedure: 'OBJNUM'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'OBJNUM'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'OBJNUM'}).json();
-      }
-      saveData(data, online, 'OBJNUM');
-    }
-});
+call_function("OBJNUM");

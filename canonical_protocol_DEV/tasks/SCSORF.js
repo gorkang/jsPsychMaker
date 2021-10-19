@@ -88,15 +88,4 @@ SCSORF.push(question10);
 SCSORF.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SCSORF);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'SCSORF_000', procedure: 'SCSORF'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'SCSORF'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'SCSORF'}).json();
-      }
-      saveData(data, online, 'SCSORF');
-    }
-});
+call_function("SCSORF");

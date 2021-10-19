@@ -170,17 +170,5 @@ var question22 = {
 FDMQ.push(question22);
 
 FDMQ.unshift(instruction_screen_experiment);
-questions.push.apply(questions, FDMQ)
-
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'FDMQ_000', procedure: 'FDMQ'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'FDMQ'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'FDMQ'}).json();
-      }
-      saveData(data, online, 'FDMQ');
-    }
-});
+questions.push.apply(questions, FDMQ);
+call_function("FDMQ");

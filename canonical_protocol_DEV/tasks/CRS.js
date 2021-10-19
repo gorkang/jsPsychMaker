@@ -160,15 +160,4 @@ CRS.push(question20);
 CRS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, CRS)
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'CRS_000', procedure: 'CRS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'CRS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'CRS'}).json();
-      }
-      saveData(data, online, 'CRS');
-    }
-});
+call_function("CRS");

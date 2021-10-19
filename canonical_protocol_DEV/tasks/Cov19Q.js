@@ -84,15 +84,4 @@ Cov19Q.unshift(instruction_screen_experiment);
 questions.push.apply(questions, Cov19Q)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'Cov19Q_000', procedure: 'Cov19Q'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'Cov19Q'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'Cov19Q'}).json();
-      }
-      saveData(data, online, 'Cov19Q');
-    }
-});
+call_function("Cov19Q");

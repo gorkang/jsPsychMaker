@@ -90,18 +90,4 @@ BNT.push(if_question04);
 
 BNT.unshift(instruction_screen_experiment);
 BNT.push.apply(questions, BNT);
-
-
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'BNT_000', procedure: 'BNT'},
-    data: {trialid: 'BNT_00', procedure: 'BNT'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'BNT'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'BNT'}).json();
-      }
-      saveData(data, online, 'BNT');
-    },
-});
+call_function("BNT");

@@ -86,18 +86,5 @@ var question10 = {
 ERQ.push(question10);
 
 ERQ.unshift(instruction_screen_experiment);
-questions.push.apply(questions, ERQ)
-
-
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'ERQ_000', procedure: 'ERQ'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'ERQ'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'ERQ'}).json();
-      }
-      saveData(data, online, 'ERQ');
-    }
-});
+questions.push.apply(questions, ERQ);
+call_function("ERQ");

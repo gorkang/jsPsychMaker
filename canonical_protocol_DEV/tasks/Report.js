@@ -72,15 +72,4 @@ Report.push(question002);
 //Report.unshift(instruction_screen_experiment);
 questions.push.apply(questions, Report);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'Report_000', procedure: 'Report'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'Report'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'Report'}).json();
-      }
-      saveData(data, online, 'Report');
-    }
-});
+call_function("Report");

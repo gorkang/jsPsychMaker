@@ -68,15 +68,4 @@ CAS.push(question007);
 CAS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, CAS);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'CAS_000', procedure: 'CAS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'CAS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'CAS'}).json();
-      }
-      saveData(data, online, 'CAS');
-    }
-});
+call_function("CAS");

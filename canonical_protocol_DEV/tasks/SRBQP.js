@@ -53,15 +53,4 @@ SRBQP.push(question005);
 SRBQP.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SRBQP);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'SRBQP_000', procedure: 'SRBQP'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'SRBQP'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'SRBQP'}).json();
-      }
-      saveData(data, online, 'SRBQP');
-    }
-});
+call_function("SRBQP");

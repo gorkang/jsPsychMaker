@@ -188,15 +188,4 @@ SDG.push(if_question13);
 SDG.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SDG)
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'SDG_000', procedure: 'SDG'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'SDG'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'SDG'}).json();
-      }
-      saveData(data, online, 'SDG');
-    }
-});
+call_function("SDG");

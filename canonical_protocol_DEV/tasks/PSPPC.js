@@ -62,15 +62,4 @@ if (debug_mode == 'false') PSPPC = jsPsych.randomization.repeat(PSPPC,1);
 PSPPC.push.apply(questions, PSPPC);
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'PSPPC_000', procedure: 'PSPPC'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PSPPC'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PSPPC'}).json();
-      }
-      saveData(data, online, 'PSPPC');
-    }
-});
+call_function("PSPPC");

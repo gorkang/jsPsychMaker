@@ -200,15 +200,4 @@ SASS.push(question22);
 SASS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SASS);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'SASS_000', procedure: 'SASS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'SASS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'SASS'}).json();
-      }
-      saveData(data, online, 'SASS');
-    }
-});
+call_function("SASS");

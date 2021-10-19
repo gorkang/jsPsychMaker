@@ -156,15 +156,4 @@ SRSav.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SRSav)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'SRSav_000', procedure: 'SRSav'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'SRSav'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'SRSav'}).json();
-      }
-      saveData(data, online, 'SRSav');
-    }
-});
+call_function("SRSav");

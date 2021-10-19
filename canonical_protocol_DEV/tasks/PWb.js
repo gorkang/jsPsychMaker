@@ -292,15 +292,4 @@ PWb.unshift(instruction_screen_experiment);
 questions.push.apply(questions, PWb)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'PWb_000', procedure: 'PWb'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PWb'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PWb'}).json();
-      }
-      saveData(data, online, 'PWb');
-    }
-});
+call_function("PWb");

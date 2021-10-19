@@ -177,15 +177,4 @@ DASS21.push(effort_question);
 DASS21.unshift(instruction_screen_experiment);
 questions.push.apply(questions, DASS21);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'DASS21_000', procedure: 'DASS21'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'DASS21'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'DASS21'}).json();
-      }
-      saveData(data, online, 'DASS21');
-    }
-});
+call_function("DASS21");

@@ -253,15 +253,4 @@ HRPVB_MM = [];    //temporal timeline
 
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'HRPVB_000', procedure: 'HRPVB'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'HRPVB'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'HRPVB'}).json();
-      }
-      saveData(data, online, 'HRPVB');
-    }
-});
+call_function("HRPVB");

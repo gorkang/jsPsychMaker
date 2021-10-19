@@ -116,15 +116,4 @@ PSS.push(question014);
 PSS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, PSS);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'PSS_000', procedure: 'PSS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PSS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PSS'}).json();
-      }
-      saveData(data, online, 'PSS');
-    }
-});
+call_function("PSS");

@@ -187,15 +187,4 @@ IEC.unshift(instruction_screen_experiment);
 questions.push.apply(questions, IEC)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'IEC_000', procedure: 'IEC'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'IEC'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'IEC'}).json();
-      }
-      saveData(data, online, 'IEC');
-    }
-});
+call_function("IEC");

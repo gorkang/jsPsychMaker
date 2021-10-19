@@ -55,15 +55,4 @@ if (debug_mode == 'false') PSETPP = jsPsych.randomization.repeat(PSETPP,1);
 PSETPP.unshift(instruction_screen_experiment);
 PSETPP.push.apply(questions, PSETPP);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'PSETPP_000', procedure: 'PSETPP'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PSETPP'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PSETPP'}).json();
-      }
-      saveData(data, online, 'PSETPP');
-    }
-});
+call_function("PSETPP");

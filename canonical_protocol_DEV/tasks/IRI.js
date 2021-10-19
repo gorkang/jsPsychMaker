@@ -215,15 +215,4 @@ IRI.unshift(instruction_screen_experiment);
 questions.push.apply(questions, IRI)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'IRI_000', procedure: 'IRI'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'IRI'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'IRI'}).json();
-      }
-      saveData(data, online, 'IRI');
-    }
-});
+call_function("IRI");

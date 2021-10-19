@@ -88,15 +88,4 @@ EAR.push(question10);
 EAR.unshift(instruction_screen_experiment);
 questions.push.apply(questions, EAR);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'EAR_000', procedure: 'EAR'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'EAR'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'EAR'}).json();
-      }
-      saveData(data, online, 'EAR');
-    }
-});
+call_function("EAR");

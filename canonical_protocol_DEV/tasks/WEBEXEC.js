@@ -61,15 +61,4 @@ WEBEXEC.unshift(instruction_screen_experiment);
 WEBEXEC.push.apply(questions, WEBEXEC)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'WEBEXEC_000', procedure: 'WEBEXEC'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'WEBEXEC'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'WEBEXEC'}).json();
-      }
-      saveData(data, online, 'WEBEXEC');
-    }
-});
+call_function("WEBEXEC");

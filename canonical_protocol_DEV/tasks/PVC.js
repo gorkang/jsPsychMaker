@@ -45,15 +45,4 @@ PVC.push(if_question001_1);
 //PVC.unshift(instruction_screen_experiment);
 questions.push.apply(questions, PVC);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'PVC_000', procedure: 'PVC'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PVC'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PVC'}).json();
-      }
-      saveData(data, online, 'PVC');
-    }
-});
+call_function("PVC");

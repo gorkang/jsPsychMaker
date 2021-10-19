@@ -200,15 +200,4 @@ AIM.push(if_question10);
 AIM.unshift(instruction_screen_experiment);
 questions.push.apply(questions, AIM);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'AIM_000', procedure: 'AIM'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'AIM'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'AIM'}).json();
-      }
-      saveData(data, online, 'AIM');
-    }
-});
+call_function("AIM");

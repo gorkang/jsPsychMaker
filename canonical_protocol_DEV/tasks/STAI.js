@@ -298,15 +298,4 @@ STAI.push(question40);
 STAI.unshift(instruction_screen_experiment);
 questions.push.apply(questions, STAI);
 
-questions.push({
-  type: 'call-function',
-  data: {trialid: 'STAI_000', procedure: 'STAI'},
-  func: function(){
-    if (online) {
-      var data = jsPsych.data.get().filter({procedure: 'STAI'}).csv();
-    } else {
-      var data = jsPsych.data.get().filter({procedure: 'STAI'}).json();
-    }
-    saveData(data, online, 'STAI');
-  }
-});
+call_function("STAI");

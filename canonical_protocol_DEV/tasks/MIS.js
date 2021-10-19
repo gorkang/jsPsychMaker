@@ -229,15 +229,4 @@ MIS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, MIS)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'MIS_000', procedure: 'MIS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'MIS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'MIS'}).json();
-      }
-      saveData(data, online, 'MIS');
-    }
-});
+call_function("MIS");

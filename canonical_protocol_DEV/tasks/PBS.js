@@ -200,15 +200,4 @@ PBS.push(question026);
 PBS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, PBS);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'PBS_000', procedure: 'PBS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PBS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PBS'}).json();
-      }
-      saveData(data, online, 'PBS');
-    }
-});
+call_function("PBS");

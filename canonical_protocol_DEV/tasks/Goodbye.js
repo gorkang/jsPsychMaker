@@ -22,15 +22,4 @@ Goodbye.unshift(instruction_screen_experiment);
 Goodbye.push.apply(questions, Goodbye)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'Goodbye_000', procedure: 'Goodbye'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'Goodbye'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'Goodbye'}).json();
-      }
-      saveData(data, online, 'Goodbye');
-    }
-});
+call_function("Goodbye");

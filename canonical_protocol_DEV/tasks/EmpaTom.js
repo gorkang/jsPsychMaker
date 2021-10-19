@@ -65,16 +65,4 @@ EmpaTom = [];    //temporal timeline
   EmpaTom.unshift(preload);
 
   questions.push.apply(questions, EmpaTom);
-
-  questions.push({
-      type: 'call-function',
-    data: {trialid: 'EmpaTom_000', procedure: 'EmpaTom'},
-      func: function(){
-        if (online) {
-          var data = jsPsych.data.get().filter({procedure: 'EmpaTom'}).csv();
-        } else {
-          var data = jsPsych.data.get().filter({procedure: 'EmpaTom'}).json();
-        }
-        saveData(data, online, 'EmpaTom');
-      }
-  });
+  call_function("EmpaTom");

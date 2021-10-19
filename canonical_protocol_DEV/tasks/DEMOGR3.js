@@ -83,15 +83,4 @@ DEMOGR3.push(question09);
 
 DEMOGR3.unshift(instruction_screen_experiment);
 questions.push.apply(questions, DEMOGR3);
-
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'DEMOGR3'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'DEMOGR3'}).json();
-      }
-      saveData(data, online, 'DEMOGR3');
-    }
-});
+call_function("DEMOGR3");

@@ -116,17 +116,6 @@ var question14 = {
 bRCOPE.push(question14);
 
 bRCOPE.unshift(instruction_screen_experiment);
-bRCOPE.push.apply(questions, bRCOPE)
+bRCOPE.push.apply(questions, bRCOPE);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'bRCOPE_000', procedure: 'bRCOPE'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'bRCOPE'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'bRCOPE'}).json();
-      }
-      saveData(data, online, 'bRCOPE');
-    }
-});
+call_function("bRCOPE");

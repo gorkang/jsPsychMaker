@@ -300,15 +300,4 @@ if (debug_mode == 'false') REI40 = jsPsych.randomization.repeat(REI40,1);
 REI40.unshift(instruction_screen_experiment);
 questions.push.apply(questions, REI40);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'REI40_000', procedure: 'REI40'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'REI40'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'REI40'}).json();
-      }
-      saveData(data, online, 'REI40');
-    }
-});
+call_function("REI40");

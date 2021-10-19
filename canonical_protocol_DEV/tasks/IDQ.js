@@ -161,15 +161,4 @@ IDQ.push(if_question14);
 IDQ.unshift(instruction_screen_experiment);
 questions.push.apply(questions, IDQ)
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'IDQ_000', procedure: 'IDQ'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'IDQ'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'IDQ'}).json();
-      }
-      saveData(data, online, 'IDQ');
-    }
-});
+call_function("IDQ");

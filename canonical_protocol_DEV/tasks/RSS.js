@@ -90,15 +90,4 @@ RSS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, RSS)
 
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'RSS_000', procedure: 'RSS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'RSS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'RSS'}).json();
-      }
-      saveData(data, online, 'RSS');
-    }
-});
+call_function("RSS");

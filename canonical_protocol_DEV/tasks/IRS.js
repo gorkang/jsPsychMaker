@@ -71,15 +71,4 @@ IRS.push(effort_question);
 IRS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, IRS);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'IRS_000', procedure: 'IRS'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'IRS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'IRS'}).json();
-      }
-      saveData(data, online, 'IRS');
-    }
-});
+call_function("IRS");

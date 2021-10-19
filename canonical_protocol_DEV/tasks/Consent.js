@@ -43,16 +43,5 @@ Consent.push.apply(questions, Consent);
 call_function("Consent");
 
 /*
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'Consent_000', procedure: 'Consent'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'Consent'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'Consent'}).json();
-      }
-      saveData(data, online, 'Consent');
-    }
-});
+call_function("Consent");
 */

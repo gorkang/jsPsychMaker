@@ -86,17 +86,5 @@ var question10 = {
 CRTv.push(question10);
 
 CRTv.unshift(instruction_screen_experiment);
-questions.push.apply(questions, CRTv)
-
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'CRTv_000', procedure: 'CRTv'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'CRTv'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'CRTv'}).json();
-      }
-      saveData(data, online, 'CRTv');
-    }
-});
+questions.push.apply(questions, CRTv);
+call_function("CRTv");

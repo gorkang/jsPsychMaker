@@ -68,17 +68,5 @@ var question7 = {
 CRT7.push(question7);
 
 CRT7.unshift(instruction_screen_experiment);
-questions.push.apply(questions, CRT7)
-
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'CRT7_000', procedure: 'CRT7'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'CRT7'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'CRT7'}).json();
-      }
-      saveData(data, online, 'CRT7');
-    }
-});
+questions.push.apply(questions, CRT7);
+call_function("CRT7");

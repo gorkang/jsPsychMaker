@@ -123,15 +123,4 @@ OTRASRELIG.push(question11);
 OTRASRELIG.unshift(instruction_screen_experiment);
 questions.push.apply(questions, OTRASRELIG);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'OTRASRELIG_000', procedure: 'OTRASRELIG'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'OTRASRELIG'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'OTRASRELIG'}).json();
-      }
-      saveData(data, online, 'OTRASRELIG');
-    }
-});
+call_function("OTRASRELIG");

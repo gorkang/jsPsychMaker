@@ -191,15 +191,4 @@ if(window.innerWidth != screen.width || window.innerHeight != screen.height){
   });
 }
 */
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'DEMOGR_000', procedure: 'DEMOGR'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'DEMOGR'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'DEMOGR'}).json();
-      }
-      saveData(data, online, 'DEMOGR');
-    }
-});
+call_function("DEMOGR");

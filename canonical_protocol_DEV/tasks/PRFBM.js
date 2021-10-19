@@ -133,15 +133,4 @@ if (debug_mode == 'false') PRFBM = jsPsych.randomization.repeat(PRFBM,1);
 PRFBM.unshift(instruction_screen_experiment);
 PRFBM.push.apply(questions, PRFBM);
 
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'PRFBM_000', procedure: 'PRFBM'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PRFBM'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PRFBM'}).json();
-      }
-      saveData(data, online, 'PRFBM');
-    }
-});
+call_function("PRFBM");
