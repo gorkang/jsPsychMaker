@@ -95,7 +95,7 @@ function XMLcall (query, table_name, elements = {}, sql = "", wait_for_response 
   // NEW GENERAL QUERY -------------------------------------------------------------
 
       } else if (query == "general_query") {
-        console.log(elements);
+        // console.log(elements);
 
         // CHECK general_query sql is a SELECT
         if (!Object.entries(elements.sql)[0][1].startsWith("SELECT")) throw (new Error('general_query ERROR'));
@@ -196,7 +196,7 @@ function clean_mysql(){
       }
     }
   }, function (error) {
-    console.log("User Table not found");
+    console.warn("User Table not found");
   });
 
 }
@@ -207,6 +207,7 @@ function clean_mysql(){
 
 function load_clean_mysql(iterations_for_review, max_participants) {
 
+  //if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || load_clean_mysql()");
 
   XMLcall("findAll", "experimental_condition").then(function(condition_data) {
     // limpieza de base de datos
@@ -220,7 +221,7 @@ function load_clean_mysql(iterations_for_review, max_participants) {
         clean_mysql();
       }
     }, function () {
-      console.log("protocol table not found")
+      console.warn("protocol table not found")
     })
 
     // actualizamos las condiciones bloquedas dependiendo de la cantidad de tareas asignadas
@@ -242,7 +243,7 @@ function load_clean_mysql(iterations_for_review, max_participants) {
       check.disabled = false;
     }
   }, function (error) {
-    console.log("Condition Table not found");
+    console.warn("Condition Table not found");
   });
 }
 
@@ -297,8 +298,10 @@ function condition_selection(between_selection_temp = {}) {
               if (debug_mode === true) {
                 console.log("All conditions");
                 console.log(ARRAY_between_temp);
+                console.warn(new Date().toISOString().slice(0, 19) + " " + JSON.stringify(flattenObject(ARRAY_between_temp)));
                 console.log("Available conditions (conditions with == number of assigned OR condition with min assign)");
                 console.log(available_conditions_ARRAY);
+                console.warn(new Date().toISOString().slice(0, 19) + " " + JSON.stringify(flattenObject(available_conditions_ARRAY)));
                 console.log("Selected index: " + randomly_selected_index);
               }
 
@@ -339,7 +342,7 @@ function condition_selection(between_selection_temp = {}) {
           // CHECKS
           if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
             experiment_blocked = true;
-            console.log("Usuario bloqueado por límite en condiciones");
+            console.warn("Usuario bloqueado por límite en condiciones");
             resolve(false);
           } else {
             experiment_blocked = false;
@@ -347,7 +350,7 @@ function condition_selection(between_selection_temp = {}) {
           }
 
         }, function() {
-          console.log("Error al cargar la seleccion de condiciones.");
+          console.warn("Error al cargar la seleccion de condiciones.");
           reject(false);
         });
 
@@ -399,7 +402,7 @@ function check_id_status(event) {
 
         if (Object.keys(actual_user).length === 0 && actual_user.constructor === Object) {
 
-          console.log("New user");
+          if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + "|| check_id_status: NEW user");
           uid = 0;
           text_input_uid.innerHTML = 'Nuevo participante. Iniciando experimento... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
 
@@ -416,6 +419,8 @@ function check_id_status(event) {
 
         } else {
 
+          if (debug_mode === true) console.warn("check_id_status: OLD user");
+          
           // Fetch internal DB uid
           uid = actual_user.id_user;
 
@@ -423,7 +428,7 @@ function check_id_status(event) {
           globalThis.user_start_date = actual_user.start_date;
 
 
-          // assigned or discarded but recoverable
+          // assigned OR discarded but recoverable (accept_discarded = true)
           if (actual_user.status == "assigned" || (accept_discarded && actual_user.status == "discarded")) {
 
 
@@ -461,7 +466,7 @@ function check_id_status(event) {
 
                     // Change status to assigned in table user
                     XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "assigned"}});
-                    console.log("Usuario re-assignado.");
+                    console.warn("User discarded and re-assigned.");
                     text_input_uid.innerHTML = 'Tiempo excedido. Recuperando datos de participante... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
 
                     for (var [key, value] of Object.entries(between_selection)) {
@@ -469,6 +474,7 @@ function check_id_status(event) {
                         XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [value[i]]}).then(function(actual_condition) {
 
                           // REVIEW: This assigned_task + 1 is inside a for loop (???)
+                          if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || check_id_status: DISCARDED re-assigned || updateTable: experimental_condition || assigned_task: assigned_task + 1");
                           XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
                         });
                       }
@@ -485,41 +491,19 @@ function check_id_status(event) {
 
               } else {
 
-                console.log("User previously assigned.");
+                console.warn("User previously assigned.");
                 user_assigned = true;
                 text_input_uid.innerHTML = 'Participante encontrado. Cargando estado... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
               }
 
               completed_experiments = [];
 
-              // TODO: THIS should be a single call to get the tasks names, instead of a call, a loop, and a call for each idtask -----------------------------------------------------------------
-                  // SELECT user.id_user, task.task_name FROM user LEFT JOIN user_task USING (id_user) LEFT JOIN task USING (id_task) WHERE id_user = 1053
-              // -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-              /*
-              XMLcall("findAll", "user_task", {keys: ["id_user"], values: [uid]}, wait_for_response = true).then(function(tasks_list) {
-                //console.log("In XMLcall");
-                //console.log(tasks_list);
-
-                for (const actual_element in tasks_list) {
-
-                  XMLcall("findRow", "task", {keys: ["id_task"], values: [tasks_list[actual_element].id_task]}, wait_for_response = true).then(function(actual_task) {
-                    completed_experiments.push(actual_task.task_name);
-                  });
-
-                }
-
-                if (debug_mode === true) console.log("check_id_status() [[ completed_experiments: " + completed_experiments.length + " || all_tasks: " + all_tasks.length + " ]]")
-
-                // se carga en caso de que el usuario esté asignado
-                script_loading("tasks", all_tasks, completed_experiments);
-              });
-              */
-
-
+              // Single call to get the tasks names -----------------------------------------------------------------
+              
               XMLcall(query = "general_query", table_name = "", elements = {sql: {"sql_call": "SELECT task.task_name FROM user LEFT JOIN user_task USING (id_user) LEFT JOIN task USING (id_task)"}, id: {"id_user": uid}}).then(function(tasks_list) {
 
-               if (debug_mode === true) console.log("check_id_status() [[ completed_experiments: " + completed_experiments.length + " || all_tasks: " + all_tasks.length + " ]]")
+               if (debug_mode === true) console.warn("check_id_status() [[ completed_experiments: " + completed_experiments.length + " || all_tasks: " + all_tasks.length + " ]]")
                 completed_experiments =  answer.map(a => a.task_name); // Extract all elements of object answer to completed_experiments
                 script_loading("tasks", all_tasks, completed_experiments);
 
@@ -532,12 +516,12 @@ function check_id_status(event) {
           // [[COMPLETED USER]] *************************************
           //*********************************************************
           } else if (actual_user.status == "completed") {
-            console.log("User already completed the protocol.")
+            console.warn("User already completed the protocol.")
             text_input_uid.innerHTML = "El participante ya completó el protocolo";
           }
         } // user in DB
       }, function (error) {
-        console.log("User search error");
+        console.warn("User search error");
       }); // uid_external in user table
       //}; completed_protocol_filtered.length == 0
     }); // Available slots XMLcall
@@ -559,13 +543,13 @@ function completed_task_storage(csv, task) {
 
 
   // [[NEW OR DISCARDED]] -------------------------------------------------------
-    // User NOT assigned and experiment NOT blocked
+      // User NOT assigned and experiment NOT blocked
+      
   if (!user_assigned && !experiment_blocked) {
     XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
 
       // User already exists in the DB. There is a status in user table in DB for this uid_external
       if ("status" in actual_user) {
-
 
         // REVIEW: for accept_discarded protocols!
 
@@ -605,7 +589,7 @@ function completed_task_storage(csv, task) {
             // IF accept_discarded and there are available slots (protocol_blocked = false)
             if (!protocol_blocked && accept_discarded) {
               user_assigned = true;
-              console.log("User assigned");
+              console.warn("User re-assigned. slots left & accept_discarded");
 
               // Update start_date and status of participant in user table
                 // IMPROVE: This should be a SINGLE call
@@ -614,7 +598,7 @@ function completed_task_storage(csv, task) {
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
 
             } else {
-              console.log("Usuario bloqueado por límite en condiciones");
+              console.warn("Usuario bloqueado por límite en condiciones");
               alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
             }
           });
@@ -638,6 +622,7 @@ function completed_task_storage(csv, task) {
             // Use condition_data to check if there are available slots for the condition selected in the BETWEEN task (e.g. between_selection["INFCONS"][0])
             // We use Object.keys(between_selection).length to assign +1 to each of the between tasks
 
+          // REVIEW: NOT sure about this for loop below
           // For each of the between tasks (usually just one)
           for (var i = 0; i < Object.keys(between_selection).length; i++) {
 
@@ -645,15 +630,18 @@ function completed_task_storage(csv, task) {
 
             // Available slots
             if (completed_protocol_filtered.length > 0) {
-              console.log("Cupos disponibles");
+              console.warn("Cupos disponibles_loop");
               added_task = completed_protocol_filtered[0]["task_name"];
               selected_id_condition = completed_protocol_filtered[0].id_condition;
+              
+              // ADD TO experimental_condition / assigned_task
+              if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || completed_task_storage: NEW USER || updateTable: experimental_condition || assigned_task: assigned_task + 1");
               XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
               protocol_blocked = false;
 
             // NO slots available
             } else {
-              console.log("NO hay cupos disponibles");
+              console.warn("NO hay cupos disponibles_loop");
               alert("NO hay cupos disponibles");
               protocol_blocked = true;
               window.location.reload(); // RELOAD website (REVIEW: can cause an infinite loop if uid in URL?)
@@ -666,7 +654,7 @@ function completed_task_storage(csv, task) {
 
           if (!protocol_blocked) {
             user_assigned = true;
-            console.log("User assigned");
+            console.warn("User assigned");
 
             // ADD data to user table
             XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function (actual_user) {
@@ -700,13 +688,13 @@ function completed_task_storage(csv, task) {
 
           // NO SLOTS AVAILABLE ------------------------------------------------
           } else {
-            console.log("Usuario bloqueado por límite en condiciones");
+            console.warn("Usuario bloqueado por límite en condiciones");
             alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
           }
         });
       }
     }, function(user_not_found) {
-      console.log("error en base de datos (busqueda de user)");
+      console.warn("error en base de datos (busqueda de user)");
     });
 
 
@@ -746,8 +734,8 @@ function completed_task_storage(csv, task) {
               // IF user ran out of time
               if (seconds_since_start > max_sec) {
 
-                console.log("actual_time: " + actual_time + " || DBtime" + DBtime + " || Started " + seconds_since_start + " seconds ago || Time ends in " + hours_until_discarded + " hours [" + minutes_until_discarded + " minutes]");
-                console.log("actual_time - DBtime: " + Date(actual_time) - Date(DBtime));
+                console.warn("actual_time: " + actual_time + " || DBtime" + DBtime + " || Started " + seconds_since_start + " seconds ago || Time ends in " + hours_until_discarded + " hours [" + minutes_until_discarded + " minutes]");
+                console.warn("actual_time - DBtime: " + Date(actual_time) - Date(DBtime));
                 //console.log("ID: " + actual_user.id_user + " [" + actual_user.status + "] || actual_time: " + actual_time + " || DBtime: " + DBtime + " || " + (new Date(actual_time) - new Date(DBtime))/1000 + " > " + max_sec);
 
                 // SET status = discarded in user table in DB
@@ -757,13 +745,14 @@ function completed_task_storage(csv, task) {
                 XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(user_conditions) {
                   console.log(user_conditions);
                   for (var i = 0; i < user_conditions.length; i++) {
+                    if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || completed_task_storage: DISCARD USER || updateTable: experimental_condition || assigned_task: assigned_task - 1");
                     XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
                   }
                 });
                 XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter - 1"}});
                 alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal.");
 
-                console.log("User discarded because it is over the max_time (#2).");
+                console.warn("User discarded because it is over the max_time (#2).");
                 window.location.reload();
               }
             }
@@ -773,7 +762,7 @@ function completed_task_storage(csv, task) {
             // If it is not in the last_task
             if (!last_task) {
               alert("Su usuario ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con un administrador.");
-              console.log("User discarded: actual_user.status != assigned.");
+              console.warn("User discarded: actual_user.status != assigned.");
               window.location.reload();
             }
           }
@@ -787,10 +776,10 @@ function completed_task_storage(csv, task) {
         // USER NOT in user table in DB
         } else {
           alert("Usuario no encontrado");
-          console.log("user not found");
+          console.warn("user not found");
         }
       }, function(user_not_found) {
-        console.log("error en base de datos (busqueda de user)");
+        console.warn("error en base de datos (busqueda de user)");
         });
       });
     }
