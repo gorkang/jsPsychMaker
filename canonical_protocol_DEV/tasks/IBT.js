@@ -8,7 +8,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>IBT</big></b><br />'+
     'Por favor, responda las siguientes preguntas.' +'</p>'],
-    data:{trialid: 'Instructions', procedure: 'IBT'},
+    data:{trialid: 'Instructions_01', procedure: 'IBT'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
@@ -83,6 +83,7 @@ questions.push.apply(questions, IBT);
 
 questions.push({
     type: 'call-function',
+    data: {trialid: 'IBT_000', procedure: 'IBT'},
     func: function(){
       if (online) {
         var data = jsPsych.data.get().filter({procedure: 'IBT'}).csv();

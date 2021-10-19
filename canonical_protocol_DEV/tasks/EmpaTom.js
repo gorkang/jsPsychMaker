@@ -11,16 +11,16 @@ EmpaTom = [];    //temporal timeline
   // then video preloading will be disabled to prevent CORS errors
   var preload = {
     type: 'preload',
-    data: {trialid: 'preload_01', procedure: 'EmpaTom'},
+    data: {trialid: 'EmpaTom_00', procedure: 'EmpaTom'},
     auto_preload: true
-  }
+  };
 
   var instruction_screen_experiment = {
     type: 'html-button-response',
     stimulus: '<div style="max-width:600px;"><p>Descripcion de la tarea e instrucciones. Tom tiene Alzheimer....</p></div>',
     choices: ['Continue'],
     data: {trialid: 'Instructions_01', procedure: 'EmpaTom'}
-  }
+  };
 
   var question01 = {
     type: 'video-button-response',
@@ -35,7 +35,7 @@ EmpaTom = [];    //temporal timeline
     response_ends_trial: true,
     response_allowed_while_playing: false,
     data: {trialid: 'EmpaTom_01', procedure: 'EmpaTom'}
-  }
+  };
   EmpaTom.push(question01);
 
   var question02 = {
@@ -64,7 +64,7 @@ EmpaTom = [];    //temporal timeline
   EmpaTom.unshift(instruction_screen_experiment);
   EmpaTom.unshift(preload);
 
-  questions.push.apply(questions, EmpaTom)
+  questions.push.apply(questions, EmpaTom);
 
   questions.push({
       type: 'call-function',

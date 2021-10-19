@@ -8,7 +8,7 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>STAI</big></b><br />'+
     '<br> <p> A continuación, aparecerán algunas expresiones que la gente usa para describirse a sí mismos. Lea cada frase e indique como se siente ahora mismo o sea EN ESTE MOMENTO. No hay contestaciones buenas o malas. No utilice mucho tiempo en cada frase, pero trate de dar la respuesta que mejor describa SUS SENTIMIENTOS AHORA.</p>'],
-    data:{trialid: 'Instructions', procedure: 'STAI'},
+    data:{trialid: 'Instructions_01', procedure: 'STAI'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
@@ -296,10 +296,11 @@ var question40 = {
 STAI.push(question40);
 
 STAI.unshift(instruction_screen_experiment);
-questions.push.apply(questions, STAI)
+questions.push.apply(questions, STAI);
 
 questions.push({
   type: 'call-function',
+  data: {trialid: 'STAI_000', procedure: 'STAI'},
   func: function(){
     if (online) {
       var data = jsPsych.data.get().filter({procedure: 'STAI'}).csv();

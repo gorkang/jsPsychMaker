@@ -22,7 +22,7 @@ intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100
 first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
-// Create as many as needed. The name should start with 'random_' when you want to randomize the order of tasks in the block 
+// Create as many as needed. The name should start with 'random_' when you want to randomize the order of tasks in the block
 randomly_ordered_tasks_1 = ['TASK1', 'TASK2']; // Block of tasks in random order
 secuentially_ordered_tasks_1 = ['']; // Block of tasks in sequential order
 
@@ -41,12 +41,12 @@ tasks = ['ALL_tasks'];
 
 // CANONICAL_PROTOCOL TESTING ---
   // Contains all the available tasks
-  
+
 first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
-// All the tasks where the order of items is sequential in debug_mode 
-secuentially_ordered_tasks_1 = ["AIM", "BNT", "bRCOPE", "CAS", "Cov19Q", "COVIDCONTROL", "CRS", "CRT7", "CRTMCQ4", "CRTv", "DASS21", "DEBRIEF", "DEMOGR", "EAR", "ERQ", "ESM", "FDMQ", "GHQ12", "IDQ", "IEC", "IRI", "IRS", "MIS", "OBJNUM", "OTRASRELIG", "PBS", "PSETPP", "PSPPC", "PSS", "PVC", "PWb", "REI40", "Report", "RSS", "RTS", "SASS", "SBS", "SCSORF", "SDG", "SRA", "SRBQP", "SRSav", "SWBQ", "WEBEXEC"];
+// All the tasks where the order of items is sequential in debug_mode
+secuentially_ordered_tasks_1 = ["AIM", "BNT", "bRCOPE", "CAS", "Cov19Q", "COVIDCONTROL", "CRS", "CRT7", "CRTMCQ4", "CRTv", "DASS21", "DEBRIEF", "DEMOGR", "EAR", "ERQ", "ESM", "FDMQ", "GHQ12", "IBT", "IDQ", "IEC", "IRI", "IRS", "MIS", "OBJNUM", "OTRASRELIG", "PBS", "PSETPP", "PSPPC", "PSS", "PVC", "PWb", "REI40", "Report", "RSS", "RTS", "SASS", "SBS", "SCSORF", "SDG", "SRA", "SRBQP", "SRSav", "STAI", "SWBQ", "WEBEXEC"];
 
 // Between tasks [random order unavoidable]
 secuentially_ordered_tasks_2 = ["HRPVB", "HRPVBpost", "PRFBM", "PRFBMpost", "FONDECYT", "INFCONS"];
