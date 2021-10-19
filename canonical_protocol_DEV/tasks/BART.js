@@ -56,7 +56,7 @@ function inflate(actual_number) {
 
   //actual_number = numbers[Math.floor(Math.random()*numbers.length)];
 
-  console.log(actual_number)
+  console.log(actual_number);
 
   explode = (actual_rounds >= actual_number);
 
