@@ -431,7 +431,7 @@ function condition_selection(between_selection_temp = {}) {
                   experiment_blocked = true;
                   condition_temp_array = [false];
                   alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
-                  throw new Error('Usuario bloqueado por límite en condiciones'); // To avoid loading the rest of the questions
+                  throw new Error('Usuario bloqueado por límite en condiciones' +  ' #1'); // To avoid loading the rest of the questions
                   resolve(false);
                 } else {
                   // If there are slots, write to between_selection[NAME_OF_TASK]
@@ -466,7 +466,7 @@ function condition_selection(between_selection_temp = {}) {
             if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
 
               experiment_blocked = true;
-              console.log("Usuario bloqueado por límite en condiciones");
+              console.log("Usuario bloqueado por límite en condiciones" +  " #2");
               resolve(false);
             } else {
               experiment_blocked = false;
@@ -734,7 +734,7 @@ function completed_task_storage(csv, task) {
                 updateIndexed("user", uid, "status", "assigned", db);
 
               } else {
-                console.log("Usuario bloqueado por límite en condiciones");
+                console.log("Usuario bloqueado por límite en condiciones" +  " #3");
                 alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
               }
             });
@@ -825,7 +825,7 @@ function completed_task_storage(csv, task) {
 
             // NO SLOTS AVAILABLE ------------------------------------------------
             } else {
-              console.log("Usuario bloqueado por límite en condiciones");
+              console.log("Usuario bloqueado por límite en condiciones" +  " #4");
               alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
             }
           });

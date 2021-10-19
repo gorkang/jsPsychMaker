@@ -292,26 +292,32 @@ function condition_selection(between_selection_temp = {}) {
               // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
               // If there are more than one condition with the same number of assigned participants, we get one of them randomly
               available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
-              randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
-              condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
-
-              if (debug_mode === true) {
-                console.log("All conditions");
-                console.log(ARRAY_between_temp);
-                console.warn(new Date().toISOString().slice(0, 19) + " " + JSON.stringify(flattenObject(ARRAY_between_temp)));
-                console.log("Available conditions (conditions with == number of assigned OR condition with min assign)");
-                console.log(available_conditions_ARRAY);
-                console.warn(new Date().toISOString().slice(0, 19) + " " + JSON.stringify(flattenObject(available_conditions_ARRAY)));
-                console.log("Selected index: " + randomly_selected_index);
+              
+              // Only randomize when there are available conditions, otherwise, sampleWithoutReplacement gives an error
+              if (available_conditions_ARRAY.length > 0) {
+                console.warn("Choosing between the " + available_conditions_ARRAY.length + " conditions available.");
+                randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
+                condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
+  
+                if (debug_mode === true) {
+                  console.log("All conditions");
+                  console.log(ARRAY_between_temp);
+                  console.warn(new Date().toISOString().slice(0, 19) + " " + JSON.stringify(flattenObject(ARRAY_between_temp)));
+                  console.log("Available conditions (conditions with == number of assigned OR condition with min assign)");
+                  console.log(available_conditions_ARRAY);
+                  console.warn(new Date().toISOString().slice(0, 19) + " " + JSON.stringify(flattenObject(available_conditions_ARRAY)));
+                  console.log("Selected index: " + randomly_selected_index);
+                }
+              } else {
+                console.warn("No available conditions");
               }
 
-
               // If we can't assign a condition
-              if (condition_data_temp === undefined) {
+              if (condition_data_temp === undefined || condition_data_temp.length == 0) {
                 experiment_blocked = true;
                 condition_temp_array = [false];
                 alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
-                throw new Error('Usuario bloqueado por límite en condiciones'); // To avoid loading the rest of the questions
+                throw new Error('Usuario bloqueado por límite en condiciones' +  ' #1'); // To avoid loading the rest of the questions
                 resolve(false);
               // If there are slots, write to between_selection[NAME_OF_TASK]
               } else {
@@ -342,7 +348,7 @@ function condition_selection(between_selection_temp = {}) {
           // CHECKS
           if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
             experiment_blocked = true;
-            console.warn("Usuario bloqueado por límite en condiciones");
+            console.warn("Usuario bloqueado por límite en condiciones" +  " #2");
             resolve(false);
           } else {
             experiment_blocked = false;
@@ -598,7 +604,7 @@ function completed_task_storage(csv, task) {
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
 
             } else {
-              console.warn("Usuario bloqueado por límite en condiciones");
+              console.warn("Usuario bloqueado por límite en condiciones" +  " #3");
               alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
             }
           });
@@ -688,7 +694,7 @@ function completed_task_storage(csv, task) {
 
           // NO SLOTS AVAILABLE ------------------------------------------------
           } else {
-            console.warn("Usuario bloqueado por límite en condiciones");
+            console.warn("Usuario bloqueado por límite en condiciones" +  " #4");
             alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
           }
         });
