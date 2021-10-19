@@ -274,14 +274,14 @@ function continue_page_activation(completed_experiments, questions, completed = 
 // filtrador de elementos por questions["procedure"]
 function obtain_experiments(questions, completed_experiments){
 
-  if (debug_mode === true) console.log("obtain_experiments() [[ completed_experiments: " + completed_experiments.length + " || questions_before: " + questions.length + " ]]");
+  if (debug_mode === true) console.warn("obtain_experiments() [[ completed_experiments: " + completed_experiments.length + " || questions_before: " + questions.length + " ]]");
 
     // se filtran los experimentos completados para obtener los faltantes
   acceptedValues = all_tasks.filter( function( element ) {
     return !completed_experiments.includes( element );
   } );
 
-  if (debug_mode === true) console.log("obtain_experiments(): [[ " + acceptedValues.length + " ]]");
+  if (debug_mode === true) console.warn("obtain_experiments(): [[ " + acceptedValues.length + " ]]");
 
   // se crea el array con los elementos no completados
   var questions = Object.keys(questions).reduce(function(r, e) {
@@ -296,7 +296,7 @@ function obtain_experiments(questions, completed_experiments){
     return el !== null;
   });
 
-  if (debug_mode === true) console.log("obtain_experiments() [[ questions_after: " + questions.length + " ]]");
+  if (debug_mode === true) console.warn("obtain_experiments() [[ questions_after: " + questions.length + " ]]");
 
   return questions;
 }
@@ -305,18 +305,23 @@ function obtain_experiments(questions, completed_experiments){
 // funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
 function start_protocol(questions){
 
+  // Preload ----------------------------------------------------
   // con el arreglo de questions finalizado se pueden agregar restricciones extras, como el precargado de imágenes (son definidas en index):
   var preload = {
     type: 'preload',
     show_progress_bar: true,
-    message: 'El protocolo está cargando, espere un momento...',
+    auto_preload: true, // Does not work
+    message: 'Cargando imágenes...',
     images: images,
     audios: audios,
     video: video
   };
-  questions.unshift({type: 'preload', images: images});
+  //questions.unshift({type: 'preload', images: images, audios: audios, video: video});
+  questions.unshift(preload);
 
-  // almacenamiento de data en base de datos (csv)
+
+  // REVIEW: This is called when the experiment ends (?)
+  // Store data in database (csv) ----------------------------------
   questions.push({
     type: 'call-function',
     func: function () {
@@ -330,7 +335,7 @@ function start_protocol(questions){
             }
           }, function() {console.log("final update user_condition table not found");});
         }, function() {
-          console.log("db not charged");
+          console.log("db not loaded");
         });
       } else if (online === true) {
         XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "completed"}});
@@ -348,6 +353,8 @@ function start_protocol(questions){
     fullscreen_mode: false
   });
 
+// jsPsych.init ---------------------------------------
+
   jsPsych.init({
     timeline: questions,
     override_safe_mode: true,
@@ -359,4 +366,30 @@ function start_protocol(questions){
         alert("Si sales de pantalla completa pueden perderse datos. Por favor, pulsa F11 para volver al experimento.");
       }}
   });
+
+}
+
+
+// flattenObject -------------------------------------------------------------
+
+function flattenObject(ob) {
+    var toReturn = {};
+
+    for (var i in ob) {
+        if (!ob.hasOwnProperty(i)) continue;
+
+        if ((typeof ob[i]) == 'object' && ob[i] !== null) {
+            var flatObject = flattenObject(ob[i]);
+            for (var x in flatObject) {
+                if (!flatObject.hasOwnProperty(x)) continue;
+
+                toReturn[i + '.' + x] = flatObject[x];
+            }
+        } else {
+            toReturn[i] = ob[i];
+        }
+    }
+    
+    return toReturn;
+    //JSON.stringify(flattenObject());
 }
