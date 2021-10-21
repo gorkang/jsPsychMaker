@@ -1,4 +1,6 @@
 
+if (debug_mode === true) console.warn("helper_functions()");
+
 // CHECKS ----------------------------------------------------------------------
 
   // Online mode while running locally
@@ -121,6 +123,9 @@ function flatten(arr) {
 
 // funcion usada para almacenar la data, se usa en el call-function (último item) de cada task
 function saveData(data, online, name, version = 'original') {
+
+  if (debug_mode === true) console.warn("saveData()");
+
   // almacenamiento de la data en el caché del sistema
   completed_task_storage(jsPsych.data.get().filter({procedure: name}).csv(), name);
 
@@ -161,6 +166,9 @@ function saveData(data, online, name, version = 'original') {
 // Load all experiments in a folder included in an array
 // REVIEW: Explicar que hace 'new_element' e 'index'
 function script_loading(folder, array, completed_experiments = [], new_element = false, index = 0) {
+
+  if (debug_mode === true) console.warn("script_loading()");
+
 	var script = document.createElement("script");
 	script.type = "text/javascript";
 	script.async = false;
@@ -240,6 +248,8 @@ function call_function(task_name) {
 // En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
 function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
 
+  if (debug_mode === true) console.warn("continue_page_activation()");
+
   input_uid = document.getElementById('input_uid');
   check = document.getElementById('check');
   start = document.getElementById('start');
@@ -304,6 +314,8 @@ function obtain_experiments(questions, completed_experiments){
 
 // funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
 function start_protocol(questions){
+
+  if (debug_mode === true) console.warn("start_protocol()");
 
   // Preload ----------------------------------------------------
   // con el arreglo de questions finalizado se pueden agregar restricciones extras, como el precargado de imágenes (son definidas en index):
@@ -389,7 +401,7 @@ function flattenObject(ob) {
             toReturn[i] = ob[i];
         }
     }
-    
+
     return toReturn;
     //JSON.stringify(flattenObject());
 }

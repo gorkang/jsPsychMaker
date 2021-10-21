@@ -120,6 +120,9 @@ function XMLcall (query, table_name, elements = {}, sql = "", wait_for_response 
 // start_mysqldb() -------------------------------------------------------------
 
 function start_mysqldb(pid, max_participants) {
+
+  if (debug_mode === true) console.warn("start_mysqldb()");
+
   // REVIEW: start_mysqldb() should be used ONLY if we don't already have the DB
 
   if (debug_mode === true) {
@@ -150,7 +153,7 @@ XMLcall("findRow", "task", {keys: ["task_name"], values: ["Consent"]}).then(func
       XMLcall("insertIntoTable", "task", {dict: tasks[i]});
     }
   } else {
-    console.warn("Tasks tables already exist");
+    console.warn("start_mysqldb() | Tasks tables already exist");
   }
 
 });
@@ -171,38 +174,35 @@ XMLcall("findRow", "task", {keys: ["task_name"], values: ["Consent"]}).then(func
 // Clean DB from discarded users (time since started protocol > max_time)
 function clean_mysql(){
 
+if (debug_mode === true) console.warn("clean_mysql()");
 
-  // REVIEW: clean_mysql should be done before check_id_status() (???)
+  // REVIEW: clean_mysql should be done before check_id_status()
   // This is important because now we say there are no slots before cleaning up discarded
   // Make sure there are no other collisions, for example, in check_id_status(), if the participant already exists and we accept_discarded, the participant can continue!
 
 
   XMLcall("findAll", "user").then(function(users) {
 
-    /*
-    XMLcall("findAll", "user");
-    users = JSON.parse(response);
-    */
-
-    max_sec = date_to_mil(max_time);
-    actual_time = new Date().toISOString().slice(0, 19);
-
     // REVIEW: FILTERING to loop only amongst NON completed. SHOULD BE ONLY amongst assigned (???)
+
     users = users.filter(function(value,index) { return value["status"]  !== "completed"; });
 
     for (var i = 0; i < users.length; i++) {
 
+      max_sec = date_to_mil(max_time);
+      actual_time = new Date().toISOString().slice(0, 19);
       DBtime = users[i].start_date; // Date already stored in ISO format
+      seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
 
       // si es que la diferencia de tiempo supera la máxima cantidad de segundos entonces el participante es descartado y removido de los participantes asignados
-      if ((new Date(actual_time) - new Date(DBtime))/1000 > max_sec && users[i].status == "assigned") {
+      if (seconds_since_start > max_sec && users[i].status == "assigned") {
 
-        // If the active user is the one that should be discarded... ignore (???????????????) so it can be checked in check_id_status()
+        // If the active user is the one that should be discarded... ignore so it can be checked in check_id_status()
         if (users[i].id_user == uid) {
           console.warn("clean_mysql() wants to discard you");
         } else {
           console.log("clean_mysql() || DISCARD assigned user " + users[i].id_user + ": time since started experiment > max_time");
-          if (debug_mode === true) console.log("ID: " + users[i].id_user + " [" + users[i].status + "] || actual_time: " + actual_time + " || DBtime: " + DBtime + " || " + (new Date(actual_time) - new Date(DBtime))/1000 + " > " + max_sec);
+          if (debug_mode === true) console.log("ID: " + users[i].id_user + " [" + users[i].status + "] || actual_time: " + actual_time + " || DBtime: " + DBtime + " || " + seconds_since_start + " > " + max_sec);
 
           // UPDATE status: discarded  & protocol: counter -1
           XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "discarded"}});
@@ -214,10 +214,10 @@ function clean_mysql(){
               XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
             }
           });
-          
-          console.warn('clean_mysql() || (new Date(actual_time) - new Date(DBtime))/1000 > max_sec && users[i].status == "assigned" || UPDATE || status: discarded, counter - 1, for(assigned_task - 1)');
 
-          
+          console.warn('clean_mysql() || seconds_since_start > max_sec && users[i].status == "assigned" || UPDATE || status: discarded, counter - 1, for(assigned_task - 1)');
+
+
         }
       }
     }
@@ -233,7 +233,8 @@ function clean_mysql(){
 
 function load_clean_mysql(iterations_for_review, max_participants) {
 
-  //if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || load_clean_mysql()");
+if (debug_mode === true) console.warn("load_clean_mysql()");
+
 
   XMLcall("findAll", "experimental_condition").then(function(condition_data) {
     // limpieza de base de datos
@@ -281,6 +282,9 @@ function load_clean_mysql(iterations_for_review, max_participants) {
 // obtención de condiciones para participante nuevo (funciona como promise para que sea sincrónico)
 
 function condition_selection(between_selection_temp = {}) {
+
+  if (debug_mode === true) console.warn("condition_selection()");
+
   return new Promise(
     function(resolve, reject) {
 
@@ -296,9 +300,7 @@ function condition_selection(between_selection_temp = {}) {
           // -------------------------------------------------------------------
 
           if (Object.keys(between_selection_temp).length === 0) {
-            
-            console.warn("X1 Object.keys(between_selection_temp).length" + Object.keys(between_selection_temp).length);
-            
+
             condition_data_temp = [];
             ARRAY_between_temp = [];
 
@@ -320,7 +322,7 @@ function condition_selection(between_selection_temp = {}) {
 
               // Only randomize when there are available conditions, otherwise, sampleWithoutReplacement gives an error
               if (available_conditions_ARRAY.length > 0) {
-                console.warn("Choosing between the " + available_conditions_ARRAY.length + " conditions available.");
+                console.warn("condition_selection() | Choosing between the " + available_conditions_ARRAY.length + " conditions available.");
                 randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
                 condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
 
@@ -334,16 +336,17 @@ function condition_selection(between_selection_temp = {}) {
                   console.log("Selected index: " + randomly_selected_index);
                 }
               } else {
-                console.warn("No available conditions");
+                console.warn("condition_selection() | No available conditions");
               }
 
+              // FINAL CHECKS FOR NEW PARTICIPANTS
               // No slots available
               if (condition_data_temp === undefined || condition_data_temp.length == 0) {
                 experiment_blocked = true;
                 condition_temp_array = [false];
                 text_input_uid.innerHTML = 'No hay cupos disponibles. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
                 //alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
-                console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #1'); // Ends up in jsPsych.end  
+                console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #1'); // Ends up in jsPsych.end
                 resolve(false);
 
               // Slots available
@@ -358,17 +361,16 @@ function condition_selection(between_selection_temp = {}) {
 
           // [[DISCARDED PARTICIPANTS]] ----------------------------------------
           // -------------------------------------------------------------------
-          
+
           } else {
-            console.warn("X2 Object.keys(between_selection_temp).length" + Object.keys(between_selection_temp).length);
             condition_temp_array = [];
-            
+
             // For each between condition, CHECK if there are available conditions to re-assign the discarded participant
             Object.entries(between_selection_temp).forEach(([key, val]) => {
-              
-              console.warn("condition_selection() || inside discarded forEach");
 
-              // Filter those conditions where we have available slots. Create temporal list with true for available slots 
+              console.warn("condition_selection() || forEach CHECK if there are available conditions to re-assign the discarded participant");
+
+              // Filter those conditions where we have available slots. Create temporal list with true for available slots
               condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
             });
 
@@ -376,19 +378,22 @@ function condition_selection(between_selection_temp = {}) {
             //condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection_temp); });
           }
 
-          // FINAL CHECKS
+
+          // FINAL CHECKS FOR condition_selection() ------
           if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
             experiment_blocked = true;
-            console.warn("condition_selection() || Participante bloqueado por límite en condiciones" +  " #2");
+            console.warn("condition_selection() | Final check | Participante bloqueado por límite en condiciones");
             resolve(false);
           } else {
             experiment_blocked = false;
-            console.warn("condition_selection() || Hay cupos disponibles. Participante puede continuar");
+            console.warn("condition_selection() | Final check |  Hay cupos disponibles. Participante puede continuar");
             resolve(true);
           }
+          // ----------------------------------------------
+
 
         }, function() {
-          console.warn("Error al cargar la seleccion de condiciones.");
+          console.warn("condition_selection() | Final check |  Error al cargar la seleccion de condiciones.");
           reject(false);
         });
 
@@ -403,6 +408,8 @@ function condition_selection(between_selection_temp = {}) {
 
 // Used on index.html. Verify status of user id
 function check_id_status(event) {
+
+  if (debug_mode === true) console.warn("check_id_status()");
 
   // We have id in either URL (uid) or POST (input_uid)
   // On the DB, the uid/input_uid is called uid_external.
@@ -441,22 +448,20 @@ function check_id_status(event) {
         if (Object.keys(actual_user).length === 0 && actual_user.constructor === Object) {
 
           if (debug_mode === true) console.warn("check_id_status() || NEW user " + new Date().toISOString().slice(0, 19));
-          
+
           uid = 0;
           text_input_uid.innerHTML = 'Nuevo participante. Iniciando experimento... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
 
           condition_selection().then(function(accepted) {
-            
+
             if (accepted) {
               // LOAD all the tasks. This also loads the between participants conditions
               script_loading("tasks", all_tasks, completed_experiments, true);
             } else {
               console.warn("check_id_status() || NEW user || condition_selection returned false");
             }
-            
+
             });
-
-
 
 
         // [[OLD USER]] (uid_external is in DB) --------------------------------
@@ -477,12 +482,11 @@ function check_id_status(event) {
           // assigned OR discarded but recoverable (accept_discarded = true)
           if (actual_user.status == "assigned" || (accept_discarded && actual_user.status == "discarded")) {
 
-
-            between_selection = {};
-            
             // GET **BETWEEN PARTICIPANTS** conditions for the particicipant from the DB (so she can continue where she left off)
             XMLcall("condition_selection", "", {id: {"id_user": uid}}).then(function (between_selection_temp){
-              
+
+              between_selection = {};
+
               // between_selection is [{task1: condition1},{task2: condition2},{task2: condition3}]
               for (var i = 0; i < between_selection_temp.length; i++) {
                 let actual_task = Object.keys(between_selection_temp[i])[0];
@@ -497,20 +501,21 @@ function check_id_status(event) {
               }
 
 
-              // [[DISCARDED USER or ASSIGNED out of time]] ----------------------------------------------------------------
-
               max_sec = date_to_mil(max_time);
               actual_time = new Date().toISOString().slice(0, 19);
               DBtime = actual_user.start_date; // Date already stored in ISO format
+              seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
 
-              // DISCARDED & accept_discarded or ASSIGNED out of time & accept_discarded ----------
-              if (actual_user.status == "discarded" & accept_discarded === true || ((new Date(actual_time) - new Date(DBtime))/1000 > max_sec && actual_user.status == "assigned" & accept_discarded === true)) {
 
-                console.warn("check_id_status() || Discarded & accept_discarded OR Assigned out of time & accept_discarded || actual_user.status: " + actual_user.status + " || out of time: " +  (new Date(actual_time) - new Date(DBtime))/1000 > max_sec);
+              // [[DISCARDED USER & accept_discarded || ASSIGNED out of time & accept_discarded]] ----------------------------------------------------------------
+
+              if (actual_user.status == "discarded" & accept_discarded === true || (seconds_since_start > max_sec && actual_user.status == "assigned" & accept_discarded === true)) {
+
+                console.warn("check_id_status() || Discarded & accept_discarded OR Assigned out of time & accept_discarded || actual_user.status: " + actual_user.status + " || out of time: " +  seconds_since_start > max_sec);
 
                 // CHECK if available slots
                 condition_selection(between_selection).then(function(accepted) {
-                  
+
                   console.warn("check_id_status() || Inside condition_selection(). Printing between_selection");
                   console.log(between_selection);
 
@@ -518,18 +523,18 @@ function check_id_status(event) {
                   if (accepted) {
 
                     // Reset starting date to NOW
-                    actual_time = new Date().toISOString().slice(0, 19);
+                    //actual_time = new Date().toISOString().slice(0, 19); // We have this above
 
                     // Update global user_start_date so it can be shown un the screen
                     globalThis.user_start_date = actual_time;
 
 
-                    // UPDATE status to assigned in table user, update start_date, update counter 
+                    // UPDATE status to assigned in table user, update start_date, update counter
                     // TODO: The user table updates should be a single call (?)
                     XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
                     XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"start_date": actual_time}});
                     XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
-                    
+
                     // UPDATE: assigned_task + 1 for each between_selection variable
                     for (var [key, value] of Object.entries(between_selection)) {
                       for (var i = 0; i < value.length; i++) {
@@ -539,26 +544,23 @@ function check_id_status(event) {
                         });
                       }
                     }
-                    
-                    console.warn('check_id_status() | UPDATE | status: assigned, start_date: actual_time, counter + 1, assigned_task + 1 | actual_user.status == "discarded" & accept_discarded === true || ((new Date(actual_time) - new Date(DBtime))/1000 > max_sec && actual_user.status == "assigned" & accept_discarded === true) --> condition_selection(accepted)');
+
+                    console.warn('check_id_status() | UPDATE | status: assigned, start_date: actual_time, counter + 1, assigned_task + 1 | actual_user.status == "discarded" & accept_discarded === true || (seconds_since_start > max_sec && actual_user.status == "assigned" & accept_discarded === true) --> condition_selection(accepted)');
                     text_input_uid.innerHTML = 'Tiempo excedido. Recuperando datos de participante... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
 
                     // LOAD all the tasks. This also loads the between participants conditions
                     script_loading("tasks", all_tasks, completed_experiments, true);
                     user_assigned = true;
-                    
+
                   } else {
-                    
                     console.warn("check_id_status() || OLD user || condition_selection returned false");
-                    
-                  } 
-                  
+                  }
                 });
 
 
               // [[ASSIGNED USER inside time limit]] ---------------------------
 
-              } else if (((new Date(actual_time) - new Date(DBtime))/1000 < max_sec && actual_user.status == "assigned")) {
+              } else if ((seconds_since_start < max_sec && actual_user.status == "assigned")) {
 
                 console.warn("User previously assigned");
                 user_assigned = true;
@@ -567,14 +569,11 @@ function check_id_status(event) {
               // [[DISCARDED & accept_discarded = false]] ----------------------
 
               } else {
-
                 console.warn("User discarded & accept_discarded = false");
                 jsPsych.endExperiment('El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
-
               }
 
               completed_experiments = [];
-
 
               // Single call to get the tasks names ----------------------------
 
@@ -586,7 +585,6 @@ function check_id_status(event) {
 
               });
               // ---------------------------------------------------------------
-
             });
 
           // [[COMPLETED USER]] *************************************
@@ -615,6 +613,8 @@ function check_id_status(event) {
 // Saves the data of a task in the DB
 function completed_task_storage(csv, task) {
 
+  if (debug_mode === true) console.warn("completed_task_storage()");
+
   if (task == all_tasks[all_tasks.length - 1]) last_task = true;
   actual_time = new Date().toISOString().slice(0, 19);
 
@@ -628,6 +628,7 @@ function completed_task_storage(csv, task) {
 
       // User already exists in the DB. There is a status in user table in DB for this uid_external
       if ("status" in actual_user) {
+
 
         // [[USER Discarded]] --------------------------------------------------
         // if !protocol_blocked && accept_discarded re-enrroll
@@ -672,7 +673,7 @@ function completed_task_storage(csv, task) {
 
               // UPDATE start_date and status of participant in user table
                 // IMPROVE: This should be a SINGLE call
-                // REVIEW: SHOULD WE assigned_task +1 in this case? This assumes When a participant is discarded, assigned_task - 1?
+                // REVIEW: SHOULD WE assigned_task +1 in this case? This would assume when a participant is discarded, assigned_task - 1?
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"start_date": actual_time}});
               console.warn('completed_task_storage() | UPDATE | status: assigned, start_date: actual_time | !user_assigned && !experiment_blocked --> actual_user.status == "discarded" --> !protocol_blocked && accept_discarded');
@@ -715,7 +716,7 @@ function completed_task_storage(csv, task) {
 
             // Available slots
             if (completed_protocol_filtered.length > 0) {
-              
+
               added_task = completed_protocol_filtered[0]["task_name"];
               selected_id_condition = completed_protocol_filtered[0].id_condition;
 
@@ -788,7 +789,7 @@ function completed_task_storage(csv, task) {
   // [[USER already assigned]] ---------------------------------------------------------
   // Second to last tasks : user_assigned && !experiment_blocked//
   // -----------------------------------------------------------------------------------
-  
+
   // experiment NOT blocked
   } else if (user_assigned && !experiment_blocked) {
 
@@ -810,9 +811,10 @@ function completed_task_storage(csv, task) {
             if (!accept_discarded) {
 
               max_sec = date_to_mil(max_time);
-
+              actual_time = new Date().toISOString().slice(0, 19);
               DBtime = actual_user.start_date;
               seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
+
               hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
               minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON) * 100) / 100;
 
@@ -820,7 +822,7 @@ function completed_task_storage(csv, task) {
               // [[USER DISCARDED]] ----------------------------------------------------------------
               // Out of time and !accept_discarded:  -1 assign, -1 counter
               // -----------------------------------------------------------------------------------
-              
+
               if (seconds_since_start > max_sec) {
 
                 // REVIEW: THIS BLOCK SHOULD BE A FUNCTION (?) ---------------
@@ -837,13 +839,13 @@ function completed_task_storage(csv, task) {
                     XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
                   }
                 });
-                
+
                 console.warn('completed_task_storage() | UPDATE | status: discarded, counter - 1, for(assigned_task - 1) | actual_user.status == "assigned" --> !accept_discarded --> seconds_since_start > max_sec');
                 console.warn("completed_task_storage() || OUT OF TIME || actual_time: " + actual_time + " || DBtime" + DBtime + " || Started " + seconds_since_start + " seconds ago || Time ends in " + hours_until_discarded + " hours [" + minutes_until_discarded + " minutes]");
 
-                
+
                 // -----------------------------------------------------------
-                
+
                 jsPsych.endExperiment('El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
               }
             }
