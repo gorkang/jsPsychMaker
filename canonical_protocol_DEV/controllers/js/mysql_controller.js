@@ -32,8 +32,8 @@ function XMLcall (query, table_name, elements = {}, sql = "", wait_for_response 
           response = (xhr.responseText);
           if (json_can_parsed (response)) {
             answer = (response !== "") ? JSON.parse(response) : {};
-            if (debug_mode === true) console.log(query + " // " + table_name);
-            if (debug_mode === true) console.log(answer);
+            // if (debug_mode === true) console.log(query + " // " + table_name);
+            // if (debug_mode === true) console.log(answer);
             resolve(answer);
           } else {
             console.log(response);
@@ -197,28 +197,24 @@ if (debug_mode === true) console.warn("clean_mysql()");
       // si es que la diferencia de tiempo supera la máxima cantidad de segundos entonces el participante es descartado y removido de los participantes asignados
       if (seconds_since_start > max_sec && users[i].status == "assigned") {
 
-        // If the active user is the one that should be discarded... ignore so it can be checked in check_id_status()
-        if (users[i].id_user == uid) {
-          console.warn("clean_mysql() wants to discard you");
-        } else {
-          console.log("clean_mysql() || DISCARD assigned user " + users[i].id_user + ": time since started experiment > max_time");
-          if (debug_mode === true) console.log("ID: " + users[i].id_user + " [" + users[i].status + "] || actual_time: " + actual_time + " || DBtime: " + DBtime + " || " + seconds_since_start + " > " + max_sec);
+        // If the active user is the one that should be discarded... 
+        if (users[i].id_user == uid) console.warn("clean_mysql() wants to discard you");
 
-          // UPDATE status: discarded  & protocol: counter -1
-          XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "discarded"}});
-          XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter - 1"}});
+        if (debug_mode === true) console.warn("clean_mysql() || DISCARD users.id_user: " + users[i].id_user + "(uid_external " + users[i].uid_external + ") [" + users[i].status + "] || actual_time: " + actual_time + " || DBtime: " + DBtime + " || " + seconds_since_start + " > " + max_sec);
 
-          // UPDATE assigned_task -1 for each between_selection condition
-          XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [users[i].id_user]}).then(function(user_conditions) {
-            for (var i = 0; i < user_conditions.length; i++) {
-              XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
-            }
-          });
+        // UPDATE status: discarded  & protocol: counter -1
+        XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "discarded"}});
+        XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter - 1"}});
 
-          console.warn('clean_mysql() || seconds_since_start > max_sec && users[i].status == "assigned" || UPDATE || status: discarded, counter - 1, for(assigned_task - 1)');
+        // UPDATE assigned_task -1 for each between_selection condition
+        XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [users[i].id_user]}).then(function(user_conditions) {
+          for (var i = 0; i < user_conditions.length; i++) {
+            XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
+          }
+        });
 
+        console.warn('clean_mysql() || seconds_since_start > max_sec && users[i].status == "assigned" || UPDATE || status: discarded, counter - 1, for(assigned_task - 1)');
 
-        }
       }
     }
   }, function (error) {
@@ -327,13 +323,15 @@ function condition_selection(between_selection_temp = {}) {
                 condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
 
                 if (debug_mode === true) {
-                  console.log("All conditions");
-                  console.log(ARRAY_between_temp);
-                  console.warn(new Date().toISOString().slice(0, 19) + " " + JSON.stringify(flattenObject(ARRAY_between_temp)));
-                  console.log("Available conditions (conditions with == number of assigned OR condition with min assign)");
-                  console.log(available_conditions_ARRAY);
-                  console.warn(new Date().toISOString().slice(0, 19) + " " + JSON.stringify(flattenObject(available_conditions_ARRAY)));
-                  console.log("Selected index: " + randomly_selected_index);
+                  // Create simple versions to print in console
+                  SIMPLE_ARRAY = ARRAY_between_temp[0].map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
+                  SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
+                  available_conditions_SIMPLE_ARRAY = available_conditions_ARRAY.map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
+                  available_conditions_SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(available_conditions_SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
+                  
+                  console.warn(new Date().toISOString().slice(0, 19) + " All conditions: \n " + SIMPLE_ARRAY_CHR);
+                  console.warn(new Date().toISOString().slice(0, 19) + " Available conditions: \n " + available_conditions_SIMPLE_ARRAY_CHR);
+                  console.warn("Selected condition: " + available_conditions_ARRAY[randomly_selected_index].condition_name);
                 }
               } else {
                 console.warn("condition_selection() | No available conditions");
@@ -511,7 +509,7 @@ function check_id_status(event) {
 
               if (actual_user.status == "discarded" & accept_discarded === true || (seconds_since_start > max_sec && actual_user.status == "assigned" & accept_discarded === true)) {
 
-                console.warn("check_id_status() || Discarded & accept_discarded OR Assigned out of time & accept_discarded || actual_user.status: " + actual_user.status + " || out of time: " +  seconds_since_start > max_sec);
+                console.warn("check_id_status() || Discarded & accept_discarded OR Assigned out of time & accept_discarded || actual_user.status: " + actual_user.status + " || out of time: " +  (seconds_since_start > max_sec));
 
                 // CHECK if available slots
                 condition_selection(between_selection).then(function(accepted) {
@@ -539,7 +537,7 @@ function check_id_status(event) {
                     for (var [key, value] of Object.entries(between_selection)) {
                       for (var i = 0; i < value.length; i++) {
                         XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [value[i]]}).then(function(actual_condition) {
-                          if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || check_id_status: DISCARDED re-assigned || updateTable: experimental_condition || assigned_task: assigned_task + 1");
+                          //if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || check_id_status: DISCARDED re-assigned || updateTable: experimental_condition || assigned_task: assigned_task + 1");
                           XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
                         });
                       }
@@ -569,8 +567,9 @@ function check_id_status(event) {
               // [[DISCARDED & accept_discarded = false]] ----------------------
 
               } else {
-                console.warn("User discarded & accept_discarded = false");
-                jsPsych.endExperiment('El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
+                console.warn("check_id_status() | User discarded & accept_discarded = false");
+                // jsPsych.endExperiment WON'T work here. jsPsych not defined yet
+                text_input_uid.innerHTML('El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
               }
 
               completed_experiments = [];
@@ -615,7 +614,12 @@ function completed_task_storage(csv, task) {
 
   if (debug_mode === true) console.warn("completed_task_storage()");
 
-  if (task == all_tasks[all_tasks.length - 1]) last_task = true;
+  if (task == all_tasks[all_tasks.length - 1]) {
+    last_task = true; 
+  } else {
+    last_task = false; 
+  }
+    
   actual_time = new Date().toISOString().slice(0, 19);
 
 
@@ -666,6 +670,8 @@ function completed_task_storage(csv, task) {
 
             // IF accept_discarded and there are available slots (protocol_blocked = false)
             if (!protocol_blocked && accept_discarded) {
+              
+              console.warn('completed_task_storage() | actual_user.status == "discarded" --> !protocol_blocked && accept_discarded');
               user_assigned = true;
 
               // Update global user_start_date so it can be shown un the screen

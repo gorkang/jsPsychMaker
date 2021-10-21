@@ -167,7 +167,7 @@ function saveData(data, online, name, version = 'original') {
 // REVIEW: Explicar que hace 'new_element' e 'index'
 function script_loading(folder, array, completed_experiments = [], new_element = false, index = 0) {
 
-  if (debug_mode === true) console.warn("script_loading()");
+  // if (debug_mode === true) console.warn("script_loading()");
 
 	var script = document.createElement("script");
 	script.type = "text/javascript";
