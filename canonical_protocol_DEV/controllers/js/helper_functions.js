@@ -355,6 +355,8 @@ function start_protocol(questions){
           for (var i = 0; i < user_conditions.length; i++) {
             XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"completed_protocol": "completed_protocol + 1"}});
           }
+      console.warn('start_protocol() | UPDATE | status: completed, completed_protocol + 1 | call-funcion END of protocol');
+
         }, function() {console.log("final update user_condition table not found");});
       }
     }

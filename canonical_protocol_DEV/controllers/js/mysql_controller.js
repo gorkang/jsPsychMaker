@@ -213,7 +213,7 @@ if (debug_mode === true) console.warn("clean_mysql()");
           }
         });
 
-        console.warn('clean_mysql() || seconds_since_start > max_sec && users[i].status == "assigned" || UPDATE || status: discarded, counter - 1, for(assigned_task - 1)');
+        console.warn('clean_mysql() || seconds_since_start > max_sec && users[i].status == "assigned" || UPDATE || status: discarded, counter - 1, for(assigned_task - 1) | users.id_user: ' + users[i].id_user + '(uid_external ' + users[i].uid_external + ')');
 
       }
     }
@@ -342,9 +342,8 @@ function condition_selection(between_selection_temp = {}) {
               if (condition_data_temp === undefined || condition_data_temp.length == 0) {
                 experiment_blocked = true;
                 condition_temp_array = [false];
-                text_input_uid.innerHTML = 'No hay cupos disponibles. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
-                //alert("Se ha alcanzado el número máximo de participantes para este protocolo [#1]");
                 console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #1'); // Ends up in jsPsych.end
+                text_input_uid.innerHTML = 'No hay cupos disponibles. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
                 resolve(false);
 
               // Slots available
@@ -361,6 +360,7 @@ function condition_selection(between_selection_temp = {}) {
           // -------------------------------------------------------------------
 
           } else {
+            
             condition_temp_array = [];
 
             // For each between condition, CHECK if there are available conditions to re-assign the discarded participant
@@ -372,8 +372,12 @@ function condition_selection(between_selection_temp = {}) {
               condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
             });
 
-            // REVIEW: Commented out. Gives ERROR:'between_selection_temp.map is not a function'
-            //condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection_temp); });
+            // REVIEW: ALTERNATIVE to the forEach. Would NEED an if // Commented out. Gives ERROR:'between_selection_temp.map is not a function'
+            // condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection_temp); });
+            console.log(between_selection_temp);
+            // ??? if (typeof between_selection_temp !== 'undefined') 
+            // ??? condition_temp_array = between_selection_temp[0].map(function (condition, index, array) { return (condition in between_selection_temp); });
+            // if(Object.keys(between_selection_temp).length === 0)
           }
 
 
@@ -682,10 +686,27 @@ function completed_task_storage(csv, task) {
                 // REVIEW: SHOULD WE assigned_task +1 in this case? This would assume when a participant is discarded, assigned_task - 1?
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"start_date": actual_time}});
-              console.warn('completed_task_storage() | UPDATE | status: assigned, start_date: actual_time | !user_assigned && !experiment_blocked --> actual_user.status == "discarded" --> !protocol_blocked && accept_discarded');
+
+              
+
+// LAST CHANGE: REVIEW              
+XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
+
+ // UPDATE: assigned_task + 1 for each between_selection variable
+for (var [key, value] of Object.entries(between_selection)) {
+  for (var i = 0; i < value.length; i++) {
+    XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [value[i]]}).then(function(actual_condition) {
+      //if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || check_id_status: DISCARDED re-assigned || updateTable: experimental_condition || assigned_task: assigned_task + 1");
+      XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
+    });
+  }
+}
+              
+              
+              console.warn('completed_task_storage() | UPDATE | status: assigned, start_date: actual_time, counter + 1, assigned_task + 1 | !user_assigned && !experiment_blocked --> actual_user.status == "discarded" --> !protocol_blocked && accept_discarded');
 
             } else {
-              console.warn("Participante bloqueado por límite en condiciones" +  " #3");
+              console.warn("Participante bloqueado por límite en condiciones" +  " #2");
               jsPsych.endExperiment('No hay cupos disponibles. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
               //alert("Se ha alcanzado el número máximo de participantes para este protocolo.");
             }
@@ -710,9 +731,9 @@ function completed_task_storage(csv, task) {
           // CHECK if there are available slots --------------------------------
 
             // Use condition_data to check if there are available slots for the condition selected in the BETWEEN task (e.g. between_selection["INFCONS"][0])
-            // We use Object.keys(between_selection).length to assign +1 to each of the between tasks
+            // We use Object.keys(between_selection).length to assigned_task + 1 to each of the between tasks
 
-          // For each of the between tasks (usually just one), assign + 1
+          // For each of the between tasks (usually just one), assigned_task + 1
 
           // REVIEW: between_selection comes from where?
           // REVIEW: this for loop is more complex than the others (?)
@@ -736,6 +757,7 @@ function completed_task_storage(csv, task) {
               console.warn("completed_task_storage() | completed_protocol_filtered.length > 0 | NO available slots loop");
               // alert("NO hay cupos disponibles");
               protocol_blocked = true;
+              console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #3'); // Ends up in jsPsych.end
               jsPsych.endExperiment('No hay cupos disponibles. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
             }
 
