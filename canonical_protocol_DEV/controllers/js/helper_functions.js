@@ -294,6 +294,8 @@ function obtain_experiments(questions, completed_experiments){
   if (debug_mode === true) console.warn("obtain_experiments(): [[ " + acceptedValues.length + " ]]");
 
   // se crea el array con los elementos no completados
+    // REVIEW: ADD CHECK WITH AN INFORMATIVE MESSAGE FOR WHEN PROCEDURE IS NOT PRESENT
+    //Uncaught TypeError: Cannot read properties of undefined (reading 'procedure') LINE acceptedValues.includes(questions[e].data.procedure)
   var questions = Object.keys(questions).reduce(function(r, e) {
     if (acceptedValues.includes(questions[e].data.procedure)) {
       r[e] = questions[e];

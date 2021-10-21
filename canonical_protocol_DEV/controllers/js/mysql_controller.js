@@ -184,7 +184,6 @@ if (debug_mode === true) console.warn("clean_mysql()");
   XMLcall("findAll", "user").then(function(users) {
 
     // REVIEW: FILTERING to loop only amongst NON completed. SHOULD BE ONLY amongst assigned (???)
-
     users = users.filter(function(value,index) { return value["status"]  !== "completed"; });
 
     for (var i = 0; i < users.length; i++) {
@@ -197,7 +196,7 @@ if (debug_mode === true) console.warn("clean_mysql()");
       // si es que la diferencia de tiempo supera la máxima cantidad de segundos entonces el participante es descartado y removido de los participantes asignados
       if (seconds_since_start > max_sec && users[i].status == "assigned") {
 
-        // If the active user is the one that should be discarded... 
+        // If the active user is the one that should be discarded...
         if (users[i].id_user == uid) console.warn("clean_mysql() wants to discard you");
 
         if (debug_mode === true) console.warn("clean_mysql() || DISCARD users.id_user: " + users[i].id_user + "(uid_external " + users[i].uid_external + ") [" + users[i].status + "] || actual_time: " + actual_time + " || DBtime: " + DBtime + " || " + seconds_since_start + " > " + max_sec);
@@ -290,115 +289,155 @@ function condition_selection(between_selection_temp = {}) {
       // REVIEW. Commented out the following line (Any issues?)
       //between_selection = {};
 
-        XMLcall("findAll", "experimental_condition").then(function(condition_data) {
+      XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
-          // [[NEW PARTICIPANTS]] ----------------------------------------------
-          // -------------------------------------------------------------------
+        // [[NEW PARTICIPANTS]] ----------------------------------------------
+        // -------------------------------------------------------------------
 
-          if (Object.keys(between_selection_temp).length === 0) {
+        console.warn("condition_selection() || Object.keys(between_selection_temp).length" + Object.keys(between_selection_temp).length);
+        console.log(between_selection_temp);
+        // FOR DEBUG: between_selection_temp = {"FONDECYT": ['Text']}
+          // XMLcall("findAll", "experimental_condition")
+          //condition_data = answer
 
-            condition_data_temp = [];
-            ARRAY_between_temp = [];
+        // Does not have a between_selection value
+        if (Object.keys(between_selection_temp).length === 0) {
 
-            // Get array with unique between tasks (we need to select one condition for each one)
-            unique_between_tasks = [...new Set(condition_data.map(item => item.task_name))];
+          condition_data_temp = [];
+          ARRAY_between_temp = [];
 
-            // For each of the between tasks (usually just one)
-            for (var i = 0; i < unique_between_tasks.length; i++) {
+          // Get array with unique between tasks (we need to select one condition for each one)
+          unique_between_tasks = [...new Set(condition_data.map(item => item.task_name))];
 
-              // Temporal array for the condition i
-              ARRAY_between_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_between_tasks[i]; });
+          // For each of the between tasks (usually just one)
+          for (var i = 0; i < unique_between_tasks.length; i++) {
 
-              // Min number of participants assigned to a condition (assigned_task in array)
-              min_assigned_temp = Math.min.apply(Math, ARRAY_between_temp[i].map(function(value,index) { return value["assigned_task"]; }));
+            // Temporal array for the condition i
+            ARRAY_between_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_between_tasks[i]; });
 
-              // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
-              // If there are more than one condition with the same number of assigned participants, we get one of them randomly
-              available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
+            // Min number of participants assigned to a condition (assigned_task in array)
+            min_assigned_temp = Math.min.apply(Math, ARRAY_between_temp[i].map(function(value,index) { return value["assigned_task"]; }));
 
-              // Only randomize when there are available conditions, otherwise, sampleWithoutReplacement gives an error
-              if (available_conditions_ARRAY.length > 0) {
-                console.warn("condition_selection() | Choosing between the " + available_conditions_ARRAY.length + " conditions available.");
-                randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
-                condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
+            // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
+            // If there are more than one condition with the same number of assigned participants, we get one of them randomly
+            available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
 
-                if (debug_mode === true) {
-                  // Create simple versions to print in console
-                  SIMPLE_ARRAY = ARRAY_between_temp[0].map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
-                  SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
-                  available_conditions_SIMPLE_ARRAY = available_conditions_ARRAY.map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
-                  available_conditions_SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(available_conditions_SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
-                  
-                  console.warn(new Date().toISOString().slice(0, 19) + " All conditions: \n " + SIMPLE_ARRAY_CHR);
-                  console.warn(new Date().toISOString().slice(0, 19) + " Available conditions: \n " + available_conditions_SIMPLE_ARRAY_CHR);
-                  console.warn("Selected condition: " + available_conditions_ARRAY[randomly_selected_index].condition_name);
-                }
-              } else {
-                console.warn("condition_selection() | No available conditions");
+            // Only randomize when there are available conditions, otherwise, sampleWithoutReplacement gives an error
+            if (available_conditions_ARRAY.length > 0) {
+              console.warn("condition_selection() | Choosing between the " + available_conditions_ARRAY.length + " conditions available.");
+              randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
+              condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
+
+              if (debug_mode === true) {
+                // Create simple versions to print in console
+                SIMPLE_ARRAY = ARRAY_between_temp[0].map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
+                SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
+                available_conditions_SIMPLE_ARRAY = available_conditions_ARRAY.map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
+                available_conditions_SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(available_conditions_SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
+
+                console.warn(new Date().toISOString().slice(0, 19) + " All conditions: \n " + SIMPLE_ARRAY_CHR);
+                console.warn(new Date().toISOString().slice(0, 19) + " Available conditions: \n " + available_conditions_SIMPLE_ARRAY_CHR);
+                console.warn("Selected condition: " + available_conditions_ARRAY[randomly_selected_index].condition_name);
               }
-
-              // FINAL CHECKS FOR NEW PARTICIPANTS
-              // No slots available
-              if (condition_data_temp === undefined || condition_data_temp.length == 0) {
-                experiment_blocked = true;
-                condition_temp_array = [false];
-                console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #1'); // Ends up in jsPsych.end
-                text_input_uid.innerHTML = 'No hay cupos disponibles. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
-                resolve(false);
-
-              // Slots available
-              } else {
-                between_selection[unique_between_tasks[i]] = [condition_data_temp["condition_name"]];
-                experiment_blocked = false;
-                condition_temp_array = [true];
-                resolve(true);
-              }
+              
+            } else {
+              
+              console.warn("condition_selection() | No available conditions");
+              
             }
 
+            // FINAL CHECKS FOR NEW PARTICIPANTS
+            // No slots available
+            if (condition_data_temp === undefined || condition_data_temp.length == 0) {
+              experiment_blocked = true;
+              condition_temp_array = [false];
+              console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #1'); // Ends up in jsPsych.end
+              text_input_uid.innerHTML = 'No hay cupos disponibles. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
+              resolve(false);
 
-          // [[DISCARDED PARTICIPANTS]] ----------------------------------------
-          // -------------------------------------------------------------------
+            // Slots available
+            } else {
+              between_selection[unique_between_tasks[i]] = [condition_data_temp["condition_name"]];
+              experiment_blocked = false;
+              condition_temp_array = [true];
+              resolve(true);
+            }
+          }
 
-          } else {
-            
+
+        // [[DISCARDED PARTICIPANTS]] ----------------------------------------
+        // -------------------------------------------------------------------
+
+        } else {
+          
+          // THIS IS TO BE ABLE TO CHECK if the participant is out of time but already assigned (because no other participant accessed to trigger the clean up)
+          XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
+          
+          
+            if (debug_mode === true) console.warn("condition_selection() || ELSE: Object.keys(between_selection_temp).length === 0");
+  
             condition_temp_array = [];
-
+  
             // For each between condition, CHECK if there are available conditions to re-assign the discarded participant
             Object.entries(between_selection_temp).forEach(([key, val]) => {
-
+  
               console.warn("condition_selection() || forEach CHECK if there are available conditions to re-assign the discarded participant");
-
+  
               // Filter those conditions where we have available slots. Create temporal list with true for available slots
               condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
             });
-
+  
             // REVIEW: ALTERNATIVE to the forEach. Would NEED an if // Commented out. Gives ERROR:'between_selection_temp.map is not a function'
             // condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection_temp); });
             console.log(between_selection_temp);
-            // ??? if (typeof between_selection_temp !== 'undefined') 
+            // ??? if (typeof between_selection_temp !== 'undefined')
             // ??? condition_temp_array = between_selection_temp[0].map(function (condition, index, array) { return (condition in between_selection_temp); });
             // if(Object.keys(between_selection_temp).length === 0)
-          }
+            
+            console.warn('condition_selection() || ELSE: if (available_conditions_ARRAY.length > 0) | actual_user.status === "assigned" | actual_user.status: ' + actual_user.status);
+  
+            // REVIEW: SPECIAL CASE WHERE A PARTICIPANT IS ASSIGNED, OVER MAX_TIME, BUT NO ONE ENTERED THE PROTOCOL, SO IT HAS NOT BEEN DISCARDED
+              // WE NEED TO CHECK IF IS THE CASE, AND THEN DISCARD IT, COUNTER -1 ETC. 
+              // IN CONDITION_SELECTION() WE JUST GIVE BACK A TRUE / FALSE. 
+              // IN THE NEXT FUNCTION, WE RE-ASSIGN, COUNTER +1, ETC. SO IF WE DO NOT "DISCARD IT" HERE, assigned_task WILL HAVE ONE MORE  
+            if (actual_user.status === "assigned") {
+              
+              // DO THIS BECAUSE LATTER IT WILL BE NEADED 
+              // UPDATE status: discarded  & protocol: counter -1
+              XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "discarded"}});
+              XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter - 1"}});
+              
+              // UPDATE assigned_task -1 for each between_selection condition
+              XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [users[i].id_user]}).then(function(user_conditions) {
+                for (var i = 0; i < user_conditions.length; i++) {
+                  XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
+                  }
+                  });
+                // This is to trick the if (condition_data_temp === undefined || condition_data_temp.length == 0)
+                condition_temp_array = [];
+                condition_temp_array = [true];
+                
+            }
 
 
-          // FINAL CHECKS FOR condition_selection() ------
-          if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
-            experiment_blocked = true;
-            console.warn("condition_selection() | Final check | Participante bloqueado por límite en condiciones");
-            resolve(false);
-          } else {
-            experiment_blocked = false;
-            console.warn("condition_selection() | Final check |  Hay cupos disponibles. Participante puede continuar");
-            resolve(true);
-          }
-          // ----------------------------------------------
+            // FINAL CHECKS FOR condition_selection() ------
+            if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
+              experiment_blocked = true;
+              console.warn("condition_selection() | Final check2 | Participante bloqueado por límite en condiciones");
+              resolve(false);
+            } else {
+              experiment_blocked = false;
+              console.warn("condition_selection() | Final check2 |  Hay cupos disponibles. Participante puede continuar");
+              resolve(true);
+            }
+            // ----------------------------------------------
+          }); // actual_user
+        }
 
-
-        }, function() {
-          console.warn("condition_selection() | Final check |  Error al cargar la seleccion de condiciones.");
-          reject(false);
-        });
-
+      }, function() {
+        console.warn("condition_selection() | Final check |  Error al cargar la seleccion de condiciones.");
+        reject(false);
+      });
     }
   );
 }
@@ -619,11 +658,11 @@ function completed_task_storage(csv, task) {
   if (debug_mode === true) console.warn("completed_task_storage()");
 
   if (task == all_tasks[all_tasks.length - 1]) {
-    last_task = true; 
+    last_task = true;
   } else {
-    last_task = false; 
+    last_task = false;
   }
-    
+
   actual_time = new Date().toISOString().slice(0, 19);
 
 
@@ -674,7 +713,7 @@ function completed_task_storage(csv, task) {
 
             // IF accept_discarded and there are available slots (protocol_blocked = false)
             if (!protocol_blocked && accept_discarded) {
-              
+
               console.warn('completed_task_storage() | actual_user.status == "discarded" --> !protocol_blocked && accept_discarded');
               user_assigned = true;
 
@@ -683,26 +722,24 @@ function completed_task_storage(csv, task) {
 
               // UPDATE start_date and status of participant in user table
                 // IMPROVE: This should be a SINGLE call
-                // REVIEW: SHOULD WE assigned_task +1 in this case? This would assume when a participant is discarded, assigned_task - 1?
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
               XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"start_date": actual_time}});
+              XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
 
-              
 
-// LAST CHANGE: REVIEW              
-XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
+                // REVIEW: THIS SOLVES THE ISSUE?????
 
- // UPDATE: assigned_task + 1 for each between_selection variable
-for (var [key, value] of Object.entries(between_selection)) {
-  for (var i = 0; i < value.length; i++) {
-    XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [value[i]]}).then(function(actual_condition) {
-      //if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || check_id_status: DISCARDED re-assigned || updateTable: experimental_condition || assigned_task: assigned_task + 1");
-      XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-    });
-  }
-}
-              
-              
+               // UPDATE: assigned_task + 1 for each between_selection variable
+              for (var [key, value] of Object.entries(between_selection)) {
+                for (var i = 0; i < value.length; i++) {
+                  XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [value[i]]}).then(function(actual_condition) {
+                    //if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " || check_id_status: DISCARDED re-assigned || updateTable: experimental_condition || assigned_task: assigned_task + 1");
+                    XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
+                  });
+                }
+              }
+
+
               console.warn('completed_task_storage() | UPDATE | status: assigned, start_date: actual_time, counter + 1, assigned_task + 1 | !user_assigned && !experiment_blocked --> actual_user.status == "discarded" --> !protocol_blocked && accept_discarded');
 
             } else {
@@ -727,6 +764,7 @@ for (var [key, value] of Object.entries(between_selection)) {
         // Check condition_data table on DB
         XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
+         if (debug_mode == true) console.warn("completed_task_storage() || Object.keys(between_selection).length" + Object.keys(between_selection).length);
 
           // CHECK if there are available slots --------------------------------
 
@@ -737,7 +775,15 @@ for (var [key, value] of Object.entries(between_selection)) {
 
           // REVIEW: between_selection comes from where?
           // REVIEW: this for loop is more complex than the others (?)
+          // starts unblocked:
+          
+          // IN protocols WITHOUT between vars, we need the protocol_blocked = false by default, but it causes issues in protocols with between vars (corner cases)
+          if (Object.keys(between_selection).length == 0) protocol_blocked = false;
+          
           for (var i = 0; i < Object.keys(between_selection).length; i++) {
+          
+            if (debug_mode == true) console.warn("completed_task_storage() || LOOP between_selection");
+            if (debug_mode == true) console.warn(between_selection);
 
             completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection[Object.keys(between_selection)[i]][0]});
 
