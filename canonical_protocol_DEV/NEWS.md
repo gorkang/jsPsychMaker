@@ -10,7 +10,6 @@ Major updates
   + Separate mysql_controller from indexedDB_controller
   + Rest of functions in helper_function.js
 * Clean up tasks:
-  + fullscreen function
   + key lock outside tasks
   + procedure in data
 * Media reorganization
@@ -28,3 +27,5 @@ Minor updates
 
 * Tasks
   + Consent changed so the input is a js variable instead of an html file (to avoid CORS issues)
+  + Final call_function() to standardize it
+  + check Fullscreen function

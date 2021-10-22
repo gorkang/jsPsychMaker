@@ -1,22 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
+questions.push( check_fullscreen('IEC') );
 IEC = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -202,15 +187,4 @@ IEC.unshift(instruction_screen_experiment);
 questions.push.apply(questions, IEC)
 
 
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'IEC'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'IEC'}).json();
-      }
-      saveData(data, online, 'IEC');
-    },
-    procedure: 'IEC'
-});
+call_function("IEC");

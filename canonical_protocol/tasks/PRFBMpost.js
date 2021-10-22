@@ -1,21 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
+questions.push( check_fullscreen('PRFBMpost') );
 PRFBMpost = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -24,7 +10,6 @@ var instruction_screen_experiment = {
     '<p><left><b><big>Preguntas sobre preferencias</big></b><br />'+'Ahora que has podido leer la información del consentimiento, te pedimos que vuelvas a responder a las preguntas sobre preferencias.' +'</p>',
     '<p><left><b><big>Preferencia modalidad de parto</big></b><br />'+'Por favor, contesta a las siguientes preguntas' +'</p>'],
     data: {trialid: 'Instructions_01', procedure: 'PRFBMpost'},
-    procedure: 'PRFBMpost',
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
@@ -145,19 +130,8 @@ PRFBMpost.push(question07);
 
 
 // Randomize order of questions
-PRFBMpost = jsPsych.randomization.repeat(PRFBMpost,1);
+if (debug_mode == 'false') PRFBMpost = jsPsych.randomization.repeat(PRFBMpost,1);
 PRFBMpost.unshift(instruction_screen_experiment);
-PRFBMpost.push.apply(questions, PRFBMpost)
+PRFBMpost.push.apply(questions, PRFBMpost);
 
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PRFBMpost'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PRFBMpost'}).json();
-      }
-      saveData(data, online, 'PRFBMpost');
-    },
-    procedure: 'PRFBMpost'
-});
+call_function("PRFBMpost");

@@ -1,22 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
+questions.push( check_fullscreen('CRTv') );
 CRTv = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -101,17 +86,5 @@ var question10 = {
 CRTv.push(question10);
 
 CRTv.unshift(instruction_screen_experiment);
-questions.push.apply(questions, CRTv)
-
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'CRTv'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'CRTv'}).json();
-      }
-      saveData(data, online, 'CRTv');
-    },
-    procedure: 'CRTv'
-});
+questions.push.apply(questions, CRTv);
+call_function("CRTv");

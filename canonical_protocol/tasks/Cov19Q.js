@@ -1,21 +1,8 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
 
-questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];    //final timeline
+questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
+questions.push( check_fullscreen('Cov19Q') );    //final timeline
 
 Cov19Q = [];    //temporal timeline
 
@@ -94,18 +81,5 @@ var question9 = {
 Cov19Q.push(question9);
 
 Cov19Q.unshift(instruction_screen_experiment);
-questions.push.apply(questions, Cov19Q)
-
-
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'Cov19Q'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'Cov19Q'}).json();
-      }
-      saveData(data, online, 'Cov19Q');
-    },
-    procedure: 'Cov19Q'
-});
+questions.push.apply(questions, Cov19Q);
+call_function("Cov19Q");

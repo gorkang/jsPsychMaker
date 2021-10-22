@@ -1,7 +1,7 @@
 <?php
 $post_data = json_decode(file_get_contents('php://input'), true);
 
-date_default_timezone_set('America/Santiago');
+date_default_timezone_set('UTC');
 $actual_time = new DateTime('NOW');
 
 // the directory "data" must be writable by the server

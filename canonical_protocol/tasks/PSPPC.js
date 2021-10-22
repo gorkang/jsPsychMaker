@@ -1,22 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
+questions.push( check_fullscreen('PSPPC') );
 PSPPC = [];    //temporal timeline
 
 /*var instruction_screen_experiment = {
@@ -72,20 +57,9 @@ var question06 = {
 };
 PSPPC.push(question06);
 
-PSPPC = jsPsych.randomization.repeat(PSPPC,1);
+if (debug_mode == 'false') PSPPC = jsPsych.randomization.repeat(PSPPC,1);
 //PSPPC.unshift(instruction_screen_experiment);
-PSPPC.push.apply(questions, PSPPC)
+PSPPC.push.apply(questions, PSPPC);
 
 
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PSPPC'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PSPPC'}).json();
-      }
-      saveData(data, online, 'PSPPC');
-    },
-    procedure: 'PSPPC'
-});
+call_function("PSPPC");

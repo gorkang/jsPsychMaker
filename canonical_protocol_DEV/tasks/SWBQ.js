@@ -198,19 +198,5 @@ var question26 = {
 SWBQ.push(question26);
 
 SWBQ.unshift(instruction_screen_experiment);
-SWBQ.push.apply(questions, SWBQ)
-
-
-
-questions.push({
-    type: 'call-function',
-    data: {trialid: 'SWBQ_000', procedure: 'SWBQ'},
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'SWBQ'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'SWBQ', procedure: 'SWBQ'}).json();
-      }
-      saveData(data, online, 'SWBQ');
-    }
-});
+SWBQ.push.apply(questions, SWBQ);
+call_function("SWBQ");

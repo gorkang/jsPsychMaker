@@ -1,22 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
+questions.push( check_fullscreen('ERQ') );
 ERQ = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -101,18 +86,5 @@ var question10 = {
 ERQ.push(question10);
 
 ERQ.unshift(instruction_screen_experiment);
-questions.push.apply(questions, ERQ)
-
-
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'ERQ'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'ERQ'}).json();
-      }
-      saveData(data, online, 'ERQ');
-    },
-    procedure: 'ERQ'
-});
+questions.push.apply(questions, ERQ);
+call_function("ERQ");

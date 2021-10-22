@@ -81,7 +81,5 @@ var question9 = {
 Cov19Q.push(question9);
 
 Cov19Q.unshift(instruction_screen_experiment);
-questions.push.apply(questions, Cov19Q)
-
-
+questions.push.apply(questions, Cov19Q);
 call_function("Cov19Q");

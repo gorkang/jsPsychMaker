@@ -1,21 +1,8 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
+questions.push( check_fullscreen('CRS') );
 
 CRS = [];    //temporal timeline
 
@@ -173,15 +160,4 @@ CRS.push(question20);
 CRS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, CRS)
 
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'CRS'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'CRS'}).json();
-      }
-      saveData(data, online, 'CRS');
-    },
-    procedure: 'CRS'
-});
+call_function("CRS");

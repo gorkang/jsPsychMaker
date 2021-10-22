@@ -19,7 +19,5 @@ var instruction_screen_experiment = {
 };
 
 Goodbye.unshift(instruction_screen_experiment);
-Goodbye.push.apply(questions, Goodbye)
-
-
+Goodbye.push.apply(questions, Goodbye);
 call_function("Goodbye");

@@ -1,21 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
+questions.push( check_fullscreen('PVC') );
 PVC = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -26,23 +12,20 @@ var instruction_screen_experiment = {
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
-    },
-    procedure: 'PVC'
+    }
 };
 
 var question001 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">¿Usted se ha vacunado contra el coronavirus / covid-19?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'PVC_001', procedure: 'PVC'},
-  procedure: 'PVC'
+  data: {trialid: 'PVC_001', procedure: 'PVC'}
 };
 PVC.push(question001);
 
 var question001_1 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">¿Usted se va a vacunar contra el coronavirus covid-19?</div>', options: ['&nbsp;Si', '&nbsp;No', '&nbsp;No estoy seguro'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'PVC_001_1', procedure: 'PVC'},
-  procedure: 'PVC'
+  data: {trialid: 'PVC_001_1', procedure: 'PVC'}
 };
 
 var if_question001_1 = {
@@ -55,23 +38,11 @@ var if_question001_1 = {
     } else {
       return false;
     }
-  },
-  procedure: 'PVC'
+  }
 };
 PVC.push(if_question001_1);
 
 //PVC.unshift(instruction_screen_experiment);
 questions.push.apply(questions, PVC);
 
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PVC'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PVC'}).json();
-      }
-      saveData(data, online, 'PVC');
-    },
-    procedure: 'PVC'
-});
+call_function("PVC");

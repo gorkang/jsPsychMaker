@@ -1,11 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
+questions.push( check_fullscreen('PRFBM') );
 PRFBM = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -78,7 +74,6 @@ var instruction_screen_experiment = {
     pages: ['<p><left>' +
     '<p><left><b><big>Motivos para tu preferencia</big></b><br />'+'Por favor, indica en que grado cada uno de estos motivos influye en tu preferencia.' +'</p>'],
     data: {trialid: 'Instructions_02', procedure: 'PRFBM'},
-    procedure: 'PRFBM',
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
@@ -134,19 +129,8 @@ PRFBM.push(question07);
 
 
 // Randomize order of questions
-PRFBM = jsPsych.randomization.repeat(PRFBM,1);
+if (debug_mode == 'false') PRFBM = jsPsych.randomization.repeat(PRFBM,1);
 PRFBM.unshift(instruction_screen_experiment);
-PRFBM.push.apply(questions, PRFBM)
+PRFBM.push.apply(questions, PRFBM);
 
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'PRFBM'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'PRFBM'}).json();
-      }
-      saveData(data, online, 'PRFBM');
-    },
-    procedure: 'PRFBM'
-});
+call_function("PRFBM");

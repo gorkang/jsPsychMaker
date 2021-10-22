@@ -1,22 +1,7 @@
-/**
- * CSCN lab
-/**
-This document was made with test_maker
-*/
-
-onkeydown = function block_fkeys(event){
-    var x = event.which || event.keyCode;
-    if(x == 112 || x == 116){
-        console.log("Blocked key");
-        event.preventDefault();
-        return false;
-    }else{
-        return;
-    }
-}
+/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-
+questions.push( check_fullscreen('HRPVB') );
 HRPVB = [];    //temporal timeline
 
 var instruction_screen_experiment = {
@@ -260,7 +245,7 @@ HRPVB_MM = [];    //temporal timeline
 // Randomize order of blocks ------------------------------------------------
 
   var order_blocks = ['HRPVB_BB','HRPVB_MM'];
-  order_blocks = jsPsych.randomization.repeat(order_blocks,1);
+  if (debug_mode == 'false') order_blocks = jsPsych.randomization.repeat(order_blocks,1);
 
   // Present blocks in random order
   order_blocks.push.apply(questions, window[order_blocks[0]]);
@@ -268,15 +253,4 @@ HRPVB_MM = [];    //temporal timeline
 
 
 
-questions.push({
-    type: 'call-function',
-    func: function(){
-      if (online) {
-        var data = jsPsych.data.get().filter({procedure: 'HRPVB'}).csv();
-      } else {
-        var data = jsPsych.data.get().filter({procedure: 'HRPVB'}).json();
-      }
-      saveData(data, online, 'HRPVB');
-    },
-    procedure: 'HRPVB'
-});
+call_function("HRPVB");

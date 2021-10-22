@@ -1,6 +1,5 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
-
 function pad(num, size) {
   num = num.toString();
   while (num.length < size) num = "0" + num;
@@ -176,5 +175,4 @@ for (var i = 0; i < 30; i++) {
 }
 
 questions.push.apply(questions, BART);
-
 call_function("BART");
