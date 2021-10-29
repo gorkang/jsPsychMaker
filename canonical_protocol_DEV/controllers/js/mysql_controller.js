@@ -308,62 +308,71 @@ function condition_selection(between_selection_temp = {}) {
 
           // Get array with unique between tasks (we need to select one condition for each one)
           unique_between_tasks = [...new Set(condition_data.map(item => item.task_name))];
+          
+          // REVIEW: With all_conditions = {}; it will never enter the for loop, and condition_selection() was not giving any response, freezing the protocol
+          if (unique_between_tasks.length === 0) {
+            
+            if (debug_mode === true) console.error('condition_selection() | unique_between_tasks EMPTY | No between_tasks defined | continuing: we assume is a protocol without between conditions'); 
+            resolve(true);
+            
+          } else {
 
-          // For each of the between tasks (usually just one)
-          for (var i = 0; i < unique_between_tasks.length; i++) {
-
-            // Temporal array for the condition i
-            ARRAY_between_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_between_tasks[i]; });
-
-            // Min number of participants assigned to a condition (assigned_task in array)
-            min_assigned_temp = Math.min.apply(Math, ARRAY_between_temp[i].map(function(value,index) { return value["assigned_task"]; }));
-
-            // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
-            // If there are more than one condition with the same number of assigned participants, we get one of them randomly
-            available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
-
-            // Only randomize when there are available conditions, otherwise, sampleWithoutReplacement gives an error
-            if (available_conditions_ARRAY.length > 0) {
-              if (debug_mode === true) console.warn("condition_selection() | Choosing between the " + available_conditions_ARRAY.length + " conditions available.");
-              randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
-              condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
-
-              if (debug_mode === true) {
-                // Create simple versions to print in console
-                SIMPLE_ARRAY = ARRAY_between_temp[0].map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
-                SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
-                available_conditions_SIMPLE_ARRAY = available_conditions_ARRAY.map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
-                available_conditions_SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(available_conditions_SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
-
-                if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " All conditions: \n " + SIMPLE_ARRAY_CHR);
-                if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " Available conditions: \n " + available_conditions_SIMPLE_ARRAY_CHR);
-                if (debug_mode === true) console.warn("Selected condition: " + available_conditions_ARRAY[randomly_selected_index].condition_name);
+            // For each of the between tasks (usually just one)
+            for (var i = 0; i < unique_between_tasks.length; i++) {
+  
+              // Temporal array for the condition i
+              ARRAY_between_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_between_tasks[i]; });
+  
+              // Min number of participants assigned to a condition (assigned_task in array)
+              min_assigned_temp = Math.min.apply(Math, ARRAY_between_temp[i].map(function(value,index) { return value["assigned_task"]; }));
+  
+              // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
+              // If there are more than one condition with the same number of assigned participants, we get one of them randomly
+              available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
+  
+              // Only randomize when there are available conditions, otherwise, sampleWithoutReplacement gives an error
+              if (available_conditions_ARRAY.length > 0) {
+                if (debug_mode === true) console.warn("condition_selection() | Choosing between the " + available_conditions_ARRAY.length + " conditions available.");
+                randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
+                condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
+  
+                if (debug_mode === true) {
+                  // Create simple versions to print in console
+                  SIMPLE_ARRAY = ARRAY_between_temp[0].map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
+                  SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
+                  available_conditions_SIMPLE_ARRAY = available_conditions_ARRAY.map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
+                  available_conditions_SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(available_conditions_SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
+  
+                  if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " All conditions: \n " + SIMPLE_ARRAY_CHR);
+                  if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " Available conditions: \n " + available_conditions_SIMPLE_ARRAY_CHR);
+                  if (debug_mode === true) console.warn("Selected condition: " + available_conditions_ARRAY[randomly_selected_index].condition_name);
+                }
+                
+              } else {
+                if (debug_mode === true) console.warn("condition_selection() | No available conditions");
               }
-              
-            } else {
-              if (debug_mode === true) console.warn("condition_selection() | No available conditions");
-            }
-
-            // FINAL CHECKS FOR NEW PARTICIPANTS ------
-            // No slots available
-            if (condition_data_temp === undefined || condition_data_temp.length == 0) {
-              experiment_blocked = true;
-              condition_temp_array = [false];
-              if (debug_mode === true) console.warn('condition_selection() | Final check NEW | No slots available'); // Ends up in jsPsych.end
-              text_input_uid.innerHTML = 'No hay cupos disponibles. <BR>Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
-              resolve(false);
-
-            // Slots available
-            } else {
-              // DEFINE VALUE OF between_selection{}
-              between_selection[unique_between_tasks[i]] = [condition_data_temp["condition_name"]];
-              experiment_blocked = false;
-              condition_temp_array = [true];
-              if (debug_mode === true) console.warn('condition_selection() | Final check NEW | Available slots'); 
-              resolve(true);
-            }
+  
+              // FINAL CHECKS FOR NEW PARTICIPANTS ------
+              // No slots available
+              if (condition_data_temp === undefined || condition_data_temp.length == 0) {
+                experiment_blocked = true;
+                condition_temp_array = [false]; // REVIEW: Needed here?
+                if (debug_mode === true) console.warn('condition_selection() | Final check NEW | No slots available'); // Ends up in jsPsych.end
+                text_input_uid.innerHTML = 'No hay cupos disponibles. <BR>Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
+                resolve(false);
+  
+              // Slots available
+              } else {
+                // DEFINE VALUE OF between_selection{}
+                between_selection[unique_between_tasks[i]] = [condition_data_temp["condition_name"]];
+                experiment_blocked = false;
+                condition_temp_array = [true]; // REVIEW: Needed here?
+                if (debug_mode === true) console.warn('condition_selection() | Final check NEW | Available slots'); 
+                resolve(true);
+              }
+            } // End of for
+            
           }
-
 
         // [[DISCARDED PARTICIPANTS]] ----------------------------------------
         // -------------------------------------------------------------------
@@ -642,7 +651,7 @@ function check_id_status(event) {
                 
                 if (debug_mode === true) console.warn("check_id_status() | IMPOSSIBLE CONDITION");
                 // jsPsych.endExperiment WON'T work here. jsPsych not defined yet. WHY?
-                text_input_uid.innerHTML('El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
+                text_input_uid.innerHTML = 'El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
                 
                 // throw ERROR so don't get to the following script_loading()
                 throw new Error('check_id_status() | IMPOSSIBLE CONDITION')

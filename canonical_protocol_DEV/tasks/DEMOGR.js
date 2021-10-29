@@ -18,18 +18,6 @@ var instruction_screen_experiment = {
     }
 };
 
-/*var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: ['<p><left>' +
-    '<p><left><b><big>Información demográfica</big></b><br />'+'Por favor, contesta a las siguientes preguntas' +'</p>'],
-    data: {trialid: 'Instructions'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
-};*/
-
-
 var question01 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">Indica tu edad</div>', type: 'number', range: [18, 100], required: true, error_text: 'Tienes que ser mayor de edad para poder participar'}],
@@ -179,16 +167,5 @@ var question19 = {
 DEMOGR.push(question19);
 
 DEMOGR.unshift(instruction_screen_experiment);
-DEMOGR.push.apply(questions, DEMOGR)
-/*
-if(window.innerWidth != screen.width || window.innerHeight != screen.height){
-  questions.unshift({
-    type: 'fullscreen',
-    message: '<p></p>',
-    button_label: 'Full screen',
-    delay_after: 0,
-    fullscreen_mode: true
-  });
-}
-*/
+DEMOGR.push.apply(questions, DEMOGR);
 call_function("DEMOGR");
