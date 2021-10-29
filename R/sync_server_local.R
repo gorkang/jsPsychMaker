@@ -1,11 +1,16 @@
 # Sync server with local Maker
-sync_server_local <- function(server_folder, local_folder, direction) {
+sync_server_local <- function(server_folder, local_folder, direction, only_test = TRUE) {
   
   # DEBUG
   # server_folder = "test/FONDECYT2021/"
   # local_folder = "canonical_protocol_DEV/"
   # direction = "server_to_local"
   
+  if (only_test == TRUE) {
+    dry_run = " --dry-run "
+  } else {
+    dry_run = ""
+  }
   
   local_folder = normalizePath(here::here(local_folder))
   
@@ -53,7 +58,7 @@ sync_server_local <- function(server_folder, local_folder, direction) {
       
       # DOWNLOAD test/FONDECYT2021 protocol to local maker
       system(
-        paste0('sshpass -p ', list_credentials$value$password, ' rsync -av --rsh=ssh ', 
+        paste0('sshpass -p ', list_credentials$value$password, ' rsync -av ', dry_run, ' --rsh=ssh ', 
                list_credentials$value$user, "@", list_credentials$value$IP, ":", list_credentials$value$main_FOLDER, server_folder, '/ ',
                here::here(local_folder), '/ '
         )
@@ -64,7 +69,7 @@ sync_server_local <- function(server_folder, local_folder, direction) {
       
       # UPLOAD local maker to test/FONDECYT2021 
       system(
-        paste0('sshpass -p ', list_credentials$value$password, ' rsync -av --rsh=ssh ', 
+        paste0('sshpass -p ', list_credentials$value$password, ' rsync -av ', dry_run, ' --rsh=ssh ', 
                here::here(local_folder), '/ ',
                list_credentials$value$user, "@", list_credentials$value$IP, ":", list_credentials$value$main_FOLDER, server_folder, '/ '
         )
