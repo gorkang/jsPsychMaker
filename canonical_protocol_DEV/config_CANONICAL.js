@@ -46,7 +46,7 @@ first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // All the tasks where the order of items is sequential in debug_mode
-secuentially_ordered_tasks_1 = ["AIM", "BNT", "bRCOPE", "CAS", "Cov19Q", "COVIDCONTROL", "CRS", "CRT7", "CRTMCQ4", "CRTv", "DASS21", "DEBRIEF", "DEMOGR", "EAR", "ERQ", "ESM", "FDMQ", "GHQ12", "IBT", "IDQ", "IEC", "IRI", "IRS", "MIS", "OBJNUM", "OTRASRELIG", "PBS", "PSETPP", "PSPPC", "PSS", "PVC", "PWb", "REI40", "Report", "RSS", "RTS", "SASS", "SBS", "SCSORF", "SDG", "SRA", "SRBQP", "SRSav", "STAI", "SWBQ", "WEBEXEC"];
+secuentially_ordered_tasks_1 = ["AIM", "BNT", "bRCOPE", "CAS", "Cov19Q", "COVIDCONTROL", "CRS", "CRT7", "CRTMCQ4", "CRTv", "DASS21", "DEBRIEF", "DEMOGR", "EAR", "ERQ", "ESM", "FDMQ", "GBS", "GHQ12", "IBT", "IDQ", "IEC", "IRI", "IRS", "MIS", "OBJNUM", "OTRASRELIG", "PBS", "PSETPP", "PSPPC", "PSS", "PVC", "PWb", "REI40", "Report", "RSS", "RTS", "SASS", "SBS", "SCSORF", "SDG", "SRA", "SRBQP", "SRSav", "STAI", "SWBQ", "WEBEXEC"];
 
 // Between tasks [random order unavoidable]
 secuentially_ordered_tasks_2 = ["HRPVB", "HRPVBpost", "PRFBM", "PRFBMpost", "FONDECYT", "INFCONS"];
