@@ -6,10 +6,16 @@ invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   # sync_server_local(server_folder = "test/tasks_DEV/", local_folder = "tasks_DEV/", direction = "local_to_server")
   # sync_server_local(server_folder = "test/10/", local_folder = "10/", direction = "local_to_server")
 
-# sync_server_local(direction = "local_to_server", server_folder = "999", local_folder = "canonical_protocol_DEV/")
+sync_server_local(direction = "local_to_server", local_folder = "canonical_protocol_DEV/", server_folder = "999", only_test = FALSE)
 
 
--Preparar lineas para sincronizar SOLO maquinaria a tasks_DEV
+# sync_server_local(direction = "local_to_server", local_folder = "DEV_protocols/10/", server_folder = "10", only_test = FALSE)
+# sync_server_local(direction = "local_to_server", local_folder = "DEV_protocols/12/", server_folder = "12", only_test = FALSE)
+
+# sync_server_local(direction = "local_to_server", local_folder = "DEV_protocols/10/", server_folder = "10")
+
+
+-Preparar lineas para sincronizar SOLO maquinaria a otros protocolos
 
 
 # DELETE DATA FILES
@@ -21,7 +27,8 @@ invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
 
 # 1) canonical_protocol_DEV: SERVER -->> LOCAL
 # DOWNLOAD  http://cscn.uai.cl/lab/public/instruments/protocols/test/canonical_protocol_DEV/ TO canonical_protocol_DEV 
-  sync_server_local(server_folder = "test/canonical_protocol_DEV/", local_folder = "canonical_protocol_DEV/", direction = "server_to_local")
+  sync_server_local(direction = "server_to_local", server_folder = "test/canonical_protocol_DEV/", local_folder = "canonical_protocol_DEV/")
+  sync_server_local(direction = "local_to_server", local_folder = "canonical_protocol_DEV/", server_folder = "999")
 
 
 # 2) canonical_protocol_DEV: SERVER -->> LOCAL

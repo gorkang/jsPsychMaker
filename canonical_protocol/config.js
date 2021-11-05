@@ -46,7 +46,7 @@ video = [];
 
 
 // BETWEEN participants variables ----------------------------------------------
-all_conditions = {};
+all_conditions = {"protocol": {"type": ["survey"]}};
 
    // If you have a task with between participants variables:
    //all_conditions = {"NAMETASK": {"type": ["Condition1", "Condition2"]}};
