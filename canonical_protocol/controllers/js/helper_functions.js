@@ -257,7 +257,7 @@ function continue_page_activation(completed_experiments, questions, completed = 
   actual_time = new Date().toISOString().slice(0, 19);
   max_sec = date_to_mil(max_time);
   if (typeof user_start_date == 'undefined') user_start_date = ""
-  DBtime = user_start_date;
+  DBtime = user_start_date.replace(" ","T");
   seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
   hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
   minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON));

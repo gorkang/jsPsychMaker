@@ -851,7 +851,7 @@ function completed_task_storage(csv, task) {
                 //actual_time = new Date;
 
                 actual_time = new Date().toISOString().slice(0, 19);
-                DBtime = actual_user.start_date;
+                DBtime = actual_user.start_date.replace(" ","T");
                 seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
                 hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
                 minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON) * 100) / 100;
