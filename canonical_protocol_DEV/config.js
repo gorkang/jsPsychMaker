@@ -3,9 +3,9 @@
 // Main parameters -------------------------------------------------------------
 pid = 999; // Protocol ID [number]
 online = true; // Protocol runs online [true/false]
-max_participants = 3; // Max participants per contition [number]
+max_participants = 100; // Max participants per contition [number]
 random_id = false; // Assign random id to participants [true/false]
-max_time = "00:13:00"; // Max time to complete the protocol [HH:MM:SS]
+max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
 debug_mode = true; // SHOULD be false in production
 
@@ -24,29 +24,25 @@ intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100
 first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
-// All the tasks where the order of items is sequential in debug_mode
-secuentially_ordered_tasks_1 = ["AIM", "BNT", "STAI", "SWBQ", "WEBEXEC"];
+// Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
+randomly_ordered_tasks_1 = ['DEMOGR', 'AIM']; // Block of tasks in random order
+secuentially_ordered_tasks_1 = ['IDQ', 'REI40']; // Block of tasks in sequential order
 
-// Between tasks [random order unavoidable]
-//secuentially_ordered_tasks_2 = ["FONDECYT", "INFCONS"];
-
-// More randomness
-// secuentially_ordered_tasks_3 = ["EmpaTom", "BART"];
-
-// FINAL ARRAY
-tasks = ['first_tasks', 'secuentially_ordered_tasks_1',  'last_tasks'];
-
+// FINAL ARRAY of tasks [build combining the above blocks]
+  // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];
+tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks'];
 
 
 
 // MEDIA preloading ------------------------------------------------------------
+
 message_str = 'El protocolo está cargando, espere un momento...'; // Message when preloading media
 
 // media to preload in protocol_controller
 img_folder = 'media/img/';
 audio_folder = 'media/audio/';
 
-images =  [img_folder + 'VPP_low.png',  img_folder + 'VPP_high.png', img_folder + 'VPN_low.png',  img_folder + 'VPN_high.png', 
+images =  [img_folder + 'VPP_low.png',  img_folder + 'VPP_high.png', img_folder + 'VPN_low.png',  img_folder + 'VPN_high.png',
           img_folder + 'BART_redBalloon.png',
           img_folder + 'Baby_cerebro_VC.png', img_folder + 'Baby_lactancia_VC.png', img_folder + 'Baby_respiratorios_VC.png', img_folder + 'Baby_UCI_VC.png', img_folder + 'Mother_anestesia_VC.png', img_folder + 'Mother_depresion_VC.png', img_folder + 'Mother_histerectomia_VC.png', img_folder + 'Mother_infeccion_VC.png', img_folder + 'Mother_lesion_VC.png', img_folder + 'Mother_paro_VC.png', img_folder + 'Mother_UCI_VC.png'
           ];
@@ -55,9 +51,10 @@ video = ['media/vid/Entrevista1.mp4'];
 
 
 
-// BETWEEN participants variables ----------------------------------------------
+// BETWEEN subject variables ----------------------------------------------
+
+// If there is no between-subject task:  
 all_conditions = {"protocol": {"type": ["survey"]}};
-/* all_conditions = {
-  "FONDECYT": {"type": ["Text", "Image"]}
-  };
-  */
+
+// If there are between-subject tasks:
+//all_conditions = {"NAMETASK": {"type": ["Condition1", "Condition2"]}};
