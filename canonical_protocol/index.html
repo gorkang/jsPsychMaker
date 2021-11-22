@@ -5,7 +5,7 @@
   <meta charset='UTF-8'>
   <title>Experimentos CSCN</title>
   <link rel="stylesheet" href="jsPsych-6/css/jspsych.css">
-  
+
   <!-- Main jsPsych library -->
   <script src="jsPsych-6/jspsych.js"></script>
 
@@ -44,32 +44,33 @@
         text_input_uid.innerHTML = intro_HTML;
         document.getElementById("check").removeAttribute("style");
         document.getElementById("input_uid").hidden = false;
-      } 
+      }
     }
   </script>
 
 
 
   <!-- LOAD Protocol Plugins at the end -->
-  
+
   <!-- Esential plugins -->
   <script src="jsPsych-6/plugins/jspsych-call-function.js"></script>
   <script src="jsPsych-6/plugins/jspsych-preload.js"></script>
-  
+
   <!-- Protocol Plugins: CANONICAL -->
+  <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-instructions.js"></script>
   <script src="jsPsych-6/plugins/jspsych-video-button-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-image-button-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-external-html.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-horizontal.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-vertical.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-select.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-html-button-response.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-image-button-response.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-instructions.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-external-html.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-survey-text.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-html-slider-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-html-form.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-text.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-html-button-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-html-slider-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-html-keyboard-response.js"></script>
 
   <!-- Protocol Plugins: CUSTOM -->
   <script src="jsPsych-6/plugins/jspsych-audio-button-response-CSCN-BART.js"></script>
