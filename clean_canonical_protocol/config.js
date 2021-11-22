@@ -3,7 +3,7 @@
 // Main parameters -------------------------------------------------------------
 pid = 999; // Protocol ID [number]
 online = true; // Protocol runs online [true/false]
-max_participants = 100; // Max participants per contition [number]
+max_participants = 1000; // Max participants per contition [number]
 random_id = false; // Assign random id to participants [true/false]
 max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
@@ -42,18 +42,15 @@ message_str = 'El protocolo está cargando, espere un momento...'; // Message wh
 img_folder = 'media/img/';
 audio_folder = 'media/audio/';
 
-images =  [img_folder + 'VPP_low.png',  img_folder + 'VPP_high.png', img_folder + 'VPN_low.png',  img_folder + 'VPN_high.png',
-          img_folder + 'BART_redBalloon.png',
-          img_folder + 'Baby_cerebro_VC.png', img_folder + 'Baby_lactancia_VC.png', img_folder + 'Baby_respiratorios_VC.png', img_folder + 'Baby_UCI_VC.png', img_folder + 'Mother_anestesia_VC.png', img_folder + 'Mother_depresion_VC.png', img_folder + 'Mother_histerectomia_VC.png', img_folder + 'Mother_infeccion_VC.png', img_folder + 'Mother_lesion_VC.png', img_folder + 'Mother_paro_VC.png', img_folder + 'Mother_UCI_VC.png'
-          ];
-audios = [audio_folder + 'BART_inflate.mp3', audio_folder + 'BART_explode.mp3', audio_folder + 'BART_collect.mp3', audio_folder + 'silence.mp3'];
-video = ['media/vid/Entrevista1.mp4'];
+images =  [/*img_folder + 'VPP_low.png'*/];
+audios = [/*audio_folder + 'BART_inflate.mp3'*/];
+video = [/*'media/vid/Entrevista1.mp4'*/];
 
 
 
 // BETWEEN subject variables ----------------------------------------------
 
-// If there is no between-subject task:  
+// If there is no between-subject task:
 all_conditions = {"protocol": {"type": ["survey"]}};
 
 // If there are between-subject tasks:
