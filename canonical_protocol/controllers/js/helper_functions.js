@@ -264,7 +264,7 @@ function continue_page_activation(completed_experiments, questions, completed = 
   } else if (discarded && !accept_discarded) {
     text_input_uid.innerHTML = "Este participante fue descartado del protocolo por superar el tiempo asignado.";
   } else { // New participant
-    text_input_uid.innerHTML = (intro_HTML).concat("<br><br>Presiona el siguiente botón para comenzar.");
+    text_input_uid.innerHTML = (outro_HTML).concat("<br><br>Presiona el siguiente botón para comenzar.");
     start.hidden = false;
     start.removeAttribute("style");
   }

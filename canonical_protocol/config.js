@@ -18,6 +18,10 @@ intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100
   'Si tienes alguna duda, puedes escribirnos a: <mailto::CORREO@CORREO.COM>CORREO@CORREO.COM</mailto><BR><BR>' +
   'Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="controllers/media/compatible_chrome.png" name="Chrome" align="bottom" border="0", height="24", width="24"/></a>';
 
+  outro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="controllers/media/logo.png" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div>' +
+    'Para cambiar este texto, edita la variable outro_HTML en config.js<BR><BR>' +
+    'Si tienes alguna duda, puedes escribirnos a: <mailto::CORREO@CORREO.COM>CORREO@CORREO.COM</mailto><BR><BR>' +
+    'Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="controllers/media/compatible_chrome.png" name="Chrome" align="bottom" border="0", height="24", width="24"/></a>';
 
 // ORDER OF TASKS --------------------------------------------------------------
 
@@ -53,7 +57,7 @@ video = ['media/vid/Entrevista1.mp4'];
 
 // BETWEEN subject variables ----------------------------------------------
 
-// If there is no between-subject task:  
+// If there is no between-subject task:
 all_conditions = {"protocol": {"type": ["survey"]}};
 
 // If there are between-subject tasks:
