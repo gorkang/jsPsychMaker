@@ -88,6 +88,26 @@ function pad(num, size) {
     return num;
 }
 
+function isNormalInteger(str) {
+    str = str.trim();
+    if (!str) {
+        return false;
+    }
+    str = str.replace(/^0+/, "") || "0";
+    var n = Math.floor(Number(str));
+    return String(n) === str && n >= 0;
+}
+
+function json_can_parsed(data) {
+  if (/^[\],:{}\s]*$/.test(data.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+    //the json is ok
+    return true;
+  }else{
+    //the json is not ok
+    return false;
+  }
+}
+
 // config_controller.js -------------------------------------------------------------
 
 onkeydown = function block_fkeys(event){

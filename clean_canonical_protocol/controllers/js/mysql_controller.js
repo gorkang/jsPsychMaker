@@ -1,25 +1,3 @@
-function isNormalInteger(str) {
-    str = str.trim();
-    if (!str) {
-        return false;
-    }
-    str = str.replace(/^0+/, "") || "0";
-    var n = Math.floor(Number(str));
-    return String(n) === str && n >= 0;
-}
-
-function json_can_parsed(data) {
-  if (/^[\],:{}\s]*$/.test(data.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-    //the json is ok
-    return true;
-  }else{
-    //the json is not ok
-    return false;
-  }
-}
-
-
-
 // XMLcall() ------------------------------------------------------------------
 
 // wait_for_response makes the calles synchronic
@@ -115,8 +93,6 @@ function XMLcall (query, table_name, elements = {}, sql = "", wait_for_response 
   );
 }
 
-
-
 // start_mysqldb() -------------------------------------------------------------
 
 function start_mysqldb(pid, max_participants) {
@@ -156,7 +132,6 @@ function start_mysqldb(pid, max_participants) {
 
   });
 
-
   // These two need to run always
   XMLcall("insertIntoTable", "protocol", {dict: {id_protocol: pid, max_participants: max_participants}});
   for (var j in conditions) {
@@ -165,14 +140,12 @@ function start_mysqldb(pid, max_participants) {
 
 }
 
-
-
 // clean_mysql() ---------------------------------------------------------------
 
 // Clean DB from discarded users (time since started protocol > max_time)
 function clean_mysql(){
 
-if (debug_mode === true) console.warn("clean_mysql()");
+  if (debug_mode === true) console.warn("clean_mysql()");
 
   // REVIEW: clean_mysql should be done before check_id_status()
   // This is important because now we say there are no slots before cleaning up discarded
@@ -220,15 +193,13 @@ if (debug_mode === true) console.warn("clean_mysql()");
 
 }
 
-
-
 // load_clean_mysql() ----------------------------------------------------------
 
 // DB clean with clean_mysql() and block conditions with no slots available
 
 function load_clean_mysql(iterations_for_review, max_participants) {
 
-if (debug_mode === true) console.warn("load_clean_mysql()");
+  if (debug_mode === true) console.warn("load_clean_mysql()");
 
   XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
@@ -247,7 +218,6 @@ if (debug_mode === true) console.warn("load_clean_mysql()");
     }, function () {
       if (debug_mode === true) console.warn("protocol table not found")
     })
-
 
     // Update blocked conditions based on assigned_task >= max_participants
     for (var i = 0; i < condition_data.length; i++) {
@@ -269,9 +239,6 @@ if (debug_mode === true) console.warn("load_clean_mysql()");
     if (debug_mode === true) console.warn("Condition Table not found");
   });
 }
-
-
-
 
 // condition_selection() --------------------------------------------------------
 
@@ -458,7 +425,6 @@ function condition_selection(between_selection_temp = {}) {
 // Used on index.html. Verify status of user id.
 // If NEW participant: calls condition_selection() to check if there are available slots. If there are, calls script_loading()
 // If OLD participant: recovers between_condition from DB and calls condition_selection(between_condition) to check if there are available slots for the between_condition of the participant.
-  // -
 function check_id_status(event) {
 
   if (debug_mode === true) console.warn("check_id_status()");
