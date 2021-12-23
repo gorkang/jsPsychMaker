@@ -7,8 +7,10 @@ sync_server_local <- function(server_folder, local_folder, direction, only_test 
   # direction = "server_to_local"
   
   if (only_test == TRUE) {
+    extra_message = paste0(cli::col_red("THIS IS A dry-run"))
     dry_run = " --dry-run "
   } else {
+    extra_message = ""
     dry_run = ""
   }
   
@@ -36,13 +38,14 @@ sync_server_local <- function(server_folder, local_folder, direction, only_test 
   # CHECK -------------------------------------------------------------------
   
   if (direction == "server_to_local") {
-    message_text = paste0(cli::col_yellow("Will sync: "), cli::col_silver("cscn.uai.cl/", server_folder, " -->> ", local_folder))
+    message_text = paste0(cli::col_yellow("Will sync: "), cli::col_silver("cscn.uai.cl/", server_folder, " -->> ", local_folder), "\n", extra_message)
   } else if (direction == "local_to_server") {
-    message_text = paste0(cli::col_yellow("Will sync: "), cli::col_silver(local_folder, " -->> ", "cscn.uai.cl/", server_folder))
+    message_text = paste0(cli::col_yellow("Will sync: "), cli::col_silver(local_folder, " -->> ", "cscn.uai.cl/", server_folder), "\n", extra_message)
   } else {
     cli::cli_text(cli::col_red("{cli::symbol$cross} "), "direction should be either 'server_to_local' or 'local_to_server'")
     stop()
   }
+  
   out <- utils::menu(c("yes", "no"), title = cat(message_text))
   
   
