@@ -6,7 +6,7 @@ SASS = [];    //temporal timeline
 
 var instruction_screen_experiment = {
     type: 'instructions',
-    pages: ['<p><left><b><big></big></b><br />'+
+    pages: ['<p><left><b><big>SASS</big></b><br />'+
     'Por favor responda las siguientes preguntas marcando la opción de respuesta que más lo/a representa.' +'</p>'],
     data: {trialid: 'Instructions_01', procedure: 'SASS'},
     show_clickable_nav: true,
@@ -101,14 +101,14 @@ SASS.push(question08);
 
 var question09 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">8- Fuera de su familia, ¿tiene relaciones con:</div>', options: ['&nbsp;Muchas personas?', '&nbsp;Algunas personas?', '&nbsp;Pocas personas?', '&nbsp;Nadie?'], required: true,  random_options: false, horizontal: false}],
+  questions: [{prompt: '<div class="justified">8- Fuera de su familia, tiene relaciones con:</div>', options: ['&nbsp;Muchas personas', '&nbsp;Algunas personas', '&nbsp;Pocas personas', '&nbsp;Nadie'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'SASS_09', procedure: 'SASS'}
 };
 SASS.push(question09);
 
 var question10 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">9. ¿Intenta formar relaciones con otras personas:</div>', options: ['&nbsp;Muy activamente?', '&nbsp;Activamente?', '&nbsp;Moderadamente?', '&nbsp;Pasivamente?'], required: true,  random_options: false, horizontal: false}],
+  questions: [{prompt: '<div class="justified">9. Intenta formar relaciones con otras personas:</div>', options: ['&nbsp;Muy activamente', '&nbsp;Activamente', '&nbsp;Moderadamente', '&nbsp;Pasivamente'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'SASS_10', procedure: 'SASS'}
 };
 SASS.push(question10);

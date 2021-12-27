@@ -6,7 +6,7 @@ STAI = [];    //temporal timeline
 
 var instruction_screen_experiment = {
     type: 'instructions',
-    pages: ['<p><left><b><big>STAI</big></b><br />'+
+    pages: ['<p><left><b><big>STAI (estado)</big></b><br />'+
     '<br> <p> A continuación, aparecerán algunas expresiones que la gente usa para describirse a sí mismos. Lea cada frase e indique como se siente ahora mismo o sea EN ESTE MOMENTO. No hay contestaciones buenas o malas. No utilice mucho tiempo en cada frase, pero trate de dar la respuesta que mejor describa SUS SENTIMIENTOS AHORA.</p>'],
     data:{trialid: 'Instructions_01', procedure: 'STAI'},
     show_clickable_nav: true,
@@ -154,6 +154,18 @@ var question20 = {
   data: {trialid: 'STAI_20', procedure: 'STAI'}
 };
 STAI.push(question20);
+
+var instruction_screen_experiment_02 = {
+    type: 'instructions',
+    pages: ['<p><left><b><big>STAI (rasgo)</big></b><br />'+
+    '<br> <p> Abajo aparecen algunas expresiones que la gente usa para describirse a sí mismos. Lea cada frase y coloque una cruz en el casillero que indique cómo se siente GENERALMENTE. No hay contestaciones buenas o malas. No utilice mucho tiempo en cada frase, pero trate de dar la respuesta que mejor describa CÓMO SE SIENTE GENERALMENTE.</p>'],
+    data:{trialid: 'Instructions_02', procedure: 'STAI'},
+    show_clickable_nav: true,
+    on_trial_start: function(){
+        bloquear_enter = 0;
+    }
+};
+STAI.push(instruction_screen_experiment_02);
 
 var question21 = {
   type: 'survey-multi-choice-horizontal',
