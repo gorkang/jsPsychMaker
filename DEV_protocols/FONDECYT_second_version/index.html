@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html style="height: 100%;">
+
+<head>
+  <meta charset='UTF-8'>
+  <title>Experimentos CSCN</title>
+  <link rel="stylesheet" href="jsPsych-6/css/jspsych.css">
+
+  <!-- Main jsPsych library -->
+  <script src="jsPsych-6/jspsych.js"></script>
+
+  <!-- Protocol Configuration -->
+  <script src="config.js"></script>
+  <script src="media/consent/consent-placeholder.js"></script>
+
+  <script>if (debug_mode === true) alert("debug_mode == true: RANDOMIZATION of items is OFF");</script>
+
+  <!-- Helper functions -->
+  <script src="controllers/js/helper_functions.js"></script>
+
+  <!-- intense js for images -->
+  <script src="controllers/js/intense.js"></script>
+</head>
+
+
+<body id="general_body" style="height:100%;" class=" jspsych-display-element">
+
+  <div class="jspsych-content-wrapper">
+    <div id="jspsych-content" class="jspsych-content">
+      <div class="jspsych-instructions-nav" style="padding: 10px 0px; align: center">
+        <span id="text_input_uid">Cargando protocolo... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/></span><br><br>
+        <input id="input_uid" hidden="true" required>
+        <input style="display:none !important" id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn">
+        <input style="display:none !important" id="start" type="button" onclick="start_protocol(questions)" value="Continuar" class="jspsych-btn" hidden>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    if (random_id) {
+      document.getElementById("input_uid").value = jsPsych.randomization.randomID(20);
+      // REVIEW: Aqui no avanza si se pasa el uid por URL?
+    } else {
+      if (!params.has("uid")){
+        text_input_uid.innerHTML = intro_HTML;
+        document.getElementById("check").removeAttribute("style");
+        document.getElementById("input_uid").hidden = false;
+      }
+    }
+  </script>
+
+
+
+  <!-- LOAD Protocol Plugins at the end -->
+
+  <!-- Esential plugins -->
+  <script src="jsPsych-6/plugins/jspsych-call-function.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-preload.js"></script>
+
+  <!-- Instructions with intense for images zoom -->
+  <script src="jsPsych-6/plugins/jspsych-instructions-intense.js"></script>
+
+  <!-- Protocol Plugins: CANONICAL -->
+  <script src="jsPsych-6/plugins/jspsych-video-button-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-multi-choice.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-horizontal.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-vertical.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-multi-select.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-html-button-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-image-button-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-external-html.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-text.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-html-slider-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-html-form.js"></script>
+
+  <!-- Protocol Plugins: CUSTOM -->
+  <script src="jsPsych-6/plugins/jspsych-audio-button-response-CSCN-BART.js"></script>
+
+   <script>
+    // CSS load (css_loading.js)
+    window.onload = function() {
+      link=document.createElement('link');
+      link.rel='stylesheet';
+      link.type='text/css';
+      if (!hasTouchScreen) {
+        link.href='controllers/css/style.css';
+      } else {
+        link.href='controllers/css/style_phone.css';
+      }
+      document.getElementsByTagName('head')[0].appendChild(link);
+      check_id_status();
+    };
+  </script>
+
+
+  <!-- Database initialization and control -->
+  <script>
+  // Load online (mysql_controller) or offline (indexedDB_controller) controller script
+  // Last line of the scripts will perform the DB check/clean
+  var head = document.getElementsByTagName('head')[0];
+  var js = document.createElement("script");
+  js.type = "text/javascript";
+  if (online) {
+    js.src = "controllers/js/mysql_controller.js";
+  } else {
+      js.src = "controllers/js/indexedDB_controller.js";
+  }
+  head.appendChild(js);
+  </script>
+
+  </body>
+</html>
