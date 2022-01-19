@@ -2,20 +2,20 @@
 
 // Template variables
 path_logo = "controllers/media/logo.png";
-var_title = `[[Título del proyecto]]`;
-var_researcher_name = `[[Nombre investigador/a]]`;
-var_researcher_email = `[[EMAIL investigador/a]]`;
-var_researcher_affiliation = `[[Afiliacion investigador/a]]`;
-var_researcher_university = `[[Universidad investigador/a]]`;
+var_title = `Comprensión y toma de decisiones en población general y personal sanitario de pruebas de screening y diagnósticas: hacia la toma de decisiones conjunta`;
+var_researcher_name = `Gorka Navarrete`;
+var_researcher_email = `gorkang@edu.uai.cl`;
+var_researcher_affiliation = `Centro de Neurociencia Social y Cognitiva`;
+var_researcher_university = `Universidad Adolfo Ibáñez`;
 
 var_ethics_comitee_name_president = `[[Nombre presidenta/e comité ética]]`;
-var_ethics_comitee_phone = `[[Teléfono presidenta/e comité ética]]`;
+var_ethics_comitee_phone = `(562) 2331-1319`;
 var_ethics_comitee_email = `[[Email presidenta/e comité ética]]`;
 
 
-var_purpose = `[[Breve descripcion del proposito del proyecto]]`;
-var_procedure = `[[Breve descripcion del procedimiento]]`;
-var_comprehension = `[[Breve descripción de factores que comprenderemos mejor tras el estudio]]`;
+var_purpose = `Con su firma, usted accede a participar en este proyecto. En él, estamos investigando como las personas razonan y toman decisiones en contextos médicos. Este estudio es financiado por FONDECYT`;
+var_procedure = `En este experimento, usted deberá completar algunas pruebas y cuestionarios en un computador. Su tarea consistirá en responder lo más fiel y cuidadosamente que pueda. El tiempo que tomará su participación variará dependiendo de lo rápido que complete las tareas. Sin embargo, estimamos que ese tiempo no superará los 10 minutos`;
+var_comprehension = `cómo las personas razonan y toman decisiones. También podrían beneficiar a las ciencias aplicadas, que usan hallazgos empíricos obtenidos de experimentos como éste`;
 
 
 // The content of intro_CONSENT will be shown in the Consent.js task
@@ -37,4 +37,3 @@ intro_CONSENT = `
 </div>
 
 `;
-

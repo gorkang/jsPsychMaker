@@ -13,8 +13,6 @@ if (debug_mode === true) console.warn("helper_functions()");
 
 // ----------------------------------------------------------------------------
 
-
-
 // Parameters - Do not change ----------------------------------
 
 let params = new URLSearchParams(location.search);
@@ -41,14 +39,11 @@ Object.entries(all_conditions).forEach(([task_name, condition_dict]) => {
 // obtaining final array
 all_tasks = flatten(tasks);
 
-
 // Create tasks Array for DB
 var tasks = [];
 for(var i= 0; i < all_tasks.length; i++) {
   tasks.push({ id_protocol: pid, task_name: all_tasks[i]});
 }
-
-
 
 // css_loading.js -------------------------------------------------------------
 
@@ -87,8 +82,6 @@ window.onload = function() {
   document.getElementsByTagName('head')[0].appendChild(link);
 }*/
 
-
-
 // config_controller.js -------------------------------------------------------------
 
 onkeydown = function block_fkeys(event){
@@ -115,7 +108,6 @@ function flatten(arr) {
   }
   return final_arr;
 }
-
 
 
 // save_data.js -------------------------------------------------------------
@@ -158,8 +150,6 @@ function saveData(data, online, name, version = 'original') {
   }
 }
 
-
-
 // script_loading.js -------------------------------------------------------------
 
 // Load all experiments in a folder included in an array
@@ -192,7 +182,6 @@ function script_loading(folder, array, completed_experiments = [], new_element =
 	}
 }
 
-
 // protocol_controller.js -------------------------------------------------------------
 
 function date_to_mil(date) {
@@ -212,6 +201,7 @@ function check_fullscreen(task_name) {
       button_label: 'Full screen',
       delay_after: 0,
       fullscreen_mode: true,
+      button_label: 'Entrar en pantalla completa',
       data: {procedure: task_name}
     }],
     data: {procedure: task_name},
@@ -224,10 +214,7 @@ function check_fullscreen(task_name) {
   });
 }
 
-
-
 function call_function(task_name) {
-
   questions.push({
       type: 'call-function',
       data: {trialid: task_name + '_000', procedure: task_name},
@@ -240,9 +227,7 @@ function call_function(task_name) {
         saveData(data, online, task_name);
       }
   });
-
 }
-
 
 // En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
 function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
@@ -262,7 +247,6 @@ function continue_page_activation(completed_experiments, questions, completed = 
   hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
   minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON));
   discard_time_message = " <B>Tu cupo caducará en " + hours_until_discarded + " horas [" + minutes_until_discarded + " minutos].</B>";
-
 
   // se selecciona el texto a mostrar y si es que se muestra o no el botón para continuar con el protocolo en el punto en el que quedó
   if (completed_experiments.length !== 0 && questions.length !== 0) {
@@ -377,13 +361,13 @@ function start_protocol(questions){
     message_progress_bar: 'Porcentaje completado',
     fullscreen: true,
     on_interaction_data_update: function(data){
-      if (data.event == 'fullscreenexit'){
+      if (data.event == 'fullscreenexit' & !hasTouchScreen){
         alert("Si sales de pantalla completa pueden perderse datos. Por favor, pulsa F11 para volver al experimento.");
-      }}
+      }
+    }
   });
 
 }
-
 
 // flattenObject -------------------------------------------------------------
 
@@ -408,3 +392,63 @@ function flattenObject(ob) {
     return toReturn;
     //JSON.stringify(flattenObject());
 }
+
+// image_zoom controller ------------------------------------------------------
+
+function image_zoom() {
+  let imgs = document.querySelectorAll('img');
+  for (var i = 0; i < imgs.length; i++) {
+    let img = imgs[i];
+    if (img) {
+      if (zoom_type == 'Intense') {
+        Intense(img);
+      } else if (zoom_type == 'fullPage') {
+
+        if (!(document.querySelector('#fullpage_image'))) {
+          var elemDiv = document.createElement('div');
+          elemDiv.id = "fullpage_image";
+
+          let parent = document.querySelector('#jspsych-content');
+          //document.body.appendChild(elemDiv);
+          parent.appendChild(elemDiv);
+          elemDiv.setAttribute("onclick", "this.style.display='none';");
+        }
+
+        let fullPage = document.querySelector('#fullpage_image');
+        img.addEventListener('click', function() {
+          fullPage.style.backgroundImage = 'url(' + img.src + ')';
+          fullPage.style.display = 'block';
+        });
+      }
+    }
+  }
+}
+
+// direccion pantalla para celulares ------------------------------------------
+
+var giro_check = false;
+
+function check_orientation() {
+  if (hasTouchScreen) {
+    return (window.orientation);
+  } else {
+    return (0);
+  }
+};
+
+function rectify_orientation() {
+  if (hasTouchScreen){
+    if (giro_check){
+      if (document.querySelector('#jspsych-instructions-next')) {
+        if (check_orientation() == 0) {
+          document.querySelector('#jspsych-instructions-next').disabled = true;
+        } else {
+          document.querySelector('#jspsych-instructions-next').disabled = false;
+        }
+      }
+    }
+  }
+}
+
+window.addEventListener("resize", rectify_orientation, false);
+window.addEventListener("orientationchange", rectify_orientation, false);

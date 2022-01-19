@@ -5,7 +5,7 @@
   <meta charset='UTF-8'>
   <title>Experimentos CSCN</title>
   <link rel="stylesheet" href="jsPsych-6/css/jspsych.css">
-  
+
   <!-- Main jsPsych library -->
   <script src="jsPsych-6/jspsych.js"></script>
 
@@ -18,6 +18,11 @@
   <!-- Helper functions -->
   <script src="controllers/js/helper_functions.js"></script>
 
+  <!-- intense js for images -->
+  <script src="controllers/js/intense.js"></script>
+
+  <!-- intense css for image_zoom -->
+  <link rel="stylesheet" href="controllers/css/image_zoom.css">
 </head>
 
 
@@ -44,18 +49,21 @@
         text_input_uid.innerHTML = intro_HTML;
         document.getElementById("check").removeAttribute("style");
         document.getElementById("input_uid").hidden = false;
-      } 
+      }
     }
   </script>
 
 
 
   <!-- LOAD Protocol Plugins at the end -->
-  
+
   <!-- Esential plugins -->
   <script src="jsPsych-6/plugins/jspsych-call-function.js"></script>
   <script src="jsPsych-6/plugins/jspsych-preload.js"></script>
-  
+
+  <!-- Instructions for zoomed images -->
+  <script src="jsPsych-6/plugins/jspsych-instructions-zoom.js"></script>
+
   <!-- Protocol Plugins: CANONICAL -->
   <script src="jsPsych-6/plugins/jspsych-video-button-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice.js"></script>
@@ -65,7 +73,6 @@
   <script src="jsPsych-6/plugins/jspsych-html-button-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-image-button-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-instructions.js"></script>
   <script src="jsPsych-6/plugins/jspsych-external-html.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-text.js"></script>
   <script src="jsPsych-6/plugins/jspsych-html-slider-response.js"></script>
@@ -101,7 +108,7 @@
   if (online) {
     js.src = "controllers/js/mysql_controller.js";
   } else {
-      js.src = "controllers/js/indexedDB_controller.js";
+    js.src = "controllers/js/indexedDB_controller.js";
   }
   head.appendChild(js);
   </script>
