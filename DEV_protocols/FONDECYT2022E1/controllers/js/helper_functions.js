@@ -437,14 +437,32 @@ function check_orientation() {
 };
 
 function rectify_orientation() {
-  if (hasTouchScreen){
-    if (giro_check){
-      if (document.querySelector('#jspsych-instructions-next')) {
-        if (check_orientation() == 0) {
-          document.querySelector('#jspsych-instructions-next').disabled = true;
-        } else {
-          document.querySelector('#jspsych-instructions-next').disabled = false;
+  if (giro_check){
+    // funcionará para todos los casos normales con un botón continuar con id que termine en "next"
+    if (document.querySelector("[id$=next]") || document.querySelector("[id$=back]")) {
+      if (check_orientation() == 0) {
+        document.querySelector("[id$=next]").disabled = true;
+        document.querySelector("[id$=back]").disabled = true;
+
+        if (!(document.querySelector('#fail-message'))) {
+          var elemDiv = document.createElement('div');
+          elemDiv.id = "fail-message";
+          elemDiv.innerHTML = '<span style="color: red;" class="required">' + "Porfavor gire su teléfono." +'</span>';
+
+          let parent = document.querySelector('#jspsych-content');
+          parent.appendChild(elemDiv);
+        }  else {
+          document.querySelector('#fail-message').innerHTML = '<span style="color: red;" class="required">' + "Porfavor gire su teléfono." +'</span>';
         }
+
+      } else {
+        document.querySelector("[id$=next]").disabled = false;
+        document.querySelector("[id$=back]").disabled = false;
+
+        if ((document.querySelector('#fail-message'))) {
+          document.querySelector('#fail-message').innerHTML = ""
+        }
+
       }
     }
   }

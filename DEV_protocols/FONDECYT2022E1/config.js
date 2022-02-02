@@ -1,7 +1,7 @@
 // Configuration file
 
 // Main parameters -------------------------------------------------------------
-pid = 99920; // Protocol ID [number]
+pid = 99950; // Protocol ID [number]
 online = true; // Protocol runs online [true/false]
 max_participants = 100000000; // Max participants per contition [number]
 random_id = true; // Assign random id to participants [true/false]
@@ -25,7 +25,7 @@ last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
 //randomly_ordered_tasks_1 = ['']; // Block of tasks in random order
-secuentially_ordered_tasks_1 = ['DEMOGRfondecyt', 'FONDECYT', 'BNT']; // Block of tasks in sequential order
+secuentially_ordered_tasks_1 = ['FONDECYT2022E1', 'DEMOGRfondecyt', 'BNT']; // Block of tasks in sequential order
 
 // FINAL ARRAY of tasks [build combining the above blocks]
   // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];
@@ -38,13 +38,13 @@ message_str = 'El protocolo está cargando, espere un momento...'; // Message wh
 // media to preload in protocol_controller
 img_folder = 'media/img/';
 
-images =  [img_folder + 'FONDECYT/VPP_low.png',  img_folder + 'FONDECYT/VPP_high.png', img_folder + 'FONDECYT/VPN_low.png',  img_folder + 'FONDECYT/VPN_high.png',
-          img_folder + 'FONDECYT/instructions.png', img_folder + 'FONDECYT/instructions2.png', img_folder + 'iphone-rotation-475102.png'];
+images =  [img_folder + 'VPP_low_Cancer.png', img_folder + 'VPN_high_Cancer.png',  img_folder + 'VPN_low_Stroke.png', img_folder + 'VPP_high_Stroke.png',
+          img_folder + 'instructions1.png', img_folder + 'instructions2.png', img_folder + 'iphone-rotation-475102.png'];
 audios = [];
 video = [];
-//http://cscn.uai.cl/lab/public/instruments/protocols/test/FONDECYT_second_version/?uid=1eja9abefrt9z4u3bn4n
+
 // zoom type for images: Intense, fullPage or None
-zoom_type = 'fullPage'
+zoom_type = 'fullPage';
 
 // BETWEEN subject variables ----------------------------------------------
 
@@ -52,4 +52,5 @@ zoom_type = 'fullPage'
 //all_conditions = {"protocol": {"type": ["survey"]}};
 
 // If there are between-subject tasks:
-all_conditions = {"FONDECYT": {"type": ["Text", "Image"]}};
+all_conditions = {"FONDECYT2022E1": {"type": ["Text", "Image"]}};
+
