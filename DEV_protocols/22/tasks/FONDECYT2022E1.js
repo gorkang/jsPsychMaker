@@ -225,7 +225,7 @@
             data: function () {
               element = {
                 trialid: 'FONDECYT2022E1_01_' + (parseInt(num) + 1).toString(),
-                condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
+                condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
                 condition_between: between_selection["FONDECYT2022E1"][0],
                 procedure: 'FONDECYT2022E1'
               };
@@ -289,7 +289,7 @@
           var element = {
             trialid: 'FONDECYT2022E1_02_' + num,
             //condition_within: within_selection["FONDECYT2022E1"]["timeline_01"],
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
             condition_between: between_selection["FONDECYT2022E1"][0],
             procedure: 'FONDECYT2022E1'
           };
@@ -322,7 +322,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT2022E1_03_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
             condition_between: between_selection["FONDECYT2022E1"][0],
             procedure: 'FONDECYT2022E1'
           };
@@ -355,7 +355,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT2022E1_04_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
             condition_between: between_selection["FONDECYT2022E1"][0],
             procedure: 'FONDECYT2022E1'
           };
@@ -392,7 +392,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT2022E1_05_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
             condition_between: between_selection["FONDECYT2022E1"][0],
             procedure: 'FONDECYT2022E1'
           };
@@ -436,7 +436,7 @@
         data: function () {
           var element = {
             trialid: 'FONDECYT2022E1_06_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true),
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
             condition_between: between_selection["FONDECYT2022E1"][0],
             procedure: 'FONDECYT2022E1'
           };
