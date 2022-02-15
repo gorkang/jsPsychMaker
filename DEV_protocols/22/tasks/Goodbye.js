@@ -9,7 +9,7 @@ unique_code = jsPsych.randomization.randomID(20);
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
-    '<p><left><b><big>Gracias por tu participación</big></b><br/><br/>'+ 'Tu código anónimo de participación es: <B>'+ unique_code + '</B><br/><br/>Este código será registrado en nuestro sistema separado de las respuestas que has dado a la encuesta. <br/><br/>Muchas gracias por formar parte de este estudio. Si tienes alguna duda o comentario, nos puedes escribir a ' + var_researcher_email + '</p>Presiona el botón FINALIZAR ESTUDIO para registrar tus respuestas.'],
+    '<p><left><b><big>Gracias por tu participación</big></b><br/><br/>'+ 'Tu código anónimo de participación es: <B>'+ unique_code + '</B><br/><br/>Muchas gracias por formar parte de este estudio. Si tienes alguna duda o comentario, nos puedes escribir a ' + var_researcher_email + '</p>Presiona el botón FINALIZAR ESTUDIO para registrar tus respuestas.'],
     button_label_next: 'FINALIZAR ESTUDIO',
     data: {trialid: 'Goodbye_01', procedure: 'Goodbye', stimulus: '', response: unique_code},
     show_clickable_nav: true,
