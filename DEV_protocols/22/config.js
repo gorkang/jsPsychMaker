@@ -25,7 +25,7 @@ last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
 //randomly_ordered_tasks_1 = ['']; // Block of tasks in random order
-secuentially_ordered_tasks_1 = ['FONDECYT2022E1', 'DEMOGRfondecyt2022E1', 'BNT']; // Block of tasks in sequential order
+secuentially_ordered_tasks_1 = ['DEMOGRfondecyt2022E1', 'FONDECYT2022E1', 'BNT']; // Block of tasks in sequential order
 
 // FINAL ARRAY of tasks [build combining the above blocks]
   // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];

@@ -92,7 +92,7 @@ DEMOGRfondecyt2022E1.push(if_question06);
 var question07 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Indica <B>tú</B> jerarquía en el ámbito médico</div>', options: ['&nbsp;Médico tratante', '&nbsp;Médico residente', '&nbsp;Asistente médico', '&nbsp;Enfermera/o', '&nbsp;Enfermera en prácticas', '&nbsp;Otra dentro del ámbito médico', '&nbsp;Otra fuera del ámbito médico'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'DEMOGRfondecyt2022E1_05', procedure: 'DEMOGRfondecyt2022E1'}
+  data: {trialid: 'DEMOGRfondecyt2022E1_07', procedure: 'DEMOGRfondecyt2022E1'}
 };
 DEMOGRfondecyt2022E1.push(question07);
 
@@ -101,7 +101,7 @@ DEMOGRfondecyt2022E1.push(question07);
 var question08 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">Indica los años de estudio (desde el inicio de tus estúdios superiores) o de ejercicio profesional</div>', type: 'number', range: [0, 60], required: true, error_text: 'Tienes que indicar el número de años. Si tan solo llevas unos meses, puedes redondear hasta el entero mas cercano'}],
-  data: {trialid: 'DEMOGRfondecyt2022E1_07', procedure: 'DEMOGRfondecyt2022E1'}
+  data: {trialid: 'DEMOGRfondecyt2022E1_08', procedure: 'DEMOGRfondecyt2022E1'}
 };
 DEMOGRfondecyt2022E1.push(question08);
 
