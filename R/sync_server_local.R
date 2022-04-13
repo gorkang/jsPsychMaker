@@ -15,6 +15,7 @@ sync_server_local <- function(server_folder, local_folder, direction, only_test 
   }
   
   local_folder = normalizePath(here::here(local_folder))
+  local_folder_terminal = gsub(" ", "\\\\ ", local_folder)
   
   # CHECKS we have credentials and necessary software ------------------------
   
@@ -59,21 +60,21 @@ sync_server_local <- function(server_folder, local_folder, direction, only_test 
     
     if (direction == "server_to_local") {
       
-      # DOWNLOAD test/FONDECYT2021 protocol to local maker
+      # DOWNLOAD server to local
       system(
         paste0('sshpass -p ', list_credentials$value$password, ' rsync -av ', dry_run, ' --rsh=ssh ', 
                list_credentials$value$user, "@", list_credentials$value$IP, ":", list_credentials$value$main_FOLDER, server_folder, '/ ',
-               here::here(local_folder), '/ '
+               here::here(local_folder_terminal), '/ '
         )
       )
       
       
     } else if (direction == "local_to_server") {
       
-      # UPLOAD local maker to test/FONDECYT2021 
+      # UPLOAD local to server
       system(
         paste0('sshpass -p ', list_credentials$value$password, ' rsync -av ', dry_run, ' --rsh=ssh ', 
-               here::here(local_folder), '/ ',
+               here::here(local_folder_terminal), '/ ',
                list_credentials$value$user, "@", list_credentials$value$IP, ":", list_credentials$value$main_FOLDER, server_folder, '/ '
         )
       )
