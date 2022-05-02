@@ -9,7 +9,7 @@ CRS = [];    //temporal timeline
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>CRS</big></b><br />'+
-    'Aquí hay algunas sugerencias sobre cómo buscar u obtener una cita para la religión y las prácticas religiosas. Es necesario responder a todas las preguntas. No hay respuestas correctas o incorrectas, así que responda con sinceridad. Sus respuestas permanecerán anónimas. Lea cada una de las siguientes oraciones y luego seleccione su respuesta.' +'</p>'],
+    'A continuación se presentarán una serie de preguntas acerca de temas religiosos. Es necesario responder a todas las preguntas. No hay respuestas correctas o incorrectas, así que responda con sinceridad. Sus respuestas permanecerán anónimas. Lea cada una de las siguientes oraciones y escoja uno de los números para indicar su respuesta.' +'</p>'],
     data: {trialid: 'Instructions_01', procedure: 'CRS'},
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -75,7 +75,7 @@ CRS.push(question08);
 
 var question09 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">9. ¿Hasta qué punto crees en una vida futura? inmortalidad del alma, resurrección de los muertos o reencarnación?</div>', options: ['&nbsp;Nada', '&nbsp;Un poco', '&nbsp;Algo', '&nbsp;Mucho', '&nbsp;Demasiado'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified">9. ¿Hasta qué punto crees en una vida futura, inmortalidad del alma, resurrección de los muertos o reencarnación?</div>', options: ['&nbsp;Nada', '&nbsp;Un poco', '&nbsp;Algo', '&nbsp;Mucho', '&nbsp;Demasiado'], required: true, horizontal: false}],
   data: {trialid: 'CRS_09', procedure: 'CRS'}
 };
 CRS.push(question09);
