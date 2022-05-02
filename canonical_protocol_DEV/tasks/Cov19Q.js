@@ -1,6 +1,5 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
-
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
 questions.push( check_fullscreen('Cov19Q') );    //final timeline
 
@@ -47,35 +46,35 @@ Cov19Q.push(question4);
 
 var question5 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified"><b> En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> 5. El virus fue creado en un laboratorio.</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified"><b>5. En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> El virus fue creado en un laboratorio.</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
   data: {trialid: 'Cov19Q_05', procedure: 'Cov19Q'}
 };
 Cov19Q.push(question5);
 
 var question6 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified"><b> En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> 6. El virus fue esparcido intencionalmente.</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified"><b>6. En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> El virus fue esparcido intencionalmente.</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
   data: {trialid: 'Cov19Q_06', procedure: 'Cov19Q'}
 };
 Cov19Q.push(question6);
 
 var question7 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified"><b> En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> 7. El virus, independientemente si es natural o creado, ha sido utilizado a propósito para dominarnos y/o dañarnos.</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified"><b>7. En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> El virus, independientemente si es natural o creado, ha sido utilizado a propósito para dominarnos y/o dañarnos.</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
   data: {trialid: 'Cov19Q_07', procedure: 'Cov19Q'}
 };
 Cov19Q.push(question7);
 
 var question8 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified"><b> En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> 8. Todo esto del virus y/o sus consecuencias es más bien un montaje, posiblemente falso.</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified"><b>8. En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> Todo esto del virus y/o sus consecuencias es más bien un montaje, posiblemente falso.</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
   data: {trialid: 'Cov19Q_08', procedure: 'Cov19Q'}
 };
 Cov19Q.push(question8);
 
 var question9 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified"><b> En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> 9. Todo esto del virus y/o sus consecuencias es mucho menos grave de lo que se dice o no muy distinto que otros virus existentes (como la influenza o similares).</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified"><b>9. En el último tiempo han circulado teorías y supuestos sobre la pandemia del coronavirus. Al respecto, usted cree que: </b> <br> Todo esto del virus y/o sus consecuencias es mucho menos grave de lo que se dice o no muy distinto que otros virus existentes (como la influenza o similares).</div>', options: ['&nbsp;Muy en desacuerdo', '&nbsp;En desacuerdo', '&nbsp;Ni de acuerdo ni en desacuerdo', '&nbsp;De acuerdo', '&nbsp;Muy de acuerdo'], required: true, horizontal: false}],
   data: {trialid: 'Cov19Q_09', procedure: 'Cov19Q'}
 };
 Cov19Q.push(question9);
