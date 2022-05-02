@@ -7,7 +7,7 @@ SWBQ = [];    //final timeline
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>SWBQ</big></b><br />'+
-    'Por favor, responda las siguientes preguntas.' +'</p>'],
+    'A continuación se presentará una serie de afirmaciones con las cuales usted se puede sentir identificada/o en diferentes niveles, desde un nivel muy bajo de identificación (1) hasta un nivel muy alto de identificación (5). No hay repuestas correctas o incorrectas.' +'</p>'],
     data:{trialid: 'Instructions_01', procedure: 'SWBQ'},
     show_clickable_nav: true,
     on_trial_start: function(){

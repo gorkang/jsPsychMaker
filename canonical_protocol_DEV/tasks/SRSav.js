@@ -54,14 +54,14 @@ SRSav.push(question03);
 
 var question04 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>4. ¿Con qué frecuencia lees la Biblia u otros religiosos? literatura (revistas, periódicos, libros) en casa?</div>", options: ['Varias veces al día', 'Diario', 'Varias veces a la semana', 'Varias veces al mes', 'Solo ocasionalmente', 'Para nada'], required: true, horizontal: false}],
+  questions: [{prompt: "<div class='justified'>4. ¿Con qué frecuencia lees la Biblia u otros textos religiosos (revistas, periódicos, libros) en casa?</div>", options: ['Varias veces al día', 'Diario', 'Varias veces a la semana', 'Varias veces al mes', 'Solo ocasionalmente', 'Para nada'], required: true, horizontal: false}],
   data: {trialid: 'SRSav_04', procedure: 'SRSav'}
 };
 SRSav.push(question04);
 
 var question05 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>5. ¿Con qué frecuencia escuchas o ves programas religiosos en radio o televisión?</div>", options: ['Nunca', 'Solo ocasionalmente', 'Varias veces al mes', 'Varias veces a la semana', 'Diario', 'Varias veces al día'], required: true, horizontal: false}],
+  questions: [{prompt: "<div class='justified'>5. ¿Con qué frecuencia escuchas o ves programas religiosos en radio o televisión?</div>", options: ['Nunca', 'Solo ocasionalmente', 'Varias veces al mes', 'Varias veces a la semana', 'A diario', 'Varias veces al día'], required: true, horizontal: false}],
   data: {trialid: 'SRSav_05', procedure: 'SRSav'}
 };
 SRSav.push(question05);
@@ -105,7 +105,7 @@ SRSav.push(question08);
 
 var question09 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: "<div class='justified'>9. Nada es tan importante para mí como servir a Dios como mejor se hacerlo.</div>", options: ['Definitivamente no es cierto para mí', 'Tiende a no ser cierto', 'Inseguro', 'Tiende a ser verdad', 'Definitivamente cierto de mí'], required: true, horizontal: false}],
+  questions: [{prompt: "<div class='justified'>9. Nada es tan importante para mí como servir a Dios, como mejor sé hacerlo.</div>", options: ['Definitivamente no es cierto para mí', 'Tiende a no ser cierto', 'Inseguro', 'Tiende a ser verdad', 'Definitivamente cierto de mí'], required: true, horizontal: false}],
   data: {trialid: 'SRSav_09', procedure: 'SRSav'}
 };
 SRSav.push(question09);

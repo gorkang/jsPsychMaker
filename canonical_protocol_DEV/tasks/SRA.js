@@ -17,7 +17,7 @@ var instruction_screen_experiment = {
 
 var question01 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">1. He ayudado a sacar el coche de un extraño de la nieve.</div>', options: ['&nbsp;Nunca', '&nbsp;Una vez', '&nbsp;Más de una vez', '&nbsp;A menudo', '&nbsp;Muy a menudo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified">1. He ayudado a sacar el auto de un extraño de la nieve.</div>', options: ['&nbsp;Nunca', '&nbsp;Una vez', '&nbsp;Más de una vez', '&nbsp;A menudo', '&nbsp;Muy a menudo'], required: true, horizontal: false}],
   data: {trialid: 'SRA_01', procedure: 'SRA'}
 };
 SRA.push(question01);
@@ -31,7 +31,7 @@ SRA.push(question02);
 
 var question03 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">3. He hecho cambios por un extraño.</div>', options: ['&nbsp;Nunca', '&nbsp;Una vez', '&nbsp;Más de una vez', '&nbsp;A menudo', '&nbsp;Muy a menudo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified">3. He hecho cambios para el beneficio de un extraño.</div>', options: ['&nbsp;Nunca', '&nbsp;Una vez', '&nbsp;Más de una vez', '&nbsp;A menudo', '&nbsp;Muy a menudo'], required: true, horizontal: false}],
   data: {trialid: 'SRA_03', procedure: 'SRA'}
 };
 SRA.push(question03);
@@ -94,7 +94,7 @@ SRA.push(question11);
 
 var question12 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">12. He dado a un extraño un aventón en mi auto.</div>', options: ['&nbsp;Nunca', '&nbsp;Una vez', '&nbsp;Más de una vez', '&nbsp;A menudo', '&nbsp;Muy a menudo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified">12. He llevado en mi auto a un desconocido que lo necesitaba.</div>', options: ['&nbsp;Nunca', '&nbsp;Una vez', '&nbsp;Más de una vez', '&nbsp;A menudo', '&nbsp;Muy a menudo'], required: true, horizontal: false}],
   data: {trialid: 'SRA_12', procedure: 'SRA'}
 };
 SRA.push(question12);
@@ -143,7 +143,7 @@ SRA.push(question18);
 
 var question19 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">19. Le ofrecí mi asiento en un autobús o tren a un extraño que estaba parado.</div>', options: ['&nbsp;Nunca', '&nbsp;Una vez', '&nbsp;Más de una vez', '&nbsp;A menudo', '&nbsp;Muy a menudo'], required: true, horizontal: false}],
+  questions: [{prompt: '<div class="justified">19. Le ofrecí mi asiento en un autobús, metro o tren a un extraño que estaba parado.</div>', options: ['&nbsp;Nunca', '&nbsp;Una vez', '&nbsp;Más de una vez', '&nbsp;A menudo', '&nbsp;Muy a menudo'], required: true, horizontal: false}],
   data: {trialid: 'SRA_19', procedure: 'SRA'}
 };
 SRA.push(question19);
