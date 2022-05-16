@@ -162,18 +162,6 @@ var question021 = {
 };
 DASS21.push(question021);
 
-var effort_question = {
-    type: 'instructions',
-    pages: ['<p><left><b><big>¡Segunda parte terminada!</big></b><br />'+
-    'A continuación comenzaremos con las preguntas para evaluar tus creencias. Esta sección puede resultar más larga que las otras (entre 2 y 4 minutos), pero por favor continúa hasta el final y recuerda que tu aporte es muy valioso. Sigue las instrucciones para responder cada pregunta.' +'</p>'],
-    data: {trialid: 'Instructions_002', procedure: 'DASS21'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
-};
-DASS21.push(effort_question);
-
 DASS21.unshift(instruction_screen_experiment);
 questions.push.apply(questions, DASS21);
 
