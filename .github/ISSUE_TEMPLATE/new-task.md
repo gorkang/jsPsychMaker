@@ -1,9 +1,9 @@
 ---
 name: NEW TASK
 about: Ask for help implementing a new task
-title: ''
-labels: ''
-assignees: ''
+title: 'New task: [NAME OF THE TASK]'
+labels: NEW TASK
+assignees: HeRm4nV
 
 ---
 
