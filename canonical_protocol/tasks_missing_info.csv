@@ -1,0 +1,221 @@
+short_name,long_name,validation_paper,dimensions_names,number_items,scoring_total,scoring_dimensions,nominal_to_numeric_conversion,observations,Rhelper_status,version
+AIM,Grupo socioeconomico,NA,NA,4,"La clasificación del grupo socioeconómico, se efectuará siguiendo los parámetros de la tabla 'CLASIFICACIÓN SEGÚN LOS CÓDIGOS REGISTRADOS EN P1, P2 y P4' (Tabla que puede verse en la celda 24L). Se debe ubicar en la tabla la combinación de las variables ""nivel edicacional alcanzado"" (recogido con la pregunta n°1),  ""tipo de ocupación"" (recogida con la pregunta n°2) y la variable ""tramo de ingreso"" (recogida con la pregunta n°4, que es equivalente a la tabla de 'TRAMO DE INGRESO PARA ENCUESTAS PRESENCIALES Y AUTOADMINISTRADAS'). 
+
+Finalmente, se deberá ubicar la fila en la que se encuentren combinadas todas las variables recogidas, esta indicará el estrato socioeconómico al que pertenece la persona.
+
+--
+
+Las categorías posibles son: AB, C1a, C1b, C2, C3, D y E.
+
+Clasificación según estratos
+
+'Estrato Alto': AB; C1a y C1b
+
+'Estrato Medio': C2 y C3
+
+'Estrato Bajo': D y E
+
+---
+Se invierten los itemes: no corresponde
+
+
+[IMPORTANTE]: Los tramos D y E corresponden a población vulnerable",NA,"P1. ¿Cuál es el nivel educacional alcanzado (último año aprobado) por el principal sostenedor del hogar?
+Sin estudios formales: 1
+Básica incompleta; primaria o preparatoria incompleta: 2 
+Básica completa; primaria o preparatoria completa: 3 
+Media científico humanista o media técnico profesional incompleta; humanidades incompletas: 4
+Media científico humanista o media técnico profesional completa; humanidades completas: 5
+Instituto técnico (CFT) o instituto profesional incompleto (carreras de 1 a 3 años): 6
+Instituto técnico (CFT) o instituto profesional completo (carreras de 1 a 3 años); hasta suboficial de FFAA y Carabineros: 7 
+Universitaria incompleta (carreras de 4 o más años): 8 ptos
+Universitaria completa (carreras de 4 o más años); oficial de FFAA y Carabineros : 9
+Postgrado (postítulo, master, magíster, doctor): 10
+--
+P2. ¿Cuál de las siguientes ocupaciones corresponde al trabajo del principal sostenedor del hogar? [Si el principal sostenedor del hogar está cesante o es jubilado, preguntar por la última ocupación remunerada que tuvo. 
+Si el principal sostenedor tiene más de 1 trabajo, debe registrarse el de mayor ingreso].
+Trabajadores no calificados en ventas y servicios, peones agropecuarios, forestales, construcción, etc: 1
+Obreros, operarios y artesanos de artes mecánicas y de otros oficios: 2
+Trabajadores de los servicios y vendedores de comercio y mercados: 3
+Agricultores y trabajadores calificados agropecuarios y pesqueros: 4
+Operadores de instalaciones y máquinas y montadores / conductores de vehículos: 5
+Empleados de oficina públicos y privados: 6
+Técnicos y profesionales de nivel medio (incluye hasta suboficiales FFAA y Carabineros): 7
+Profesionales, científicos e intelectuales: 8
+Alto ejecutivo (gerente general o gerente de área o sector) de empresa privadas o públicas. Director o dueño de grandes empresas. Alto directivo del poder ejecutivo, de los cuerpos legislativos y la administración pública (incluye oficiales de FFAA y Carabineros): 9
+Otros grupos no identificados (incluye rentistas, incapacitados, etc): 10
+--
+Ahora, hablando de su hogar:
+P3. Incluyéndose usted, ¿cuántas personas viven en su hogar en la actualidad? No considere el servicio doméstico, aunque sea puertas adentro: _______ (el número corresponderá al número de integrantes de la familia de la persona)
+--
+P4. Por favor, piense en ingreso total de su hogar en un mes promedio, considerando el aporte de todos sus miembros y otros ingresos adicionales como rentas de propiedades, jubilaciones o pensiones. 
+¿en cuál de estos tramos está el ingreso total mensual de su hogar? [Aplicar tramo según respuesta en P3.]
+TRAMOS DE INGRESO PARA ENCUESTAS PRESENCIALES Y AUTOADMINISTRADAS
+
+1 Miembro: Menos de 120 mil: 1  ||  120 mil – 207 mil: 2  ||  208 mil – 361 mil: 3  ||  362 mil – 630 mil: 4  ||  631 mil – 1.099.000: 5  ||  1.100.000 – 1.916.000: 6  ||  Más de 1.916.000: 7  ||  No Sabe/No Reporta: 99
+
+2 Miembros: Menos de 194 mil: 1  ||  194 mil – 336 mil: 2  ||  337 mil – 586 mil: 3  ||  587 mil – 1.023.000: 4  ||  1.024.000 – 1.785.000: 5  ||  1.786.000 – 3.113.000: 6  ||  Más de 3.113.000:7  ||  NS/NR: 99 
+
+3 Miembros: Menos de 257 mil: 1  ||  257 mil – 446 mil: 2  ||  447 mil – 779 mil: 3  ||  780 mil – 1.359.000: 4  ||  1.360.000 – 2.370.000: 5  ||  2.371.000 – 4.135.000: 6  ||  Más de 4.135.000: 7  ||  NS/NR: 99
+
+4 Miembros: Menos de 314 mil: 1  ||  314 mil – 546 mil: 2  ||  547 mil – 953 mil: 3  ||  954 mil – 1.662.000: 4  ||  1.663.000 – 2.899.000: 5  ||  2.900.000 – 5.057.000: 6  ||  Más de 5.057.000: 7  ||  NS/NR: 99
+
+5 Miembros: Menos de 367 mil: 1  ||  367 mil – 638 mil: 2  ||  639 mil – 1.114.000 mil: 3  ||  1.115.000 mil – 1.943.000: 4  ||  1.944.000 – 3.389.000: 5  ||  3.3980.000 – 5.912.000: 6  ||  Más de 5.912.000: 7  ||  NS/NR: 99
+
+6 Miembros: Menos de 417 mil: 1  ||  417 mil – 725 mil: 2  ||  726 mil – 1.265.000 mil: 3  ||  1.266.000 mil – 2.207.000: 4  ||  2.208.000 – 3.850.000: 5  ||  3.851.000 – 6.717.000: 6  ||  Más de 6.717.000: 7  ||  NS/NR: 99
+
+7 Miembros o más: Menos de 464 mil: 1  ||  464 mil – 808 mil: 2  ||  809 mil – 1.409.000 mil: 3  ||  1.410.000 mil – 2.459.000: 4  ||  2.460.000 – 4.289.000: 5  ||  4.290.000 – 7.482.000: 6  ||  Más de 7.482.000: 7  ||  NS/NR: 99",NA,Ready to review: IMPORTANTE revisar bien la implementacion,Recuperado del documento AIM Chile (Febrero del 2018)
+BART,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Consent,Informed consent,NA,NA,NA,NA,NA,NA,NA,NA,NA
+ConsentHTML,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+COVIDCONTROL,Covid related questions,NA,NA,NA,NA,NA,NA,NA,NA,NA
+DEBRIEF,Debrief at end of experiment,NA,NA,NA,NA,NA,NA,NA,NA,NA
+DEMOGR,Demographic scale,NA,NA,NA,NA,NA,NA,NA,NA,NA
+DEMOGR12,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+DEMOGR3,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+EAR,Escala de Autoestima de Rosenberg,NA,NA,NA,NA,NA,NA,NA,NA,NA
+EmpaTom,"Empatia, Teoria de la mente y Compasión",NA,NA,3,NA,NA,NA,NA,NA,NA
+ESM,Escala Subjetiva de Memoria,NA,NA,11,NA,NA,NA,NA,NA,NA
+FONDECYT,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+GBS,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+Goodbye,Goodbye task,NA,NA,NA,NA,NA,NA,NA,NA,NA
+IBT,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+IDQ,Cuestionario de identificación,NA,NA,NA,Calculo: No corresonde,Calculo: No corresponde,"Nombre completo:
+    Nombre completo participante
+
+Edad:
+    Edad participante
+
+Sexo:
+    Mujer = 0
+    Hombre = 1
+    No binario = 2
+
+Nivel educacional:
+    Años de estudio
+
+Comuna residencia:
+    Comuna residencia participante
+
+Número telefóno de contacto:
+    Número telefónico participante.
+
+Dirección correo electrónico: 
+    email participante
+
+Diagóstico enfermedad psiquiátrica:
+    No = 0
+    Si = 1
+    Cual = Especifica diagnostico participante
+
+Tratamiento psiquiatrico:
+    No = 0
+    Si = 1
+    Que tipo de tratamiento: especifica el tratamiento del participante
+
+Consumo problematico de alcohol y drogas:
+    No = 0
+    Si = 1
+
+Tipo de droga:
+    Especifica el tipo de droga consumida por el participante",NA,Ready to review,NA
+INFCONS,Cesarean information brochures,NA,NA,NA,NA,NA,NA,NA,NA,NA
+ITC,Intertemporal Choice Scale,NA,NA,35,NA,NA,NA,NA,Issues: Faltan instrucciones,NA
+OTRASRELIG,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+PVC,Preguntas vacuna COVID-19,NA,NA,NA,NA,NA,"Usted se ha vacunado contra el coronavirus / covid -19?
+Si = 1
+No = 0
+
+Si la respuesta es no
+
+Usted se va a vacunar contra el coronavirus covid -19?
+Si = 1
+No = 2
+No estoy seguro = 3",NA,NA,NA
+Report,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+SDG,Socio demográfico general,NA,NA,10,"Cálculo: Los datos son descriptivos socio-demográficos.
+La conversión de puntaje está en columna conversión nominal a valores",No corresponde,"Nombre participante: 
+    Nombre participante
+Sexo:  
+    1 = Hombre 
+    2 = Mujer
+Fecha de nacimiento:
+    Dia/Mes/Año
+Edad: 
+    edad participante
+Situacion de pareja:
+    1 = Casado (a)                         
+    2 = Conviviente                         
+    3 = Viudo (a)                                 
+    4 = Divorciado/anulado (a)
+    5 = Separado (a)
+    6 = Soltero/sin pareja
+    7 = Soltero/con pareja
+Educacion
+    1 = Sin estudio
+    2 = Básica Incompleta                 
+    3 = Básica Completa                 
+    4 = Media Incompleta                 
+    5 = Media Completa 
+    6 = Técnica Incompleta 
+    7 = Técnica Completa
+    8 = Universitaria Incompleta
+    9 = Universitaria Completa o más
+    10 = No sabe o no aplica
+Años de estudio: 
+    años de estudio
+Comuna de residencia:
+    comuna de residencia
+Problemas psiquiatricos/psiologicos
+    1 = Sí 
+    2 = No
+Cual:
+    problema psiquiatrico/psicologico
+Ficha social:
+    1 = Si tengo registro.
+    2 = No tengo registro.
+Porcentaje ficha social:
+    porcentaje ficha social
+Ocupacion A:
+    1 = Trabaja a tiempo completo                                     
+    2 = Trabaja a tiempo parcial                                     
+    3 = Trabaja esporádicamente                                     
+    4 = Está desempleado(a), pero busca trabajo             
+    5 = Es estudiante                                                     
+    6 = No trabaja, ni busca trabajo
+    7 = Es Ama de casa
+    8 = Está jubilado o pensionado
+    9 = Es Rentista
+    10 = No sabe/No responde
+Ocupacion B:
+    1 = Profesionales
+    2 = Ejecutivos, administrativos, gerentes
+    3 = Comerciantes, vendedores y cajeros
+    4 = Trabajos de apoyo administrativo, incluyendo trabajos eclesiásticos administrativos
+    5 = Trabajo con productos de precisión o artesanías. Técnicos en reparación.
+    6 = Operador de máquinas, instalador, inspectores
+    7 = Ocupaciones de transporte y manejo de carga
+    8 = Obreros, limpiadores de equipos, ayudantes y peones
+    9 = Ocupaciones de servicio, excepto empleados de casa particular
+    10 = Agricultor/ gerente de agricultura
+    11 = Campesino
+    12 = Fuerzas Armadas
+    13 = Empleados casa particular
+    14 = Otro (especifique)","Si se responde ""Si tengo registro."" a la pregunta ""SDG_10"" se pasa a la ""SDG_10_1"". Esta ultima incumple las normas para nombres de trial que establecimos.
+
+Propuesta:
+SDG_10_1 -> SDG_101",NA,El artículo de este inventario no está en la carpeta 'artículos instrumentos'
+SRBQP,Self-regulation and belief questionnaire in pandemic,NA,"CrSM: Creencias y Salud Mental 
+
+CrP: Creencias en Pandemia
+
+At: Ateismo",5,Sumatoria de todos los items,"Creencias y Salud Mental. Suma Items: 1- 2- 3 
+     
+Creencias en Pandemia. Item: 4 
+
+Ateísmo. Item: 5","completamente en desacuerdo = 1
+en desacuerdo = 2
+en alguna medida en desacuerdo = 3
+no acuerdo ni desacuerdo = 4
+en alguna medida acuerdo = 5
+de acuerdo = 6
+completamente de acuerdo = 7",NA,NA,NA
