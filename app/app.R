@@ -2,27 +2,32 @@
 # Allows to configure a protocol using a UI
 
 # TODO: 
-  # - READ canonical_protocol/config.js to set default options in each shiny inputs
-  # - Implement all options (outro, debug, ...)
   # - Use HTML editor for intro/outro:
     # https://github.com/deepanshu88/ShinyEditor
     # https://thedubworld.wordpress.com/2016/03/13/adding-a-html-editor-to-shiny/
 
 
-library(shiny)
-library(shinyWidgets) #https://dreamrs.github.io/shinyWidgets/
+
+# Libraries ---------------------------------------------------------------
+
+  library(shiny)
+  library(shinyWidgets) #https://dreamrs.github.io/shinyWidgets/
+  library(dplyr, warn.conflicts = FALSE)
+  library(tidyr)
+  library(purrr)
 # library(shinyjs)
-library(dplyr, warn.conflicts = FALSE)
-library(tidyr)
-library(purrr)
+
+
+# External files ---------------------------------------------------------
+
+  # List of available tasks
+  available_tasks <- gsub("\\.js", "", list.files(here::here("canonical_protocol/tasks/")))
+  
+  # Use config.js to fill out input parameters
+  CONFIG_file = readLines(here::here("canonical_protocol/config.js"))
 
 
 # INITIAL VARS ------------------------------------------------------------
-
-available_tasks <- gsub("\\.js", "", list.files(here::here("canonical_protocol/tasks/")))
-
-# Use config.js to fill out input parameters
-CONFIG_file = readLines(here::here("canonical_protocol/config.js"))
 
 # Function to extract individual strings from js vectors
 separate_vector <- function(value) list(lapply(regmatches(value, gregexpr('(\').*?(\')', value, perl = TRUE)), function(y) gsub("^\'|\'$", "", y)))
@@ -122,9 +127,6 @@ ui <- fluidPage(
             shiny::br(),shiny::br(),
             
             uiOutput("dynamic_tasks_input"),
-
-
-
           )
         }),
         
@@ -158,15 +160,13 @@ ui <- fluidPage(
             switchInput(inputId = get_params("random_id", "variable"), label = get_params("random_id", "variable"), value = get_params("random_id", "value"), width = "100"),
             switchInput(inputId = get_params("debug_mode", "variable"), label = get_params("debug_mode", "variable"), value = get_params("debug_mode", "value"), width = "100")
           )
-
-
-          }),
+        }),
         
 
       # Intro experiment --------------------------------------------------------
 
         
-        tabPanel("Text parameters", {
+      tabPanel("Text parameters", {
 
           mainPanel(
             shiny::h3("Text parameters"),
@@ -188,8 +188,7 @@ ui <- fluidPage(
             textInput(inputId = get_params("message_str", "variable"), label = get_params("message_str", "variable"), value = get_params("message_str", "value")),
             
           )
-
-          })
+        })
       )
     )
   )
@@ -210,7 +209,6 @@ server <- function(input, output, session) {
     output$dynamic_sequencial_blocks <- renderUI({
       
       num_sequential <- as.integer(input$num_sequential)
-      available_tasks <- gsub("\\.js", "", list.files(here::here("canonical_protocol/tasks/")))
 
       if (num_sequential > 0) {
 
@@ -231,7 +229,6 @@ server <- function(input, output, session) {
     output$dynamic_random_blocks <- renderUI({
       
       num_random <- as.integer(input$num_random)
-      available_tasks <- gsub("\\.js", "", list.files(here::here("canonical_protocol/tasks/")))
 
       if (num_random > 0) {
 
@@ -270,8 +267,6 @@ server <- function(input, output, session) {
                 # selected = get_params("tasks", "value") # If we use this, the selection does not change automatically when adding more random or sequential blocks
                 selected = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks")
                 )
-
-
   })
 
 
@@ -349,11 +344,6 @@ server <- function(input, output, session) {
       # Get last element of OUTPUT_config, where all changes have been made
       OUTPUT = OUTPUT_config[[length(OUTPUT_config)]]
       OUTPUT
-      
-
-      # OUTPUT_config = gsub("intro_HTML = .*", paste0("intro_HTML = `", input$intro_HTML, "`"), INPUT_config)
-
-      # list_of_inputs %>% unlist()
 
     })
 
@@ -363,9 +353,6 @@ server <- function(input, output, session) {
         writeLines(TEXT(), file)
         }
     )
-
-
-
 
 
 }
