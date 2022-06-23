@@ -1,19 +1,31 @@
 # This shiny app creates a canonical_protocol/config.js copy using the shiny inputs
 # Allows to configure a protocol using a UI
 
+# TODO: 
+  # - READ canonical_protocol/config.js to set default options in each shiny inputs
+  # - Implement all options (outro, debug, ...)
+  # - Use HTML editor for intro/outro:
+    # https://github.com/deepanshu88/ShinyEditor
+    # https://thedubworld.wordpress.com/2016/03/13/adding-a-html-editor-to-shiny/
 
-
-# Use HTML editor in shiny:
-  # https://github.com/deepanshu88/ShinyEditor
-  # https://thedubworld.wordpress.com/2016/03/13/adding-a-html-editor-to-shiny/
 
 library(shiny)
 library(shinyWidgets) #https://dreamrs.github.io/shinyWidgets/
 # library(shinyjs)
-
 library(dplyr, warn.conflicts = FALSE)
 
+
+
+# INITIAL VARS ------------------------------------------------------------
+
 available_tasks = gsub("\\.js", "", list.files(here::here("canonical_protocol/tasks/")))
+
+# WIP
+CONFIG_file = readLines(here::here("canonical_protocol/config.js"))
+# CONFIG_file[grepl("pid = .*", CONFIG_file)]
+DF_config = stringi::stri_extract_all(str = CONFIG_file, regex = "(.*) = (.*)")
+stringr::str_split(DF_config, pattern = " = ")
+# UI ----------------------------------------------------------------------
 
 ui <- fluidPage(
   # tags$head(

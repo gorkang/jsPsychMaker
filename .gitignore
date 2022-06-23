@@ -3,6 +3,7 @@
 
 # Personal folders and files
 .data/
+.vscode/
 .Rhistory
 Chrome Web Security Disabled.lnk
 DEV/
