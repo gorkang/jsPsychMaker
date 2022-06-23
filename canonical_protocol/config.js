@@ -13,9 +13,9 @@ var_researcher_email = `[[EMAIL investigador/a]]`;
 
 
 // INTRO [index.html] ----------------------------------------------------------
-intro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="controllers/media/logo.png" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div> Para cambiar este texto, edita la variable intro_HTML en config.js<BR><BR>Si tienes alguna duda, puedes escribirnos a: <mailto::CORREO@CORREO.COM>CORREO@CORREO.COM</mailto><BR><BR>Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="controllers/media/compatible_chrome.png" name="Chrome" align="bottom" border="0", height="24", width="24"/></a>`;
+intro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="controllers/media/logo.png" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div>PANTALLA DE INTRUCCIONES INICIALES. Para cambiar este texto, edita la variable intro_HTML en config.js<BR><BR>Si tienes alguna duda, puedes escribirnos a: <mailto::CORREO@CORREO.COM>CORREO@CORREO.COM</mailto><BR><BR>Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="controllers/media/compatible_chrome.png" name="Chrome" align="bottom" border="0", height="24", width="24"/></a>`;
 
-outro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="controllers/media/logo.png" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div>Para cambiar este texto, edita la variable outro_HTML en config.js<BR><BR>Si tienes alguna duda, puedes escribirnos a: <mailto::CORREO@CORREO.COM>CORREO@CORREO.COM</mailto><BR><BR>Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="controllers/media/compatible_chrome.png" name="Chrome" align="bottom" border="0", height="24", width="24"/></a>`;
+outro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="controllers/media/logo.png" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div>PANTALLA DE INTRUCCIONES DESPUES DE SELECCIONAR ID DE PARTICIPANTE. Para cambiar este texto, edita la variable outro_HTML en config.js<BR><BR>Si tienes alguna duda, puedes escribirnos a: <mailto::CORREO@CORREO.COM>CORREO@CORREO.COM</mailto><BR><BR>Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="controllers/media/compatible_chrome.png" name="Chrome" align="bottom" border="0", height="24", width="24"/></a>`;
 
 // ORDER OF TASKS --------------------------------------------------------------
 
@@ -24,7 +24,7 @@ last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
 randomly_ordered_tasks_1 = ['DEMOGR', 'AIM']; // Block of tasks in random order
-secuentially_ordered_tasks_1 = ['IDQ', 'REI40']; // Block of tasks in sequential order
+secuentially_ordered_tasks_1 = ['IDQ', 'REI40']; // Block of tasks in sequential order // 
 
 // FINAL ARRAY of tasks [build combining the above blocks]
   // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];
