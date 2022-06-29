@@ -16,7 +16,7 @@
   library(dplyr, warn.conflicts = FALSE)
   library(tidyr)
   library(purrr)
-library(htmltools)
+  library(htmltools)
 
 # library(shinyjs)
 
@@ -39,11 +39,15 @@ library(htmltools)
   # CONFIG_file = readLines(here::here("canonical_protocol/config.js"))
   CONFIG_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol/config.js")
 
+  # Consent JS file
+  CONSENT_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol/media/consent/consent-placeholder.js")
 
+  
+  
 
 # INITIAL VARS ------------------------------------------------------------
 
-# Function to extract individual strings from js vectors
+# Function to extract individual strings from js vectors. ['DEMOGR', 'AIM'] -> "DEMOGR" "AIM"   
 separate_vector <- function(value) list(lapply(regmatches(value, gregexpr('(\').*?(\')', value, perl = TRUE)), function(y) gsub("^\'|\'$", "", y)))
 
 # DF with all parameters in config.js
@@ -71,14 +75,26 @@ DF_config =
            ))
 
 
-get_params <- function(variable_str, what) {
+DF_consent = 
+  stringi::stri_extract_all(str = CONSENT_file, regex = "(.*) = (.*)") %>% 
+  gsub("(.*);.*", "\\1", .) %>% # Delete things after ";"
+  as_tibble() %>% 
+  drop_na(value) %>% 
+  separate(value, into = c("variable", "value"), sep = " = ", extra = "merge")
+
+
+# Function to extract parameters from DF_config and DF_consent
+get_params <- function(variable_str, what, DF = DF_config) {
   # variable_str = "randomly_ordered_tasks_1"
   # what = "value"
-  DF_config %>% filter(variable == variable_str) %>% pull(what) %>% unlist()
+  DF %>% filter(variable == variable_str) %>% pull(what) %>% unlist()
 }
 
-get_params("randomly_ordered_tasks_1", "value")
-get_params("secuentially_ordered_tasks_1", "value")
+# get_params("randomly_ordered_tasks_1", "value")
+# get_params("secuentially_ordered_tasks_1", "value")
+
+# get_params("var_title", "variable", DF_consent)
+# get_params("var_title", "value", DF_consent)
 
 
 # UI ----------------------------------------------------------------------
@@ -110,10 +126,54 @@ ui <- fluidPage(
         id = "switcher",
         type = "tabs",
 
-        tabPanel("Tasks", {
+        
+        
+        # Main parameters --------------------------------------------------------
+        
+        tabPanel("Main parameters", {
+          
+          mainPanel(
+            
+            shiny::h3("Main parameters"),
+            shiny::hr(),
+            
+            # shiny::h4("Numeric parameters"),
+            # shiny::HTML("Enter your protocol number, max number of participants and max time for your protocol"),
+            # shiny::br(),
+            
+            helpText("Protocol ID for your protocol. If an online protocol, ask the server administrator"),
+            numericInput(inputId = get_params("pid", "variable"), label = get_params("pid", "variable"), value = get_params("pid", "value"), width = "100"),
+            
+            helpText("Max number of participants per condition"),
+            numericInput(inputId = get_params("max_participants", "variable"), label = get_params("max_participants", "variable"), value = get_params("max_participants", "value"), width = "100"),
+            
+            helpText("Time in hours participants will have to complete the protocol after accepting the Consent form"),
+            numericInput(inputId = get_params("max_time", "variable"), label = get_params("max_time", "variable"), value = get_params("max_time", "value"), width = "100"),
+            
+            shiny::hr(),
+            # shiny::h4("Logical parameters"),
+            # shiny::HTML("Select if you want an online/offline protocol, if you will accept discarded participants (after running out of time), if participants will be assigned a random id..."),
+            # shiny::br(),
+            
+            helpText("The protocol will run online or offline"),
+            switchInput(inputId = get_params("online", "variable"), label = get_params("online", "variable"), value = get_params("online", "value"), width = "100"),
+            
+            helpText("Should participants be able to continue the protocol after they run out of time?"),
+            switchInput(inputId = get_params("accept_discarded", "variable"), label = get_params("accept_discarded", "variable"), value = get_params("accept_discarded", "value"), width = "100"),
+            
+            helpText("Assign random id to participants of ask for one"),
+            switchInput(inputId = get_params("random_id", "variable"), label = get_params("random_id", "variable"), value = get_params("random_id", "value"), width = "100"),
+            
+            helpText("If testing the protocol, it is recommended to use debug_mode"),
+            switchInput(inputId = get_params("debug_mode", "variable"), label = get_params("debug_mode", "variable"), value = get_params("debug_mode", "value"), width = "100")
+            
+          )
+        }),
 
         # Tasks -------------------------------------------------------------------
-
+        
+        tabPanel("Tasks", {
+          
           mainPanel(
 
             shiny::h3("Tasks"),
@@ -159,48 +219,7 @@ ui <- fluidPage(
         
         
 
-        # Main parameters --------------------------------------------------------
-
         
-        tabPanel("Main parameters", {
-          
-          mainPanel(
-            
-            shiny::h3("Main parameters"),
-            shiny::hr(),
-            
-            # shiny::h4("Numeric parameters"),
-            # shiny::HTML("Enter your protocol number, max number of participants and max time for your protocol"),
-            # shiny::br(),
-            
-            helpText("Protocol ID for your protocol. If an online protocol, ask the server administrator"),
-            numericInput(inputId = get_params("pid", "variable"), label = get_params("pid", "variable"), value = get_params("pid", "value"), width = "100"),
-            
-            helpText("Max number of participants per condition"),
-            numericInput(inputId = get_params("max_participants", "variable"), label = get_params("max_participants", "variable"), value = get_params("max_participants", "value"), width = "100"),
-            
-            helpText("Time in hours participants will have to complete the protocol after accepting the Consent form"),
-            numericInput(inputId = get_params("max_time", "variable"), label = get_params("max_time", "variable"), value = get_params("max_time", "value"), width = "100"),
-            
-            shiny::hr(),
-            # shiny::h4("Logical parameters"),
-            # shiny::HTML("Select if you want an online/offline protocol, if you will accept discarded participants (after running out of time), if participants will be assigned a random id..."),
-            # shiny::br(),
-            
-            helpText("The protocol will run online or offline"),
-            switchInput(inputId = get_params("online", "variable"), label = get_params("online", "variable"), value = get_params("online", "value"), width = "100"),
-            
-            helpText("Should participants be able to continue the protocol after they run out of time?"),
-            switchInput(inputId = get_params("accept_discarded", "variable"), label = get_params("accept_discarded", "variable"), value = get_params("accept_discarded", "value"), width = "100"),
-            
-            helpText("Assign random id to participants of ask for one"),
-            switchInput(inputId = get_params("random_id", "variable"), label = get_params("random_id", "variable"), value = get_params("random_id", "value"), width = "100"),
-            
-            helpText("If testing the protocol, it is recommended to use debug_mode"),
-            switchInput(inputId = get_params("debug_mode", "variable"), label = get_params("debug_mode", "variable"), value = get_params("debug_mode", "value"), width = "100")
-            
-          )
-        }),
         
 
       # Intro experiment --------------------------------------------------------
@@ -229,7 +248,65 @@ ui <- fluidPage(
             shiny::helpText("Text shown while loading experiment materials.")
             
           )
-        })
+        }),
+      tabPanel("Consent", {
+        
+        mainPanel(
+          shiny::h3("Consent form"),
+          shiny::hr(),
+          shiny::h4("Parameters consent form JS"),
+          shiny::helpText("Fill out and download consent.js. Then copy to XXX/XXX/consent.js"),
+          shiny::br(),
+          
+          textAreaInput(inputId = get_params("var_title", "variable", DF_consent), 
+                        label = get_params("var_title", "variable", DF_consent), 
+                        value = get_params("var_title", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_researcher_name", "variable", DF_consent), 
+                        label = get_params("var_researcher_name", "variable", DF_consent), 
+                        value = get_params("var_researcher_name", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_researcher_email", "variable", DF_consent), 
+                        label = get_params("var_researcher_email", "variable", DF_consent), 
+                        value = get_params("var_researcher_email", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_researcher_affiliation", "variable", DF_consent), 
+                        label = get_params("var_researcher_affiliation", "variable", DF_consent), 
+                        value = get_params("var_researcher_affiliation", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_researcher_university", "variable", DF_consent), 
+                        label = get_params("var_researcher_university", "variable", DF_consent), 
+                        value = get_params("var_researcher_university", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_ethics_comitee_name_president", "variable", DF_consent), 
+                        label = get_params("var_ethics_comitee_name_president", "variable", DF_consent), 
+                        value = get_params("var_ethics_comitee_name_president", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_ethics_comitee_phone", "variable", DF_consent), 
+                        label = get_params("var_ethics_comitee_phone", "variable", DF_consent), 
+                        value = get_params("var_ethics_comitee_phone", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_ethics_comitee_email", "variable", DF_consent), 
+                        label = get_params("var_ethics_comitee_email", "variable", DF_consent), 
+                        value = get_params("var_ethics_comitee_email", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_purpose", "variable", DF_consent), 
+                        label = get_params("var_purpose", "variable", DF_consent), 
+                        value = get_params("var_purpose", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_procedure", "variable", DF_consent), 
+                        label = get_params("var_procedure", "variable", DF_consent), 
+                        value = get_params("var_procedure", "value", DF_consent), width = "100%", rows = 5),
+          
+          textAreaInput(inputId = get_params("var_comprehension", "variable", DF_consent), 
+                        label = get_params("var_comprehension", "variable", DF_consent), 
+                        value = get_params("var_comprehension", "value", DF_consent), width = "100%", rows = 5),
+          
+          # get_params("var_title", "variable", DF_consent)
+          # get_params("var_title", "value", DF_consent)
+          
+        )
+      })
       )
     )
   )
