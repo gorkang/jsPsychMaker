@@ -1,3 +1,4 @@
+# jsPsychMaker_config
 # This shiny app creates a canonical_protocol/config.js copy using the shiny inputs
 # Allows to configure a protocol using a UI
 
@@ -15,16 +16,29 @@
   library(dplyr, warn.conflicts = FALSE)
   library(tidyr)
   library(purrr)
+library(htmltools)
+
 # library(shinyjs)
 
 
 # External files ---------------------------------------------------------
 
+  get_github_files <- function() {
+    library(httr)
+    req = GET("https://api.github.com/repos/gorkang/jsPsychMaker/git/trees/main?recursive=1")
+    stop_for_status(req)
+    filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = F)
+    gsub("canonical_protocol/tasks/", "", grep("canonical_protocol/tasks/", filelist, value = TRUE, fixed = TRUE))
+  }
+
   # List of available tasks
-  available_tasks <- gsub("\\.js", "", list.files(here::here("canonical_protocol/tasks/")))
+  available_tasks <- gsub("\\.js", "", get_github_files())
+  # available_tasks2 <- gsub("\\.js", "", list.files(here::here("canonical_protocol/tasks/")))
   
   # Use config.js to fill out input parameters
-  CONFIG_file = readLines(here::here("canonical_protocol/config.js"))
+  # CONFIG_file = readLines(here::here("canonical_protocol/config.js"))
+  CONFIG_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol/config.js")
+
 
 
 # INITIAL VARS ------------------------------------------------------------
@@ -76,9 +90,11 @@ ui <- fluidPage(
   sidebarLayout(
     sidebarPanel(
       width = 2,
-      shiny::h3("Select your experiment parameters"),
+      shiny::h4("jsPsychMakeR config"),
+      # shiny::h4("Select your experiment parameters"),
       shiny::hr(),
       
+      HTML("This app will help you create your first config.js file for a jsPsychMaker jsPsych protocol. Please, see the <a href = 'https://gorkang.github.io/jsPsychR-manual/'>jsPsychR-manual</a> for more details. <BR><BR>"),
       HTML("After selecting the parameters for the experiment, click 'Create config'. <BR><BR>A 'config.js' file will be downloaded to your Downloads folder. Copy the file to your protocol folder."),
       # selectInput(inputId = "controller", label = "Show", choices = c("Tasks", "Other parameters", "Intro experiment")),
       
@@ -103,8 +119,8 @@ ui <- fluidPage(
             shiny::h3("Tasks"),
             shiny::hr(),
             shiny::h4("# of blocks"),
-            shiny::HTML("Select how many random and sequential blocks of taks you need"),
-            shiny::br(),shiny::br(),
+            shiny::helpText("Select how many random and sequential blocks of taks you need."),
+            shiny::br(),
             
             fluidRow(
               column(width = 5, selectInput("num_random", "# random blocks", choices = seq(0, 5, 1), selected = 1, width = "150")),
@@ -113,18 +129,29 @@ ui <- fluidPage(
             
             shiny::hr(),
             shiny::h4("Tasks per block"),
-            shiny::HTML("Select the tasks you want in each block"),
-            shiny::br(),shiny::br(),
+            shiny::helpText("Select the tasks you want in each block. The tasks in random blocks will be presented in random order."),
+            shiny::br(),
             
-            selectInput(inputId = get_params("first_tasks", "variable"), label = get_params("first_tasks", "variable"), selected = get_params("first_tasks", "value"),  choices = available_tasks, multiple = TRUE, selectize = TRUE, width = "100%"),
+            selectizeInput(inputId = get_params("first_tasks", "variable"), 
+                           label = get_params("first_tasks", "variable"), 
+                           selected = get_params("first_tasks", "value"),  
+                           choices = available_tasks, 
+                           multiple = TRUE, width = "100%",
+                           options = list(plugins = list("drag_drop", "remove_button"))),
+            # selectInput(inputId = get_params("first_tasks", "variable"), label = get_params("first_tasks", "variable"), selected = get_params("first_tasks", "value"),  choices = available_tasks, multiple = TRUE, selectize = TRUE, width = "100%"),
             uiOutput("dynamic_sequencial_blocks"),
             uiOutput("dynamic_random_blocks"),
-            selectInput(inputId = get_params("last_tasks", "variable"), label = get_params("last_tasks", "variable"), selected = get_params("last_tasks", "value"),  choices = available_tasks, multiple = TRUE, selectize = TRUE, width = "100%"),
+            selectizeInput(inputId = get_params("last_tasks", "variable"), 
+                           label = get_params("last_tasks", "variable"), 
+                           selected = get_params("last_tasks", "value"),  
+                           choices = available_tasks, 
+                           multiple = TRUE, width = "100%",
+                        options = list(plugins = list("drag_drop", "remove_button"))),
             
             shiny::hr(),
             shiny::h4("Order of blocks"),
-            shiny::HTML("Select the order in which the blocks will be presented"),
-            shiny::br(),shiny::br(),
+            shiny::helpText("Select the order in which the blocks will be presented."),
+            shiny::br(),
             
             uiOutput("dynamic_tasks_input"),
           )
@@ -132,33 +159,46 @@ ui <- fluidPage(
         
         
 
-        # Other parameters --------------------------------------------------------
+        # Main parameters --------------------------------------------------------
 
         
-        tabPanel("Other parameters", {
+        tabPanel("Main parameters", {
           
           mainPanel(
             
-            shiny::h3("Other parameters"),
+            shiny::h3("Main parameters"),
             shiny::hr(),
             
-            shiny::h4("Numeric parameters"),
-            # shiny::HTML("Enter number"),
-            shiny::br(),shiny::br(),
+            # shiny::h4("Numeric parameters"),
+            # shiny::HTML("Enter your protocol number, max number of participants and max time for your protocol"),
+            # shiny::br(),
             
-            
+            helpText("Protocol ID for your protocol. If an online protocol, ask the server administrator"),
             numericInput(inputId = get_params("pid", "variable"), label = get_params("pid", "variable"), value = get_params("pid", "value"), width = "100"),
+            
+            helpText("Max number of participants per condition"),
             numericInput(inputId = get_params("max_participants", "variable"), label = get_params("max_participants", "variable"), value = get_params("max_participants", "value"), width = "100"),
+            
+            helpText("Time in hours participants will have to complete the protocol after accepting the Consent form"),
             numericInput(inputId = get_params("max_time", "variable"), label = get_params("max_time", "variable"), value = get_params("max_time", "value"), width = "100"),
             
             shiny::hr(),
-            shiny::h4("Logical parameters"),
-            # shiny::HTML("Click on switches"),
-            shiny::br(),shiny::br(),
+            # shiny::h4("Logical parameters"),
+            # shiny::HTML("Select if you want an online/offline protocol, if you will accept discarded participants (after running out of time), if participants will be assigned a random id..."),
+            # shiny::br(),
+            
+            helpText("The protocol will run online or offline"),
             switchInput(inputId = get_params("online", "variable"), label = get_params("online", "variable"), value = get_params("online", "value"), width = "100"),
+            
+            helpText("Should participants be able to continue the protocol after they run out of time?"),
             switchInput(inputId = get_params("accept_discarded", "variable"), label = get_params("accept_discarded", "variable"), value = get_params("accept_discarded", "value"), width = "100"),
+            
+            helpText("Assign random id to participants of ask for one"),
             switchInput(inputId = get_params("random_id", "variable"), label = get_params("random_id", "variable"), value = get_params("random_id", "value"), width = "100"),
+            
+            helpText("If testing the protocol, it is recommended to use debug_mode"),
             switchInput(inputId = get_params("debug_mode", "variable"), label = get_params("debug_mode", "variable"), value = get_params("debug_mode", "value"), width = "100")
+            
           )
         }),
         
@@ -172,8 +212,8 @@ ui <- fluidPage(
             shiny::h3("Text parameters"),
             shiny::hr(),
             shiny::h4("Intro screens"),
-            shiny::HTML("Text to show in the initial screen (intro_HTML) and in the screen after the user ID is assigned (outro_HTML)"),
-            shiny::br(),shiny::br(),
+            shiny::helpText("Text to show in the initial screen (intro_HTML) and in the screen after the user ID is assigned (outro_HTML)"),
+            shiny::br(),
             
             textInput(inputId = get_params("var_researcher_email", "variable"), label = get_params("var_researcher_email", "variable"), value = get_params("var_researcher_email", "value"), placeholder = "youremail@email.com"),
             
@@ -182,10 +222,11 @@ ui <- fluidPage(
             
             shiny::hr(),
             shiny::h4("Messages"),
-            shiny::HTML("Text of messages shown in protocol"),
-            shiny::br(),shiny::br(),
+            shiny::helpText("Text of messages shown in protocol"),
+            shiny::br(),
             
-            textInput(inputId = get_params("message_str", "variable"), label = get_params("message_str", "variable"), value = get_params("message_str", "value")),
+            textInput(inputId = get_params("message_str", "variable"), label = get_params("message_str", "variable"), value = get_params("message_str", "value"), width = "100%"),
+            shiny::helpText("Text shown while loading experiment materials.")
             
           )
         })
@@ -214,13 +255,14 @@ server <- function(input, output, session) {
 
         lapply(1:num_sequential, function(i) {
 
-          selectInput(inputId = paste0("secuentially_ordered_tasks_", i),#'secuentially_ordered_tasks_1',
+          selectizeInput(inputId = paste0("secuentially_ordered_tasks_", i),#'secuentially_ordered_tasks_1',
                       label = paste0("secuentially_ordered_tasks_", i),
                       choices = available_tasks,
                       multiple = TRUE,
-                      selectize = TRUE,
+                      # selectize = TRUE,
                       width = "100%",
-                      selected = get_params(paste0("secuentially_ordered_tasks_", i), "value")
+                      selected = get_params(paste0("secuentially_ordered_tasks_", i), "value"),
+                      options = list(plugins = list("drag_drop", "remove_button"))
                       )
         })
       }
@@ -234,13 +276,14 @@ server <- function(input, output, session) {
 
         lapply(1:num_random, function(i) {
           
-          selectInput(inputId = paste0("randomly_ordered_tasks_", i), #'randomly_ordered_tasks_1',
+          selectizeInput(inputId = paste0("randomly_ordered_tasks_", i), #'randomly_ordered_tasks_1',
                       label = paste0("randomly_ordered_tasks_", i),
                       choices = available_tasks,
                       multiple = TRUE,
-                      selectize = TRUE,
+                      # selectize = TRUE,
                       width = "100%",
-                      selected = get_params(paste0("randomly_ordered_tasks_", i), "value")
+                      selected = get_params(paste0("randomly_ordered_tasks_", i), "value"),
+                      options = list(plugins = list("drag_drop", "remove_button"))
                       )
         })
 
@@ -258,14 +301,15 @@ server <- function(input, output, session) {
     INPUTS_random = ifelse(input$num_random > 0, list(paste0("randomly_ordered_tasks_", 1:input$num_random)), "")
     INPUTS_sequential = ifelse(input$num_sequential > 0, list(paste0("secuentially_ordered_tasks_", 1:input$num_sequential)), "")
 
-    selectInput(inputId = 'tasks',
+    selectizeInput(inputId = 'tasks',
                 label = 'Order of task blocks',
                 choices = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"),
                 multiple = TRUE,
-                selectize = TRUE,
+                # selectize = TRUE,
                 width = "100%",
                 # selected = get_params("tasks", "value") # If we use this, the selection does not change automatically when adding more random or sequential blocks
-                selected = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks")
+                selected = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"),
+                options = list(plugins = list("drag_drop", "remove_button"))
                 )
   })
 
