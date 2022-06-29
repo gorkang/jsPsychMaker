@@ -49,12 +49,11 @@ message_str = 'El protocolo está cargando, espere un momento...'; // Message wh
 img_folder = 'media/img/';
 audio_folder = 'media/audio/';
 
-images =  [img_folder + 'VPP_low.png',  img_folder + 'VPP_high.png', img_folder + 'VPN_low.png',  img_folder + 'VPN_high.png',
-          img_folder + 'BART/BART_redBalloon.png',
-          img_folder + 'Baby_cerebro_VC.png', img_folder + 'Baby_lactancia_VC.png', img_folder + 'Baby_respiratorios_VC.png', img_folder + 'Baby_UCI_VC.png', img_folder + 'Mother_anestesia_VC.png', img_folder + 'Mother_depresion_VC.png', img_folder + 'Mother_histerectomia_VC.png', img_folder + 'Mother_infeccion_VC.png', img_folder + 'Mother_lesion_VC.png', img_folder + 'Mother_paro_VC.png', img_folder + 'Mother_UCI_VC.png'
+images =  [img_folder + 'BART/BART_redBalloon.png',
+          img_folder + 'INFCONS/Baby_cerebro_VC.png', img_folder + 'INFCONS/Baby_lactancia_VC.png', img_folder + 'INFCONS/Baby_respiratorios_VC.png', img_folder + 'INFCONS/Baby_UCI_VC.png', img_folder + 'INFCONS/Mother_anestesia_VC.png', img_folder + 'INFCONS/Mother_depresion_VC.png', img_folder + 'INFCONS/Mother_histerectomia_VC.png', img_folder + 'INFCONS/Mother_infeccion_VC.png', img_folder + 'INFCONS/Mother_lesion_VC.png', img_folder + 'INFCONS/Mother_paro_VC.png', img_folder + 'INFCONS/Mother_UCI_VC.png'
           ];
-audios = [audio_folder + 'BART_inflate.mp3', audio_folder + 'BART_explode.mp3', audio_folder + 'BART_collect.mp3', audio_folder + 'silence.mp3'];
-video = ['media/vid/Entrevista1.mp4'];
+audios = [audio_folder + 'BART/BART_inflate.mp3', audio_folder + 'BART/BART_explode.mp3', audio_folder + 'BART/BART_collect.mp3', audio_folder + 'BART/BART_silence.mp3'];
+video = ['media/vid/EmpaTom/Entrevista1.mp4'];
 
 
 
