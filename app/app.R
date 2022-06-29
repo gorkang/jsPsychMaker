@@ -17,14 +17,13 @@
   library(tidyr)
   library(purrr)
   library(htmltools)
-
-# library(shinyjs)
+  library(shinyjs)
+  library(httr)
 
 
 # External files ---------------------------------------------------------
 
   get_github_files <- function() {
-    library(httr)
     req = GET("https://api.github.com/repos/gorkang/jsPsychMaker/git/trees/main?recursive=1")
     stop_for_status(req)
     filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = F)
@@ -97,9 +96,68 @@ get_params <- function(variable_str, what, DF = DF_config) {
 # get_params("var_title", "value", DF_consent)
 
 
+
+# Function to find and replace the values associated to each tag
+# It also adapts the output text to js
+replace_TAG <- function(name_tag) {
+  
+  # name_tag = XXX[3]
+  name_text = names(name_tag[1])
+  value_text = name_tag[1]
+  
+  if(is.null(all_of(value_text[[1]]))) value_text = ""
+  
+  # Prepare vars for js file
+  if(value_text %in% c(TRUE, FALSE)) {
+    
+    cli::cli_alert("logical")
+    value_text = tolower(value_text)
+    
+  } else if (is.character(value_text[[1]])) {
+    
+    cli::cli_alert("character || {value_text[[1]]}")
+    
+    # If it's a string, add ''
+    if (length(value_text[[1]]) == 1) {
+      value_text = paste0("'", value_text, "'") # Add ''
+      # If it's a vector, add []
+    } else {
+      value_text = value_text %>% gsub("c\\(", "[", .) %>% gsub("\\)", "]", .) # c("a", "b") -> ["a", "b"]
+    }
+    
+    
+  } else {
+    
+    cli::cli_alert("Numeric")
+    value_text = value_text
+    
+  }
+  
+  # If it's max_time, replace only hour
+  if (name_text == "max_time") value_text = paste0("'", sprintf("%02d", value_text[[1]]), ":00:00'")
+  
+  # Overwrite CONFIG_file (<<- so it will use it in the map loop)
+  CONFIG_file <<- gsub(pattern = paste0("^", name_text, " = .*"),
+                       replacement = paste0(name_text, " = ", value_text), CONFIG_file)
+  
+  CONSENT_file <<- gsub(pattern = paste0("^", name_text, " = .*"),
+                       replacement = paste0(name_text, " = ", value_text), CONSENT_file)
+  
+  OUTPUT = list(CONFIG_file = CONFIG_file,
+                CONSENT_file = CONSENT_file)
+  
+  return(OUTPUT)
+  
+  
+}
+
+
+
 # UI ----------------------------------------------------------------------
 
 ui <- fluidPage(
+  shinyjs::useShinyjs(),  
+  
 
   # Sidebar -----------------------------------------------------------------
   
@@ -110,12 +168,16 @@ ui <- fluidPage(
       # shiny::h4("Select your experiment parameters"),
       shiny::hr(),
       
-      HTML("This app will help you create your first config.js file for a jsPsychMaker jsPsych protocol. Please, see the <a href = 'https://gorkang.github.io/jsPsychR-manual/'>jsPsychR-manual</a> for more details. <BR><BR>"),
-      HTML("After selecting the parameters for the experiment, click 'Create config'. <BR><BR>A 'config.js' file will be downloaded to your Downloads folder. Copy the file to your protocol folder."),
+      uiOutput("text"),
+      
+      
+      # HTML("This app will help you create your first config.js file for a jsPsychMaker jsPsych protocol. Please, see the <a href = 'https://gorkang.github.io/jsPsychR-manual/'>jsPsychR-manual</a> for more details. <BR><BR>"),
+      # HTML("After selecting the parameters for the experiment, click 'Create config'. <BR><BR>A 'config.js' file will be downloaded to your Downloads folder. Copy the file to your protocol folder."),
       # selectInput(inputId = "controller", label = "Show", choices = c("Tasks", "Other parameters", "Intro experiment")),
       
       shiny::hr(),
-      downloadButton(outputId = "download_button", label = "Create config")
+      downloadButton(outputId = "download_button", label = "Create config"),
+      downloadButton(outputId = "download_consent", label = "Create consent")
     ),
 
 
@@ -130,7 +192,7 @@ ui <- fluidPage(
         
         # Main parameters --------------------------------------------------------
         
-        tabPanel("Main parameters", {
+        tabPanel(title = "Main parameters", value = "Main parameters", {
           
           mainPanel(
             
@@ -172,7 +234,7 @@ ui <- fluidPage(
 
         # Tasks -------------------------------------------------------------------
         
-        tabPanel("Tasks", {
+        tabPanel("Tasks", value = "Tasks", {
           
           mainPanel(
 
@@ -225,7 +287,7 @@ ui <- fluidPage(
       # Intro experiment --------------------------------------------------------
 
         
-      tabPanel("Text parameters", {
+      tabPanel("Text parameters", value = "Text parameters", {
 
           mainPanel(
             shiny::h3("Text parameters"),
@@ -249,13 +311,18 @@ ui <- fluidPage(
             
           )
         }),
-      tabPanel("Consent", {
+      
+      
+
+      # Consent -----------------------------------------------------------------
+
+      tabPanel("Consent", value = "Consent", {
         
         mainPanel(
           shiny::h3("Consent form"),
           shiny::hr(),
-          shiny::h4("Parameters consent form JS"),
-          shiny::helpText("Fill out and download consent.js. Then copy to XXX/XXX/consent.js"),
+          shiny::h4("Parameters consent form"),
+          shiny::helpText("Fill this TAB ONLY if you want to create a Consent form using our template. Once you are done, click [Create consent]. Copy the downloaded file to '/media/consent/consent-placeholder.js'. You can ", shiny::HTML("<a href = 'consent_example.pdf'>DOWNLOAD the Consent template here.</a>.")),
           shiny::br(),
           
           textAreaInput(inputId = get_params("var_title", "variable", DF_consent), 
@@ -316,13 +383,14 @@ server <- function(input, output, session) {
 
       
   # Change tab --------------------------------------------------------------
+  # UI: selectInput(inputId = "controller", label = "Show", choices = c("jsPsychMakeR", "jsPsychMonkeys", "jsPsychHelpeR")),
+  
+  # observeEvent(input$controller, {
+  #   updateTabsetPanel(inputId = "switcher", selected = input$controller)
+  #   })
 
-  observeEvent(input$controller, {
-    updateTabsetPanel(inputId = "switcher", selected = input$controller)
-    })
 
-
-  # Random blocks -----------------------------------------------------------
+  # Sequential blocks -----------------------------------------------------------
 
     output$dynamic_sequencial_blocks <- renderUI({
       
@@ -344,7 +412,9 @@ server <- function(input, output, session) {
         })
       }
     })
-
+    
+  # Random blocks -----------------------------------------------------------
+    
     output$dynamic_random_blocks <- renderUI({
       
       num_random <- as.integer(input$num_random)
@@ -391,72 +461,20 @@ server <- function(input, output, session) {
   })
 
 
-
-  # Button ------------------------------------------------------------------
+# TODO: These two are redundant, as OUTPUT contains OUTPUT$CONFIG_file and OUTPUT$CONSENT_file
+  
+  # CREATE config.js ------------------------------------------------------------------
 
     TEXT = reactive({
 
-      # INPUT_config = readLines(here::here("canonical_protocol/config.js"))
-
+      # Get all inputs from shiny app
       list_of_inputs <- reactiveValuesToList(input)
-      print(list_of_inputs)
-
-      # XXX = list(online = TRUE, max_participants = "1", last_tasks = c('DEMOGR', 'AIM'))
-      # list_of_inputs = XXX
-
-      # Function to find and replace the values associated to each tag
-      # It also adapts the output text to js
-      replace_TAG <- function(name_tag) {
-        
-        # name_tag = XXX[3]
-        name_text = names(name_tag[1])
-        value_text = name_tag[1]
-        
-        if(is.null(all_of(value_text[[1]]))) value_text = ""
-
-        # Prepare vars for js file
-        if(value_text %in% c(TRUE, FALSE)) {
-          
-          cli::cli_alert("logical")
-          value_text = tolower(value_text)
-          
-        } else if (is.character(value_text[[1]])) {
-          
-          cli::cli_alert("character || {value_text[[1]]}")
-          
-          # If it's a string, add ''
-          if (length(value_text[[1]]) == 1) {
-            value_text = paste0("'", value_text, "'") # Add ''
-          # If it's a vector, add []
-          } else {
-            value_text = value_text %>% gsub("c\\(", "[", .) %>% gsub("\\)", "]", .) # c("a", "b") -> ["a", "b"]
-          }
-          
-          
-        } else {
-          
-          cli::cli_alert("Numeric")
-          value_text = value_text
-          
-        }
-
-        # If it's max_time, replace only hour
-        if (name_text == "max_time") value_text = paste0("'", sprintf("%02d", value_text[[1]]), ":00:00'")
-
-        # Overwrite CONFIG_file (<<- so it will use it in the map loop)
-        CONFIG_file <<- gsub(pattern = paste0("^", name_text, " = .*"),
-             replacement = paste0(name_text, " = ", value_text), CONFIG_file)
-
-        return(CONFIG_file)
-
-
-      }
+      # print(list_of_inputs)
 
       # Go trough all list_of_inputs and change one by one in OUTPUT_config
       OUTPUT_config =
         1:length(list_of_inputs) %>%
         purrr::map(~{
-          
           cli::cli_alert_info("{names(list_of_inputs[.x])}: {list_of_inputs[.x]}")
           # .x = 1
           replace_TAG(list_of_inputs[.x])
@@ -464,9 +482,37 @@ server <- function(input, output, session) {
       
       # Get last element of OUTPUT_config, where all changes have been made
       OUTPUT = OUTPUT_config[[length(OUTPUT_config)]]
-      OUTPUT
+      OUTPUT$CONFIG_file
 
     })
+
+    
+    # CREATE consent-placeholder.js -------------------------------------------
+
+    TEXT_consent = reactive({
+      
+      # Get all inputs from shiny app
+      list_of_inputs <- reactiveValuesToList(input)
+      # print(list_of_inputs)
+
+      # Go trough all list_of_inputs and change one by one in OUTPUT_consent
+      OUTPUT_consent =
+        1:length(list_of_inputs) %>%
+        purrr::map(~{
+          # cli::cli_alert_info("{names(list_of_inputs[.x])}: {list_of_inputs[.x]}")
+          # .x = 1
+          replace_TAG(list_of_inputs[.x])
+        })
+      
+      # Get last element of OUTPUT_consent, where all changes have been made
+      OUTPUT = OUTPUT_consent[[length(OUTPUT_consent)]]
+      OUTPUT$CONSENT_file
+      
+    })
+    
+ 
+
+  # config.js button --------------------------------------------------------
 
     output$download_button <- downloadHandler(
       filename = "config.js",
@@ -474,7 +520,50 @@ server <- function(input, output, session) {
         writeLines(TEXT(), file)
         }
     )
+    
+  # consent-placeholder.js button -------------------------------------------
+    
+    output$download_consent <- downloadHandler(
+      filename = "consent-placeholder.js",
+      content = function(file) {
+        writeLines(TEXT_consent(), file)
+      }
+    )
 
+    
+
+  # Change button and text depending on TAB ---------------------------------
+  
+    observeEvent(input$switcher,{
+      observe(
+        if(input$switcher == "Consent"){
+          
+          output$text <- renderUI({
+            HTML("This app will help you create your Consent form file for a jsPsychMaker protocol. <BR><BR>
+            After selecting the parameters for the Consent, click [Create consent]. <BR><BR>
+            A 'consent-placeholder.js' file will be downloaded to your Downloads folder. Copy the file to the <B>media/consent/</B> folder in your protocol folder."
+                 )})
+          
+          shinyjs::show("download_consent")
+          shinyjs::hide("download_button")
+          
+        } else{
+          
+          output$text <- renderUI({
+            HTML("This app will help you create your first config.js file for a jsPsychMaker protocol. Please, see the <a href = 'https://gorkang.github.io/jsPsychR-manual/'>jsPsychR-manual</a> for more details. <BR><BR>
+            After selecting the parameters for the experiment in the tabs <B>Main parameters, Tasks, Text parameters</B>, click [Create config]. <BR><BR>
+            A 'config.js' file will be downloaded to your Downloads folder. Copy the file to your protocol folder."
+                 )})
+          
+          shinyjs::show("download_button")
+          shinyjs::hide("download_consent")
+          
+        }
+      )
+
+    })
+    
+    
 
 }
 
