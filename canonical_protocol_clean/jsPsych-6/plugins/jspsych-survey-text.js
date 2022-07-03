@@ -45,7 +45,7 @@ jsPsych.plugins['survey-text'] = (function() {
             type: jsPsych.plugins.parameterType.STRING,
             pretty_name: 'Type',
             default: "text",
-            description: 'The type of answer (range, date, text, number)'
+            description: 'The type of answer (range, date, text, number, textarea)'
           },
           language: {
             type: jsPsych.plugins.parameterType.STRING,
@@ -172,13 +172,15 @@ jsPsych.plugins['survey-text'] = (function() {
 
       html += '<div id="jspsych-survey-text-' + i + '" class="jspsych-survey-text-question" style="margin: 2em 0em;">';
       html += '<p class="jspsych-survey-text">' + trial.questions[i].prompt;
-      if (trial.questions[i].type == "range"){
+      if (trial.questions[i].type == "textarea") {
+        html += '</p><textarea type="' + trial.questions[0].type + '" name="#jspsych-survey-' + trial.questions[0].type + '-response-' + i;
+      } else if (trial.questions[i].type == "range"){
         html += '</p><input type="' + 'number' + '" name="#jspsych-survey-' + 'number' + '-response-' + i + '" min ="' + min + '" max ="' + max;
       } else {
         html += '</p><input type="' + trial.questions[0].type + '" name="#jspsych-survey-' + trial.questions[0].type + '-response-' + i;
       }
       if(trial.questions[i].rows == 1){
-        html += '" size="'+trial.questions[i].columns;
+        html += '" size="' + trial.questions[i].columns;
       } else {
         html += '" cols="' + trial.questions[i].columns + '" rows="' + trial.questions[i].rows;
       }
@@ -189,7 +191,11 @@ jsPsych.plugins['survey-text'] = (function() {
         html += ' autofocus';
       }
 
-      html += '></input>' + trial.questions[i].endword + '<p></p></div>';
+      if (trial.questions[i].type == "textarea") {
+        html += '></textarea><p></p></div>';
+      } else {
+        html += '></input>' + trial.questions[i].endword + '<p></p></div>';
+      }
 
     }
 
@@ -213,21 +219,14 @@ jsPsych.plugins['survey-text'] = (function() {
       // create object to hold responses
       var question_data = {};
       var matches = display_element.querySelectorAll('div.jspsych-survey-text-question');
+
+      let validation_list = [];
+
       for(var index=0; index<matches.length; index++){
         var id = "Q" + index;
         var val = matches[index].querySelector('textarea, input').value;
         var obje = {};
-        obje[id] = val;
-        Object.assign(question_data, obje);
-      }
-      // save data
-      var trialdata = {
-        "stimulus": stripHtml(JSON.stringify(questions_list)),
-        "rt": response_time,
-        "response": stripHtml(JSON.stringify(question_data))
-      };
 
-      for(var index=0; index<matches.length; index++){
         if (trial.questions[index].type == 'range')
           var textBox = document.getElementsByName('#jspsych-survey-'+ 'number' +'-response-' + [index])[0];
         else
@@ -253,9 +252,9 @@ jsPsych.plugins['survey-text'] = (function() {
           validation = !isNumeric(val) && !isNumeric(val.replace(/\s/g, ""));
 
         if (validation && pass) {
-          display_element.innerHTML = '';
-          jsPsych.pluginAPI.clearAllTimeouts();
-          jsPsych.finishTrial(trialdata);
+          obje[id] = val;
+          Object.assign(question_data, obje);
+          validation_list.push(true);
         } else {
           textBox.blur();
           textBox.focus();
@@ -275,7 +274,21 @@ jsPsych.plugins['survey-text'] = (function() {
           } else{
             event.cancelBubble = true;
           }
+          validation_list.push(false);
         }
+      }
+
+      if (validation_list.every(element => element)) {
+        // save data
+        var trialdata = {
+          "stimulus": stripHtml(JSON.stringify(questions_list)),
+          "rt": response_time,
+          "response": stripHtml(JSON.stringify(question_data))
+        };
+
+        display_element.innerHTML = '';
+        jsPsych.pluginAPI.clearAllTimeouts();
+        jsPsych.finishTrial(trialdata);
       }
     });
 
