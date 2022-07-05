@@ -10,7 +10,7 @@
 check_trialids <- function(local_folder_protocol) {
   
   # DEBUG
-  # local_folder_protocol = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/CSCN-server/protocols/1"
+  # local_folder_protocol = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/CSCN-server/protocols/999"
   
   suppressMessages(suppressWarnings(library(dplyr)))
   suppressMessages(suppressWarnings(library(purrr)))
@@ -28,16 +28,26 @@ check_trialids <- function(local_folder_protocol) {
     find_trialids <- function(file_name) {
       
       # DEBUG
-      # file_name = scripts[1]
+      # file_name = scripts[51]
       
       script = read_file(file_name) 
-      expres = ".*?trialid: '(.*?)'.*?"
-      trialid = gsub(expres, "\\1; \n", script) %>% gsub("^(.*; \n).*", "\\1", .) %>% gsub(";", "", .) %>% gsub(" number \n", "", .)
+      # expres = ".*?trialid: '(.*?)'.*?"
+      # trialid = gsub(expres, "\\1; \n", script) %>% gsub("^(.*; \n).*", "\\1", .) %>% gsub(";", "", .) %>% gsub(" number \n", "", .)
+      expres = ".*?trialid: (.*?),.*?"
+      trialid = 
+        gsub(expres, "\\1; \n", script) %>% 
+        gsub("^(.*; \n).*", "\\1", .) %>% 
+        gsub(";", "", .) %>% 
+        gsub(" number \n", "", .) %>% 
+        gsub("'", "", .) %>% # Get rid of '
+        gsub('"', '', .) %>% # Get rid of " 
+        gsub("  ", " ", .) # Get rid of "  "
+      
       if (grepl("This document was made with test_maker", trialid)) trialid = ""
       strsplit(trialid, " \n")[[1]] %>% as_tibble() %>% 
         mutate(file = file_name) %>% 
         rename(trialid = value) %>% 
-        filter(!grepl("^Instructions|^Instructions_[0-9]{2}|^Fullscreen", trialid))
+        filter(!grepl("^Instructions|^Instructions_[0-9]{2}|^Fullscreen|jsPsych.timelineVariable", trialid))
       
     }
     
@@ -47,10 +57,27 @@ check_trialids <- function(local_folder_protocol) {
     rule_check_trialids = "^[a-zA-Z0-9]{1,100}_[0-9]{2,3}$|^[a-zA-Z0-9]{1,100}_[0-9]{2,3}_[0-9]{1,3}$|^[a-zA-Z0-9]{1,100}_[0-9]{2,3}_if$|^[a-zA-Z0-9]{1,100}_[0-9]{2,3}_[0-9]{1,3}_if$" # NAME_001, NAMEexperiment_001_1
     # rule_check_trialids = "NAMEtest_01\NAMEtest_01_1\NAMEtest_01_if|NAMEtest_01_1_if" 
     
-    DF_problematic_trialids = 
+    # DF_problematic_trialids = 
+    #   DF_all_trialids %>% 
+    #   filter(!grepl(rule_check_trialids, trialid)) %>% 
+    #   mutate(experiment = basename(file)) %>% 
+    #   select(-file)
+    
+    DF_problematic_trialids =
       DF_all_trialids %>% 
-      filter(!grepl(rule_check_trialids, trialid)) %>% 
-      mutate(experiment = basename(file)) %>% 
+      separate(trialid, into = c("task", "num", "subnum"), sep = "_", extra = "merge", fill = "right", remove = FALSE) %>% 
+      mutate(experiment = gsub(".js", "", basename(file))) %>% 
+        filter(
+          !(
+            # shortname_itemNumber_otherStuff
+            task == experiment & # Task name == experiment
+            (grepl("[0-9]{2,3}", num) | grepl("\\+ pad|\\+ String", num)) & # itemNumber hardcoded or automatically generated 
+            (is.na(subnum) | subnum == "if" | grepl("[0-9]{1}", subnum) | grepl("if_[0-9]{1}", subnum) | grepl("\\+ num", subnum))
+            )
+        ) %>% 
+      
+      # filter(!grepl(rule_check_trialids, trialid)) %>% 
+      # mutate(experiment = basename(file)) %>% 
       select(-file)
     
     if (nrow(DF_problematic_trialids) > 0) {
