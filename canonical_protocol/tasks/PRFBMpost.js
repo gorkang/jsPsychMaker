@@ -52,7 +52,7 @@ var question03 = {
 
 var if_question03 = {
 timeline: [question03],
-data: {trialid: 'PRFBM_03_if', procedure: 'PRFBM'},
+data: {trialid: 'PRFBMpost_03_if', procedure: 'PRFBM'},
 conditional_function: function(){
   let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'PRFBMpost_01'))['response'])['Q0']).trim();
  if((data) ==  'Parto por cesárea (extracción del bebé por medio de una cirugía con anestesia. Se realiza una incisión abdominal y una incisión para abrir el útero)'){
