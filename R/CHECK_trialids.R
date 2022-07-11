@@ -1,4 +1,5 @@
-source("R/helper_functions.R")
+library(tidyverse)
+source("../jsPsychHelpeR/R/helper_functions.R")
 
 cat(crayon::silver("CHECKING trialids for canonical_protocol/\n"))
 check_trialids(local_folder_protocol = "canonical_protocol/")
@@ -15,7 +16,7 @@ check_trialids(local_folder_protocol = "canonical_protocol/")
 
 # CHECK TRIALIDs ----------------------------------------------------------
 
-source("../jsPsychMaker/R/helper_functions.R")  
+source("../jsPsychHelpeR/R/helper_functions.R")  
 ALL_PROTOCOLS = basename(list.dirs("../CSCN-server/protocols/", recursive = FALSE))
 TEST_PROTOCOLS = basename(list.dirs("../CSCN-server/protocols/test/", recursive = FALSE))
 
