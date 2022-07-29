@@ -1,4 +1,4 @@
-This folder contains the original scientific papers from which the tasks where implemented.
+This folder contains the original scientific papers from which the tasks where implemented. The only goal to keep the papers here is to make possible for the users of jsPsychR to check the details of our implementation of the tasks and their correction. [Open science improves the quality, reproducibility and impact of science](https://unesdoc.unesco.org/ark:/48223/pf0000379949).   
 
 When there are validations papers in Spanish, we also include them.
 
