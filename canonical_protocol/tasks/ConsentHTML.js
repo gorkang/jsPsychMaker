@@ -28,7 +28,7 @@ var trial = {
   data: {
     trialid: 'ConsentHTML_001',
     procedure: 'ConsentHTML',
-     stimulus: 'html/consent-nieves.html',
+     stimulus: 'html/consent-placeholder.html',
      response: document.getElementById("start").id
    }
 };
