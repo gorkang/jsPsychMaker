@@ -2,7 +2,7 @@
 
 // Main parameters -------------------------------------------------------------
 pid = 999; // Protocol ID [number]
-online = true; // Protocol runs online [true/false]
+online = false; // Protocol runs online [true/false]
 max_participants = 1000; // Max participants per contition [number]
 random_id = false; // Assign random id to participants [true/false]
 max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
@@ -29,7 +29,7 @@ first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
-randomly_ordered_tasks_1 = ['DEMOGR', 'AIM']; // Block of tasks in random order
+randomly_ordered_tasks_1 = ['SHORNAMETASKslider', 'SHORNAMETASKmultichoice']; // Block of tasks in random order
 secuentially_ordered_tasks_1 = ['IDQ', 'REI40']; // Block of tasks in sequential order
 
 // FINAL ARRAY of tasks [build combining the above blocks]
