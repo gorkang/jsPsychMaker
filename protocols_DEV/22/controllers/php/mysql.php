@@ -30,7 +30,7 @@ $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
 if (strpos($url,'test') !== false) {
   // If running task in protocols/tests/ folder:
-  require_once '../../../../../../../../../.secrets_mysql.php';
+  require_once '../../../../../../../../../../.secrets_mysql.php';
 } else {
   // If running task in protocols/ folder:
   require_once '../../../../../../../../.secrets_mysql.php';
@@ -58,21 +58,21 @@ if (strpos($url,'test') !== false) {
   // -------------------------------------------------------------------
 
   function general_query($data, $conn) {
- 
+
     $query = $data["sql"] . " WHERE " . $data["id"] . " AND task.id_protocol = " . $data["pid"];
     // echo($query);
-  
+
       if (array_key_exists('keys', $data) && array_key_exists('values', $data)) {
         for ($i=0; $i < count($data["keys"]); $i++) {
           $query = $query . " AND " . $data["keys"][$i] . " = " . $data["values"][$i];
         }
       }
-  
+
       echo("[");
       $starting = true;
       $query = $query . ";";
       $result = mysqli_query($conn, $query);
-  
+
       while ($row = $result->fetch_assoc()) {
         $first = true;
         if ($starting){
@@ -81,7 +81,7 @@ if (strpos($url,'test') !== false) {
         } else {
           echo ", {";
         }
-  
+
         foreach($row as $key=>$value) {
           if ($first) {
             $first = false;
@@ -95,11 +95,11 @@ if (strpos($url,'test') !== false) {
       echo("]");
 
   };
-  
+
   // -------------------------------------------------------------------
   // -------------------------------------------------------------------
-  
-  
+
+
 
 
   function createTable($data, $conn) {
@@ -154,7 +154,7 @@ if (strpos($url,'test') !== false) {
 
 
   function findAll($data, $conn) {
-  
+
     $query = "LOCK TABLES " . $data["table_name"] . " WRITE;";
     $result = mysqli_query($conn, $query);
 
