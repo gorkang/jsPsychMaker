@@ -30,7 +30,7 @@ var question02 = {
 SHORNAMETASKmultichoice.push(question02);
 
 // Randomize order of items
-if (debug_mode == 'false') SHORNAMETASKmultichoice = jsPsych.randomization.repeat(SHORNAMETASKmultichoice,1);
+if (debug_mode === false) SHORNAMETASKmultichoice = jsPsych.randomization.repeat(SHORNAMETASKmultichoice,1);
 SHORNAMETASKmultichoice.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SHORNAMETASKmultichoice)
 

@@ -295,7 +295,7 @@ var question40 = {
 };
 REI40.push(question40);
 
-if (debug_mode == 'false') REI40 = jsPsych.randomization.repeat(REI40,1);
+if (debug_mode === false) REI40 = jsPsych.randomization.repeat(REI40,1);
 
 REI40.unshift(instruction_screen_experiment);
 questions.push.apply(questions, REI40);

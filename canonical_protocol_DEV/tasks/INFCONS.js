@@ -50,7 +50,7 @@ var question04 = {
 };
 INFCONS.push(question04);
 
-if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode === false) INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS);
 
@@ -117,7 +117,7 @@ var question11 = {
 };
 INFCONS.push(question11);
 
-if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode === false) INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, INFCONS);
 
@@ -172,7 +172,7 @@ var question15 = {
 };
 INFCONS.push(question15);
 
-if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode === false) INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS);
 
@@ -239,7 +239,7 @@ var question22 = {
 };
 INFCONS.push(question22);
 
-if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode === false) INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS);
 
@@ -293,7 +293,7 @@ var question26 = {
 };
 INFCONS.push(question26);
 
-if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode === false) INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS);
 
@@ -360,7 +360,7 @@ var question33 = {
 };
 INFCONS.push(question33);
 
-if (debug_mode == 'false') INFCONS = jsPsych.randomization.repeat(INFCONS,1);
+if (debug_mode === false) INFCONS = jsPsych.randomization.repeat(INFCONS,1);
 INFCONS.unshift(instruction_screen_experiment);
 INFCONS.push.apply(questions, INFCONS);
 

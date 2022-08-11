@@ -130,7 +130,7 @@ PRFBMpost.push(question07);
 
 
 // Randomize order of questions
-if (debug_mode == 'false') PRFBMpost = jsPsych.randomization.repeat(PRFBMpost,1);
+if (debug_mode === false) PRFBMpost = jsPsych.randomization.repeat(PRFBMpost,1);
 PRFBMpost.unshift(instruction_screen_experiment);
 PRFBMpost.push.apply(questions, PRFBMpost);
 
