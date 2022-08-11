@@ -33,7 +33,7 @@ balloon_img = 'media/img/BART/BART_redBalloon.png';
 audio_inflate = 'media/audio/BART/BART_inflate.mp3';
 audio_explode = 'media/audio/BART/BART_explode.mp3';
 audio_collect = 'media/audio/BART/BART_collect.mp3';
-audio_silence = 'media/audio/BART/silence.mp3';
+audio_silence = 'media/audio/BART/BART_silence.mp3';
 
 
 actual_status = "safe";
