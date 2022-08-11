@@ -24,7 +24,7 @@ last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // Create as many of these blocks as needed.  
 // The order of the tasks in the arrays starting with "random" will be randomized
-randomly_ordered_tasks_1 = ['DEMOGR', 'AIM']; // Block of tasks in random order
+randomly_ordered_tasks_1 = ['AIM', 'BART', 'BNT', 'bRCOPE', 'CAS', 'Consent', 'ConsentHTML', 'Cov19Q', 'COVIDCONTROL', 'CRS', 'CRT7', 'CRTMCQ4', 'CRTv', 'DASS21', 'DEBRIEF', 'DEMOGR', 'EAR', 'EmpaTom', 'ERQ', 'ESM', 'GBS', 'GHQ12', 'Goodbye', 'HRPVB', 'HRPVBpost', 'IBT', 'IDQ', 'IEC', 'INFCONS', 'IRI', 'IRS', 'ITC', 'MDMQ', 'MIS', 'OBJNUM', 'OTRASRELIG', 'PBS', 'PRFBM', 'PRFBMpost', 'PSETPP', 'PSPPC', 'PSS', 'PVC', 'PWb', 'REI40', 'Report', 'RSS', 'RTS', 'SASS', 'SBS', 'SCSORF', 'SDG', 'SRA', 'SRBQP', 'SRSav', 'STAI', 'SWBQ', 'WEBEXEC'];
 secuentially_ordered_tasks_1 = ['IDQ', 'REI40']; // Block of tasks in sequential order // 
 randomly_ordered_tasks_2 = []; 
 secuentially_ordered_tasks_2 = [];
