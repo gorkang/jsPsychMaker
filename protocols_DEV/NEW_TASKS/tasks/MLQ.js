@@ -5,6 +5,9 @@ questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? 
 questions.push( check_fullscreen('MLQ') );
 MLQ = [];    //temporal timeline
 
+jobs = ["Directivo", "Profesor"];
+if (debug_mode == true && typeof job === 'undefined') job = jobs[Math.floor(Math.random()*jobs.length)];
+
 var instruction_screen_experiment = {
     type: 'instructions',
     fullscreen_mode: true,

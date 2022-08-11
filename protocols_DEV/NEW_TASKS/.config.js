@@ -1,7 +1,7 @@
 // Configuration file
 
 // Main parameters -------------------------------------------------------------
-pid = 999; // Protocol ID [number]
+pid = 9999; // Protocol ID [number]
 online = true; // Protocol runs online [true/false]
 max_participants = 1000; // Max participants per contition [number]
 random_id = false; // Assign random id to participants [true/false]
@@ -29,7 +29,10 @@ first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
-randomly_ordered_tasks_1 = ['DEMOGR', 'AIM']; // Block of tasks in random order
+// randomly_ordered_tasks_1 = ["DEMOGR3", "FORM4", "CEL", "MLQ", "RMET"]; // Block of tasks in random order
+randomly_ordered_tasks_1 = ['DEMOGRfondecyt2022E1', 'Bank', 'CEL', 'CIT', 'ConsentHTML', 'CRQ', 'CS', 'CTT', 'DEMOGR12', 'DEMOGR24', 'DEMOGR27', 'DEMOGR3', 'DEMOGRfondecyt2022E1', 'ESV', 'ESZ', 'fauxPasEv', 'FORM4', 'FORM5', 'GBS', 'ICvsID', 'LoB', 'LSNS', 'MCA', 'MDDF', 'MDMQ', 'MLQ', 'PERMA', 'PPD', 'PSC', 'RMET', 'SCGT', 'sProQOL', 'UCLA'];
+
+
 secuentially_ordered_tasks_1 = ['IDQ', 'REI40']; // Block of tasks in sequential order
 
 // FINAL ARRAY of tasks [build combining the above blocks]
@@ -55,7 +58,7 @@ video = [/*'media/vid/Entrevista1.mp4'*/];
 // BETWEEN subject variables ----------------------------------------------
 
 // If there is no between-subject task:
-all_conditions = {"protocol": {"type": ["survey"]}};
-
+//all_conditions = {"protocol": {"type": ["survey"]}};
+all_conditions = {"CTT": {"stage": ["1", "2", "3"]}};
 // If there are between-subject tasks:
 //all_conditions = {"NAMETASK": {"type": ["Condition1", "Condition2"]}};

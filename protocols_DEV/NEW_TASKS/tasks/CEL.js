@@ -5,6 +5,9 @@ questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? 
 questions.push( check_fullscreen('CEL') );
 CEL = [];    //temporal timeline
 
+jobs = ["Directivo", "Profesor"];
+if (debug_mode == true && typeof job === 'undefined') job = jobs[Math.floor(Math.random()*jobs.length)];
+
 var instruction_screen_experiment = {
     type: 'instructions',
     fullscreen_mode: true,
@@ -57,13 +60,13 @@ var if_questions = {
     timeline: [instruction_screen_experiment, question01, question02, question03, question04, question05, question06],
     data: {trialid: 'CEL_01_if', procedure: 'CEL'},
     conditional_function: function(){
-        // get the data from the previous trial,
-        // and check which key was pressed
-        if(job == "Directivo"){
-            return true;
-        } else {
-            return false;
-        }
+      // get the data from the previous trial,
+      // and check which key was pressed
+      if(job == "Directivo"){
+        return true;
+      } else {
+        return false;
+      }
     }
 }
 CEL.push(if_questions);

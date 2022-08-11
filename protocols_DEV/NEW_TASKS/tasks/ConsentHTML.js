@@ -23,12 +23,12 @@ var instruction_screen_experiment = {
 // declare the block.
 var trial = {
   type:'external-html',
-  url: "media/html/consent.html",
+  url: "media/html/consent-placeholder.html",
   cont_btn: "start",
   data: {
     trialid: 'ConsentHTML_001',
     procedure: 'ConsentHTML',
-     stimulus: 'html/consent.html',
+     stimulus: 'html/consent-placeholder.html',
      response: document.getElementById("start").id
    }
 };

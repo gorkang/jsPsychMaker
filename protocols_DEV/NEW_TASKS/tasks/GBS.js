@@ -62,7 +62,7 @@ var question03 = {
 GBS.push(question03);
 
 var question04 = {
-  type: 'survey-multi-choice-vertical',
+  type: 'survey-multi-choice',
   questions: [{prompt: '<div class="justified">4.- Finalmente, si usted tuviese que clasificarse en una sola categoría que le definiera en términos de sus creencias/no creencias, ¿cuál escogería? (quizás considere que hay más de una, pero solo escoja la que más le represente).</div>', options: ['&nbsp;Creyente cristiano', '&nbsp;Creyente no cristiano (alguna otra religión como por ejemplo judaísmo, hinduismo, bahaísmo, islam, taoísmo, sintoísmo, budismo, sijismo, brahmanismo, jainismo, etc.)', '&nbsp; Creyente no religioso (de un ente, ser o esencia con algún propósito, asociado al universo, la naturaleza, la energía, ser espiritual o trascendente).', '&nbsp;No creyente (no creo en ninguna religión, ni deidad, ni ser superior ni ente o esencia)', '&nbsp;Ateo (no creo en ninguna religión y afirmo que Dios no existe)', '&nbsp;Agnóstico (no puedo afirmar la existencia o inexistencia de Dios o alguna deidad, esencia o ser superior; la verdad, no lo sé)'], required: true, horizontal: false}],
   data: {trialid: 'GBS_04', procedure: 'GBS'}
 };

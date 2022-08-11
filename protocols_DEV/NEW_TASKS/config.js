@@ -29,7 +29,7 @@ first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
-randomly_ordered_tasks_1 = ['DEMOGRfondecyt2022E1', 'CIT', 'CRQ', 'CTT', 'ICvsID', 'LSNS', 'MCA', 'MDDF', 'PSC', 'RMET', 'SCGT', 'UCLA', 'CS', 'DEMOGR24', 'ESZ', 'sProQOL', 'ESV', 'PPD', 'CEL', 'DEMOGR27', 'MLQ', 'PERMA', 'CIT', 'CRQ', 'CTT', 'ICvsID', 'LSNS', 'MCA', 'MDDF', 'PSC', 'RMET', 'SCGT', 'UCLA', 'Bank', 'CEL', 'ConsentHTML', 'CS', 'DEMOGR12', 'DEMOGR24', 'DEMOGR27', 'DEMOGR3', 'ESZ', 'fauxPasEv', 'FORM4', 'FORM5', 'GBS', 'LoB', 'MDMQ', 'MLQ', 'PERMA', 'RMET', 'sProQOL'];
+randomly_ordered_tasks_1 = ['DEMOGRfondecyt2022E1', 'Bank', 'CEL', 'CIT', 'ConsentHTML', 'CRQ', 'CS', 'CTT', 'DEMOGRfondecyt2022E1', 'ESV', 'ESZ', 'fauxPasEv', 'GBS', 'ICvsID', 'LoB', 'LSNS', 'MCA', 'MDDF', 'MDMQ', 'MLQ', 'PERMA', 'PPD', 'PSC', 'RMET', 'SCGT', 'sProQOL', 'UCLA'];
 secuentially_ordered_tasks_1 = ['IDQ', 'REI40']; // Block of tasks in sequential order
 
 // FINAL ARRAY of tasks [build combining the above blocks]
