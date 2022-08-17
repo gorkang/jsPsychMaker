@@ -53,7 +53,7 @@ images =  [img_folder + 'BART/BART_redBalloon.png',
           img_folder + 'INFCONS/Baby_cerebro_VC.png', img_folder + 'INFCONS/Baby_lactancia_VC.png', img_folder + 'INFCONS/Baby_respiratorios_VC.png', img_folder + 'INFCONS/Baby_UCI_VC.png', img_folder + 'INFCONS/Mother_anestesia_VC.png', img_folder + 'INFCONS/Mother_depresion_VC.png', img_folder + 'INFCONS/Mother_histerectomia_VC.png', img_folder + 'INFCONS/Mother_infeccion_VC.png', img_folder + 'INFCONS/Mother_lesion_VC.png', img_folder + 'INFCONS/Mother_paro_VC.png', img_folder + 'INFCONS/Mother_UCI_VC.png'
           ];
 audios = [audio_folder + 'BART/BART_inflate.mp3', audio_folder + 'BART/BART_explode.mp3', audio_folder + 'BART/BART_collect.mp3', audio_folder + 'BART/BART_silence.mp3'];
-video = ['media/vid/EmpaTom/Entrevista1.mp4'];
+video = []; // IF using EmpaTom, add: 'media/vid/EmpaTom/Entrevista1.mp4'
 
 
 
