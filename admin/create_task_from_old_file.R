@@ -28,6 +28,10 @@ create_task_from_old_file <- function(name_of_task, FILE) {
   instructions_N = which(grepl("pages", DF_clean))
   INSTRUCTIONS_raw = DF_clean[instructions_N]
   
+  preamble_N = which(grepl("preamble:", DF_clean))
+  questions_N = which(grepl("questions:", DF_clean))
+  
+  
   if (length(instructions_N) > 1) cli::cli_alert_warning("{name_of_task}: multiple instructions")
   
   instructions_N2 = which(grepl('trialid: "Screen', DF_clean))
@@ -38,9 +42,7 @@ create_task_from_old_file <- function(name_of_task, FILE) {
   }
     
     
-  preamble_N = which(grepl("preamble:", DF_clean))
-  questions_N = which(grepl("questions:", DF_clean))
-  
+
   
   
   if(!all(is.na(preamble_N))) {
