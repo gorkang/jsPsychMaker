@@ -1,7 +1,13 @@
 create_items_from_file <- function(file_name) {
 
+  # TODO
+  # At some point we changed the wat conditional questions trialid's are build, so they 
+  # do not increase item, they add _1 to the question they depend: e.g. PVC_001_1
+    # See PVC or Report. 
+    #  PROBLEM: HOW would be apply that to the BNT??? 1, 1_1, 1_2, 1_1_1???
+  
   # DEBUG
-  # file_name = "admin/example_tasks_new_protocol/BNT/BNT.csv"
+  # file_name = "admin/example_tasks_new_protocol/CRTMCQ4/CRTMCQ4.csv"
 
   if (!require('rlang')) install.packages('rlang'); library('rlang')
   rlang::check_installed(
@@ -35,10 +41,22 @@ create_items_from_file <- function(file_name) {
   if (!esentials_present) cli::cli_abort("Missing the following essential column: `{essential_columns[!esentials_present]}` in `{basename(file_name)}`")
 
   # Have text output columns
-  text_columns = c("prompt", "stimulus", "preamble")
-  text_columns_present = any(text_columns %in% names(DF_columns_parameters))
-  if (!text_columns_present) cli::cli_alert_danger("Missing an output text column. Usually should have one of: {.code {text_columns}}")
+  TEXT_columns = c("prompt", "stimulus", "preamble")
+  text_columns_present = any(TEXT_columns %in% names(DF_columns_parameters))
+  if (!text_columns_present) cli::cli_alert_danger("Missing an output text column. Usually should have one of: {.code {TEXT_columns}}")
 
+  # IDs
+  if (any(is.na(DF$ID))) cli::cli_abort(c("Some of the ID's are empty"))
+  if (!all(DF$ID == 1:nrow(DF))) cli::cli_abort(c("ID's need to be correlative.", "- You have:    {DF$ID}", "- Expected: {1:nrow(DF)}"))
+  
+  # There is ID and/or plugin, but no parameters
+  if (nrow(janitor::remove_empty(DF_columns_parameters, which = "rows")) != nrow(DF_columns_parameters)) cli::cli_abort(c("There are rows without parameters"))
+  
+  # No plugins
+  if (any(is.na(ALL_PLUGINS))) cli::cli_abort(c("There are rows without plugins"))
+  
+  
+  
 
 # Loop by row (items) -----------------------------------------------------
 
@@ -84,13 +102,21 @@ create_items_from_file <- function(file_name) {
         is_an_enumeration = grepl(",", DF_MAP[.x])
   
         # Format modifications depending on content and/or column
-        # If it contains an enumeration
+        # If it contains an enumeration (",")
         if (is_an_enumeration) {
+          
+          # If contains commas but it is one of the text columns
+          if (names(DF_MAP[.x]) %in% TEXT_columns) {
+            DF_MAP[.x] = paste0("'", DF_MAP[.x], "'")
+            
           # We do not add &nbsp; to things like range
-          if (!names(DF_MAP[.x]) %in% NUMERIC_enumerations) {
-            DF_MAP[.x] = paste0("['&nbsp;", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = "', '&nbsp;"), "']")
-          } else {
+          } else if (names(DF_MAP[.x]) %in% NUMERIC_enumerations) {
             DF_MAP[.x] = paste0("[", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = ", "), "]")
+          
+          # All the other enumerations  
+          } else {
+            DF_MAP[.x] = paste0("['&nbsp;", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = "', '&nbsp;"), "']")
+            
           }
           
           # If it is not logical and not a number
