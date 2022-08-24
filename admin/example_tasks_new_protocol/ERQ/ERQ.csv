@@ -1,0 +1,11 @@
+ID,plugin,stimulus,labels,require_movement,min,max,slider_width,slider_start,step,button_label
+1,html-slider-response,Cuando quiero sentir una emoción más positiva (como la alegría o la diversión),"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+2,html-slider-response,Mantengo mis emociones para mí mismo.,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+3,html-slider-response,Cuando quiero sentir una emoción menos negativa (como tristeza o enojo),"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+4,html-slider-response,Cuando siento emociones positivas,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+5,html-slider-response,Cuando me enfrento a una situación estresante,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+6,html-slider-response,Controlo mis emociones al no expresarlas.,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+7,html-slider-response,Cuando quiero sentir una emoción más positiva,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+8,html-slider-response,Controlo mis emociones cambiando la forma en que pienso acerca de la situación en la que estoy.,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+9,html-slider-response,Cuando estoy sintiendo emociones negativas,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
+10,html-slider-response,Si quiero sentir una emoción menos negativa,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
