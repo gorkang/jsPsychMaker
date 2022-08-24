@@ -1,6 +1,9 @@
 
-extract_clean_questions <- function(FILE, label = "stimulus", separator = "'") {
+extract_clean_questions <- function(FILE, label = "stimulus", separator = "'", get_options = FALSE) {
 
+  # DEBUG
+  # label = "options"
+  
   suppressPackageStartupMessages(library(tidyverse))
   
   # Clean HTML tags
@@ -24,8 +27,18 @@ extract_clean_questions <- function(FILE, label = "stimulus", separator = "'") {
                              simplify = TRUE) |> # OLD "\\w+:.*?[,}]"
     as_tibble()
   
+  
+  OPTIONS = gsub(".*options: \\['(.*)'\\].*", "\\1", DF_clean[questions_N]) |> 
+    as_tibble() |> 
+    mutate(value = gsub("'", "", value),
+           value = gsub("&nbsp;", "", value)) |> 
+    rename(options = value)
+  
+  
+  
   QUESTIONS_temp %>%
-    mutate(across(everything(),~ gsub("\\}|,$","", .))) |> select(V1) |> 
+    mutate(across(everything(),~ gsub("\\}|,$","", .))) |> 
+    # select(V1) |> 
     mutate(V1 = gsub("&aacute;", "á", V1),
            V1 = gsub("&eacute;", "é", V1),
            V1 = gsub("&iacute;", "í", V1),
@@ -37,11 +50,14 @@ extract_clean_questions <- function(FILE, label = "stimulus", separator = "'") {
            # V1 = gsub("prompt: \"", "", V1),
            # V1 = gsub("stimulus: \"", "", V1),
            V1 = gsub("\"", "", V1),
-           V1 = gsub(paste0("\\w+: (.*?)"), "\\1", V1))
+           V1 = gsub("'", "", V1),
+           V1 = gsub(paste0("\\w+: (.*?)"), "\\1", V1)) |> 
+    bind_cols(OPTIONS)
 
   }
 
-CLEANQ = extract_clean_questions(FILE = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/canonical_protocol/tasks/CRT7.js", 
+CLEANQ = extract_clean_questions(FILE = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/canonical_protocol/tasks/CRTMCQ4.js", 
                                  label = "prompt", 
-                                 separator = '"')
+                                 separator = "'",
+                                 get_options = TRUE)
 write_csv(CLEANQ, "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/DEV/WIP_KEY_ITEMS/CLEANQ.csv")
