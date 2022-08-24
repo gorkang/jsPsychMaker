@@ -197,7 +197,7 @@ DF_all = ALL_FILES |> as_tibble() |>
 # CREATE CONFIG.JS --------------------------------------------------------
 
 
-source("../jsPsychHelpeR/admin/helper-scripts-admin.R")
+source("admin/helper-scripts-admin.R")
 
 tasks_canonical = extract_tasks_from_protocol(folder_protocol = "DEV/NEW_TASKS/canonical_protocol_clean/")
 

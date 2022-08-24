@@ -7,7 +7,7 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
   
   invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   
-  source("../jsPsychHelpeR/admin/helper-scripts-admin.R")
+  source("admin/helper-scripts-admin.R")
   
   
 
