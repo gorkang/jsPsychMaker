@@ -17,4 +17,6 @@ invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
 # Create protocol
 create_protocol(tasks_folder = "admin/example_tasks_new_protocol/", 
                 folder_output = "admin/OUTPUT/NEW", 
-                launch_browser = TRUE)
+                launch_browser = TRUE
+                # , piloting_task = "CRTMCQ4"
+                )
