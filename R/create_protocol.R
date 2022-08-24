@@ -1,8 +1,8 @@
 # Create protocol
-create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", launch_browser = FALSE) {
+create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", launch_browser = FALSE, piloting_task = NULL) {
   
   # DEBUG
-  # tasks_folder = "admin/tasks/new_protocol"
+  # tasks_folder = "admin/example_tasks_new_protocol/"
   # folder_output = "admin/OUTPUT/NEW"
   
   invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
@@ -64,9 +64,16 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
 
   cli::cli_h1("Prepare new protocol")
   
-  # Use all available tasks in canonical_protocol to create a new config.js
-  tasks_canonical = extract_tasks_from_protocol(folder_protocol = folder_output)
-
+  # If piloting, include only the task selected in the protocol
+  if (!is.null(piloting_task)) {
+    tasks_canonical = list(PATHS_tasks = paste0("tasks/", piloting_task, ".js"),
+                           tasks = piloting_task)
+  } else {
+    # Use all available tasks in canonical_protocol to create a new config.js
+    tasks_canonical = extract_tasks_from_protocol(folder_protocol = folder_output)
+  }
+  
+  # Replace tasks in config
   replace_tasks_config_js(folder_protocol = folder_output,
                           tasks = tasks_canonical, 
                           block_tasks = "randomly_ordered_tasks_1") 
