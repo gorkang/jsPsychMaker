@@ -7,7 +7,7 @@ BNT = [];    // temporal timeline
 var instruction_screen_experiment = {
   type: 'instructions',
   data: {trialid: 'Instructions', procedure: 'BNT'},
-  pages: [`<p><left><p><left><b><big>Conocimiento sobre probabilidades 1/2</big></b><br/>En las siguientes dos pruebas evaluaremos tu habilidad numérica para ver como se relaciona con tu capacidad para comprender consentimientos informados. Trata de contestar lo mejor que puedas <B>sin usar calculadora</B>.</p>`],
+  pages: [`<p><left><p><left><b><big>Conocimiento sobre probabilidades</big></b><br/>En esta prueba evaluaremos tu habilidad numérica. Trata de contestar lo mejor que puedas <B>sin usar calculadora</B>.</p>`],
   show_clickable_nav: true,
   on_trial_start: function(){
     bloquear_enter = 0;
