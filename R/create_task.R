@@ -5,8 +5,7 @@ create_task <- function(file_name, folder_output = NULL, INSTRUCTIONS) {
   # INSTRUCTIONS = "admin/tasks/CRTMCQ4/CRTMCQ4_instructions.html"
   # folder_output = "tasks/CRTMCQ4/"
   
-  source("admin/create_instructions.R")
-  source("admin/create_items_from_file.R")
+  invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   
   # Parameters
   task_name = gsub("(.*)\\..*", "\\1", basename(file_name))
@@ -21,8 +20,8 @@ create_task <- function(file_name, folder_output = NULL, INSTRUCTIONS) {
   
   INSTRUCTIONS_out = create_instructions(INSTRUCTIONS = INSTRUCTIONS, task_name = task_name)
   
-  INTRO = paste0("
-  /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
+  INTRO = 
+  paste0("/* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
   
   questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
   questions.push( check_fullscreen('", task_name,"') );
@@ -41,11 +40,11 @@ create_task <- function(file_name, folder_output = NULL, INSTRUCTIONS) {
   
   FINAL_TASK = paste0(INTRO, INSTRUCTIONS_out, ITEMS, OUTRO)
   
-  cli::cli_alert_info("Saving task in {name_output}")
+  cli::cli_alert_success("Saving task in {name_output}")
   cat(FINAL_TASK, file = name_output, sep = "\n", append = FALSE)
   
   
   
 }
 
-create_task(file_name = "admin/tasks/CRTMCQ4/CRTMCQ4.csv", INSTRUCTIONS = c("admin/tasks/CRTMCQ4/CRTMCQ4_instructions.html", "admin/tasks/CRTMCQ4/CRTMCQ4_instructions2.html"))
+# create_task(file_name = "admin/tasks/CRTMCQ4/CRTMCQ4.csv", INSTRUCTIONS = c("admin/tasks/CRTMCQ4/CRTMCQ4_instructions.html", "admin/tasks/CRTMCQ4/CRTMCQ4_instructions2.html"))
