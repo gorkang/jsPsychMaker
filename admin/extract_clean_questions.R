@@ -1,5 +1,5 @@
 
-extract_clean_questions <- function(FILE, label = "stimulus") {
+extract_clean_questions <- function(FILE, label = "stimulus", separator = "'") {
 
   suppressPackageStartupMessages(library(tidyverse))
   
@@ -15,9 +15,13 @@ extract_clean_questions <- function(FILE, label = "stimulus") {
   
   if (length(questions_N) == 0) cli::cli_abort("label = {.code {label}}  not found. Try with `prompt` or `preamble`")
   
+  pattern_separation = paste0("\\w+: ", separator, ".*?", separator)
+  
   # Separate in columns
   QUESTIONS_temp = gsub("questions:", "", DF_clean[questions_N]) |> trimws() |>
-    stringr::str_extract_all(pattern = "\\w+: '.*?'", simplify = TRUE) |> # OLD "\\w+:.*?[,}]"
+    stringr::str_extract_all(pattern = pattern_separation,
+                             # "\\w+: '.*?'", 
+                             simplify = TRUE) |> # OLD "\\w+:.*?[,}]"
     as_tibble()
   
   QUESTIONS_temp %>%
@@ -33,9 +37,11 @@ extract_clean_questions <- function(FILE, label = "stimulus") {
            # V1 = gsub("prompt: \"", "", V1),
            # V1 = gsub("stimulus: \"", "", V1),
            V1 = gsub("\"", "", V1),
-           V1 = gsub("\\w+: '(.*?)'", "\\1", V1))
+           V1 = gsub(paste0("\\w+: (.*?)"), "\\1", V1))
 
   }
 
-CLEANQ = extract_clean_questions(FILE = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/DEV/WIP_KEY_ITEMS/BNT.js", label = "prompt")
-# write_csv(CLEANQ, "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/DEV/WIP_KEY_ITEMS/CLEANQ.csv")
+CLEANQ = extract_clean_questions(FILE = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/canonical_protocol/tasks/CRT7.js", 
+                                 label = "prompt", 
+                                 separator = '"')
+write_csv(CLEANQ, "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/DEV/WIP_KEY_ITEMS/CLEANQ.csv")
