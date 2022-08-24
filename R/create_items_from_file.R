@@ -1,12 +1,12 @@
 create_items_from_file <- function(file_name) {
 
-# DEBUG
-# file_name = "admin/example_tasks_new_protocol//AnsMat/AnsMat.csv"
+  # DEBUG
+  # file_name = "admin/example_tasks_new_protocol/BNT/BNT.csv"
 
-  # if (!require('rlang')) install.packages('rlang'); library('rlang')
-  # rlang::check_installed(
-  #   pkg = c("dplyr", "readr", "purrr", "janitor"), 
-  #   reason = "to run the initial setup")
+  if (!require('rlang')) install.packages('rlang'); library('rlang')
+  rlang::check_installed(
+    pkg = c("dplyr", "readr", "purrr", "janitor"),
+    reason = "to run the initial setup")
   
   suppressPackageStartupMessages(library(dplyr))
   suppressPackageStartupMessages(library(readr))
@@ -17,6 +17,7 @@ create_items_from_file <- function(file_name) {
   DF = readr::read_csv(paste0(file_name), col_types = cols(.default = col_character())) |> 
     janitor::remove_empty(which = "cols") # Remove columns when all are NAs
   
+  # Only parameters DF
   DF_columns_parameters = DF |> dplyr::select(-ID, -plugin)
   
   task_name = gsub("(.*)\\..*", "\\1", basename(file_name))
@@ -28,10 +29,15 @@ create_items_from_file <- function(file_name) {
   
 # CHECKS ------------------------------------------------------------------
 
+  # Have essential columns
   essential_columns = c("ID", "plugin")
-  esentials_present = essential_columns %in% names(DF)
-  if (!all(esentials_present)) cli::cli_abort("Missing the following essential column: `{essential_columns[!esentials_present]}` in `{basename(file_name)}`")
+  esentials_present = all(essential_columns %in% names(DF))
+  if (!esentials_present) cli::cli_abort("Missing the following essential column: `{essential_columns[!esentials_present]}` in `{basename(file_name)}`")
 
+  # Have text output columns
+  text_columns = c("prompt", "stimulus", "preamble")
+  text_columns_present = any(text_columns %in% names(DF_columns_parameters))
+  if (!text_columns_present) cli::cli_alert_danger("Missing an output text column. Usually should have one of: {.code {text_columns}}")
 
 
 # Loop by row (items) -----------------------------------------------------
@@ -43,12 +49,15 @@ create_items_from_file <- function(file_name) {
   # Plugin
   PLUGIN = DF$plugin[.x]
   
-  # Item number
+  # Item number [000]
   item_number = sprintf("%03d", .x)
   
-  # Select all minus ID and plugin
-  DF_MAP = DF_columns_parameters[.x,]# |> dplyr::select(-ID, -plugin)
+  # DF for map
+  DF_MAP = DF_columns_parameters[.x,] |> 
+    # Remove columns with NA (e.g. if_question for items without it)
+    janitor::remove_empty(which = "cols")
 
+  
   # ADD DEFAULTS ---
   
     # Add require_movement to all sliders
@@ -56,25 +65,43 @@ create_items_from_file <- function(file_name) {
     # Add require to all non-sliders
     if (!grepl("slider", PLUGIN) & !"required" %in% names(DF_MAP)) DF_MAP = DF_MAP |> mutate(required = "true")
   
+ 
+   
+  # Create a parameter vector with everything in the csv ---------------------
   
-  # Create a parameter vector with everything in the csv ---
+  # One per column
   ALL = 1:ncol(DF_MAP) |>
     map(~{
-      # .x = 2
-      is_a_number = grepl("^[0-9]+$", DF_MAP[.x])
-      is_a_logical = DF_MAP[.x] %in% c("true", "false")
-      is_an_enumeration = grepl(",", DF_MAP[.x])
-
-      # If it contains an enumeration
-      if (is_an_enumeration) {
-        DF_MAP[.x] = paste0("['&nbsp;", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = "', '&nbsp;"), "']")
+      
+      BLACKLIST_parameters = c("if_question")
+      NUMERIC_enumerations = c("range")
+      
+      # Do not process parameters in the blacklist 
+      if (!names(DF_MAP[.x]) %in% BLACKLIST_parameters) {
         
-        # If it is not logical and not a number
-      } else if (!is_a_logical & !is_a_number) {
-        DF_MAP[.x] = paste0("'", DF_MAP[.x], "'")
+        is_a_number = grepl("^[0-9]+$", DF_MAP[.x])
+        is_a_logical = DF_MAP[.x] %in% c("true", "false")
+        is_an_enumeration = grepl(",", DF_MAP[.x])
+  
+        # Format modifications depending on content and/or column
+        # If it contains an enumeration
+        if (is_an_enumeration) {
+          # We do not add &nbsp; to things like range
+          if (!names(DF_MAP[.x]) %in% NUMERIC_enumerations) {
+            DF_MAP[.x] = paste0("['&nbsp;", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = "', '&nbsp;"), "']")
+          } else {
+            DF_MAP[.x] = paste0("[", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = ", "), "]")
+          }
+          
+          # If it is not logical and not a number
+        } else if (!is_a_logical & !is_a_number) {
+          DF_MAP[.x] = paste0("'", DF_MAP[.x], "'")
+        }
+        # Final string
+        paste0(colnames(DF_MAP[.x]), ": ", DF_MAP[.x])
+      
       }
-      # Final string
-      paste0(colnames(DF_MAP[.x]), ": ", DF_MAP[.x])
+      
     }) |>
     unlist() |> paste(collapse = ",\n      ")
 
@@ -93,7 +120,8 @@ create_items_from_file <- function(file_name) {
     }],
     data: {trialid: '", task_name, "_", item_number, "', procedure: '", task_name,"'}
   };
-  ", task_name, ".push(question", item_number, ");", "\n")
+  ", ifelse("if_question" %in% names(DF_MAP), "", paste0(task_name, ".push(question", item_number, ");")), "\n") # Show only if NOT an if_question
+  # ", task_name, ".push(question", item_number, ");", "\n")
 
   # We don't use the questions vector otherwise
   } else {
@@ -104,17 +132,59 @@ create_items_from_file <- function(file_name) {
     ", ALL, ",
     data: {trialid: '", task_name, "_", item_number, "', procedure: '", task_name,"'}
   };
-  ", task_name, ".push(question", item_number, ");", "\n")
-
+  ", ifelse("if_question" %in% names(DF_MAP), "", paste0(task_name, ".push(question", item_number, ");")), "\n") # Show only if NOT an if_question
+    # ", task_name, ".push(question", item_number, ");", "\n")
   }
 
+  
+  # PREPARE if_questions ------------------------------------------------------
+  
+  if ("if_question" %in% names(DF_MAP)) {
+    
+    if_question_item = sprintf("%03d", as.numeric(gsub("([1-9]{1,99}) ([!=]{1,2}) (.*)", "\\1", DF_MAP$if_question)))
+    if_question_condition_symbol = gsub("([1-9]{1,99}) ([!=]{1,2}) (.*)", "\\2", DF_MAP$if_question)
+    if_question_condition = gsub("([1-9]{1,99}) ([!=]{1,2}) (.*)", "\\3", DF_MAP$if_question)
+    
+  if_question_ITEM_output_RAW = paste0("
+    var if_question", item_number, " = {
+      timeline: [question", item_number, "],
+      data: {trialid: '", task_name,"_", item_number, "_if', procedure: '", task_name,"'},
+      conditional_function: function(){
+        try {
+          let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === '", task_name,"_", if_question_item, "'))['response'])['Q0']).trim();
+          
+          if((data) ", if_question_condition_symbol, " '", if_question_condition, "'){
+            return true;
+          } else {
+            return false;
+          }
+          
+        } catch(err) {
+          //alert('we dont have ", task_name,"_03')
+          return false;
+        }
+      },
+    };
+  ", task_name,".push(if_question", item_number, ");
+  ")
+    
+  } else {
+    if_question_ITEM_output_RAW = NULL
+  }
+  
+
+  # Clean output ------------------------------------------------------------
 
   # Clean empty lines leaved by empty parameters
   ITEM_output = gsub("\\n[[:space:]]{1,100}\\n", "\\\n", ITEM_output_RAW)
-
-  ITEM_output
-
   
+  if_question_ITEM_output_RAW = gsub("\\n[[:space:]]{1,100}\\n", "\\\n", if_question_ITEM_output_RAW)
+  
+  ITEM_output_final = paste0(ITEM_output, "\n\n", if_question_ITEM_output_RAW)
+  # cat(ITEM_output_final)
+  
+  ITEM_output_final
+
 })
 
 }
