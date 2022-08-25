@@ -10,10 +10,26 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   # file_name = "admin/example_tasks_new_protocol//AnsMat//AnsMat.csv"
   # folder_output = "admin/OUTPUT/NEW"
 
-  # Read CSV file
-  DF = readr::read_csv(paste0(file_name), col_types = readr::cols(.default = readr::col_character())) |> 
-    janitor::remove_empty(which = "cols") # Remove columns when all are NAs
+  # READ file
+  file_extension = strsplit(basename(file_name), split="\\.")[[1]][2]
+  if (file_extension == "csv") {
+    
+    DF = readr::read_csv(paste0(file_name), col_types = readr::cols(.default = readr::col_character())) |> 
+      janitor::remove_empty(which = "cols") # Remove columns when all are NAs
+    
+  } else if (file_extension %in% c("xls", "xlsx")) {
+    
+    DF = readxl::read_excel(paste0(file_name), col_types = c("text")) |> 
+      janitor::remove_empty(which = "cols") # Remove columns when all are NAs
+    
+   } else {
+    cli::cli_abort("{.code {file_name}} should be a .csv or .xls/xlsx file")
+  }
   
+  
+  
+  
+
   # Only parameters DF
   DF_columns_parameters = DF |> dplyr::select(-ID, -plugin)
   

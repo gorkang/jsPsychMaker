@@ -1,15 +1,32 @@
 adapt_HTML <- function(CSVs, folder_output) {
   
   TASKS = basename(dirname(CSVs))
+
+  # Used plugins
+  # PLUGINS = purrr::map_df(CSVs, readr::read_csv, col_types = readr::cols(.default = readr::col_character())) |> dplyr::distinct(plugin) 
   
+  # READ files
+  file_extension = unlist(strsplit(basename(CSVs), split="\\."))[seq(from = 2, to = length(CSVs) * 2, by = 2)]
+  
+  if (all(file_extension == "csv")) {
+    
+    PLUGINS = purrr::map_df(CSVs, readr::read_csv, col_types = readr::cols(.default = readr::col_character())) |> dplyr::distinct(plugin) 
+    
+  } else if (all(file_extension %in% c("xls", "xlsx"))) {
+    
+    PLUGINS = purrr::map_df(CSVs, readxl::read_excel, col_types = c("text")) |> dplyr::distinct(plugin) 
+    
+  } else {
+    cli::cli_abort("{.code {CSVs}} should be all .csv or all .xls/xlsx files")
+  }
+  code_plugins = paste0('\t<script src="jsPsych-6/plugins/jspsych-', PLUGINS$plugin, '.js"></script>')
+  
+    
   # Read index
   index_file = paste0(folder_output, "/index.html")
   INDEX = readLines(index_file)
   
-  # Used plugins
-  PLUGINS = purrr::map_df(CSVs, readr::read_csv, col_types = readr::cols(.default = readr::col_character())) |> dplyr::distinct(plugin) 
-  code_plugins = paste0('\t<script src="jsPsych-6/plugins/jspsych-', PLUGINS$plugin, '.js"></script>')
-  
+
   # Detect canonical_clean plugins
   begin_plugins = which(grepl("<!-- Protocol Plugins: CANONICAL -->", INDEX)) + 1
   end_plugins = which(grepl("<!-- Mic controller -->", INDEX)) + 1

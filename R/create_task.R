@@ -10,7 +10,7 @@ create_task <- function(task_folder, folder_output = NULL, INSTRUCTIONS) {
   # Parameters
   task_name = gsub("(.*)\\..*", "\\1", basename(task_folder))
   HTMLs = list.files(task_folder, recursive = TRUE, pattern = "\\.html", full.names = TRUE)
-  CSV = list.files(task_folder, recursive = TRUE, pattern = "\\.csv", full.names = TRUE)
+  CSV = list.files(task_folder, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
   task_name_CSV = gsub("(.*)\\..*", "\\1", basename(CSV))
   
   # Output filename

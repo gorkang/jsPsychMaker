@@ -16,7 +16,15 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
   
   cli::cli_h1("Create new protocol in {folder_output}")
   
-  if (!file.exists(folder_output)) dir.create(folder_output, recursive = TRUE)
+  # Check if folder exists
+  if (dir.exists(folder_output)) {
+    # Need to remove the contents just in case there are old tasks
+    cli::cli_alert_info("Removing content of existing {.code {folder_output}}")
+    unlink(folder_output, recursive = TRUE)
+    dir.create(folder_output, recursive = TRUE)
+  } else if (!dir.exists(folder_output)) {
+    dir.create(folder_output, recursive = TRUE)
+  }
   copy_canonical_clean(destination_folder = folder_output)
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
@@ -27,11 +35,11 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
   # Create new tasks --------------------------------------------------------
 
   # Temp var to see if we have CSVs
-  CSVs = list.files(tasks_folder, recursive = TRUE, pattern = "\\.csv", full.names = TRUE)
+  CSVs = list.files(tasks_folder, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
   
   TASKS = basename(dirname(CSVs))
 
-  cli::cli_alert_info("Found the following tasks in {.code {tasks_folder}}:\n - {TASKS}\n")
+  cli::cli_alert_info("Found the following tasks in {.code {tasks_folder}}:\n - {.code {TASKS}}\n")
 
   # CHECKS ---
   
