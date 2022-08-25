@@ -9,18 +9,8 @@ create_items_from_file <- function(file_name) {
   # DEBUG
   # file_name = "admin/example_tasks_new_protocol/CRTMCQ4/CRTMCQ4.csv"
 
-  if (!require('rlang')) install.packages('rlang'); library('rlang')
-  rlang::check_installed(
-    pkg = c("dplyr", "readr", "purrr", "janitor"),
-    reason = "to run the initial setup")
-  
-  suppressPackageStartupMessages(library(dplyr))
-  suppressPackageStartupMessages(library(readr))
-  suppressPackageStartupMessages(library(purrr))
-  suppressPackageStartupMessages(library(janitor))
-  
   # Read CSV file
-  DF = readr::read_csv(paste0(file_name), col_types = cols(.default = col_character())) |> 
+  DF = readr::read_csv(paste0(file_name), col_types = readr::cols(.default = readr::col_character())) |> 
     janitor::remove_empty(which = "cols") # Remove columns when all are NAs
   
   # Only parameters DF
@@ -28,7 +18,7 @@ create_items_from_file <- function(file_name) {
   
   task_name = gsub("(.*)\\..*", "\\1", basename(file_name))
 
-  ALL_PLUGINS = DF |> distinct(plugin) |> pull(plugin)
+  ALL_PLUGINS = DF |> dplyr::distinct(plugin) |> dplyr::pull(plugin)
   WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/jspsych-", ALL_PLUGINS, "/")
   cli::cli_alert_info("Found parameters: {.code {names(DF_columns_parameters)}}. For help with {.code {ALL_PLUGINS}}: {.url {WEBS_help}}")
   
@@ -54,9 +44,7 @@ create_items_from_file <- function(file_name) {
   
   # No plugins
   if (any(is.na(ALL_PLUGINS))) cli::cli_abort(c("There are rows without plugins"))
-  
-  
-  
+
 
 # Loop by row (items) -----------------------------------------------------
 
@@ -79,17 +67,16 @@ create_items_from_file <- function(file_name) {
   # ADD DEFAULTS ---
   
     # Add require_movement to all sliders
-    if (grepl("slider", PLUGIN) & !"require_movement" %in% names(DF_MAP)) DF_MAP = DF_MAP |> mutate(require_movement = "true")
+    if (grepl("slider", PLUGIN) & !"require_movement" %in% names(DF_MAP)) DF_MAP = DF_MAP |> dplyr::mutate(require_movement = "true")
     # Add require to all non-sliders
-    if (!grepl("slider", PLUGIN) & !"required" %in% names(DF_MAP)) DF_MAP = DF_MAP |> mutate(required = "true")
+    if (!grepl("slider", PLUGIN) & !"required" %in% names(DF_MAP)) DF_MAP = DF_MAP |> dplyr::mutate(required = "true")
   
- 
    
   # Create a parameter vector with everything in the csv ---------------------
   
   # One per column
   ALL = 1:ncol(DF_MAP) |>
-    map(~{
+    purrr::map(~{
       
       BLACKLIST_parameters = c("if_question")
       NUMERIC_enumerations = c("range")
@@ -125,15 +112,15 @@ create_items_from_file <- function(file_name) {
         }
         # Final string
         paste0(colnames(DF_MAP[.x]), ": ", DF_MAP[.x])
-      
+        
       }
       
-    }) |>
+    }) |> 
     unlist() |> paste(collapse = ",\n      ")
 
 
 
-  # Create chunk ------------------------------------------------------------
+  # Create chunk [DO NOT CHANGE TABS/SPACES] --------------------------------
 
   # We insert the parameters inside questions (if it's a survey plugin)
   if (grepl("survey", PLUGIN)) {
@@ -147,7 +134,6 @@ create_items_from_file <- function(file_name) {
     data: {trialid: '", task_name, "_", item_number, "', procedure: '", task_name,"'}
   };
   ", ifelse("if_question" %in% names(DF_MAP), "", paste0(task_name, ".push(question", item_number, ");")), "\n") # Show only if NOT an if_question
-  # ", task_name, ".push(question", item_number, ");", "\n")
 
   # We don't use the questions vector otherwise
   } else {
@@ -159,11 +145,10 @@ create_items_from_file <- function(file_name) {
     data: {trialid: '", task_name, "_", item_number, "', procedure: '", task_name,"'}
   };
   ", ifelse("if_question" %in% names(DF_MAP), "", paste0(task_name, ".push(question", item_number, ");")), "\n") # Show only if NOT an if_question
-    # ", task_name, ".push(question", item_number, ");", "\n")
   }
 
   
-  # PREPARE if_questions ------------------------------------------------------
+  # PREPARE if_questions [DO NOT CHANGE TABS/SPACES] --------------------------
   
   if ("if_question" %in% names(DF_MAP)) {
     
@@ -214,4 +199,3 @@ create_items_from_file <- function(file_name) {
 })
 
 }
-

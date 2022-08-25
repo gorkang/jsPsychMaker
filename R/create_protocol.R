@@ -2,13 +2,14 @@
 create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", launch_browser = FALSE, piloting_task = NULL) {
   
   # DEBUG
-  # tasks_folder = "admin/example_tasks_new_protocol/"
-  # folder_output = "admin/OUTPUT/NEW"
+  tasks_folder = "admin/example_tasks_new_protocol/"
+  folder_output = "admin/OUTPUT/NEW"
+  launch_browser = TRUE
+  piloting_task = NULL
   
   invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
-  
   source("admin/helper-scripts-admin.R")
-  
+  setup()
   
 
   # Copy canonical_protocol_clean -------------------------------------------
@@ -21,48 +22,32 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
   
   cli::cli_alert_success("Copied canonical_protocol_clean to {folder_output}")
-
+  
   
   # Create new tasks --------------------------------------------------------
 
-  
-  HTMLs = list.files(tasks_folder, recursive = TRUE, pattern = "\\.html", full.names = TRUE)
+  # Temp var to see if we have CSVs
   CSVs = list.files(tasks_folder, recursive = TRUE, pattern = "\\.csv", full.names = TRUE)
   
   TASKS = basename(dirname(CSVs))
-  
-  cli::cli_alert_info("Found the following tasks: {TASKS}")
-  
-  
+
+  cli::cli_alert_info("Found the following tasks in {.code {tasks_folder}}:\n - {TASKS}\n")
+
+  # Check if csv's in root folder
   if (basename(tasks_folder) %in% TASKS) cli::cli_abort(c("There is a csv file in the root folder.", " - Please remove: {CSVs[dirname(CSVs) %in% gsub('/$','', tasks_folder)]}."))
   
+  # Loop through folders with CSVs
   1:length(TASKS) |> 
     purrr::walk(~{
-      
       cli::cli_h1("create_task: {TASKS[.x]}")
-      
-      # .x = 3
-      task_file_name = CSVs[grepl(paste0("/", TASKS[.x], "\\.csv"), CSVs)]
-      instructions_files = HTMLs[grepl(paste0("/", TASKS[.x], "_instructions.?\\.html"), HTMLs)]
-      
-      # If there are no HTML files, use default instructions
-      if (length(instructions_files) == 0) {
-        task_instructions = paste0("<p><left><b><big>", TASKS[.x], "</big></b><br/>Lee con atención y contesta las siguientes preguntas.</left></p>")
-      } else {
-        task_instructions = instructions_files  
-      }
-      
-      cli::cli_alert_info("CSV: {task_file_name}")
-      cli::cli_alert_info("HTML: {task_instructions}")
-
-      create_task(file_name = task_file_name, folder_output = paste0(folder_output, "/tasks/"), INSTRUCTIONS = task_instructions)
-      
+      create_task(task_folder = paste0(tasks_folder, "/", TASKS[.x], "/"), folder_output = paste0(folder_output, "/tasks/"))
     })
   
 
 # Modify config.js --------------------------------------------------------
 
   cli::cli_h1("Prepare new protocol")
+  cli::cli_h2("Modify config.js")
   
   # If piloting, include only the task selected in the protocol
   if (!is.null(piloting_task)) {
@@ -78,10 +63,21 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
                           tasks = tasks_canonical, 
                           block_tasks = "randomly_ordered_tasks_1") 
  
-
   cli::cli_alert_info("More information about protocol configuration on the jsPsychR manual: {.url https://gorkang.github.io/jsPsychR-manual/qmd/03-jsPsychMaker.html#experiment-configuration}")
   
 
+  
+
+# Modify HTML -------------------------------------------------------------
+
+  cli::cli_h2("Adapt index.html")
+  
+  
+  adapt_HTML(CSVs = CSVs, folder_output = folder_output)
+  
+  
+  
+  
 # Launch protocol --------------------------------------------------------
 
   if (launch_browser == TRUE) {
