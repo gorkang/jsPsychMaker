@@ -4,7 +4,8 @@ extract_clean_questions <- function(FILE, label = "stimulus", separator = "'", g
   # DEBUG
   # label = "options"
   
-  suppressPackageStartupMessages(library(tidyverse))
+  suppressPackageStartupMessages(library(dplyr))
+  suppressPackageStartupMessages(library(stringr))
   
   # Clean HTML tags
   cleanFun <- function(htmlString) {
