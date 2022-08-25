@@ -2,10 +2,10 @@
 create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", launch_browser = FALSE, piloting_task = NULL) {
   
   # DEBUG
-  tasks_folder = "admin/example_tasks_new_protocol/"
-  folder_output = "admin/OUTPUT/NEW"
-  launch_browser = TRUE
-  piloting_task = NULL
+  # tasks_folder = "admin/example_tasks_new_protocol/"
+  # folder_output = "admin/OUTPUT/NEW"
+  # launch_browser = TRUE
+  # piloting_task = NULL
   
   invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   source("admin/helper-scripts-admin.R")
@@ -21,7 +21,7 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
   
-  cli::cli_alert_success("Copied canonical_protocol_clean to {folder_output}")
+  cli::cli_alert_success("Copied `canonical_protocol_clean` to {.code {folder_output}}")
   
   
   # Create new tasks --------------------------------------------------------
@@ -33,14 +33,22 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
 
   cli::cli_alert_info("Found the following tasks in {.code {tasks_folder}}:\n - {TASKS}\n")
 
-  # Check if csv's in root folder
-  if (basename(tasks_folder) %in% TASKS) cli::cli_abort(c("There is a csv file in the root folder.", " - Please remove: {CSVs[dirname(CSVs) %in% gsub('/$','', tasks_folder)]}."))
+  # CHECKS ---
   
-  # Loop through folders with CSVs
+    # Check if csv's in root folder
+    if (basename(tasks_folder) %in% TASKS) cli::cli_abort(c("There is a csv file in the root folder.", " - Please remove: {CSVs[dirname(CSVs) %in% gsub('/$','', tasks_folder)]}."))
+    
+    # Names of tasks are correct
+    regexp_TASK_NAMES = " |-|_|!|&|\\(|\\)|\\[|\\]|\\{|\\}|^[0-9]"
+    check_TASK_NAMES = grepl(regexp_TASK_NAMES, TASKS)
+    if (any(check_TASK_NAMES)) cli::cli_abort("Tasks with forbiden names (use only alphanumeric characters, do not start with a number): {.code {TASKS[check_TASK_NAMES]}}")
+
+    
+  # Loop through folders with CSVs ---
   1:length(TASKS) |> 
     purrr::walk(~{
       cli::cli_h1("create_task: {TASKS[.x]}")
-      create_task(task_folder = paste0(tasks_folder, "/", TASKS[.x], "/"), folder_output = paste0(folder_output, "/tasks/"))
+      create_task(task_folder = paste0(tasks_folder, "/", TASKS[.x], "/"), folder_output = folder_output)
     })
   
 

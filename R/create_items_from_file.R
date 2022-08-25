@@ -1,4 +1,4 @@
-create_items_from_file <- function(file_name) {
+create_items_from_file <- function(file_name, folder_output = NULL) {
 
   # TODO
   # At some point we changed the wat conditional questions trialid's are build, so they 
@@ -7,7 +7,8 @@ create_items_from_file <- function(file_name) {
     #  PROBLEM: HOW would be apply that to the BNT??? 1, 1_1, 1_2, 1_1_1???
   
   # DEBUG
-  # file_name = "admin/example_tasks_new_protocol/CRTMCQ4/CRTMCQ4.csv"
+  # file_name = "admin/example_tasks_new_protocol//AnsMat//AnsMat.csv"
+  # folder_output = "admin/OUTPUT/NEW"
 
   # Read CSV file
   DF = readr::read_csv(paste0(file_name), col_types = readr::cols(.default = readr::col_character())) |> 
@@ -18,9 +19,17 @@ create_items_from_file <- function(file_name) {
   
   task_name = gsub("(.*)\\..*", "\\1", basename(file_name))
 
-  ALL_PLUGINS = DF |> dplyr::distinct(plugin) |> dplyr::pull(plugin)
-  WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/jspsych-", ALL_PLUGINS, "/")
-  cli::cli_alert_info("Found parameters: {.code {names(DF_columns_parameters)}}. For help with {.code {ALL_PLUGINS}}: {.url {WEBS_help}}")
+  PLUGINS_used = DF |> dplyr::distinct(plugin) |> dplyr::pull(plugin)
+  
+  # CHECK we have all the used plugins
+  ALL_available_plugins = list.files(folder_output, recursive = TRUE, pattern = "jspsych-") |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+  CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
+  if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}", 
+                                                       " - Correct the issue in {.code {file_name}}"))
+  
+  
+  WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/jspsych-", PLUGINS_used, "/")
+  cli::cli_alert_info("Found parameters: {.code {names(DF_columns_parameters)}}. For help with {.code {PLUGINS_used}}: {.url {WEBS_help}}")
   
   
 # CHECKS ------------------------------------------------------------------
@@ -43,7 +52,7 @@ create_items_from_file <- function(file_name) {
   if (nrow(janitor::remove_empty(DF_columns_parameters, which = "rows")) != nrow(DF_columns_parameters)) cli::cli_abort(c("There are rows without parameters"))
   
   # No plugins
-  if (any(is.na(ALL_PLUGINS))) cli::cli_abort(c("There are rows without plugins"))
+  if (any(is.na(PLUGINS_used))) cli::cli_abort(c("There are rows without plugins"))
 
 
 # Loop by row (items) -----------------------------------------------------

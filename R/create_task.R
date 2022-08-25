@@ -1,8 +1,8 @@
 create_task <- function(task_folder, folder_output = NULL, INSTRUCTIONS) {
 
   # DEBUG
-  # task_folder = "admin/example_tasks_new_protocol/CRTMCQ4/"
-  # folder_output = "tasks/CRTMCQ4/"
+  # task_folder = "admin/example_tasks_new_protocol/BNT/"
+  # folder_output = "tasks/BNT/"
   
   invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   setup()
@@ -15,8 +15,8 @@ create_task <- function(task_folder, folder_output = NULL, INSTRUCTIONS) {
   
   # Output filename
   if(is.null(folder_output)) folder_output = task_folder # If folder_output = NULL, save in task_folder
-  name_output = paste0(folder_output, "/", task_name, ".js")
-  
+  if (!file.exists(folder_output)) dir.create(folder_output, recursive = TRUE)
+  name_output = paste0(folder_output, "/tasks/", task_name, ".js")
   
   # CHECK only one CSV  
   if (length(CSV) != 1) cli::cli_abort(c("We need 1 CSV file but you have {length(CSV)}"))
@@ -37,7 +37,7 @@ create_task <- function(task_folder, folder_output = NULL, INSTRUCTIONS) {
   # Create task chunks ------------------------------------------------------
 
     # Create items
-    ITEMS = create_items_from_file(file_name = CSV) |> unlist() |> paste(collapse = "")
+    ITEMS = create_items_from_file(file_name = CSV, folder_output = folder_output) |> unlist() |> paste(collapse = "")
     
     # Create instructions
     INSTRUCTIONS_out = create_instructions(INSTRUCTIONS = task_instructions, task_name = task_name)

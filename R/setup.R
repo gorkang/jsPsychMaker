@@ -3,7 +3,7 @@ setup <- function() {
   if (!require('rlang')) install.packages('rlang'); library('rlang')
   
   rlang::check_installed(
-    pkg = c("dplyr", "readr", "purrr", "janitor", "cli"),
+    pkg = c("cli", "dplyr", "here", "janitor", "purrr", "readr", "stringr"),
     reason = "to run the initial setup")
   
   suppressPackageStartupMessages(library(dplyr))
