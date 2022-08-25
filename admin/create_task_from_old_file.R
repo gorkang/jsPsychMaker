@@ -167,41 +167,41 @@ create_task_from_old_file <- function(name_of_task, FILE) {
 
 
 
-# RUN SCRIPT CREATION IN ALL TASKS ----------------------------------------
-
-# Do not prepare these tasks
-BLACK_LIST = list.files("DEV/NEW_TASKS/canonical_protocol_clean/NOT_WORKING/", pattern = "\\.js")
-
-# All OLD tasks available
-ALL_FILES = list.files("../DEV/CSCN_practica_2018/pruebas_individuales/", pattern = "experiment\\.js", full.names = TRUE, recursive = TRUE)
-
-# Prepare DF creating task_name and filtering out BLACK_LIST
-DF_all = ALL_FILES |> as_tibble() |> 
-  mutate(name_of_task = janitor::make_clean_names(basename(gsub("/experiment.js", "", dirname(value))), case = "big_camel")) |> 
-  filter(paste0(name_of_task, ".js") %in% BLACK_LIST)
-
-# CREATE ALL TASKS
-1:nrow(DF_all) |> 
-  walk(~
-        {
-          cli::cli_alert_info("{.x}: {DF_all$name_of_task[.x]}")
-          create_task_from_old_file(
-            FILE = DF_all$value[.x],
-            name_of_task = DF_all$name_of_task[.x])
-        })
-
-# .x = 6
+# # RUN SCRIPT CREATION IN ALL TASKS ----------------------------------------
+# 
+# # Do not prepare these tasks
+# BLACK_LIST = list.files("DEV/NEW_TASKS/canonical_protocol_clean/NOT_WORKING/", pattern = "\\.js")
+# 
+# # All OLD tasks available
+# ALL_FILES = list.files("../DEV/CSCN_practica_2018/pruebas_individuales/", pattern = "experiment\\.js", full.names = TRUE, recursive = TRUE)
+# 
+# # Prepare DF creating task_name and filtering out BLACK_LIST
+# DF_all = ALL_FILES |> as_tibble() |> 
+#   mutate(name_of_task = janitor::make_clean_names(basename(gsub("/experiment.js", "", dirname(value))), case = "big_camel")) |> 
+#   filter(paste0(name_of_task, ".js") %in% BLACK_LIST)
+# 
+# # CREATE ALL TASKS
+# 1:nrow(DF_all) |> 
+#   walk(~
+#         {
+#           cli::cli_alert_info("{.x}: {DF_all$name_of_task[.x]}")
+#           create_task_from_old_file(
+#             FILE = DF_all$value[.x],
+#             name_of_task = DF_all$name_of_task[.x])
+#         })
+# 
+# # .x = 6
 
 
 
 # CREATE CONFIG.JS --------------------------------------------------------
 
 
-source("admin/helper-scripts-admin.R")
-
-tasks_canonical = extract_tasks_from_protocol(folder_protocol = "DEV/NEW_TASKS/canonical_protocol_clean/")
-
-replace_tasks_config_js(folder_protocol = "DEV/NEW_TASKS/canonical_protocol_clean/",
-                        tasks = tasks_canonical, 
-                        block_tasks = "randomly_ordered_tasks_1") 
+# source("admin/helper-scripts-admin.R")
+# 
+# tasks_canonical = extract_tasks_from_protocol(folder_protocol = "DEV/NEW_TASKS/canonical_protocol_clean/")
+# 
+# replace_tasks_config_js(folder_protocol = "DEV/NEW_TASKS/canonical_protocol_clean/",
+#                         tasks = tasks_canonical, 
+#                         block_tasks = "randomly_ordered_tasks_1") 
 

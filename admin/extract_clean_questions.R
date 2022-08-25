@@ -57,8 +57,8 @@ extract_clean_questions <- function(FILE, label = "stimulus", separator = "'", g
 
   }
 
-CLEANQ = extract_clean_questions(FILE = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/canonical_protocol/tasks/CRTMCQ4.js", 
-                                 label = "prompt", 
-                                 separator = "'",
-                                 get_options = TRUE)
-write_csv(CLEANQ, "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/DEV/WIP_KEY_ITEMS/CLEANQ.csv")
+# CLEANQ = extract_clean_questions(FILE = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/canonical_protocol/tasks/CRTMCQ4.js", 
+#                                  label = "prompt", 
+#                                  separator = "'",
+#                                  get_options = TRUE)
+# write_csv(CLEANQ, "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/DEV/WIP_KEY_ITEMS/CLEANQ.csv")

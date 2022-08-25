@@ -8,7 +8,7 @@ Consent = [];    //temporal timeline
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left><b><big>Consentimiento informado</big></b><br /></p>'],
-    data: {trialid: 'Instructions_001', procedure: 'Consent'},
+    data: {trialid: 'Consent_000', procedure: 'Consent'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
