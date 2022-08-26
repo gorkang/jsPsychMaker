@@ -1,3 +1,14 @@
+#' adapt_HTML
+#'
+#' @param CSVs CSV/XML files so we can extract names of tasks
+#' @param folder_output Where to change the index.html file
+#'
+#' @return
+#' @export
+#' @importFrom purrr map_df
+#' @importFrom cli cli_alert_info cli_abort
+#'
+#' @examples
 adapt_HTML <- function(CSVs, folder_output) {
   
   TASKS = basename(dirname(CSVs))

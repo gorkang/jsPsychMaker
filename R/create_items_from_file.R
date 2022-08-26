@@ -1,3 +1,18 @@
+#' create_items_from_file
+#'
+#' @param file_name CSV/XLS file with info about the task
+#' @param folder_output Where do we have the canonical_protocol_clean
+#'
+#' @return
+#' @export
+#' @importFrom purrr map
+#' @importFrom cli cli_alert_info cli_abort cli_alert_danger
+#' @importFrom janitor remove_empty
+#' @importFrom readr read_csv cols col_character
+#' @importFrom readxl read_excel
+#' @importFrom stringr str_replace_all
+#'
+#' @examples
 create_items_from_file <- function(file_name, folder_output = NULL) {
 
   # TODO
@@ -38,7 +53,13 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   PLUGINS_used = DF |> dplyr::distinct(plugin) |> dplyr::pull(plugin)
   
   # CHECK we have all the used plugins
-  ALL_available_plugins = list.files(folder_output, recursive = TRUE, pattern = "jspsych-") |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+  packagePath <- find.package("jsPsychMaker", lib.loc=NULL, quiet = TRUE)
+  canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
+  canonical_zip_files = unzip(canonical_zip, list=TRUE)[,1]
+  ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+  
+  
+  # ALL_available_plugins = list.files(folder_output, recursive = TRUE, pattern = "jspsych-") |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
   CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
   if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}", 
                                                        " - Correct the issue in {.code {file_name}}"))

@@ -1,0 +1,30 @@
+Package: jsPsychMaker
+Title: Create behavioral experiments using jsPsych and R
+Version: 0.0.0.9000
+Authors@R: 
+    person("Gorka", "Navarrete", , "gorkang@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-7678-8656"))
+Description: With jsPsychMaker you can create new tasks and protocols using jsPsych. 
+License: MIT + file LICENSE
+URL: https://github.com/gorkang/jsPsychMaker
+BugReports: https://github.com/gorkang/jsPsychMaker/issues
+Depends: 
+    R (>= 3.5.0)
+Imports: 
+    cli,
+    dplyr,
+    here,
+    janitor,
+    purrr,
+    readr,
+    readxl,
+    rlang,
+    stringr
+Suggests: 
+    knitr
+VignetteBuilder: 
+    knitr
+LazyData: FALSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1

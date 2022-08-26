@@ -1,10 +1,27 @@
-create_task <- function(task_folder, folder_output = NULL, INSTRUCTIONS) {
+#' create_task
+#' 
+#' This is a description
+#'
+#' @param task_folder Add folder of the task 
+#' @param folder_output Where to create the task
+#'
+#' @return
+#' @export
+#' @importFrom cli cli_alert_success cli_alert_info cli_abort
+#' @importFrom here here
+#'
+#' @examples
+create_task <- function(task_folder, folder_output = NULL) {
 
   # DEBUG
   # task_folder = "admin/example_tasks_new_protocol/BNT/"
   # folder_output = "tasks/BNT/"
   
-  invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
+
+  task_folder = here::here(task_folder)
+  
+  
+  # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   setup()
   
   # Parameters
@@ -13,10 +30,15 @@ create_task <- function(task_folder, folder_output = NULL, INSTRUCTIONS) {
   CSV = list.files(task_folder, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
   task_name_CSV = gsub("(.*)\\..*", "\\1", basename(CSV))
   
+  HTMLs = here::here(HTMLs)
+  
   # Output filename
   if(is.null(folder_output)) folder_output = task_folder # If folder_output = NULL, save in task_folder
-  if (!file.exists(folder_output)) dir.create(folder_output, recursive = TRUE)
+  folder_output = here::here(folder_output)
+  
   name_output = paste0(folder_output, "/tasks/", task_name, ".js")
+  if (!file.exists(name_output)) dir.create(dirname(name_output), recursive = TRUE)
+  
   
   # CHECK only one CSV  
   if (length(CSV) != 1) cli::cli_abort(c("We need 1 CSV file but you have {length(CSV)}"))

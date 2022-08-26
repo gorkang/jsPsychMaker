@@ -1,6 +1,8 @@
-# jsPsychHelpeR 0.2.9999
+# jsPsychMaker 0.2.9999
 
 Major updates  
+
+* jsPsychMaker is now an R package  
 
 * NEW create_protocol() function to create protocols using csv files
   + Can deal with most/all plugins
@@ -14,7 +16,7 @@ Minor updates
 * Working with ~60 tasks
 
 
-# jsPsychHelpeR 0.2.0
+# jsPsychMaker 0.2.0
 
 Major updates  
 

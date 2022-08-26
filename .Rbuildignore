@@ -1,0 +1,15 @@
+^\.Rproj\.user$
+^.*\.Rproj$
+run-admin.R
+run.R
+TODO.Rmd
+
+^.vault$
+^.github$
+^canonical_protocol*
+^protocols_DEV$
+^DEV$
+^admin$
+^docs$
+^app$
+

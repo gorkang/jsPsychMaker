@@ -1,4 +1,20 @@
-# Create protocol
+#' create_protocol
+#'
+#' @param tasks_folder Add folder of the protocol 
+#' @param folder_output Where to create the protocol
+#' @param launch_browser TRUE/FALSE
+#' @param piloting_task Name of task to pilot (will be only task in config.js)
+#'
+#' @return
+#' @export
+#' @importFrom purrr map_df
+#' @importFrom cli cli_h1 cli_h2 cli_alert_success cli_alert_info cli_abort cli_alert_danger
+#' @importFrom purrr walk
+#' @importFrom janitor remove_empty
+#' @importFrom here here
+#' @importFrom utils browseURL
+#'
+#' @examples
 create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", launch_browser = FALSE, piloting_task = NULL) {
   
   # DEBUG
@@ -7,14 +23,17 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
   # launch_browser = TRUE
   # piloting_task = NULL
   
-  invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
-  source("admin/helper-scripts-admin.R")
+  # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
+  # source("admin/helper-scripts-admin.R")
   setup()
   
 
   # Copy canonical_protocol_clean -------------------------------------------
   
   cli::cli_h1("Create new protocol in {folder_output}")
+  
+  folder_output = here::here(folder_output)
+  tasks_folder = here::here(tasks_folder)
   
   # Check if folder exists
   if (dir.exists(folder_output)) {
@@ -100,14 +119,14 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
     
     cli::cli_h1("Open new protocol in browser")
     
-    URL = paste0("file:///", here::here(folder_output), "/index.html", "?uid=", sample(1:1000, 1))
+    URL = paste0("file:///", here::here(normalizePath(folder_output)), "/index.html", "?uid=", sample(1:1000, 1))
     
     OS = Sys.info()["sysname"]
     
     if (OS == "Linux") {
       system(paste0("google-chrome ", URL, " --incognito"))
     } else {
-      browseURL(URL)
+      utils::browseURL(URL)
       cli::cli_alert_info("If you encounter errors in the Javascript (F12) Console about 'indexedDB_controller.js' or 'Uncaught (in promise) element not found'. Launch the experiment in an Incognito window.")
     }
     
