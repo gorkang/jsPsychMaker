@@ -101,9 +101,15 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
     cli::cli_h1("Open new protocol in browser")
     
     URL = paste0("file:///", here::here(folder_output), "/index.html", "?uid=", sample(1:1000, 1))
-    # browseURL(URL)
-    # processx::run(command = "google-chrome", args = c(URLdecode(URL), " --incognito"))
-    system(paste0("google-chrome ", URL, " --incognito"))
+    
+    OS = Sys.info()["sysname"]
+    
+    if (OS == "Linux") {
+      system(paste0("google-chrome ", URL, " --incognito"))
+    } else {
+      browseURL(URL)
+      cli::cli_alert_info("If you encounter errors in the Javascript (F12) Console about 'indexedDB_controller.js' or 'Uncaught (in promise) element not found'. Launch the experiment in an Incognito window.")
+    }
     
   }
   
