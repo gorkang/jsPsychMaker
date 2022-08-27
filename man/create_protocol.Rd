@@ -6,6 +6,7 @@
 \usage{
 create_protocol(
   tasks_folder,
+  add_canonical_tasks = NULL,
   folder_output = "admin/OUTPUT/NEW",
   launch_browser = FALSE,
   piloting_task = NULL
@@ -13,6 +14,8 @@ create_protocol(
 }
 \arguments{
 \item{tasks_folder}{Add folder of the protocol}
+
+\item{add_canonical_tasks}{Add already available tasks to the protocol}
 
 \item{folder_output}{Where to create the protocol}
 

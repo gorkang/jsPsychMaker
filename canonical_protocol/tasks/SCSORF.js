@@ -6,7 +6,7 @@ SCSORF = [];    //temporal timeline
 
 var instruction_screen_experiment = {
     type: 'instructions',
-    pages: ['<p><left><b><big></big></b><br />'+
+    pages: ['<p><left><b><big>SCSORF</big></b><br />'+
     'Indique su nivel de acuerdo con las siguientes frases.' +'</p>'],
     data: {trialid: 'Instructions_01', procedure: 'SCSORF'},
     show_clickable_nav: true,

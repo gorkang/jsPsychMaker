@@ -22,7 +22,7 @@ create_task <- function(task_folder, folder_output = NULL) {
   
   
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
-  setup()
+  # setup()
   
   # Parameters
   task_name = gsub("(.*)\\..*", "\\1", basename(task_folder))
@@ -37,7 +37,7 @@ create_task <- function(task_folder, folder_output = NULL) {
   folder_output = here::here(folder_output)
   
   name_output = paste0(folder_output, "/tasks/", task_name, ".js")
-  if (!file.exists(name_output)) dir.create(dirname(name_output), recursive = TRUE)
+  if (!file.exists(name_output)) dir.create(dirname(name_output), recursive = TRUE, showWarnings = FALSE)
   
   
   # CHECK only one CSV  

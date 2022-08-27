@@ -15,6 +15,7 @@
   
   # Create protocol
   create_protocol(tasks_folder = "~/Downloads/TEST/example_tasks/", 
+                  add_canonical_tasks = c("AIM", "EAR", "IRI"),
                   folder_output = "~/Downloads/TEST/new_protocol", 
                   launch_browser = TRUE)
 

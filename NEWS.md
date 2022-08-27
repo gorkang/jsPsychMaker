@@ -4,7 +4,9 @@ Major updates
 
 * jsPsychMaker is now an R package  
 
-* NEW create_protocol() function to create protocols using csv files
+* NEW create_protocol() function to create full protocols 
+  + Using already existing tasks
+  + Using csv files with the task definition
   + Can deal with most/all plugins
   + Can deal with if_questions 
   

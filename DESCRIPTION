@@ -19,7 +19,8 @@ Imports:
     readr,
     readxl,
     rlang,
-    stringr
+    stringr,
+    tibble
 Suggests: 
     knitr
 VignetteBuilder: 

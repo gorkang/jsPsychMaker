@@ -53,7 +53,7 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   PLUGINS_used = DF |> dplyr::distinct(plugin) |> dplyr::pull(plugin)
   
   # CHECK we have all the used plugins
-  packagePath <- find.package("jsPsychMaker", lib.loc=NULL, quiet = TRUE)
+  packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
   canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
   canonical_zip_files = unzip(canonical_zip, list=TRUE)[,1]
   ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")

@@ -1,6 +1,7 @@
 #' create_protocol
 #'
 #' @param tasks_folder Add folder of the protocol 
+#' @param add_canonical_tasks Add already available tasks to the protocol
 #' @param folder_output Where to create the protocol
 #' @param launch_browser TRUE/FALSE
 #' @param piloting_task Name of task to pilot (will be only task in config.js)
@@ -15,17 +16,21 @@
 #' @importFrom utils browseURL
 #'
 #' @examples
-create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", launch_browser = FALSE, piloting_task = NULL) {
+create_protocol <- function(tasks_folder, 
+                            add_canonical_tasks = NULL,
+                            folder_output = "admin/OUTPUT/NEW", 
+                            launch_browser = FALSE, 
+                            piloting_task = NULL) {
   
   # DEBUG
   # tasks_folder = "admin/example_tasks_new_protocol/"
+  # add_canonical_tasks = c("AIM", "EAR", "IRI")
   # folder_output = "admin/OUTPUT/NEW"
   # launch_browser = TRUE
   # piloting_task = NULL
   
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
-  # source("admin/helper-scripts-admin.R")
-  setup()
+  # setup()
   
 
   # Copy canonical_protocol_clean -------------------------------------------
@@ -78,8 +83,36 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
       create_task(task_folder = paste0(tasks_folder, "/", TASKS[.x], "/"), folder_output = folder_output)
     })
   
+  
 
-# Modify config.js --------------------------------------------------------
+  # ADD canonical tasks -----------------------------------------------------
+  
+  # add_canonical_tasks = c("AIM", "EAR")
+  if (!is.null(add_canonical_tasks)) {
+    
+    cli::cli_h1("ADD tasks from already existing tasks")
+    
+    # Get tasks from "/templates/tasks.zip"
+    packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
+    tasks_zip = paste0(packagePath, "/templates/tasks.zip")
+    tasks_js = unzip(tasks_zip, list=TRUE)[,1] 
+    tasks = tasks_js |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+    
+    # Check if add_canonical_tasks exist  
+    if (!all(add_canonical_tasks %in% tasks)) cli::cli_abort(c("Task/s not found: {.code {add_canonical_tasks[!add_canonical_tasks %in% tasks]}}",
+                                                               "",
+                                                               "You can choose from the following: {.code {tasks}}"))
+    
+    # Copy add_canonical_tasks to tasks folder
+    unzip(tasks_zip, files = paste0(add_canonical_tasks, ".js"), exdir = paste0(folder_output, "/tasks/"))
+    
+  } else {
+    add_canonical_tasks = NULL
+  }
+  
+
+
+  # Modify config.js --------------------------------------------------------
 
   cli::cli_h1("Prepare new protocol")
   cli::cli_h2("Modify config.js")
@@ -93,6 +126,22 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
     tasks_canonical = extract_tasks_from_protocol(folder_protocol = folder_output)
   }
   
+  # ADD add_canonical_tasks to tasks_canonical we we also added them to config.js
+  if (!is.null(add_canonical_tasks)) {
+    tasks_canonical$PATHS_tasks = c(tasks_canonical$PATHS_tasks, paste0("tasks/", add_canonical_tasks, ".js"))
+    tasks_canonical$tasks = c(tasks_canonical$tasks, add_canonical_tasks)
+    
+    # Get plugins of add_canonical_tasks tasks
+    path_to_added_tasks = paste0(folder_output, "/tasks/", add_canonical_tasks, ".js")
+    all_files_js = purrr::map(path_to_added_tasks, readLines) |> unlist()
+    new_plugins = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
+      trimws() |> unique() |> 
+      stringr::str_remove_all(pattern = "type: |'|,")
+  } else {
+    new_plugins = NULL
+  }
+  
+  
   # Replace tasks in config
   replace_tasks_config_js(folder_protocol = folder_output,
                           tasks = tasks_canonical, 
@@ -101,14 +150,13 @@ create_protocol <- function(tasks_folder, folder_output = "admin/OUTPUT/NEW", la
   cli::cli_alert_info("More information about protocol configuration on the jsPsychR manual: {.url https://gorkang.github.io/jsPsychR-manual/qmd/03-jsPsychMaker.html#experiment-configuration}")
   
 
-  
-
 # Modify HTML -------------------------------------------------------------
 
   cli::cli_h2("Adapt index.html")
   
+  # Adds needed plugins, ...
   
-  adapt_HTML(CSVs = CSVs, folder_output = folder_output)
+  adapt_HTML(CSVs = CSVs, new_plugins = new_plugins, folder_output = folder_output)
   
   
   

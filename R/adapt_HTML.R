@@ -1,15 +1,17 @@
 #' adapt_HTML
 #'
 #' @param CSVs CSV/XML files so we can extract names of tasks
+#' @param new_plugins Plugins of already existing tasks added
 #' @param folder_output Where to change the index.html file
 #'
 #' @return
 #' @export
 #' @importFrom purrr map_df
 #' @importFrom cli cli_alert_info cli_abort
+#' @importFrom tibble tibble
 #'
 #' @examples
-adapt_HTML <- function(CSVs, folder_output) {
+adapt_HTML <- function(CSVs, new_plugins = NULL, folder_output) {
   
   TASKS = basename(dirname(CSVs))
 
@@ -30,6 +32,11 @@ adapt_HTML <- function(CSVs, folder_output) {
   } else {
     cli::cli_abort("{.code {CSVs}} should be all .csv or all .xls/xlsx files")
   }
+  
+  # Add new plugins
+  if (!is.null(new_plugins)) PLUGINS = PLUGINS |> dplyr::bind_rows(tibble::tibble(plugin = new_plugins)) |> dplyr::distinct(plugin)
+  
+  # Create code for all plugins used
   code_plugins = paste0('\t<script src="jsPsych-6/plugins/jspsych-', PLUGINS$plugin, '.js"></script>')
   
     
