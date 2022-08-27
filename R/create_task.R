@@ -45,9 +45,9 @@ create_task <- function(task_folder, folder_output = NULL) {
   if (task_name != task_name_CSV) cli::cli_abort(c("The name of the folder ({.code {task_name}}) and the .csv inside ({.code {task_name_CSV}}) need to be equal."))
   
   
-  # If there are no HTML files, use default instructions
+  # If there are no HTML files, use default instructions 
   if (length(HTMLs) == 0) {
-    task_instructions = paste0("<p><left><b><big>", task_name, "</big></b><br/>Lee con atención y contesta las siguientes preguntas.</left></p>")
+    task_instructions = paste0("<p><left><b><big>", task_name, "</big></b><br/>Lee con atenci\u00F3n y contesta las siguientes preguntas.</left></p>")
   } else {
     task_instructions = HTMLs  
   }
