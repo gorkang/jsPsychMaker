@@ -18,17 +18,16 @@
   devtools::document()
   devtools::load_all()
   devtools::build()
-  
-  devtools::check()
-  
   devtools::install()
 
+  devtools::check()
 
 # TODO --------------------------------------------------------------------
 
-
-# TODO: Add more template plugins!
 # TODO: tasks with images
+# TODO: helper functions for zip/list/unzip
+  
+# TODO: Add more template plugins!
 # TODO: shiny app to modify local config.js? Select folder...
 
 

@@ -5,7 +5,7 @@
 \title{create_protocol}
 \usage{
 create_protocol(
-  tasks_folder,
+  tasks_folder = NULL,
   add_canonical_tasks = NULL,
   folder_output = "admin/OUTPUT/NEW",
   launch_browser = FALSE,

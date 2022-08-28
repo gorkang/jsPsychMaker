@@ -4,14 +4,14 @@
 \alias{adapt_HTML}
 \title{adapt_HTML}
 \usage{
-adapt_HTML(CSVs, new_plugins = NULL, folder_output)
+adapt_HTML(TASKS, new_plugins = NULL, folder_output)
 }
 \arguments{
-\item{CSVs}{CSV/XML files so we can extract names of tasks}
-
 \item{new_plugins}{Plugins of already existing tasks added}
 
 \item{folder_output}{Where to change the index.html file}
+
+\item{CSVs}{CSV/XML files so we can extract names of tasks}
 }
 \description{
 adapt_HTML
