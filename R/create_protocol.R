@@ -16,7 +16,7 @@
 #' @importFrom utils browseURL
 #'
 #' @examples
-create_protocol <- function(tasks_folder, 
+create_protocol <- function(tasks_folder = NULL, 
                             add_canonical_tasks = NULL,
                             folder_output = "admin/OUTPUT/NEW", 
                             launch_browser = FALSE, 
@@ -28,7 +28,7 @@ create_protocol <- function(tasks_folder,
   # folder_output = "admin/OUTPUT/NEW"
   # launch_browser = TRUE
   # piloting_task = NULL
-  
+
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   # setup()
   
@@ -38,7 +38,6 @@ create_protocol <- function(tasks_folder,
   cli::cli_h1("Create new protocol in {folder_output}")
   
   folder_output = here::here(folder_output)
-  tasks_folder = here::here(tasks_folder)
   
   # Check if folder exists
   if (dir.exists(folder_output)) {
@@ -57,33 +56,39 @@ create_protocol <- function(tasks_folder,
   
   
   # Create new tasks --------------------------------------------------------
-
-  # Temp var to see if we have CSVs
-  CSVs = list.files(tasks_folder, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
   
-  TASKS = basename(dirname(CSVs))
-
-  cli::cli_alert_info("Found the following tasks in {.code {tasks_folder}}:\n - {.code {TASKS}}\n")
-
-  # CHECKS ---
-  
-    # Check if csv's in root folder
-    if (basename(tasks_folder) %in% TASKS) cli::cli_abort(c("There is a csv file in the root folder.", " - Please remove: {CSVs[dirname(CSVs) %in% gsub('/$','', tasks_folder)]}."))
+  if (!is.null(tasks_folder)) {
     
-    # Names of tasks are correct
-    regexp_TASK_NAMES = " |-|_|!|&|\\(|\\)|\\[|\\]|\\{|\\}|^[0-9]"
-    check_TASK_NAMES = grepl(regexp_TASK_NAMES, TASKS)
-    if (any(check_TASK_NAMES)) cli::cli_abort("Tasks with forbiden names (use only alphanumeric characters, do not start with a number): {.code {TASKS[check_TASK_NAMES]}}")
-
+    tasks_folder = here::here(tasks_folder)
     
-  # Loop through folders with CSVs ---
-  1:length(TASKS) |> 
-    purrr::walk(~{
-      cli::cli_h1("create_task: {TASKS[.x]}")
-      create_task(task_folder = paste0(tasks_folder, "/", TASKS[.x], "/"), folder_output = folder_output)
-    })
+    # Temp var to see if we have CSVs
+    CSVs = list.files(tasks_folder, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
+    
+    TASKS = basename(dirname(CSVs))
   
+    cli::cli_alert_info("Found the following tasks in {.code {tasks_folder}}:\n - {.code {TASKS}}\n")
   
+    # CHECKS ---
+    
+      # Check if csv's in root folder
+      if (basename(tasks_folder) %in% TASKS) cli::cli_abort(c("There is a csv file in the root folder.", " - Please remove: {CSVs[dirname(CSVs) %in% gsub('/$','', tasks_folder)]}."))
+      
+      # Names of tasks are correct
+      regexp_TASK_NAMES = " |-|_|!|&|\\(|\\)|\\[|\\]|\\{|\\}|^[0-9]"
+      check_TASK_NAMES = grepl(regexp_TASK_NAMES, TASKS)
+      if (any(check_TASK_NAMES)) cli::cli_abort("Tasks with forbiden names (use only alphanumeric characters, do not start with a number): {.code {TASKS[check_TASK_NAMES]}}")
+  
+      
+    # Loop through folders with CSVs ---
+    1:length(TASKS) |> 
+      purrr::walk(~{
+        cli::cli_h1("create_task: {TASKS[.x]}")
+        create_task(task_folder = paste0(tasks_folder, "/", TASKS[.x], "/"), folder_output = folder_output)
+      })
+  
+  } else {
+    CSVs = NULL
+  }
 
   # ADD canonical tasks -----------------------------------------------------
   
@@ -106,6 +111,8 @@ create_protocol <- function(tasks_folder,
     # Copy add_canonical_tasks to tasks folder
     unzip(tasks_zip, files = paste0(add_canonical_tasks, ".js"), exdir = paste0(folder_output, "/tasks/"))
     
+    cli::cli_alert_success("Added: {.code {add_canonical_tasks}}")
+    
   } else {
     add_canonical_tasks = NULL
   }
@@ -126,20 +133,20 @@ create_protocol <- function(tasks_folder,
     tasks_canonical = extract_tasks_from_protocol(folder_protocol = folder_output)
   }
   
-  # ADD add_canonical_tasks to tasks_canonical we we also added them to config.js
-  if (!is.null(add_canonical_tasks)) {
-    tasks_canonical$PATHS_tasks = c(tasks_canonical$PATHS_tasks, paste0("tasks/", add_canonical_tasks, ".js"))
-    tasks_canonical$tasks = c(tasks_canonical$tasks, add_canonical_tasks)
-    
-    # Get plugins of add_canonical_tasks tasks
-    path_to_added_tasks = paste0(folder_output, "/tasks/", add_canonical_tasks, ".js")
-    all_files_js = purrr::map(path_to_added_tasks, readLines) |> unlist()
-    new_plugins = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
-      trimws() |> unique() |> 
-      stringr::str_remove_all(pattern = "type: |'|,")
-  } else {
-    new_plugins = NULL
-  }
+  # ADD add_canonical_tasks to tasks_canonical so we also added them to config.js
+  # if (!is.null(add_canonical_tasks)) {
+  #   # tasks_canonical$PATHS_tasks = c(tasks_canonical$PATHS_tasks, paste0("tasks/", add_canonical_tasks, ".js"))
+  #   # tasks_canonical$tasks = c(tasks_canonical$tasks, add_canonical_tasks)
+  #   
+  #   # Get plugins of add_canonical_tasks tasks
+  #   path_to_added_tasks = paste0(folder_output, "/tasks/", add_canonical_tasks, ".js")
+  #   all_files_js = purrr::map(path_to_added_tasks, readLines) |> unlist()
+  #   new_plugins = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
+  #     trimws() |> unique() |> 
+  #     stringr::str_remove_all(pattern = "type: |'|,")
+  # } else {
+  #   new_plugins = NULL
+  # }
   
   
   # Replace tasks in config
@@ -154,9 +161,38 @@ create_protocol <- function(tasks_folder,
 
   cli::cli_h2("Adapt index.html")
   
-  # Adds needed plugins, ...
+  # Adds needed plugins, necessary extra files for tasks...
   
-  adapt_HTML(CSVs = CSVs, new_plugins = new_plugins, folder_output = folder_output)
+  # Get plugins of add_canonical_tasks tasks
+  path_to_tasks = list.files(path = paste0(folder_output, "/tasks/"), pattern = ".js", full.names = TRUE)
+  # Read tasks js
+  all_files_js = purrr::map(path_to_tasks, readLines) |> unlist()
+  # Extract plugins
+  PLUGINS_used_raw = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
+    trimws() |> unique() |> 
+    stringr::str_remove_all(pattern = "type: |'|,")
+  
+  # Get rid of things catched by re regex that are not plugins
+  BLACKlist_plugins = c("number", "text")
+  PLUGINS_used = PLUGINS_used_raw[!grepl(paste0(BLACKlist_plugins, collapse = "|"), PLUGINS_used_raw)]
+  
+  
+  
+  # CHECK we have all the used plugins ---
+    # TODO: ALMOST identical to chunk in create_items_from_file.R (Correct the issue in {.code {file_name}} appears in create_items_from_file.R but not here)
+  packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
+  canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
+  canonical_zip_files = unzip(canonical_zip, list=TRUE)[,1]
+  ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+  CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
+  if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}"
+                                                         # " - Correct the issue in {.code {file_name}}" # 
+                                                         ))
+  
+  
+  # Adapt HTML
+  
+  adapt_HTML(TASKS = tasks_canonical$tasks, new_plugins = PLUGINS_used, folder_output = folder_output)
   
   
   

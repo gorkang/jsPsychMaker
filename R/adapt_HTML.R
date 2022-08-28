@@ -11,30 +11,31 @@
 #' @importFrom tibble tibble
 #'
 #' @examples
-adapt_HTML <- function(CSVs, new_plugins = NULL, folder_output) {
+adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output) {
   
-  TASKS = basename(dirname(CSVs))
+  # TASKS = basename(dirname(CSVs))
 
   # Used plugins
-  # PLUGINS = purrr::map_df(CSVs, readr::read_csv, col_types = readr::cols(.default = readr::col_character())) |> dplyr::distinct(plugin) 
-  
+  # We do this in 
   # READ files
-  file_extension = unlist(strsplit(basename(CSVs), split="\\."))[seq(from = 2, to = length(CSVs) * 2, by = 2)]
+  # file_extension = unlist(strsplit(basename(CSVs), split="\\."))[seq(from = 2, to = length(CSVs) * 2, by = 2)]
+  # 
+  # if (all(file_extension == "csv")) {
+  #   
+  #   PLUGINS = purrr::map_df(CSVs, readr::read_csv, col_types = readr::cols(.default = readr::col_character())) |> dplyr::distinct(plugin) 
+  #   
+  # } else if (all(file_extension %in% c("xls", "xlsx"))) {
+  #   
+  #   PLUGINS = purrr::map_df(CSVs, readxl::read_excel, col_types = c("text")) |> dplyr::distinct(plugin) 
+  #   
+  # } else {
+  #   cli::cli_abort("{.code {CSVs}} should be all .csv or all .xls/xlsx files")
+  # }
+  # 
+  # # Add new plugins
+  # if (!is.null(new_plugins)) PLUGINS = PLUGINS |> dplyr::bind_rows(tibble::tibble(plugin = new_plugins)) |> dplyr::distinct(plugin)
   
-  if (all(file_extension == "csv")) {
-    
-    PLUGINS = purrr::map_df(CSVs, readr::read_csv, col_types = readr::cols(.default = readr::col_character())) |> dplyr::distinct(plugin) 
-    
-  } else if (all(file_extension %in% c("xls", "xlsx"))) {
-    
-    PLUGINS = purrr::map_df(CSVs, readxl::read_excel, col_types = c("text")) |> dplyr::distinct(plugin) 
-    
-  } else {
-    cli::cli_abort("{.code {CSVs}} should be all .csv or all .xls/xlsx files")
-  }
-  
-  # Add new plugins
-  if (!is.null(new_plugins)) PLUGINS = PLUGINS |> dplyr::bind_rows(tibble::tibble(plugin = new_plugins)) |> dplyr::distinct(plugin)
+  PLUGINS = tibble::tibble(plugin = new_plugins) |> dplyr::distinct(plugin)
   
   # Create code for all plugins used
   code_plugins = paste0('\t<script src="jsPsych-6/plugins/jspsych-', PLUGINS$plugin, '.js"></script>')

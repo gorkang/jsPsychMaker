@@ -15,12 +15,14 @@ copy_example_tasks <- function(destination_folder) {
   example_tasks_files = list.files(example_tasks_folder, full.names = TRUE, recursive = TRUE)
 
   # Create folders  
-  folders_to_create = paste0(destination_folder, unique(dirname(example_tasks_files)) |> stringr::str_replace_all(pattern = paste0(packagePath, "/templates"), replacement = ""))
+  folders_to_create = paste0(destination_folder, unique(dirname(example_tasks_files)) |> stringr::str_replace_all(pattern = paste0(packagePath, "/templates/example_tasks"), replacement = ""))
   purrr::walk(folders_to_create, dir.create, recursive = TRUE, showWarnings = FALSE)
   
   # Copy files
   invisible(file.copy(from = example_tasks_files, 
-            to = paste0(destination_folder, "/example_tasks/", basename(dirname(example_tasks_files)), "/", basename(example_tasks_files)), overwrite = TRUE))
+            # to = paste0(destination_folder, "/example_tasks/", basename(dirname(example_tasks_files)), "/", basename(example_tasks_files)), 
+            to = paste0(destination_folder, gsub(example_tasks_folder, "", example_tasks_files)),
+            overwrite = TRUE))
   
   cli::cli_alert_success("Example tasks copied to {.code {paste0(destination_folder, '/example_tasks/')}}")
 }
