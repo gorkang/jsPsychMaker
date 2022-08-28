@@ -51,9 +51,43 @@ create_task <- function(task_folder, folder_output = NULL) {
   } else {
     task_instructions = HTMLs  
   }
-  
+
   cli::cli_alert_info("CSV: {CSV}")
   cli::cli_alert_info("HTML: {task_instructions}")
+  
+  
+
+  # Add media ---------------------------------------------------------------
+
+  # If we enforce the structure of canonical/media...  we can directly use the stimulus parameter in the CSV file
+  images_task = list.files(paste0(task_folder, "/media/img"), recursive = TRUE, full.names = TRUE, pattern = "\\.jpg|\\.png")
+  videos_task = list.files(paste0(task_folder, "/media/vid"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp4|\\.avi")
+  audios_task = list.files(paste0(task_folder, "/media/audio"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp3|\\.wav")
+  
+  # CHECK media files NOT in "/media/img/"
+  ALL_files = list.files(paste0(task_folder), recursive = TRUE, full.names = TRUE)
+  
+  # TODO: CHECK ONLY paste0(task_folder, "/media/img/").
+  # If empty, say empty and point to where the images SHOULD BE
+  
+  # All minus things present in image, videos and audios vectors
+  ALL_minus_proper_media = ALL_files[!ALL_files %in% images_task & !ALL_files %in% videos_task & !ALL_files %in% audios_task]
+  # Get rid of expected files
+  non_expected_files = ALL_minus_proper_media[!grepl("\\.csv|\\.xls|\\.xlsx|\\.html|\\.txt", ALL_minus_proper_media)]
+  
+  # CHECK
+  if (length(non_expected_files) != 0) cli::cli_alert_danger(c("Files out of place in {folder_output}:  {.code {basename(non_expected_files)}}\n\n", 
+                                                                "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'"))
+  
+  # Copy files
+  if (length(images_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/img/", basename(images_task)))
+  if (length(videos_task) != 0) file.copy(from = videos_task, to = paste0(folder_output, "/media/vid/", basename(videos_task)))
+  if (length(audios_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/audio/", basename(images_task)))
+  
+  
+  
+  
+  
   
 
   # Create task chunks ------------------------------------------------------
