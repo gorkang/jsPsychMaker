@@ -7,11 +7,11 @@
 adapt_HTML(TASKS, new_plugins = NULL, folder_output)
 }
 \arguments{
-\item{new_plugins}{Plugins of already existing tasks added}
+\item{TASKS}{list of tasks in protocol}
 
-\item{folder_output}{Where to change the index.html file}
+\item{new_plugins}{plugins used by tasks}
 
-\item{CSVs}{CSV/XML files so we can extract names of tasks}
+\item{folder_output}{where to change the index.html file}
 }
 \description{
 adapt_HTML

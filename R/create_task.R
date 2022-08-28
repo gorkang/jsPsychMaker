@@ -73,11 +73,11 @@ create_task <- function(task_folder, folder_output = NULL) {
   # All minus things present in image, videos and audios vectors
   ALL_minus_proper_media = ALL_files[!ALL_files %in% images_task & !ALL_files %in% videos_task & !ALL_files %in% audios_task]
   # Get rid of expected files
-  non_expected_files = ALL_minus_proper_media[!grepl("\\.csv|\\.xls|\\.xlsx|\\.html|\\.txt", ALL_minus_proper_media)]
+  non_expected_files = ALL_minus_proper_media[!grepl("\\.csv|\\.xls|\\.xlsx|\\.html|\\.txt|\\.js", ALL_minus_proper_media)]
   
   # CHECK
   if (length(non_expected_files) != 0) cli::cli_alert_danger(c("Files out of place in {folder_output}:  {.code {basename(non_expected_files)}}\n\n", 
-                                                                "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'"))
+                                                                "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
   
   # Copy files
   if (length(images_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/img/", basename(images_task)))

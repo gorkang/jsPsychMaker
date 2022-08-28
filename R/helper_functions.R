@@ -1,3 +1,31 @@
+#' list_available_tasks
+#'
+#' @param show_help Show information about where to get help?
+#'
+#' @return
+#' @export
+#' @importFrom cli cli_alert_info
+#' @importFrom stringr str_replace_all
+#'
+#' @examples
+list_available_tasks <- function(show_help = FALSE) {
+  
+  if (show_help == TRUE) cli::cli_alert_info("For more info about the tasks, see {.url https://docs.google.com/spreadsheets/d/1Eo0F4GcmqWZ1cghTpQlA4aHsc8kTABss-HAeimE2IqA/edit#gid=0}")
+  
+  # Get tasks from "/templates/tasks.zip"
+  packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
+  tasks_zip = paste0(packagePath, "/templates/tasks.zip")
+  tasks_js = unzip(tasks_zip, list=TRUE)[,1] 
+  tasks = tasks_js |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+  
+  OUTPUT = list(tasks = tasks,
+       tasks_zip = tasks_zip)
+
+  return(OUTPUT)
+}
+
+
+
 #' extract_tasks_from_protocol
 #' 
 #' Extract the list of scripts in the task folder of a protocol, and a vector 

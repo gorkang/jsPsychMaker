@@ -1,8 +1,8 @@
 #' adapt_HTML
 #'
-#' @param CSVs CSV/XML files so we can extract names of tasks
-#' @param new_plugins Plugins of already existing tasks added
-#' @param folder_output Where to change the index.html file
+#' @param TASKS list of tasks in protocol
+#' @param new_plugins plugins used by tasks
+#' @param folder_output where to change the index.html file
 #'
 #' @return
 #' @export

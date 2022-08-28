@@ -1,4 +1,3 @@
-# 
 
 # Prepare files -----------------------------------------------------------
 
@@ -21,15 +20,6 @@
   devtools::install()
 
   devtools::check()
-
-# TODO --------------------------------------------------------------------
-
-# TODO: tasks with images
-# TODO: helper functions for zip/list/unzip
-  
-# TODO: Add more template plugins!
-# TODO: shiny app to modify local config.js? Select folder...
-
 
 
 # REMEMBER ----------------------------------------------------------------

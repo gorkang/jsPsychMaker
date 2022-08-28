@@ -98,18 +98,15 @@ create_protocol <- function(tasks_folder = NULL,
     cli::cli_h1("ADD tasks from already existing tasks")
     
     # Get tasks from "/templates/tasks.zip"
-    packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
-    tasks_zip = paste0(packagePath, "/templates/tasks.zip")
-    tasks_js = unzip(tasks_zip, list=TRUE)[,1] 
-    tasks = tasks_js |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+    tasks = list_available_tasks(show_help = FALSE)
     
     # Check if add_canonical_tasks exist  
-    if (!all(add_canonical_tasks %in% tasks)) cli::cli_abort(c("Task/s not found: {.code {add_canonical_tasks[!add_canonical_tasks %in% tasks]}}",
+    if (!all(add_canonical_tasks %in% tasks$tasks)) cli::cli_abort(c("Task/s not found: {.code {add_canonical_tasks[!add_canonical_tasks %in% tasks$tasks]}}",
                                                                "",
-                                                               "You can choose from the following: {.code {tasks}}"))
+                                                               "You can choose from the following: {.code {tasks$tasks}}"))
     
     # Copy add_canonical_tasks to tasks folder
-    unzip(tasks_zip, files = paste0(add_canonical_tasks, ".js"), exdir = paste0(folder_output, "/tasks/"))
+    unzip(tasks$tasks_zip, files = paste0(add_canonical_tasks, ".js"), exdir = paste0(folder_output, "/tasks/"))
     
     cli::cli_alert_success("Added: {.code {add_canonical_tasks}}")
     
