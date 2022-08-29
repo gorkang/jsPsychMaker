@@ -1,12 +1,11 @@
 # Create tasks or full protocols using csv files for the items and html for the instructions
-  # https://gorkang.github.io/jsPsychR-manual/qmd/07-NEWtasks.html#create-tasks
+  # https://gorkang.github.io/jsPsychR-manual/qmd/07-NEWtasks.html
 
 
 # Install and/or load library --------------------------------------------
 
   # remotes::install_github("gorkang/jsPsychMaker") # Install from Github
   library(jsPsychMaker)
-
 
 
 # List available tasks ----------------------------------------------------
