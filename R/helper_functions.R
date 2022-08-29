@@ -159,6 +159,7 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
 #' @importFrom tibble tibble
 #' @importFrom dplyr filter mutate
 #' @importFrom cli cli_h3
+#' @importFrom purrr compact
 #'
 #' @examples
 get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol) {
@@ -166,17 +167,25 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol)
   # DEBUG
   # all_files_js = ""
   # folder_protocol = "~/Downloads/example_tasks/"
-  ## all_files_js |> tibble::as_tibble() |> View()
+  # all_files_js |> tibble::as_tibble() |> View()
+  
+  # Get all media. Dirty, as it combines choices and other stuff in the same line
+  MEDIA_used_raw = all_files_js[which(grepl("stimulus: '.*?\\.[a-z0-9]{3}'", all_files_js))] |> trimws() |> unique()
+  
+  # Extract the specific stimulus
+  MEDIA_used =  gsub(".*stimulus: '(.*?/.*\\.[a-z0-9]{3})'.*", "\\1", MEDIA_used_raw)
+  
+  # Check if paths are wrong  
+  REGEXP_strict = "^media/.*\\.[a-z0-9]{3}$"
+  CHECK_media_wrong_folder = !grepl(REGEXP_strict, MEDIA_used)
+  if (any(CHECK_media_wrong_folder)) cli::cli_abort(c("Issues with media paths in column `stimulus` :  {.code {MEDIA_used[CHECK_media_wrong_folder]}}\n\n", 
+                                                      "",
+                                                      "CHANGE paths to: ", "-Images: 'media/img' ", "-Videos: 'media/vid' ", "-Audio: 'media/audio'\n\n"))
   
   # Get all media
-  REGEXP = "stimulus: 'media/.*\\.[a-z0-9]{3}'"
-  MEDIA_used_raw = all_files_js[which(grepl(REGEXP, all_files_js))] |> 
-    trimws() |> unique() |> 
-    stringr::str_remove_all(pattern = "stimulus: |'|,")
-  
-  images_files = stringr::str_extract_all(MEDIA_used_raw, pattern = ".*\\.jpg|.*\\.png", simplify = TRUE)
-  video_files = stringr::str_extract_all(MEDIA_used_raw, pattern = ".*\\mp4|.*\\.avi", simplify = TRUE)
-  audios_files = stringr::str_extract_all(MEDIA_used_raw, pattern = ".*\\.mp3|.*\\.wav", simplify = TRUE)
+  images_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\.jpg|.*\\.png", simplify = FALSE) |> purrr::compact() |> unlist()
+  video_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\mp4|.*\\.avi", simplify = FALSE) |> purrr::compact() |> unlist()
+  audios_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\.mp3|.*\\.wav", simplify = FALSE) |> purrr::compact() |> unlist()
   
   media_experiment = list(
     images =  ifelse (length(images_files) != 0, paste0("images = ['", paste(images_files, collapse = "', '"), "'];"), "images = [];"),

@@ -24,6 +24,7 @@ create_protocol <- function(tasks_folder = NULL,
   
   # DEBUG
   # tasks_folder = "~/Downloads/TEST/"
+  # add_canonical_tasks = NULL
   # add_canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS")
   # folder_output = "~/Downloads/TEST/new_protocol"
   # launch_browser = TRUE
@@ -48,7 +49,6 @@ create_protocol <- function(tasks_folder = NULL,
   }
   copy_canonical_clean(destination_folder = folder_output)
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
-  
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
   
   cli::cli_alert_success("Copied `canonical_protocol_clean` to {.code {folder_output}}")
@@ -203,8 +203,18 @@ create_protocol <- function(tasks_folder = NULL,
     
     OS = Sys.info()["sysname"]
     
+    if (any(grepl(plugins_CORS, PLUGINS_used))) cli::cli_alert_danger("If you want to run the protocol locally you will need to disable web security (CORS)")
+    
     if (OS == "Linux") {
-      system(paste0("google-chrome ", URL, " --incognito"))
+      
+      plugins_CORS = c("video")
+      cors_path = normalizePath("~/.chrome-CORS")
+      if (any(grepl(plugins_CORS, PLUGINS_used))) {
+        system(paste0("google-chrome ", URL, " --incognito --disable-web-security --user-data-dir=\"", cors_path, "\" &"))  
+      } else {
+        system(paste0("google-chrome ", URL, " --incognito &"))  
+      }
+      
     } else {
       utils::browseURL(URL)
       cli::cli_alert_info("If you encounter errors in the Javascript (F12) Console about 'indexedDB_controller.js' or 'Uncaught (in promise) element not found'. Launch the experiment in an Incognito window.")

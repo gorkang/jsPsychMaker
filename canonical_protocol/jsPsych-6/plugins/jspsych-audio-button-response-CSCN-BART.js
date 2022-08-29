@@ -8,7 +8,7 @@
  *
  **/
 
-jsPsych.plugins["audio-button-response"] = (function () {
+jsPsych.plugins["audio-button-response-CSCN-BART"] = (function () {
   var plugin = {};
 
   jsPsych.pluginAPI.registerPreload('audio-button-response', 'stimulus', 'audio');

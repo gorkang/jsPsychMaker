@@ -149,7 +149,7 @@ BART = [];
 for (var i = 0; i < 30; i++) {
   explode_rounds = numbers.pop();
   var question = {
-    type: 'audio-button-response',
+    type: 'audio-button-response-CSCN-BART',
     stimulus: audio_silence,
     choices: balloon_img,
     block_size: [max_height, max_width],

@@ -1,10 +1,14 @@
 
 # Prepare files -----------------------------------------------------------
 
+  # Remove old
+  file.remove("inst/templates/tasks.zip")
   # Copy canonical_protocol/tasks to inst/templates/tasks.zip
   files_tasks = list.files(path = "canonical_protocol/tasks", full.names = TRUE, recursive = TRUE)
   zip(zipfile = "inst/templates/tasks.zip", files = files_tasks, extras = "-j")
 
+  # Remove old
+  file.remove("inst/templates/canonical_protocol_clean.zip")
   # Copy canonical_protocol_clean to inst/templates/canonical_protocol_clean.zip
   setwd("canonical_protocol_clean/")
   files_canonical_protocol_clean = list.files(path = ".", full.names = TRUE, recursive = TRUE)

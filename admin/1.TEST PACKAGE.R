@@ -37,6 +37,13 @@ jsPsychMaker::create_protocol(tasks_folder = "~/Downloads/TEST/",
                               launch_browser = FALSE)
 
 
+# Protocol ALL plugins
+jsPsychMaker::create_protocol(tasks_folder = "admin/example_ALL/",
+                              folder_output = "~/Downloads/TEST/ALL/", 
+                              launch_browser = TRUE)
+
+
+
 # Create task -------------------------------------------------------------
 
 # Create a single task

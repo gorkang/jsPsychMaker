@@ -22,7 +22,7 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
     #  PROBLEM: HOW would be apply that to the BNT??? 1, 1_1, 1_2, 1_1_1???
   
   # DEBUG
-  # file_name = "admin/example_tasks_new_protocol//AnsMat//AnsMat.csv"
+  # file_name = "admin/example_ALL/ALL/ALL.csv"
   # folder_output = "admin/OUTPUT/NEW"
 
   # READ file
@@ -119,6 +119,7 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
       
       BLACKLIST_parameters = c("if_question")
       NUMERIC_enumerations = c("range")
+      DO_NOT_CHANGE_text = c("html")
       
       # Do not process parameters in the blacklist 
       if (!names(DF_MAP[.x]) %in% BLACKLIST_parameters) {
@@ -126,10 +127,13 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
         is_a_number = grepl("^[0-9]+$", DF_MAP[.x])
         is_a_logical = DF_MAP[.x] %in% c("true", "false")
         is_an_enumeration = grepl(",", DF_MAP[.x])
-  
+        is_text = names(DF_MAP[.x]) %in% DO_NOT_CHANGE_text
+        is_video_stimulus = grepl("video", PLUGIN) & names(DF_MAP[.x]) %in% "stimulus"
+        is_same_different_stimuli = grepl("same-different", PLUGIN) & names(DF_MAP[.x]) %in% "stimuli"
+        
         # Format modifications depending on content and/or column
-        # If it contains an enumeration (",")
-        if (is_an_enumeration) {
+        # If it contains an enumeration (",") and is NOT in the DO_NOT_CHANGE_text list
+        if (is_an_enumeration & !is_text) {
           
           # If contains commas but it is one of the text columns
           if (names(DF_MAP[.x]) %in% TEXT_columns) {
@@ -139,15 +143,35 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
           } else if (names(DF_MAP[.x]) %in% NUMERIC_enumerations) {
             DF_MAP[.x] = paste0("[", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = ", "), "]")
           
+          # keyboard-responses need choices to match actual keys!
+          } else if (grepl("keyboard", PLUGIN) & names(DF_MAP[.x]) == "choices") {
+            choices = strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws()
+            if (any(nchar(choices) > 1)) cli::cli_alert_danger("choices ({choices}) in html-keyboard-response are longer than one character ({nchar(choices)})")
+            DF_MAP[.x] = paste0("['", paste(choices, collapse = "', '"), "']")
+            
+          # same-different plugins have enumeration of stimuli
+          } else if (is_same_different_stimuli) {
+            choices = strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws()
+            DF_MAP[.x] = paste0("['", paste(choices, collapse = "', '"), "']")
+
+            
           # All the other enumerations  
           } else {
             DF_MAP[.x] = paste0("['&nbsp;", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = "', '&nbsp;"), "']")
             
           }
           
-          # If it is not logical and not a number
+        } else if (is_video_stimulus) {
+          # With video plugins we need: stimulus: ['video/fish.mp4'],
+          DF_MAP[.x] = paste0("['", DF_MAP[.x], "']")
+          
+        # If it is not logical and not a number
         } else if (!is_a_logical & !is_a_number) {
+          
           DF_MAP[.x] = paste0("'", DF_MAP[.x], "'")
+          
+        } else {
+          # Logical, numbers... do not change anything
         }
         # Final string
         paste0(colnames(DF_MAP[.x]), ": ", DF_MAP[.x])
@@ -162,7 +186,8 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   # Create chunk [DO NOT CHANGE TABS/SPACES] --------------------------------
 
   # We insert the parameters inside questions (if it's a survey plugin)
-  if (grepl("survey", PLUGIN)) {
+  # except in survey-html-form
+  if (grepl("survey", PLUGIN) & !grepl("survey-html-form", PLUGIN)) {
 
     ITEM_output_RAW = paste0("
   var question", item_number, " = {

@@ -14,6 +14,8 @@
 create_task <- function(task_folder, folder_output = NULL) {
 
   # DEBUG
+  # .x = 1
+  # task_folder = paste0(tasks_folder, "/", TASKS[.x], "/")
   # task_folder = "admin/example_tasks_new_protocol/BNT/"
   # folder_output = "tasks/BNT/"
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
@@ -89,6 +91,7 @@ create_task <- function(task_folder, folder_output = NULL) {
     
     # Extract plugins
     PLUGINS_used_raw = gsub(".*type: '(.*?)'.*", "\\1", ITEMS)
+    # stringr::str_replace_all(string = ITEMS, pattern = "type: '(.*?)'", replacement = "\\1")
     
     # If we enforce the structure of canonical/media...  we can directly use the stimulus parameter in the CSV file
     images_task = list.files(paste0(task_folder, "/media/img"), recursive = TRUE, full.names = TRUE, pattern = "\\.jpg|\\.png")
@@ -115,7 +118,7 @@ create_task <- function(task_folder, folder_output = NULL) {
     # Copy files ---
     if (length(images_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/img/", basename(images_task)))
     if (length(videos_task) != 0) file.copy(from = videos_task, to = paste0(folder_output, "/media/vid/", basename(videos_task)))
-    if (length(audios_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/audio/", basename(images_task)))
+    if (length(audios_task) != 0) file.copy(from = audios_task, to = paste0(folder_output, "/media/audio/", basename(audios_task)))
     
     
 
