@@ -24,5 +24,5 @@ copy_example_tasks <- function(destination_folder) {
             to = paste0(destination_folder, gsub(example_tasks_folder, "", example_tasks_files)),
             overwrite = TRUE))
   
-  cli::cli_alert_success("Example tasks copied to {.code {paste0(destination_folder, '/example_tasks/')}}")
+  cli::cli_alert_success("Example tasks copied to {.code {paste0(destination_folder)}}")
 }
