@@ -16,15 +16,11 @@ create_task <- function(task_folder, folder_output = NULL) {
   # DEBUG
   # task_folder = "admin/example_tasks_new_protocol/BNT/"
   # folder_output = "tasks/BNT/"
-  
-
-  task_folder = here::here(task_folder)
-  
-  
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
-  # setup()
+
   
   # Parameters
+  task_folder = here::here(task_folder)
   task_name = gsub("(.*)\\..*", "\\1", basename(task_folder))
   HTMLs = list.files(task_folder, recursive = TRUE, pattern = "\\.html", full.names = TRUE)
   CSV = list.files(task_folder, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
@@ -102,23 +98,20 @@ create_task <- function(task_folder, folder_output = NULL) {
     # CHECK media files NOT in "/media/img/"
     ALL_files = list.files(paste0(task_folder), recursive = TRUE, full.names = TRUE)
     
-    # TODO: CHECK ONLY paste0(task_folder, "/media/img/").
-    # If empty, say empty and point to where the images SHOULD BE
-    
     # All minus things present in image, videos and audios vectors
     ALL_minus_proper_media = ALL_files[!ALL_files %in% images_task & !ALL_files %in% videos_task & !ALL_files %in% audios_task]
     # Get rid of expected files
     non_expected_files = ALL_minus_proper_media[!grepl("\\.csv|\\.xls|\\.xlsx|\\.html|\\.txt|\\.js", ALL_minus_proper_media)]
     
     # CHECKS ---
-    if (length(non_expected_files) != 0) cli::cli_alert_danger(c("Files out of place in {folder_output}:  {.code {basename(non_expected_files)}}\n\n", 
-                                                                 "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
     
-    # If we detect an image, video or audio plugin and no files, warning
-    if (any(grepl("image|video|audio", PLUGINS_used_raw)) & length(images_task) == 0 & length(videos_task) == 0 & length(audios_task) == 0) cli::cli_alert_danger(c("Media plugin detected, but no media files found in :  {.code {task_name}}\n\n", 
-                                                                                                                                                               "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
+      # Non expected files
+      if (length(non_expected_files) != 0) cli::cli_alert_danger(c("Files out of place in {folder_output}:  {.code {basename(non_expected_files)}}\n\n", 
+                                                                   "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
+      # If we detect an image, video or audio plugin and no files, warning
+      if (any(grepl("image|video|audio", PLUGINS_used_raw)) & length(images_task) == 0 & length(videos_task) == 0 & length(audios_task) == 0) cli::cli_alert_danger(c("Media plugin detected, but no media files found in :  {.code {task_name}}\n\n", 
+                                                                                                                                                                 "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
     
-      
     # Copy files ---
     if (length(images_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/img/", basename(images_task)))
     if (length(videos_task) != 0) file.copy(from = videos_task, to = paste0(folder_output, "/media/vid/", basename(videos_task)))

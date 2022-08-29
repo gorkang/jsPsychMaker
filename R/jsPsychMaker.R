@@ -10,4 +10,3 @@ NULL
 if (getRversion() >= "2.15.1") utils::globalVariables(c("."))
 # Avoid NOTE about "no visible binding for global variable":
 if (getRversion() >= "2.15.1") utils::globalVariables(c("plugin", "ID", "browseURL", "value", "task_name", "mtime"))
-

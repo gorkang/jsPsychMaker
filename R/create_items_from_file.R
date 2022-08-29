@@ -42,9 +42,6 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   }
   
   
-  
-  
-
   # Only parameters DF
   DF_columns_parameters = DF |> dplyr::select(-ID, -plugin)
   
@@ -60,7 +57,6 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
   if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}", 
                                                        " - Correct the issue in {.code {file_name}}"))
-  
   
   WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/jspsych-", PLUGINS_used, "/")
   cli::cli_alert_info("Found parameters: {.code {names(DF_columns_parameters)}}. For help with {.code {PLUGINS_used}}: {.url {WEBS_help}}")
@@ -89,9 +85,9 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   if (any(is.na(PLUGINS_used))) cli::cli_abort(c("There are rows without plugins"))
 
 
-# Loop by row (items) -----------------------------------------------------
+# Loop by row (items) [DO NOT CHANGE TABS/SPACES] ---------------------------
 
-# For each row in the csv (each item)
+# For each row in the csv/xls (each item)
 1:nrow(DF) |>
   purrr::map( ~ {
 
@@ -115,7 +111,7 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
     if (!grepl("slider", PLUGIN) & !"required" %in% names(DF_MAP)) DF_MAP = DF_MAP |> dplyr::mutate(required = "true")
   
    
-  # Create a parameter vector with everything in the csv ---------------------
+  # Create a parameter vector with everything in the csv/xls -----------------
   
   # One per column
   ALL = 1:ncol(DF_MAP) |>

@@ -13,38 +13,15 @@
 #' @examples
 adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output) {
   
-  # TASKS = basename(dirname(CSVs))
-
   # Used plugins
-  # We do this in 
-  # READ files
-  # file_extension = unlist(strsplit(basename(CSVs), split="\\."))[seq(from = 2, to = length(CSVs) * 2, by = 2)]
-  # 
-  # if (all(file_extension == "csv")) {
-  #   
-  #   PLUGINS = purrr::map_df(CSVs, readr::read_csv, col_types = readr::cols(.default = readr::col_character())) |> dplyr::distinct(plugin) 
-  #   
-  # } else if (all(file_extension %in% c("xls", "xlsx"))) {
-  #   
-  #   PLUGINS = purrr::map_df(CSVs, readxl::read_excel, col_types = c("text")) |> dplyr::distinct(plugin) 
-  #   
-  # } else {
-  #   cli::cli_abort("{.code {CSVs}} should be all .csv or all .xls/xlsx files")
-  # }
-  # 
-  # # Add new plugins
-  # if (!is.null(new_plugins)) PLUGINS = PLUGINS |> dplyr::bind_rows(tibble::tibble(plugin = new_plugins)) |> dplyr::distinct(plugin)
-  
   PLUGINS = tibble::tibble(plugin = new_plugins) |> dplyr::distinct(plugin)
   
   # Create code for all plugins used
   code_plugins = paste0('\t<script src="jsPsych-6/plugins/jspsych-', PLUGINS$plugin, '.js"></script>')
-  
     
   # Read index
   index_file = paste0(folder_output, "/index.html")
   INDEX = readLines(index_file)
-  
 
   # Detect canonical_clean plugins
   begin_plugins = which(grepl("<!-- Protocol Plugins: CANONICAL -->", INDEX)) + 1
@@ -56,22 +33,28 @@ adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output) {
   # Add plugins
   INDEX_plugins = append(INDEX_clean, code_plugins, after = begin_plugins -1)
   
-  # ADD mic plugin if needed
-  TASKS_mic = c("SCGT")
-  
-  if (TASKS_mic %in% TASKS) {
-    code_mic = c('\t<!-- Mic controller -->\n\t<script src="controllers/js/mic_controller.js"></script>\n')
-    end_new_plugins = which(grepl(code_plugins[length(code_plugins)], INDEX_plugins)) + 1
-    INDEX_plugins = append(INDEX_plugins, code_mic, after = end_new_plugins)
-  }
-  
-  # RMET
-  if (!"RMET" %in% TASKS) {
-    RMET_tooltip = which(grepl("<!-- RMET tooltip -->", INDEX_plugins))
-    INDEX_plugins = INDEX_plugins[-c(RMET_tooltip:(RMET_tooltip + 1))]
-  }
-  
+
+  # Specific tasks changes --------------------------------------------------
+
+    # ADD mic plugin if needed
+    TASKS_mic = c("SCGT")
+    
+    if (TASKS_mic %in% TASKS) {
+      code_mic = c('\t<!-- Mic controller -->\n\t<script src="controllers/js/mic_controller.js"></script>\n')
+      end_new_plugins = which(grepl(code_plugins[length(code_plugins)], INDEX_plugins)) + 1
+      INDEX_plugins = append(INDEX_plugins, code_mic, after = end_new_plugins)
+    }
+    
+    # RMET
+    if (!"RMET" %in% TASKS) {
+      RMET_tooltip = which(grepl("<!-- RMET tooltip -->", INDEX_plugins))
+      INDEX_plugins = INDEX_plugins[-c(RMET_tooltip:(RMET_tooltip + 1))]
+    }
+
+
+  # Write new index ---------------------------------------------------------
   
   cli::cli_alert_info("Writing new index.html")
   cat(INDEX_plugins, file = index_file, sep = "\n")
+  
 }

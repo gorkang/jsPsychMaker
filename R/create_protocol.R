@@ -18,19 +18,17 @@
 #' @examples
 create_protocol <- function(tasks_folder = NULL, 
                             add_canonical_tasks = NULL,
-                            folder_output = "admin/OUTPUT/NEW", 
+                            folder_output = "~/Downloads/new_protocol", 
                             launch_browser = FALSE, 
                             piloting_task = NULL) {
   
   # DEBUG
-  # tasks_folder = "admin/example_tasks_new_protocol/"
-  # add_canonical_tasks = c("AIM", "EAR", "IRI")
-  # folder_output = "admin/OUTPUT/NEW"
+  # tasks_folder = "~/Downloads/TEST/"
+  # add_canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS")
+  # folder_output = "~/Downloads/TEST/new_protocol"
   # launch_browser = TRUE
   # piloting_task = NULL
-
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
-  # setup()
   
 
   # Copy canonical_protocol_clean -------------------------------------------
@@ -50,6 +48,7 @@ create_protocol <- function(tasks_folder = NULL,
   }
   copy_canonical_clean(destination_folder = folder_output)
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
+  
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
   
   cli::cli_alert_success("Copied `canonical_protocol_clean` to {.code {folder_output}}")
@@ -89,13 +88,14 @@ create_protocol <- function(tasks_folder = NULL,
   } else {
     CSVs = NULL
   }
+  
 
   # ADD canonical tasks -----------------------------------------------------
   
   # add_canonical_tasks = c("AIM", "EAR")
   if (!is.null(add_canonical_tasks)) {
     
-    cli::cli_h1("ADD tasks from already existing tasks")
+    cli::cli_h1("ADD tasks from canonical_protocol")
     
     # Get tasks from "/templates/tasks.zip"
     tasks = list_available_tasks(show_help = FALSE)
@@ -116,6 +116,13 @@ create_protocol <- function(tasks_folder = NULL,
   
 
 
+  # Get all tasks js --------------------------------------------------------
+
+  # Get all tasks to extract info about plugins, media... (See Modify config.js and Modify HTML below)
+  path_to_tasks = list.files(path = paste0(folder_output, "/tasks/"), pattern = ".js", full.names = TRUE)
+  all_files_js = purrr::map(path_to_tasks, readLines) |> unlist()
+  
+
   # Modify config.js --------------------------------------------------------
 
   cli::cli_h1("Prepare new protocol")
@@ -130,71 +137,63 @@ create_protocol <- function(tasks_folder = NULL,
     tasks_canonical = extract_tasks_from_protocol(folder_protocol = folder_output)
   }
   
-  # ADD add_canonical_tasks to tasks_canonical so we also added them to config.js
-  # if (!is.null(add_canonical_tasks)) {
-  #   # tasks_canonical$PATHS_tasks = c(tasks_canonical$PATHS_tasks, paste0("tasks/", add_canonical_tasks, ".js"))
-  #   # tasks_canonical$tasks = c(tasks_canonical$tasks, add_canonical_tasks)
-  #   
-  #   # Get plugins of add_canonical_tasks tasks
-  #   path_to_added_tasks = paste0(folder_output, "/tasks/", add_canonical_tasks, ".js")
-  #   all_files_js = purrr::map(path_to_added_tasks, readLines) |> unlist()
-  #   new_plugins = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
-  #     trimws() |> unique() |> 
-  #     stringr::str_remove_all(pattern = "type: |'|,")
-  # } else {
-  #   new_plugins = NULL
-  # }
+  
+  # MEDIA ---
+  all_media_protocol = get_media_for_protocol(all_files_js = all_files_js, folder_protocol = folder_output)
+    
   
   
-  # Replace tasks in config
-  replace_tasks_config_js(folder_protocol = folder_output,
-                          tasks = tasks_canonical, 
-                          block_tasks = "randomly_ordered_tasks_1") 
+  # Replace tasks in config ---
+  update_config_js(folder_protocol = folder_output,
+                   tasks = tasks_canonical,
+                   block_tasks = "randomly_ordered_tasks_1",
+                   media  = all_media_protocol)
  
   cli::cli_alert_info("More information about protocol configuration on the jsPsychR manual: {.url https://gorkang.github.io/jsPsychR-manual/qmd/03-jsPsychMaker.html#experiment-configuration}")
   
 
-# Modify HTML -------------------------------------------------------------
+  # Modify HTML -------------------------------------------------------------
 
   cli::cli_h2("Adapt index.html")
   
-  # Adds needed plugins, necessary extra files for tasks...
+  # PLUGINS ---
   
-  # Get plugins of add_canonical_tasks tasks
-  path_to_tasks = list.files(path = paste0(folder_output, "/tasks/"), pattern = ".js", full.names = TRUE)
-  # Read tasks js
-  all_files_js = purrr::map(path_to_tasks, readLines) |> unlist()
-  # Extract plugins
-  PLUGINS_used_raw = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
-    trimws() |> unique() |> 
-    stringr::str_remove_all(pattern = "type: |'|,")
+    # Extract plugins
+    PLUGINS_used_raw = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
+      trimws() |> unique() |> 
+      stringr::str_remove_all(pattern = "type: |'|,")
+    
+    # Get rid of things catched by re regex that are not plugins
+    BLACKlist_plugins = c("^number$", "^text$")
+    
+    # Adds plugins
+    PLUGINS_used = PLUGINS_used_raw[!grepl(paste0(BLACKlist_plugins, collapse = "|"), PLUGINS_used_raw)]
+    
   
-  # Get rid of things catched by re regex that are not plugins
-  BLACKlist_plugins = c("number", "text")
-  PLUGINS_used = PLUGINS_used_raw[!grepl(paste0(BLACKlist_plugins, collapse = "|"), PLUGINS_used_raw)]
-  
-  
-  
-  # CHECK we have all the used plugins ---
+  # CHECKS ---
+    
     # TODO: ALMOST identical to chunk in create_items_from_file.R (Correct the issue in {.code {file_name}} appears in create_items_from_file.R but not here)
-  packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
-  canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
-  canonical_zip_files = unzip(canonical_zip, list=TRUE)[,1]
-  ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
-  CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
-  if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}"
+    
+    # List all files from canonical_protocol_clean.zip
+    packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
+    canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
+    canonical_zip_files = unzip(canonical_zip, list=TRUE)[,1]
+    
+    # we have all the used plugins
+    ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+    CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
+    if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}"
                                                          # " - Correct the issue in {.code {file_name}}" # 
                                                          ))
   
-  
-  # Adapt HTML
-  
+    
+  # Adapt HTML ---
+  # Adds plugins, media, necessary extra files for tasks...
   adapt_HTML(TASKS = tasks_canonical$tasks, new_plugins = PLUGINS_used, folder_output = folder_output)
   
   
   
-  
-# Launch protocol --------------------------------------------------------
+  # Launch protocol --------------------------------------------------------
 
   if (launch_browser == TRUE) {
     

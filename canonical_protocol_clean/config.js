@@ -43,13 +43,9 @@ tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks'];
 message_str = 'El protocolo está cargando, espere un momento...'; // Message when preloading media
 
 // media to preload in protocol_controller
-img_folder = 'media/img/';
-audio_folder = 'media/audio/';
-
-images =  [/*img_folder + 'VPP_low.png'*/];
-audios = [/*audio_folder + 'BART_inflate.mp3'*/];
+images =  [/*'media/img/VPP_low.png'*/];
 video = [/*'media/vid/Entrevista1.mp4'*/];
-
+audios = [/*'media/audio/BART_inflate.mp3'*/];
 
 
 // BETWEEN subject variables ----------------------------------------------

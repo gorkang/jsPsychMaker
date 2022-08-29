@@ -7,7 +7,7 @@
 create_protocol(
   tasks_folder = NULL,
   add_canonical_tasks = NULL,
-  folder_output = "admin/OUTPUT/NEW",
+  folder_output = "~/Downloads/new_protocol",
   launch_browser = FALSE,
   piloting_task = NULL
 )
