@@ -202,12 +202,12 @@ create_protocol <- function(tasks_folder = NULL,
     URL = paste0("file:///", here::here(normalizePath(folder_output)), "/index.html", "?uid=", sample(1:1000, 1))
     
     OS = Sys.info()["sysname"]
-    
+
+    plugins_CORS = c("video")
     if (any(grepl(plugins_CORS, PLUGINS_used))) cli::cli_alert_danger("If you want to run the protocol locally you will need to disable web security (CORS)")
     
     if (OS == "Linux") {
       
-      plugins_CORS = c("video")
       cors_path = normalizePath("~/.chrome-CORS")
       if (any(grepl(plugins_CORS, PLUGINS_used))) {
         system(paste0("google-chrome ", URL, " --incognito --disable-web-security --user-data-dir=\"", cors_path, "\" &"))  
