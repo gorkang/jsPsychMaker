@@ -1,3 +1,0 @@
-ID,plugin,stimulus,labels,require_movement,min,max,slider_width,slider_start,step,button_label
-1,html-slider-response,Cuando quiero sentir una emoción más positiva (como la alegría o la diversión),"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente
-2,html-slider-response,Mantengo mis emociones para mí mismo.,"Muy en desacuerdo, Muy de acuerdo",true,1,7,500,4,1,Siguiente

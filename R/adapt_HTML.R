@@ -36,7 +36,7 @@ adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output) {
     # Add plugins to index.html
     INDEX_plugins = append(INDEX_clean, code_plugins, after = begin_plugins -1)
     
-    cli::cli_alert_info("Added plugins: {.code {PLUGINS$plugin}}")
+    cli::cli_alert_info("Added plugins to index.html: {.code {PLUGINS$plugin}}")
     
   
 

@@ -12,7 +12,7 @@ testthat::test_that('create_protocol', {
   # Only from csv's ---------------------------------------------------------
   # Includes all plugins
   output_folder = paste0(destination_folder, "/../create_protocol1")
-  files_expected = 65
+  files_expected = 61
   
   jsPsychMaker::create_protocol(folder_tasks = destination_folder,
                                 folder_output = output_folder, 
@@ -28,7 +28,7 @@ testthat::test_that('create_protocol', {
   # Only from canonical_tasks (with images)----------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol2")
-  files_expected = 72
+  files_expected = 55
   
   jsPsychMaker::create_protocol(canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS"),
                                 folder_output = output_folder, 
@@ -44,7 +44,7 @@ testthat::test_that('create_protocol', {
   # Only from canonical_tasks (without images)-------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol3")
-  files_expected = 60
+  files_expected = 42
   
   jsPsychMaker::create_protocol(canonical_tasks = c("AIM", "EAR", "IRI"),
                                 folder_output = output_folder, 
@@ -60,7 +60,7 @@ testthat::test_that('create_protocol', {
   # Both from csv's AND canonical_tasks -------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol4")
-  files_expected = 68
+  files_expected = 64
   
   jsPsychMaker::create_protocol(folder_tasks = destination_folder,
                                 canonical_tasks = c("AIM", "EAR", "IRI"),
@@ -77,7 +77,7 @@ testthat::test_that('create_protocol', {
   # Protocol ALL canonical ------------------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol5")
-  files_expected = 124
+  files_expected = 114
   
   TASKS = jsPsychMaker::list_available_tasks()
   
@@ -97,7 +97,7 @@ testthat::test_that('create_protocol', {
   
   # Create protocol 2x in same folder so the second time needs to remove
   output_folder = paste0(destination_folder, "/../create_protocol7")
-  files_expected = 58
+  files_expected = 39
   
   jsPsychMaker::create_protocol(canonical_tasks = c("AIM"),
                                 folder_output = output_folder, 
@@ -121,16 +121,18 @@ testthat::test_that('create_protocol', {
   
   
   output_folder = paste0(destination_folder, "/../create_protocol8")
-  files_expected = 58
+  files_expected = 39
   
   jsPsychMaker::create_protocol(canonical_tasks = c("AIM"),
                                 folder_output = output_folder, 
                                 launch_browser = FALSE, 
                                 piloting_task = "AIM")
   
-  
+  files_protocol = list.files(output_folder, recursive = TRUE)
+  testthat::expect_equal(object = length(files_protocol), expected = files_expected)
   
 
+  
   # Final cleanup -----------------------------------------------------------
 
   # Delete destination_folder created in first step

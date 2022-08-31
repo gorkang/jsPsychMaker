@@ -26,7 +26,7 @@ create_protocol <- function(folder_tasks = NULL,
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   # folder_tasks = "~/Downloads/TEST/"
   # canonical_tasks = NULL
-  # canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS")
+  # canonical_tasks = c("AIM", "EAR")
   # folder_output = "~/Downloads/TEST/new_protocol"
   # launch_browser = TRUE
   # piloting_task = NULL
@@ -195,13 +195,25 @@ create_protocol <- function(folder_tasks = NULL,
     if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}"
                                                          # " - Correct the issue in {.code {file_name}}" # 
                                                          ))
-  
+    
+    # Clean up protocol to keep only the essential and used plugins
+    ESSENTIAL_plugins = c("jspsych-call-function", "jspsych-fullscreen", "jspsych-preload")
+    plugins_to_delete = ALL_available_plugins[!ALL_available_plugins %in% c(ESSENTIAL_plugins, paste0("jspsych-", PLUGINS_used))]
+    file.remove(paste0(folder_output, "/jsPsych-6/plugins/", plugins_to_delete, ".js"))
+    cli::cli_alert_info("Deleted {length(plugins_to_delete)} unused plugin files: {.code {plugins_to_delete}}")
+
     
   # Adapt HTML ---
   # Adds plugins, media, necessary extra files for tasks...
   adapt_HTML(TASKS = tasks_canonical$tasks, new_plugins = PLUGINS_used, folder_output = folder_output)
   
+
+
+  # CHECKS ------------------------------------------------------------------
+
+  check_trialids(folder_protocol = folder_output, show_all_messages = TRUE)
   
+    
   
   # Launch protocol --------------------------------------------------------
 
