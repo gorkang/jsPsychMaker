@@ -6,7 +6,7 @@
 #' @return
 #' @export
 #' @importFrom purrr map
-#' @importFrom cli cli_alert_info cli_abort cli_alert_danger
+#' @importFrom cli cli_alert_info cli_abort cli_alert_danger cli_alert
 #' @importFrom janitor remove_empty
 #' @importFrom readr read_csv cols col_character
 #' @importFrom readxl read_excel
@@ -50,16 +50,19 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   PLUGINS_used = DF |> dplyr::distinct(plugin) |> dplyr::pull(plugin)
   
   # CHECK we have all the used plugins ---
-  packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
-  canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
-  canonical_zip_files = unzip(canonical_zip, list=TRUE)[,1]
+  canonical_zip_files = list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip", action = "list", silent = TRUE)
   ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
   CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
   if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}", 
                                                        " - Correct the issue in {.code {file_name}}"))
-  
+
+  # Show help message  
   WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/jspsych-", PLUGINS_used, "/")
-  cli::cli_alert_info("Found parameters: {.code {names(DF_columns_parameters)}}. For help with {.code {PLUGINS_used}}: {.url {WEBS_help}}")
+  
+  # Avoid listing all websites when > 2 plugins in the task
+  if (length(PLUGINS_used) > 2) WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/")
+  cli::cli_alert_info("Parameters: {.code {names(DF_columns_parameters)}}")
+  cli::cli_alert_info("Plugins: {.code {PLUGINS_used}}. Help: {.url {WEBS_help}}")
   
   
 # CHECKS ------------------------------------------------------------------
@@ -71,7 +74,7 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
 
   # Have text output columns
   TEXT_columns = c("prompt", "stimulus", "preamble")
-  text_columns_present = any(TEXT_columns %in% names(DF_columns_parameters))
+  text_columns_present = any(TEXT_columns %in% colnames(DF_columns_parameters))
   if (!text_columns_present) cli::cli_alert_danger("Missing an output text column. Usually should have one of: {.code {TEXT_columns}}")
 
   # IDs

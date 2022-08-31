@@ -5,12 +5,14 @@
 #' @return
 #' @export
 #' @importFrom purrr walk
+#' @importFrom callr r
 #'
 #' @examples
 copy_example_tasks <- function(destination_folder) {
   
   # destination_folder = "~/Downloads"
-  packagePath <- find.package("jsPsychMaker", lib.loc=NULL, quiet = TRUE)
+  # packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
+  packagePath <- callr::r(func = find.package, args =  list(package = "jsPsychMaker", lib.loc = NULL, quiet = TRUE))
   example_tasks_folder = paste0(packagePath, "/templates/example_tasks")
   example_tasks_files = list.files(example_tasks_folder, full.names = TRUE, recursive = TRUE)
 
@@ -20,7 +22,6 @@ copy_example_tasks <- function(destination_folder) {
   
   # Copy files
   invisible(file.copy(from = example_tasks_files, 
-            # to = paste0(destination_folder, "/example_tasks/", basename(dirname(example_tasks_files)), "/", basename(example_tasks_files)), 
             to = paste0(destination_folder, gsub(example_tasks_folder, "", example_tasks_files)),
             overwrite = TRUE))
   

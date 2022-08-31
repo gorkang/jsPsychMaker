@@ -1,7 +1,7 @@
 #' create_protocol
 #'
-#' @param tasks_folder Add folder of the protocol 
-#' @param add_canonical_tasks Add already available tasks to the protocol
+#' @param folder_tasks Add folder of the protocol 
+#' @param canonical_tasks Add already available tasks to the protocol
 #' @param folder_output Where to create the protocol
 #' @param launch_browser TRUE/FALSE
 #' @param piloting_task Name of task to pilot (will be only task in config.js)
@@ -16,25 +16,33 @@
 #' @importFrom utils browseURL
 #'
 #' @examples
-create_protocol <- function(tasks_folder = NULL, 
-                            add_canonical_tasks = NULL,
+create_protocol <- function(folder_tasks = NULL, 
+                            canonical_tasks = NULL,
                             folder_output = "~/Downloads/new_protocol", 
                             launch_browser = FALSE, 
                             piloting_task = NULL) {
   
   # DEBUG
-  # tasks_folder = "~/Downloads/TEST/"
-  # add_canonical_tasks = NULL
-  # add_canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS")
+  # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
+  # folder_tasks = "~/Downloads/TEST/"
+  # canonical_tasks = NULL
+  # canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS")
   # folder_output = "~/Downloads/TEST/new_protocol"
   # launch_browser = TRUE
   # piloting_task = NULL
-  # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
+
   
 
   # Copy canonical_protocol_clean -------------------------------------------
   
-  cli::cli_h1("Create new protocol in {folder_output}")
+  cli::cli_h1("Create new protocol")
+  
+  cli::cli_h2("Parameters")
+  if (!is.null(folder_tasks)) cli::cli_alert_info("folder_tasks: {.code {folder_tasks}}")
+  cli::cli_alert_info("folder_output: {.code {folder_output}}")
+  if (!is.null(canonical_tasks)) cli::cli_alert_info("canonical_tasks: {.code {canonical_tasks}}")
+  cli::cli_h2("Preparation")
+  
   
   folder_output = here::here(folder_output)
   
@@ -47,7 +55,10 @@ create_protocol <- function(tasks_folder = NULL,
   } else if (!dir.exists(folder_output)) {
     dir.create(folder_output, recursive = TRUE)
   }
-  copy_canonical_clean(destination_folder = folder_output)
+  
+  # copy_canonical_clean(destination_folder = folder_output)
+  list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip",
+             action = "unzip", destination_folder = folder_output)
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
   
@@ -56,21 +67,21 @@ create_protocol <- function(tasks_folder = NULL,
   
   # Create new tasks --------------------------------------------------------
   
-  if (!is.null(tasks_folder)) {
+  if (!is.null(folder_tasks)) {
     
-    tasks_folder = here::here(tasks_folder)
+    folder_tasks = here::here(folder_tasks)
     
-    # Temp var to see if we have CSVs
-    CSVs = list.files(tasks_folder, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
+    # Temp var to see if we have CSV_XLS_files
+    input_CSV_XLS_files = list.files(folder_tasks, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
     
-    TASKS = basename(dirname(CSVs))
+    TASKS = basename(dirname(input_CSV_XLS_files))
   
-    cli::cli_alert_info("Found the following tasks in {.code {tasks_folder}}:\n - {.code {TASKS}}\n")
+    cli::cli_alert_info("Found the following tasks: {.code {TASKS}}\n")
   
     # CHECKS ---
     
       # Check if csv's in root folder
-      if (basename(tasks_folder) %in% TASKS) cli::cli_abort(c("There is a csv file in the root folder.", " - Please remove: {CSVs[dirname(CSVs) %in% gsub('/$','', tasks_folder)]}."))
+      if (basename(folder_tasks) %in% TASKS) cli::cli_abort(c("There is a csv file in the root folder.", " - Please remove: {input_CSV_XLS_files[dirname(input_CSV_XLS_files) %in% gsub('/$','', folder_tasks)]}."))
       
       # Names of tasks are correct
       regexp_TASK_NAMES = " |-|_|!|&|\\(|\\)|\\[|\\]|\\{|\\}|^[0-9]"
@@ -78,40 +89,41 @@ create_protocol <- function(tasks_folder = NULL,
       if (any(check_TASK_NAMES)) cli::cli_abort("Tasks with forbiden names (use only alphanumeric characters, do not start with a number): {.code {TASKS[check_TASK_NAMES]}}")
   
       
-    # Loop through folders with CSVs ---
+    # Loop through folders with input_CSV_XLS_files ---
     1:length(TASKS) |> 
       purrr::walk(~{
         cli::cli_h1("create_task: {TASKS[.x]}")
-        create_task(task_folder = paste0(tasks_folder, "/", TASKS[.x], "/"), folder_output = folder_output)
+        create_task(folder_task = paste0(folder_tasks, "/", TASKS[.x], "/"), folder_output = folder_output)
       })
   
   } else {
-    CSVs = NULL
+    input_CSV_XLS_files = NULL
   }
   
 
   # ADD canonical tasks -----------------------------------------------------
   
-  # add_canonical_tasks = c("AIM", "EAR")
-  if (!is.null(add_canonical_tasks)) {
+  # canonical_tasks = c("AIM", "EAR")
+  if (!is.null(canonical_tasks)) {
     
     cli::cli_h1("ADD tasks from canonical_protocol")
     
     # Get tasks from "/templates/tasks.zip"
     tasks = list_available_tasks(show_help = FALSE)
     
-    # Check if add_canonical_tasks exist  
-    if (!all(add_canonical_tasks %in% tasks$tasks)) cli::cli_abort(c("Task/s not found: {.code {add_canonical_tasks[!add_canonical_tasks %in% tasks$tasks]}}",
-                                                               "",
-                                                               "You can choose from the following: {.code {tasks$tasks}}"))
+    # Check if canonical_tasks exist  
+    if (!all(canonical_tasks %in% tasks$tasks)) cli::cli_abort(c("Task/s not found: {.code {canonical_tasks[!canonical_tasks %in% tasks$tasks]}}",
+                                                               " - Run `jsPsychMaker::list_available_tasks()` to list all the available tasks."))
     
-    # Copy add_canonical_tasks to tasks folder
-    unzip(tasks$tasks_zip, files = paste0(add_canonical_tasks, ".js"), exdir = paste0(folder_output, "/tasks/"))
+    # Copy canonical_tasks to tasks folder
+    list_unzip(location = "jsPsychMaker", zip_file = "tasks.zip", action = "unzip",
+      destination_folder = paste0(folder_output, "/tasks/"), files_to_unzip = paste0(canonical_tasks, ".js"),
+      silent = TRUE)
     
-    cli::cli_alert_success("Added: {.code {add_canonical_tasks}}")
+    cli::cli_alert_success("Added: {.code {canonical_tasks}}")
     
   } else {
-    add_canonical_tasks = NULL
+    canonical_tasks = NULL
   }
   
 
@@ -161,7 +173,7 @@ create_protocol <- function(tasks_folder = NULL,
     # Extract plugins
     PLUGINS_used_raw = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
       trimws() |> unique() |> 
-      stringr::str_remove_all(pattern = "type: |'|,")
+      stringr::str_remove_all(pattern = "type: |type:|'|,")
     
     # Get rid of things catched by re regex that are not plugins
     BLACKlist_plugins = c("^number$", "^text$")
@@ -175,9 +187,7 @@ create_protocol <- function(tasks_folder = NULL,
     # TODO: ALMOST identical to chunk in create_items_from_file.R (Correct the issue in {.code {file_name}} appears in create_items_from_file.R but not here)
     
     # List all files from canonical_protocol_clean.zip
-    packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
-    canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
-    canonical_zip_files = unzip(canonical_zip, list=TRUE)[,1]
+    canonical_zip_files = list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip", action = "list")
     
     # we have all the used plugins
     ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")

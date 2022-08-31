@@ -2,7 +2,7 @@
 #' 
 #' This is a description
 #'
-#' @param task_folder Add folder of the task 
+#' @param folder_task Add folder of the task 
 #' @param folder_output Where to create the task
 #'
 #' @return
@@ -11,54 +11,57 @@
 #' @importFrom here here
 #'
 #' @examples
-create_task <- function(task_folder, folder_output = NULL) {
+create_task <- function(folder_task, folder_output = NULL) {
 
   # DEBUG
   # .x = 1
-  # task_folder = paste0(tasks_folder, "/", TASKS[.x], "/")
-  # task_folder = "admin/example_tasks_new_protocol/BNT/"
+  # folder_task = paste0(tasks_folder, "/", TASKS[.x], "/")
+  # folder_task = "admin/example_tasks_new_protocol/BNT/"
   # folder_output = "tasks/BNT/"
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
 
   
   # Parameters
-  task_folder = here::here(task_folder)
-  task_name = gsub("(.*)\\..*", "\\1", basename(task_folder))
-  HTMLs = list.files(task_folder, recursive = TRUE, pattern = "\\.html", full.names = TRUE)
-  CSV = list.files(task_folder, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
-  task_name_CSV = gsub("(.*)\\..*", "\\1", basename(CSV))
+  folder_task = here::here(folder_task)
+  task_name = gsub("(.*)\\..*", "\\1", basename(folder_task))
+  HTMLs = list.files(folder_task, recursive = TRUE, pattern = "\\.html", full.names = TRUE)
+  input_CSV_XLS_files = list.files(folder_task, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
+  task_name_CSV = gsub("(.*)\\..*", "\\1", basename(input_CSV_XLS_files))
   
   HTMLs = here::here(HTMLs)
   
   # Output filename
-  if(is.null(folder_output)) folder_output = task_folder # If folder_output = NULL, save in task_folder
+  if(is.null(folder_output)) folder_output = folder_task # If folder_output = NULL, save in folder_task
   folder_output = here::here(folder_output)
   
   name_output = paste0(folder_output, "/tasks/", task_name, ".js")
   if (!file.exists(name_output)) dir.create(dirname(name_output), recursive = TRUE, showWarnings = FALSE)
   
   
-  # CHECK only one CSV  
-  if (length(CSV) != 1) cli::cli_abort(c("We need 1 CSV file but you have {length(CSV)}"))
+  # CHECK only one input_CSV_XLS_files  
+  if (length(input_CSV_XLS_files) != 1) cli::cli_abort(c("We need 1 CSV/XLS file but you have {length(input_CSV_XLS_files)}"))
   if (task_name != task_name_CSV) cli::cli_abort(c("The name of the folder ({.code {task_name}}) and the .csv inside ({.code {task_name_CSV}}) need to be equal."))
   
   
   # If there are no HTML files, use default instructions 
   if (length(HTMLs) == 0) {
     task_instructions = paste0("<p><left><b><big>", task_name, "</big></b><br/>Lee con atenci\u00F3n y contesta las siguientes preguntas.</left></p>")
+    task_instructions_message = ".html NOT found. Using default instructions."
   } else {
     task_instructions = HTMLs  
+    task_instructions_message = paste0(basename(dirname(task_instructions)), "/", basename(task_instructions))
   }
 
-  cli::cli_alert_info("CSV: {CSV}")
-  cli::cli_alert_info("HTML: {task_instructions}")
+  CSV_XLS_message = paste0(basename(dirname(input_CSV_XLS_files)), "/", basename(input_CSV_XLS_files))
+  cli::cli_alert_info("CSV/XLS: {.code {CSV_XLS_message}}")
+  cli::cli_alert_info("HTML: {task_instructions_message}")
   
   
 
   # Create task chunks ------------------------------------------------------
 
     # Create items
-    ITEMS = create_items_from_file(file_name = CSV, folder_output = folder_output) |> unlist() |> paste(collapse = "")
+    ITEMS = create_items_from_file(file_name = input_CSV_XLS_files, folder_output = folder_output) |> unlist() |> paste(collapse = "")
     
     # Create instructions
     INSTRUCTIONS_out = create_instructions(INSTRUCTIONS = task_instructions, task_name = task_name)
@@ -93,13 +96,13 @@ create_task <- function(task_folder, folder_output = NULL) {
     PLUGINS_used_raw = gsub(".*type: '(.*?)'.*", "\\1", ITEMS)
     # stringr::str_replace_all(string = ITEMS, pattern = "type: '(.*?)'", replacement = "\\1")
     
-    # If we enforce the structure of canonical/media...  we can directly use the stimulus parameter in the CSV file
-    images_task = list.files(paste0(task_folder, "/media/img"), recursive = TRUE, full.names = TRUE, pattern = "\\.jpg|\\.png")
-    videos_task = list.files(paste0(task_folder, "/media/vid"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp4|\\.avi")
-    audios_task = list.files(paste0(task_folder, "/media/audio"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp3|\\.wav")
+    # If we enforce the structure of canonical/media...  we can directly use the stimulus parameter in the input_CSV_XLS_files file
+    images_task = list.files(paste0(folder_task, "/media/img"), recursive = TRUE, full.names = TRUE, pattern = "\\.jpg|\\.png")
+    videos_task = list.files(paste0(folder_task, "/media/vid"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp4|\\.avi")
+    audios_task = list.files(paste0(folder_task, "/media/audio"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp3|\\.wav")
     
     # CHECK media files NOT in "/media/img/"
-    ALL_files = list.files(paste0(task_folder), recursive = TRUE, full.names = TRUE)
+    ALL_files = list.files(paste0(folder_task), recursive = TRUE, full.names = TRUE)
     
     # All minus things present in image, videos and audios vectors
     ALL_minus_proper_media = ALL_files[!ALL_files %in% images_task & !ALL_files %in% videos_task & !ALL_files %in% audios_task]

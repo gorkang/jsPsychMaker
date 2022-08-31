@@ -83,17 +83,21 @@ replace_tasks_config_js <- function(folder_protocol, tasks, block_tasks = "rando
 }
 
 
-copy_canonical_clean <- function(destination_folder) {
-  
-  if (!grepl("/$", destination_folder)) destination_folder = paste0(destination_folder, "/")
-  
-  # canonical_protocol_clean files
-  canonical_folder = "canonical_protocol_clean/"
-  canonical_files = list.files(canonical_folder, full.names = FALSE, recursive = TRUE)
-  
-  # Copy canonical_protocol_clean files to NEW_TASKS
-  folders_to_create = unique(paste0(destination_folder, dirname(canonical_files)))
-  purrr::walk(folders_to_create, dir.create, recursive = TRUE, showWarnings = FALSE)
-  file.copy(paste0(canonical_folder, canonical_files), paste0(destination_folder, canonical_files), overwrite = TRUE)
-  
-}
+# USE THIS INSTEAD!!!!!!!!!!!!!!!
+# list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip",
+# action = "unzip", destination_folder = destination_folder, silent = TRUE)
+
+# copy_canonical_clean <- function(destination_folder) {
+#   
+#   if (!grepl("/$", destination_folder)) destination_folder = paste0(destination_folder, "/")
+#   
+#   # canonical_protocol_clean files
+#   canonical_folder = "canonical_protocol_clean/"
+#   canonical_files = list.files(canonical_folder, full.names = FALSE, recursive = TRUE)
+#   
+#   # Copy canonical_protocol_clean files to NEW_TASKS
+#   folders_to_create = unique(paste0(destination_folder, dirname(canonical_files)))
+#   purrr::walk(folders_to_create, dir.create, recursive = TRUE, showWarnings = FALSE)
+#   file.copy(paste0(canonical_folder, canonical_files), paste0(destination_folder, canonical_files), overwrite = TRUE)
+#   
+# }

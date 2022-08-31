@@ -10,7 +10,7 @@ TASKS_NOT_WORKING = c("external-html", "html-slider-response-CSCN", "survey-mult
 
 packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
 canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
-canonical_zip_files = unzip(canonical_zip, list=TRUE)[,1]
+canonical_zip_files = unzip(canonical_zip, list = TRUE)[,1]
 
 # we have all the used plugins
 ALL_available_plugins_RAW = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "jspsych-|\\.js", replacement = "")
@@ -84,7 +84,7 @@ readr::write_csv(TASK_all_plugins, "admin/example_ALL/ALL/ALL.csv")
 
 
 # Create protocol
-jsPsychMaker::create_protocol(tasks_folder = "admin/example_ALL/",
+jsPsychMaker::create_protocol(folder_tasks = "admin/example_ALL/",
                               folder_output = "~/Downloads/TEST/ALL/", 
                               launch_browser = TRUE)
 

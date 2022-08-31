@@ -9,8 +9,9 @@ License: MIT + file LICENSE
 URL: https://github.com/gorkang/jsPsychMaker
 BugReports: https://github.com/gorkang/jsPsychMaker/issues
 Depends: 
-    R (>= 3.5.0)
+    R (>= 4.2.0)
 Imports: 
+    callr,
     cli,
     dplyr,
     here,
@@ -22,7 +23,8 @@ Imports:
     stringr,
     tibble
 Suggests: 
-    knitr
+    knitr,
+    testthat
 VignetteBuilder: 
     knitr
 LazyData: FALSE

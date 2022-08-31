@@ -13,13 +13,11 @@ list_available_tasks <- function(show_help = FALSE) {
   if (show_help == TRUE) cli::cli_alert_info("For more info about the tasks, see {.url https://docs.google.com/spreadsheets/d/1Eo0F4GcmqWZ1cghTpQlA4aHsc8kTABss-HAeimE2IqA/edit#gid=0}")
   
   # Get tasks from "/templates/tasks.zip"
-  packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
-  tasks_zip = paste0(packagePath, "/templates/tasks.zip")
-  tasks_js = unzip(tasks_zip, list=TRUE)[,1] 
+  tasks_js = list_unzip(location = "jsPsychMaker", zip_file = "tasks.zip", action = "list")
   tasks = tasks_js |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
   
   OUTPUT = list(tasks = tasks,
-       tasks_zip = tasks_zip)
+                tasks_js = tasks_js)
 
   return(OUTPUT)
 }
@@ -255,32 +253,117 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol)
 
 
 
-#' copy_canonical_clean
+#  #' copy_canonical_clean
+#  #'
+#  #' @param destination_folder Where to copy canonical_protocol_clean
+#  #'
+#  #' @return
+#  #' @export
+#  #' @importFrom purrr walk
+#  #' @importFrom utils unzip
+#  #'
+#  #' @examples
+#  copy_canonical_clean <- function(destination_folder) {
+#    
+#    # if (!grepl("/$", destination_folder)) destination_folder = paste0(destination_folder, "/")
+#    
+#    # Unzip canonical_protocol_clean
+#    list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip",
+#      action = "unzip", destination_folder = destination_folder, silent = TRUE)
+#    
+#  }
+
+
+
+
+#' list_files_zip
 #'
-#' @param destination_folder Where to copy canonical_protocol_clean
+#' @param location either a package name or a folder path
+#' @param action unzip/list
+#' @param zip_file name of zip file
+#' @param destination_folder where to unzip
+#' @param files_to_unzip files inside zip to unzip
+#' @param silent show cli messages?
 #'
 #' @return
 #' @export
-#' @importFrom purrr walk
+#' @importFrom cli cli_abort cli_alert_warning cli_alert_info
 #' @importFrom utils unzip
 #'
 #' @examples
-copy_canonical_clean <- function(destination_folder) {
+list_unzip <- function(location = "jsPsychMaker", zip_file = "?", action = "list", destination_folder = NULL, files_to_unzip = NULL, silent = TRUE) {
   
-  if (!grepl("/$", destination_folder)) destination_folder = paste0(destination_folder, "/")
+  # DEBUG
+  # location = "jsPsychMaker"
+  # location = "protocols_DEV/OLD_TESTS/"
+  # action = "unzip"
+  # zip_file = "canonical_protocol_clean.zip"
+  # destination_folder = "~/Downloads/XXX"
   
-  # canonical_protocol_clean files
-  
-  # canonical_protocol_clean inside jsPsychMaker package
-  packagePath <- find.package("jsPsychMaker", lib.loc=NULL, quiet = TRUE)
-  canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
-  # canonical_folder = "canonical_protocol_clean/"
-  # canonical_files = list.files(canonical_folder, full.names = TRUE, recursive = TRUE)
-  utils::unzip(zipfile = canonical_zip, exdir = destination_folder, overwrite = TRUE)
+  # Path to package or to folder
+  if (grepl("/", location)) {
+    path = location
+  } else {
+    # path <- find.package(location, lib.loc = NULL, quiet = TRUE)  
+    path <- callr::r(func = find.package, args =  list(package = location, lib.loc = NULL, quiet = TRUE))
     
-  # Copy canonical_protocol_clean files to NEW_TASKS
-  # folders_to_create = unique(paste0(destination_folder, dirname(canonical_files)))
-  # purrr::walk(folders_to_create, dir.create, recursive = TRUE, showWarnings = FALSE)
-  # file.copy(paste0(canonical_folder, canonical_files), paste0(destination_folder, canonical_files), overwrite = TRUE)
+  }
+  
+  # Find all zip files in that folder
+  all_zips = list.files(path, recursive = TRUE, pattern = "zip", full.names = TRUE)
+  
+  # If zip_file is ?, list. Else, proceed
+  if (zip_file == "?") {
+    
+    if (silent == FALSE) cli::cli_alert_info('`zip_file == "?"`, listing all zip files in {.code {path}}')
+    all_zips
+    
+  } else {
+    
+    # Get zip_file in all_zips
+    file_zip_found = all_zips[basename(all_zips) %in% zip_file]
+    
+    if (length(file_zip_found) == 0) cli::cli_abort(c("{zip_file} not found in {path}", "We found the following files:", "{.code {all_zips}}"))
+    
+    if (action == "list") {
+      
+      if (silent == FALSE) cli::cli_alert_info('`action == "{action}"`, listing all zip files in {.code {path}}')
+      files_inside_zip = unzip(file_zip_found, list = TRUE)[,1]
+      files_inside_zip
+      
+    } else if (action == "unzip") {
+      
+      if (is.null(destination_folder)) cli::cli_abort("`destination_folder` is empty. Set `destination_folder` to a local folder to unzip {.code {basename(file_zip_found)}}")
+      
+      # Unzip full zip
+      if (is.null(files_to_unzip)) {
+        
+        if (silent == FALSE ) cli::cli_alert_info('`action == "{action}"`, UNZIPing {.code {file_zip_found}} to {.code {destination_folder}}')
+        utils::unzip(zipfile = file_zip_found, exdir = destination_folder, overwrite = TRUE)
+        if (silent == FALSE ) cli::cli_alert_success('UNZIPed {.code {basename(file_zip_found)}} to {.code {destination_folder}}')
+        
+      # Unzip specific files
+      } else {
+        
+        # CHECK files to unzip exist inside zip
+        files_inside_zip = unzip(file_zip_found, list = TRUE)[,1]
+        files_exist_in_zip = files_to_unzip %in% files_inside_zip
+        if (any(!files_exist_in_zip)) cli::cli_abort("{.code {files_to_unzip[!files_exist_in_zip]}} does not exist inside {.code {file_zip_found}}")
+        
+        if (silent == FALSE ) cli::cli_alert_info('`action == "{action}"`, UNZIPing  {.code {length(files_to_unzip)}} files from {.code {file_zip_found}} to {.code {destination_folder}}')
+        utils::unzip(zipfile = file_zip_found, files = files_to_unzip, exdir = destination_folder, overwrite = TRUE)
+        if (silent == FALSE ) cli::cli_alert_success('UNZIPed {.code {length(files_to_unzip)}} files from {.code {basename(file_zip_found)}} to {.code {destination_folder}}')
+        
+        
+      }
+      
+    } else {
+      
+      cli::cli_alert_warning("`action` needs to be either `list` or `unzip`")
+      
+    }
+    
+  }
   
 }
+

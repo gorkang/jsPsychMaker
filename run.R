@@ -19,8 +19,8 @@
   jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")
   
   # Create protocol
-  jsPsychMaker::create_protocol(tasks_folder = "~/Downloads/TEST/",
-                                add_canonical_tasks = c("AIM", "EAR", "IRI"),
+  jsPsychMaker::create_protocol(folder_tasks = "~/Downloads/TEST/",
+                                canonical_tasks = c("AIM", "EAR", "IRI"),
                                 folder_output = "~/Downloads/TEST/new_protocol", 
                                 launch_browser = TRUE)
 
@@ -30,4 +30,4 @@
 # Create task -------------------------------------------------------------
 
   # Create a single task
-  jsPsychMaker::create_task(task_folder = "~/Downloads/TEST/ImageButtonResponse/")
+  jsPsychMaker::create_task(folder_task = "~/Downloads/TEST/ImageButtonResponse/")

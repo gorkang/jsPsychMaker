@@ -1,5 +1,7 @@
 
 # Prepare files -----------------------------------------------------------
+  
+  # IF there are changes to `canonical_protocol/tasks` or `canonical_protocol_clean`, run this:
 
   # Remove old
   file.remove("inst/templates/tasks.zip")
@@ -18,13 +20,19 @@
 
 # Build package -----------------------------------------------------------
 
+  # Build and install
   devtools::document()
   devtools::load_all()
   devtools::build()
   devtools::install()
 
-  devtools::check()
-
+  # CHECKS
+  devtools::test() # Run all tests (~15s)
+  devtools::check() # Check package (~30s)
+  
+  devtools::test_coverage()
+  
+  
 
 # REMEMBER ----------------------------------------------------------------
 

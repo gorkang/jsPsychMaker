@@ -5,17 +5,17 @@
 \title{create_protocol}
 \usage{
 create_protocol(
-  tasks_folder = NULL,
-  add_canonical_tasks = NULL,
+  folder_tasks = NULL,
+  canonical_tasks = NULL,
   folder_output = "~/Downloads/new_protocol",
   launch_browser = FALSE,
   piloting_task = NULL
 )
 }
 \arguments{
-\item{tasks_folder}{Add folder of the protocol}
+\item{folder_tasks}{Add folder of the protocol}
 
-\item{add_canonical_tasks}{Add already available tasks to the protocol}
+\item{canonical_tasks}{Add already available tasks to the protocol}
 
 \item{folder_output}{Where to create the protocol}
 
