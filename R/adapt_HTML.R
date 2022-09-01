@@ -3,15 +3,16 @@
 #' @param TASKS list of tasks in protocol
 #' @param new_plugins plugins used by tasks
 #' @param folder_output where to change the index.html file
+#' @param show_messages TRUE/FALSE
 #'
 #' @return
-#' @export
+# #' @export
 #' @importFrom purrr map_df
 #' @importFrom cli cli_alert_info cli_abort cli_alert_success
 #' @importFrom tibble tibble
 #'
 #' @examples
-adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output) {
+adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output, show_messages = TRUE) {
 
   # Read index
   index_file = paste0(folder_output, "/index.html")
@@ -36,7 +37,7 @@ adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output) {
     # Add plugins to index.html
     INDEX_plugins = append(INDEX_clean, code_plugins, after = begin_plugins -1)
     
-    cli::cli_alert_info("Added plugins to index.html: {.code {PLUGINS$plugin}}")
+    if (show_messages == TRUE) cli::cli_alert_info("Added plugins to index.html: {.code {PLUGINS$plugin}}")
     
   
 
@@ -49,21 +50,21 @@ adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output) {
       code_mic = c('\t<!-- Mic controller -->\n\t<script src="controllers/js/mic_controller.js"></script>\n')
       end_new_plugins = which(grepl(code_plugins[length(code_plugins)], INDEX_plugins)) + 1
       INDEX_plugins = append(INDEX_plugins, code_mic, after = end_new_plugins)
-      cli::cli_alert_info("Added extra dependencies for: {.code {TASKS_mic}}")
+      if (show_messages == TRUE) cli::cli_alert_info("Added extra dependencies for: {.code {TASKS_mic}}")
     }
     
     # RMET
     if ("RMET" %in% TASKS) {
       RMET_tooltip = which(grepl("<!-- RMET tooltip -->", INDEX_plugins))
       INDEX_plugins = INDEX_plugins[-c(RMET_tooltip:(RMET_tooltip + 1))]
-      cli::cli_alert_info("Added extra dependencies for: `RMET`")
+      if (show_messages == TRUE) cli::cli_alert_info("Added extra dependencies for: `RMET`")
     }
 
 
   # Write new index ---------------------------------------------------------
     
   cat(INDEX_plugins, file = index_file, sep = "\n")
-  cli::cli_alert_success("Writing new index.html")
+  if (show_messages == TRUE) cli::cli_alert_success("Writing new index.html")
     
   
 }

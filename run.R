@@ -11,6 +11,7 @@
 # List available tasks ----------------------------------------------------
 
   jsPsychMaker::list_available_tasks()
+  jsPsychMaker::check_NEW_tasks_Github()
 
 
 # Create protocol --------------------------------------------------------

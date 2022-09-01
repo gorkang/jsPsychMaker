@@ -4,6 +4,7 @@
 #'
 #' @param folder_task Add folder of the task 
 #' @param folder_output Where to create the task
+#' @param show_messages TRUE/FALSE
 #'
 #' @return
 #' @export
@@ -11,7 +12,7 @@
 #' @importFrom here here
 #'
 #' @examples
-create_task <- function(folder_task, folder_output = NULL) {
+create_task <- function(folder_task, folder_output = NULL, show_messages = FALSE) {
 
   # DEBUG
   # .x = 1
@@ -53,15 +54,18 @@ create_task <- function(folder_task, folder_output = NULL) {
   }
 
   CSV_XLS_message = paste0(basename(dirname(input_CSV_XLS_files)), "/", basename(input_CSV_XLS_files))
-  cli::cli_alert_info("CSV/XLS: {.code {CSV_XLS_message}}")
-  cli::cli_alert_info("HTML: {task_instructions_message}")
+  if (show_messages == TRUE) cli::cli_alert_info("CSV/XLS: {.code {CSV_XLS_message}}")
+  if (show_messages == TRUE) cli::cli_alert_info("HTML: {task_instructions_message}")
   
   
 
   # Create task chunks ------------------------------------------------------
 
     # Create items
-    ITEMS = create_items_from_file(file_name = input_CSV_XLS_files, folder_output = folder_output) |> unlist() |> paste(collapse = "")
+    ITEMS = create_items_from_file(file_name = input_CSV_XLS_files, 
+                                   folder_output = folder_output, 
+                                   show_messages = show_messages) |> 
+    unlist() |> paste(collapse = "")
     
     # Create instructions
     INSTRUCTIONS_out = create_instructions(INSTRUCTIONS = task_instructions, task_name = task_name)
@@ -112,11 +116,12 @@ create_task <- function(folder_task, folder_output = NULL) {
     # CHECKS ---
     
       # Non expected files
-      if (length(non_expected_files) != 0) cli::cli_alert_danger(c("Files out of place in {folder_output}:  {.code {basename(non_expected_files)}}\n\n", 
-                                                                   "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
+      if (length(non_expected_files) != 0) cli::cli_abort(c("Files out of place in {folder_output}:  {.code {basename(non_expected_files)}}\n\n", 
+                                                            "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
+    
       # If we detect an image, video or audio plugin and no files, warning
-      if (any(grepl("image|video|audio", PLUGINS_used_raw)) & length(images_task) == 0 & length(videos_task) == 0 & length(audios_task) == 0) cli::cli_alert_danger(c("Media plugin detected, but no media files found in :  {.code {task_name}}\n\n", 
-                                                                                                                                                                 "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
+      if (any(grepl("image|video|audio", PLUGINS_used_raw)) & length(images_task) == 0 & length(videos_task) == 0 & length(audios_task) == 0) cli::cli_abort(c("Media plugin detected, but no media files found in :  {.code {task_name}}\n\n", 
+                                                                                                                                                               "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
     
     # Copy files ---
     if (length(images_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/img/", basename(images_task)))
@@ -127,7 +132,7 @@ create_task <- function(folder_task, folder_output = NULL) {
 
   # Output ------------------------------------------------------------------
 
-  cli::cli_alert_success("Saving task in {name_output}")
+  if (show_messages == TRUE) cli::cli_alert_success("Saving task in {name_output}")
     
   # Save to file
   cat(FINAL_TASK, file = name_output, sep = "\n", append = FALSE) 

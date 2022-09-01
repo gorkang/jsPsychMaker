@@ -4,7 +4,7 @@
 #' @param task_name Name of task
 #'
 #' @return
-#' @export
+# #' @export
 #' @importFrom purrr map
 #'
 #' @examples

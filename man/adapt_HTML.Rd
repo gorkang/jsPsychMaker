@@ -4,7 +4,7 @@
 \alias{adapt_HTML}
 \title{adapt_HTML}
 \usage{
-adapt_HTML(TASKS, new_plugins = NULL, folder_output)
+adapt_HTML(TASKS, new_plugins = NULL, folder_output, show_messages = TRUE)
 }
 \arguments{
 \item{TASKS}{list of tasks in protocol}
@@ -12,6 +12,8 @@ adapt_HTML(TASKS, new_plugins = NULL, folder_output)
 \item{new_plugins}{plugins used by tasks}
 
 \item{folder_output}{where to change the index.html file}
+
+\item{show_messages}{TRUE/FALSE}
 }
 \description{
 adapt_HTML

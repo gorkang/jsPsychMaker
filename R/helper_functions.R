@@ -74,13 +74,14 @@ extract_tasks_from_protocol <- function(folder_protocol) {
 #' @param tasks String vector of tasks
 #' @param block_tasks Where to insert the tasks randomly_ordered_tasks_1 or secuentially_ordered_tasks_1
 #' @param media list with images, video and audios media to include in config
+#' @param show_messages TRUE/FALSE
 #'
 #' @return
 #' @export
 #' @importFrom cli cli_alert_info cli_abort cli_h3
 #'
 #' @examples
-update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "randomly_ordered_tasks_1", media = NULL) {
+update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "randomly_ordered_tasks_1", media = NULL, show_messages = TRUE) {
   
   # DEBUG
   # folder_protocol = "../jsPsychMaker/canonical_protocol/"
@@ -97,7 +98,7 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
   # Tasks
   if (!is.null(tasks)) {
     
-    cli::cli_h3("Add tasks to run")
+    if (show_messages == TRUE) cli::cli_h3("Add tasks to run")
     
     # Read config
     CONFIG = readLines(config_file)
@@ -112,7 +113,7 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
     # Write file
     cat(final_file, file = config_file, sep = "\n")
     
-    cli::cli_alert_info("Replaced {block_tasks} in {config_file} with:\n - {TASKS_vector}")
+    if (show_messages == TRUE) cli::cli_alert_info("Replaced {block_tasks} in {config_file} with:\n - {TASKS_vector}")
   }
   
   # Media
@@ -121,7 +122,7 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
     # Contents of media are more than the default
     if (any(nchar(media$images) > 15, nchar(media$video) > 15, nchar(media$audios) > 15)) {
       
-      cli::cli_h3("Add media files to preload")
+      if (show_messages == TRUE) cli::cli_h3("Add media files to preload")
     
       # Read config
       CONFIG = readLines(config_file)
@@ -137,7 +138,7 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
       
       # Message
       updated_names = names(media[c(nchar(media$images) > 15, nchar(media$video) > 15, nchar(media$audios) > 15)])
-      cli::cli_alert_info("Updated `{updated_names}` in {config_file}")
+      if (show_messages == TRUE) cli::cli_alert_info("Updated `{updated_names}` in {config_file}")
       
     }
   }
@@ -149,9 +150,11 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
 #'
 #' @param all_files_js vector with content of all js files
 #' @param folder_protocol where is the protocol?
+#' @param force_download_media download even if the file already exists
+#' @param show_messages TRUE/FALSE
 #'
 #' @return
-#' @export
+# #' @export
 #' @importFrom httr GET stop_for_status content
 #' @importFrom stringr str_extract_all str_remove_all
 #' @importFrom tibble tibble
@@ -160,10 +163,10 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
 #' @importFrom purrr compact
 #'
 #' @examples
-get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol) {
+get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol, force_download_media = FALSE, show_messages = TRUE) {
   
   # DEBUG
-  # all_files_js = ""
+  # all_files_js = "stimulus: 'media/img/INFCONS/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class=\"justified\"><p></p></div>',"
   # folder_protocol = "~/Downloads/example_tasks/"
   # all_files_js |> tibble::as_tibble() |> View()
   
@@ -208,39 +211,47 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol)
     if (length(media_not_in_folder_protocol) != 0) {
       
       # Get list of all media in canonical_protocol Github
-      req <- httr::GET("https://api.github.com/repos/gorkang/jsPsychMaker/git/trees/main?recursive=1")
-      httr::stop_for_status(req)
-      filelist_github <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = FALSE)
-      all_media_github =  grep("canonical_protocol/media/", filelist_github, value = TRUE, fixed = TRUE) 
+      all_media_github = list_files_github(folder = "canonical_protocol/media/")
       
       # Check media in Github and media not found
-      media_in_canonical = media_not_in_folder_protocol[basename(media_not_in_folder_protocol) %in% basename(all_media_github)]
-      media_not_found =  media_not_in_folder_protocol[!basename(media_not_in_folder_protocol) %in% basename(media_in_canonical)]
+      media_on_github = media_not_in_folder_protocol[basename(media_not_in_folder_protocol) %in% basename(all_media_github)]
+      media_not_found =  media_not_in_folder_protocol[!basename(media_not_in_folder_protocol) %in% basename(media_on_github)]
       
       # ERROR if missing media
       if (length(media_not_found) != 0) cli::cli_abort("{.code {media_not_found}} not found")
       
       # Media to copy to folder_protocol from Github 
         # e.g. https://github.com/gorkang/jsPsychMaker/raw/main/canonical_protocol/media/img/RMET/14.png
-      download_from_github = tibble::tibble(filelist_github) |> 
-        dplyr::filter(filelist_github %in% paste0("canonical_protocol/", media_in_canonical)) |> 
-        dplyr::mutate(media_in_canonical = gsub("canonical_protocol/", "", filelist_github))
+      download_from_github = tibble::tibble(all_media_github) |> 
+        dplyr::filter(all_media_github %in% paste0("canonical_protocol/", media_on_github)) |> 
+        dplyr::mutate(media_on_github = gsub("canonical_protocol/", "", all_media_github))
       
       # If there are things to download...
       if (nrow(download_from_github) != 0){
         
-        cli::cli_h3("Download files from Github")
+        if (show_messages == TRUE) cli::cli_h3("Download files from Github")
         
-        cli::cli_alert_info("Copying {nrow(download_from_github)} files to {.code {folder_protocol}}")
+        if (show_messages == TRUE) cli::cli_alert_info("Checking {nrow(download_from_github)} files: {.code {folder_protocol}}")
         1:nrow(download_from_github) |> 
           purrr::walk(~{
-            # .x = 1
-            file_get = httr::GET(paste0("https://github.com/gorkang/jsPsychMaker/raw/main/", download_from_github$filelist_github[.x]))
-            bin <- httr::content(file_get, "raw")
-            file_to_save = paste0(folder_protocol, "/", download_from_github$media_in_canonical[.x])
-            dir.create(dirname(file_to_save), recursive = TRUE, showWarnings = FALSE)
-            writeBin(bin, file_to_save)
-            cli::cli_alert_success("{.code {file_to_save}}")
+            file_to_save = paste0(folder_protocol, "/", download_from_github$media_on_github[.x])
+            file_exists = file.exists(file_to_save)
+            
+            if (!file_exists | force_download_media == TRUE) {
+              file_get = httr::GET(paste0("https://github.com/gorkang/jsPsychMaker/raw/main/", download_from_github$all_media_github[.x]))
+              bin <- httr::content(file_get, "raw")
+              dir.create(dirname(file_to_save), recursive = TRUE, showWarnings = FALSE)
+              writeBin(bin, file_to_save)
+            }
+            
+            if (file_exists & force_download_media == FALSE) {
+              if (show_messages == TRUE) cli::cli_alert_success("File already exists: {.code {basename(file_to_save)}}")
+            } else if ((file.exists(file_to_save))) {
+              if (show_messages == TRUE) cli::cli_alert_success("Downloaded: {.code {basename(file_to_save)}}")
+            } else {
+              if (show_messages == TRUE) cli::cli_alert_danger("ERROR: {.code {basename(file_to_save)}}")
+            }
+            
           })
       }
       
@@ -367,3 +378,51 @@ list_unzip <- function(location = "jsPsychMaker", zip_file = "?", action = "list
   
 }
 
+
+#' list_files_github
+#'
+#' @param URL api url of Github project 
+#' @param folder folder inside Github project
+#'
+#' @return
+#' @export
+#' @importFrom httr GET stop_for_status content
+#'
+#' @examples
+list_files_github <- function(URL = "https://api.github.com/repos/gorkang/jsPsychMaker/git/trees/main?recursive=1", folder = "canonical_protocol") {
+  # Get list of all media in canonical_protocol Github
+  req <- httr::GET(URL)
+  httr::stop_for_status(req)
+  filelist_github <- unlist(lapply(httr::content(req)$tree, "[", "path"), use.names = FALSE)
+  all_media_github =  grep(folder, filelist_github, value = TRUE, fixed = TRUE) 
+  return(all_media_github)
+}
+
+
+#' check_NEW_tasks_Github
+#'
+#' @return
+#' @export
+#' @importFrom cli cli_alert_info cli_alert_success
+#' @importFrom stringr str_remove_all
+#'
+#' @examples
+check_NEW_tasks_Github <- function() {
+  
+  tasks_in_package = list_available_tasks()
+  all_TASKS_github = list_files_github(folder = "canonical_protocol/tasks/") |> stringr::str_remove_all("canonical_protocol/tasks/|\\.js")
+  
+  NEW_tasks_github = all_TASKS_github[!all_TASKS_github %in% tasks_in_package$tasks]
+  
+  if (length(NEW_tasks_github) != 0) {
+    
+    cli::cli_alert_info("New tasks on Github: {NEW_tasks_github}")
+    cli::cli_alert_info('Get new version of package with {.code  remotes::install_github("gorkang/jsPsychMaker")}')
+    
+  } else {
+    
+    cli::cli_alert_success("No new tasks available")
+    
+  }
+  
+}

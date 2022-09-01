@@ -8,8 +8,10 @@ create_protocol(
   folder_tasks = NULL,
   canonical_tasks = NULL,
   folder_output = "~/Downloads/new_protocol",
+  force_download_media = FALSE,
   launch_browser = FALSE,
-  piloting_task = NULL
+  piloting_task = NULL,
+  show_messages = TRUE
 )
 }
 \arguments{
@@ -19,9 +21,13 @@ create_protocol(
 
 \item{folder_output}{Where to create the protocol}
 
+\item{force_download_media}{download media even if the file already exists}
+
 \item{launch_browser}{TRUE/FALSE}
 
 \item{piloting_task}{Name of task to pilot (will be only task in config.js)}
+
+\item{show_messages}{TRUE/FALSE}
 }
 \description{
 create_protocol

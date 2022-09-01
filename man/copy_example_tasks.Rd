@@ -4,10 +4,18 @@
 \alias{copy_example_tasks}
 \title{copy_example_tasks}
 \usage{
-copy_example_tasks(destination_folder)
+copy_example_tasks(
+  destination_folder,
+  file_zip = "example_tasks.zip",
+  show_messages = TRUE
+)
 }
 \arguments{
 \item{destination_folder}{Destination folder for the examples}
+
+\item{file_zip}{name of zip with examples}
+
+\item{show_messages}{TRUE/FALSE}
 }
 \description{
 copy_example_tasks

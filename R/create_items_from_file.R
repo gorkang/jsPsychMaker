@@ -2,9 +2,10 @@
 #'
 #' @param file_name CSV/XLS file with info about the task
 #' @param folder_output Where do we have the canonical_protocol_clean
+#' @param show_messages TRUE/FALSE
 #'
 #' @return
-#' @export
+# #' @export
 #' @importFrom purrr map
 #' @importFrom cli cli_alert_info cli_abort cli_alert_danger cli_alert
 #' @importFrom janitor remove_empty
@@ -13,7 +14,7 @@
 #' @importFrom stringr str_replace_all
 #'
 #' @examples
-create_items_from_file <- function(file_name, folder_output = NULL) {
+create_items_from_file <- function(file_name, folder_output = NULL, show_messages = FALSE) {
 
   # TODO
   # At some point we changed the wat conditional questions trialid's are build, so they 
@@ -42,14 +43,23 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   }
   
   
+  # CHECK have essential columns
+  essential_columns = c("ID", "plugin")
+  essential_missing = !essential_columns %in% names(DF)
+  if (any(essential_missing)) cli::cli_abort("Missing the following essential column: `{essential_columns[essential_missing]}` in `{basename(file_name)}`")
+  
+  
   # Only parameters DF
   DF_columns_parameters = DF |> dplyr::select(-ID, -plugin)
   
   task_name = gsub("(.*)\\..*", "\\1", basename(file_name))
 
   PLUGINS_used = DF |> dplyr::distinct(plugin) |> dplyr::pull(plugin)
+
+  # CHECK lines without plugins
+  if (any(is.na(PLUGINS_used))) cli::cli_abort(c("There are rows without plugins"))
   
-  # CHECK we have all the used plugins ---
+  # CHECK we have all the used plugins
   canonical_zip_files = list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip", action = "list", silent = TRUE)
   ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
   CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
@@ -61,21 +71,16 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   
   # Avoid listing all websites when > 2 plugins in the task
   if (length(PLUGINS_used) > 2) WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/")
-  cli::cli_alert_info("Parameters: {.code {names(DF_columns_parameters)}}")
-  cli::cli_alert_info("Plugins: {.code {PLUGINS_used}}. Help: {.url {WEBS_help}}")
+  if (show_messages == TRUE) cli::cli_alert_info("Parameters: {.code {names(DF_columns_parameters)}}")
+  if (show_messages == TRUE) cli::cli_alert_info("Plugins: {.code {PLUGINS_used}}. Help: {.url {WEBS_help}}")
   
   
 # CHECKS ------------------------------------------------------------------
 
-  # Have essential columns
-  essential_columns = c("ID", "plugin")
-  esentials_present = all(essential_columns %in% names(DF))
-  if (!esentials_present) cli::cli_abort("Missing the following essential column: `{essential_columns[!esentials_present]}` in `{basename(file_name)}`")
-
   # Have text output columns
-  TEXT_columns = c("prompt", "stimulus", "preamble")
+  TEXT_columns = c("prompt", "stimulus", "preamble") # TODO: add missing cols
   text_columns_present = any(TEXT_columns %in% colnames(DF_columns_parameters))
-  if (!text_columns_present) cli::cli_alert_danger("Missing an output text column. Usually should have one of: {.code {TEXT_columns}}")
+  if (!text_columns_present) cli::cli_abort("Missing an output text column. Usually should have one of: {.code {TEXT_columns}}")
 
   # IDs
   if (any(is.na(DF$ID))) cli::cli_abort(c("Some of the ID's are empty"))
@@ -84,8 +89,6 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
   # There is ID and/or plugin, but no parameters
   if (nrow(janitor::remove_empty(DF_columns_parameters, which = "rows")) != nrow(DF_columns_parameters)) cli::cli_abort(c("There are rows without parameters"))
   
-  # No plugins
-  if (any(is.na(PLUGINS_used))) cli::cli_abort(c("There are rows without plugins"))
 
 
 # Loop by row (items) [DO NOT CHANGE TABS/SPACES] ---------------------------
@@ -149,7 +152,7 @@ create_items_from_file <- function(file_name, folder_output = NULL) {
           # keyboard-responses need choices to match actual keys!
           } else if (grepl("keyboard", PLUGIN) & names(DF_MAP[.x]) == "choices") {
             choices = strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws()
-            if (any(nchar(choices) > 1)) cli::cli_alert_danger("choices ({choices}) in html-keyboard-response are longer than one character ({nchar(choices)})")
+            if (any(nchar(choices) > 1)) cli::cli_abort("choices ({choices}) in html-keyboard-response are longer than one character ({nchar(choices)})")
             DF_MAP[.x] = paste0("['", paste(choices, collapse = "', '"), "']")
             
           # same-different plugins have enumeration of stimuli

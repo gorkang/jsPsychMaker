@@ -4,12 +4,14 @@
 \alias{create_task}
 \title{create_task}
 \usage{
-create_task(folder_task, folder_output = NULL)
+create_task(folder_task, folder_output = NULL, show_messages = FALSE)
 }
 \arguments{
 \item{folder_task}{Add folder of the task}
 
 \item{folder_output}{Where to create the task}
+
+\item{show_messages}{TRUE/FALSE}
 }
 \description{
 This is a description

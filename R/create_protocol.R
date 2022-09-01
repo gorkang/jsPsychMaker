@@ -5,6 +5,8 @@
 #' @param folder_output Where to create the protocol
 #' @param launch_browser TRUE/FALSE
 #' @param piloting_task Name of task to pilot (will be only task in config.js)
+#' @param force_download_media download media even if the file already exists
+#' @param show_messages TRUE/FALSE
 #'
 #' @return
 #' @export
@@ -19,37 +21,47 @@
 create_protocol <- function(folder_tasks = NULL, 
                             canonical_tasks = NULL,
                             folder_output = "~/Downloads/new_protocol", 
+                            force_download_media = FALSE,
                             launch_browser = FALSE, 
-                            piloting_task = NULL) {
+                            piloting_task = NULL,
+                            show_messages = TRUE) {
   
   # DEBUG
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
+  # jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")
   # folder_tasks = "~/Downloads/TEST/"
   # canonical_tasks = NULL
-  # canonical_tasks = c("AIM", "EAR")
+  # canonical_tasks = c("AIM", "EAR", "INFCONS")
   # folder_output = "~/Downloads/TEST/new_protocol"
   # launch_browser = TRUE
   # piloting_task = NULL
-
+  # force_download_media = FALSE
+  # show_messages = FALSE
+  
+  # canonical_tasks = NULL
+  # piloting_task = NULL
+  # force_download_media = FALSE
+  # show_messages = TRUE
+  
   
 
   # Copy canonical_protocol_clean -------------------------------------------
   
-  cli::cli_h1("Create new protocol")
+  if (show_messages == TRUE) cli::cli_h1("Create new protocol")
   
-  cli::cli_h2("Parameters")
-  if (!is.null(folder_tasks)) cli::cli_alert_info("folder_tasks: {.code {folder_tasks}}")
-  cli::cli_alert_info("folder_output: {.code {folder_output}}")
-  if (!is.null(canonical_tasks)) cli::cli_alert_info("canonical_tasks: {.code {canonical_tasks}}")
-  cli::cli_h2("Preparation")
+  if (show_messages == TRUE) cli::cli_h2("Parameters")
+  if (!is.null(folder_tasks) & show_messages == TRUE) cli::cli_alert_info("folder_tasks: {.code {folder_tasks}}")
+  if (show_messages == TRUE) cli::cli_alert_info("folder_output: {.code {folder_output}}")
+  if (!is.null(canonical_tasks) & show_messages == TRUE) cli::cli_alert_info("canonical_tasks: {.code {canonical_tasks}}")
+  if (show_messages == TRUE) cli::cli_h2("Preparation")
   
   
   folder_output = here::here(folder_output)
-  
+
   # Check if folder exists
   if (dir.exists(folder_output)) {
     # Need to remove the contents just in case there are old tasks
-    cli::cli_alert_info("Removing content of existing {.code {folder_output}}")
+    if (show_messages == TRUE) cli::cli_alert_info("Removing content of existing {.code {folder_output}}")
     unlink(folder_output, recursive = TRUE)
     dir.create(folder_output, recursive = TRUE)
   } else if (!dir.exists(folder_output)) {
@@ -62,7 +74,7 @@ create_protocol <- function(folder_tasks = NULL,
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
   
-  cli::cli_alert_success("Copied `canonical_protocol_clean` to {.code {folder_output}}")
+  if (show_messages == TRUE) cli::cli_alert_success("Copied `canonical_protocol_clean` to {.code {folder_output}}")
   
   
   # Create new tasks --------------------------------------------------------
@@ -76,7 +88,7 @@ create_protocol <- function(folder_tasks = NULL,
     
     TASKS = basename(dirname(input_CSV_XLS_files))
   
-    cli::cli_alert_info("Found the following tasks: {.code {TASKS}}\n")
+    if (show_messages == TRUE) cli::cli_alert_info("Found the following tasks: {.code {TASKS}}\n")
   
     # CHECKS ---
     
@@ -92,8 +104,11 @@ create_protocol <- function(folder_tasks = NULL,
     # Loop through folders with input_CSV_XLS_files ---
     1:length(TASKS) |> 
       purrr::walk(~{
-        cli::cli_h1("create_task: {TASKS[.x]}")
-        create_task(folder_task = paste0(folder_tasks, "/", TASKS[.x], "/"), folder_output = folder_output)
+        # .x = 1
+        if (show_messages == TRUE) cli::cli_h1("create_task: {TASKS[.x]}")
+        create_task(folder_task = paste0(folder_tasks, "/", TASKS[.x], "/"), 
+                    folder_output = folder_output, 
+                    show_messages = show_messages)
       })
   
   } else {
@@ -106,7 +121,7 @@ create_protocol <- function(folder_tasks = NULL,
   # canonical_tasks = c("AIM", "EAR")
   if (!is.null(canonical_tasks)) {
     
-    cli::cli_h1("ADD tasks from canonical_protocol")
+    if (show_messages == TRUE) cli::cli_h1("ADD tasks from canonical_protocol")
     
     # Get tasks from "/templates/tasks.zip"
     tasks = list_available_tasks(show_help = FALSE)
@@ -120,7 +135,7 @@ create_protocol <- function(folder_tasks = NULL,
       destination_folder = paste0(folder_output, "/tasks/"), files_to_unzip = paste0(canonical_tasks, ".js"),
       silent = TRUE)
     
-    cli::cli_alert_success("Added: {.code {canonical_tasks}}")
+    if (show_messages == TRUE) cli::cli_alert_success("Added: {.code {canonical_tasks}}")
     
   } else {
     canonical_tasks = NULL
@@ -137,8 +152,8 @@ create_protocol <- function(folder_tasks = NULL,
 
   # Modify config.js --------------------------------------------------------
 
-  cli::cli_h1("Prepare new protocol")
-  cli::cli_h2("Modify config.js")
+  if (show_messages == TRUE) cli::cli_h1("Prepare new protocol")
+  if (show_messages == TRUE) cli::cli_h2("Modify config.js")
   
   # If piloting, include only the task selected in the protocol
   if (!is.null(piloting_task)) {
@@ -151,7 +166,7 @@ create_protocol <- function(folder_tasks = NULL,
   
   
   # MEDIA ---
-  all_media_protocol = get_media_for_protocol(all_files_js = all_files_js, folder_protocol = folder_output)
+  all_media_protocol = get_media_for_protocol(all_files_js = all_files_js, folder_protocol = folder_output, force_download_media = force_download_media, show_messages = show_messages)
     
   
   
@@ -159,14 +174,15 @@ create_protocol <- function(folder_tasks = NULL,
   update_config_js(folder_protocol = folder_output,
                    tasks = tasks_canonical,
                    block_tasks = "randomly_ordered_tasks_1",
-                   media  = all_media_protocol)
+                   media  = all_media_protocol,
+                   show_messages = show_messages)
  
-  cli::cli_alert_info("More information about protocol configuration on the jsPsychR manual: {.url https://gorkang.github.io/jsPsychR-manual/qmd/03-jsPsychMaker.html#experiment-configuration}")
+  if (show_messages == TRUE) cli::cli_alert_info("More information about protocol configuration on the jsPsychR manual: {.url https://gorkang.github.io/jsPsychR-manual/qmd/03-jsPsychMaker.html#experiment-configuration}")
   
 
   # Modify HTML -------------------------------------------------------------
 
-  cli::cli_h2("Adapt index.html")
+  if (show_messages == TRUE) cli::cli_h2("Adapt index.html")
   
   # PLUGINS ---
   
@@ -200,18 +216,18 @@ create_protocol <- function(folder_tasks = NULL,
     ESSENTIAL_plugins = c("jspsych-call-function", "jspsych-fullscreen", "jspsych-preload")
     plugins_to_delete = ALL_available_plugins[!ALL_available_plugins %in% c(ESSENTIAL_plugins, paste0("jspsych-", PLUGINS_used))]
     file.remove(paste0(folder_output, "/jsPsych-6/plugins/", plugins_to_delete, ".js"))
-    cli::cli_alert_info("Deleted {length(plugins_to_delete)} unused plugin files: {.code {plugins_to_delete}}")
+    if (show_messages == TRUE) cli::cli_alert_info("Deleted {length(plugins_to_delete)} unused plugin files: {.code {plugins_to_delete}}")
 
     
   # Adapt HTML ---
   # Adds plugins, media, necessary extra files for tasks...
-  adapt_HTML(TASKS = tasks_canonical$tasks, new_plugins = PLUGINS_used, folder_output = folder_output)
+  adapt_HTML(TASKS = tasks_canonical$tasks, new_plugins = PLUGINS_used, folder_output = folder_output, show_messages = show_messages)
   
 
 
   # CHECKS ------------------------------------------------------------------
 
-  check_trialids(folder_protocol = folder_output, show_all_messages = TRUE)
+  check_trialids(folder_protocol = folder_output, show_messages = show_messages)
   
     
   
@@ -219,7 +235,7 @@ create_protocol <- function(folder_tasks = NULL,
 
   if (launch_browser == TRUE) {
     
-    cli::cli_h1("Open new protocol in browser")
+    if (show_messages == TRUE) cli::cli_h1("Open new protocol in browser")
     
     URL = paste0("file:///", here::here(normalizePath(folder_output)), "/index.html", "?uid=", sample(1:1000, 1))
     

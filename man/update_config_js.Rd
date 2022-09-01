@@ -9,7 +9,8 @@ update_config_js(
   folder_protocol,
   tasks = NULL,
   block_tasks = "randomly_ordered_tasks_1",
-  media = NULL
+  media = NULL,
+  show_messages = TRUE
 )
 }
 \arguments{
@@ -20,6 +21,8 @@ update_config_js(
 \item{block_tasks}{Where to insert the tasks randomly_ordered_tasks_1 or secuentially_ordered_tasks_1}
 
 \item{media}{list with images, video and audios media to include in config}
+
+\item{show_messages}{TRUE/FALSE}
 }
 \description{
 update_config_js

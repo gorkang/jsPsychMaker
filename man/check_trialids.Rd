@@ -4,12 +4,12 @@
 \alias{check_trialids}
 \title{check_trialids}
 \usage{
-check_trialids(folder_protocol, show_all_messages = FALSE)
+check_trialids(folder_protocol, show_messages = TRUE)
 }
 \arguments{
 \item{folder_protocol}{Folder where the protocol is}
 
-\item{show_all_messages}{TRUE/FALSE}
+\item{show_messages}{TRUE/FALSE}
 }
 \description{
 Checks that trialid's of an experiment in a folder follow the standard expected rules

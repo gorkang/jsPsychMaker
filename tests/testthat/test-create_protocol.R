@@ -4,7 +4,10 @@ testthat::test_that('create_protocol', {
   
   
   # Copy example tasks to local folder
-  jsPsychMaker::copy_example_tasks(destination_folder = destination_folder)
+  jsPsychMaker::copy_example_tasks(destination_folder = destination_folder, show_messages = FALSE)
+  
+  # Create quiet version
+  create_protocol_quiet <- purrr::quietly(jsPsychMaker::create_protocol)
   
   
 
@@ -12,11 +15,10 @@ testthat::test_that('create_protocol', {
   # Only from csv's ---------------------------------------------------------
   # Includes all plugins
   output_folder = paste0(destination_folder, "/../create_protocol1")
-  files_expected = 61
+  files_expected = 62
   
-  jsPsychMaker::create_protocol(folder_tasks = destination_folder,
-                                folder_output = output_folder, 
-                                launch_browser = FALSE)
+  OUT = create_protocol_quiet(folder_tasks = paste0(destination_folder),
+                              folder_output = output_folder)
   
   files_protocol = list.files(output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
@@ -30,9 +32,8 @@ testthat::test_that('create_protocol', {
   output_folder = paste0(destination_folder, "/../create_protocol2")
   files_expected = 55
   
-  jsPsychMaker::create_protocol(canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS"),
-                                folder_output = output_folder, 
-                                launch_browser = FALSE)
+  OUT = create_protocol_quiet(canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS"),
+                              folder_output = output_folder)
   
   files_protocol = list.files(output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
@@ -46,9 +47,8 @@ testthat::test_that('create_protocol', {
   output_folder = paste0(destination_folder, "/../create_protocol3")
   files_expected = 42
   
-  jsPsychMaker::create_protocol(canonical_tasks = c("AIM", "EAR", "IRI"),
-                                folder_output = output_folder, 
-                                launch_browser = FALSE)
+  OUT = create_protocol_quiet(canonical_tasks = c("AIM", "EAR", "IRI"),
+                              folder_output = output_folder)
   
   files_protocol = list.files(output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
@@ -60,12 +60,11 @@ testthat::test_that('create_protocol', {
   # Both from csv's AND canonical_tasks -------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol4")
-  files_expected = 64
+  files_expected = 65
   
-  jsPsychMaker::create_protocol(folder_tasks = destination_folder,
-                                canonical_tasks = c("AIM", "EAR", "IRI"),
-                                folder_output = output_folder, 
-                                launch_browser = FALSE)
+  OUT = create_protocol_quiet(folder_tasks = paste0(destination_folder),
+                              canonical_tasks = c("AIM", "EAR", "IRI"),
+                              folder_output = output_folder)
   
   files_protocol = list.files(output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
@@ -81,9 +80,8 @@ testthat::test_that('create_protocol', {
   
   TASKS = jsPsychMaker::list_available_tasks()
   
-  jsPsychMaker::create_protocol(canonical_tasks = TASKS$tasks,
-                                folder_output = output_folder, 
-                                launch_browser = FALSE)
+  OUT = create_protocol_quiet(canonical_tasks = TASKS$tasks,
+                              folder_output = output_folder)
   
   files_protocol = list.files(output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
@@ -99,16 +97,14 @@ testthat::test_that('create_protocol', {
   output_folder = paste0(destination_folder, "/../create_protocol7")
   files_expected = 39
   
-  jsPsychMaker::create_protocol(canonical_tasks = c("AIM"),
-                                folder_output = output_folder, 
-                                launch_browser = FALSE)
+  OUT = create_protocol_quiet(canonical_tasks = c("AIM"),
+                              folder_output = output_folder)
   
   files_protocol = list.files(output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
 
-  jsPsychMaker::create_protocol(canonical_tasks = c("AIM"),
-                                folder_output = output_folder, 
-                                launch_browser = FALSE)
+  OUT = create_protocol_quiet(canonical_tasks = c("AIM"),
+                              folder_output = output_folder)
   
   files_protocol = list.files(output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
@@ -123,15 +119,26 @@ testthat::test_that('create_protocol', {
   output_folder = paste0(destination_folder, "/../create_protocol8")
   files_expected = 39
   
-  jsPsychMaker::create_protocol(canonical_tasks = c("AIM"),
-                                folder_output = output_folder, 
-                                launch_browser = FALSE, 
-                                piloting_task = "AIM")
+  OUT = create_protocol_quiet(canonical_tasks = c("AIM"),
+                              folder_output = output_folder, 
+                              piloting_task = "AIM")
   
   files_protocol = list.files(output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
   
 
+  
+  # Test no output folder ---------------------------------------------
+  
+  output_folder = "~/Downloads/new_protocol"
+  files_expected = 39
+
+  OUT = create_protocol_quiet(canonical_tasks = c("AIM"))
+  
+  files_protocol = list.files(output_folder, recursive = TRUE)
+  testthat::expect_equal(object = length(files_protocol), expected = files_expected)
+  
+  
   
   # Final cleanup -----------------------------------------------------------
 

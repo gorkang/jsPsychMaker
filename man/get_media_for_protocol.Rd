@@ -4,12 +4,21 @@
 \alias{get_media_for_protocol}
 \title{get_media_for_protocol}
 \usage{
-get_media_for_protocol(all_files_js = all_files_js, folder_protocol)
+get_media_for_protocol(
+  all_files_js = all_files_js,
+  folder_protocol,
+  force_download_media = FALSE,
+  show_messages = TRUE
+)
 }
 \arguments{
 \item{all_files_js}{vector with content of all js files}
 
 \item{folder_protocol}{where is the protocol?}
+
+\item{force_download_media}{download even if the file already exists}
+
+\item{show_messages}{TRUE/FALSE}
 }
 \description{
 get_media_for_protocol
