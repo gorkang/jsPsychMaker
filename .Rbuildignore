@@ -13,3 +13,5 @@ TODO.Rmd
 ^docs$
 ^app$
 
+^codecov\.yml$
+^\.github$

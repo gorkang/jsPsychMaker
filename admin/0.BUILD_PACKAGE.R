@@ -33,7 +33,20 @@
   devtools::check() # Check package (~30s)
   
   devtools::test_coverage()
+
   
+
+# Code coverage -----------------------------------------------------------
+  
+  # FIRST TIME
+  # 1) usethis::use_coverage(type = c("codecov"))
+  # 2) usethis::use_github_action("test-coverage") # To continuosly monitor code coverage
+  # 3) Go to website: codecov.io using the GitHub account and setup the repo
+  
+  COV_REPORT = covr::package_coverage(); COV_REPORT # Test coverage report. If a testthat tests fails, this FAILS!
+  covr::report(COV_REPORT) # Check local shiny app with Coverage report    
+  # TOKEN FROM step 3)
+  covr::codecov(token = "6c8a8848-9175-446c-9cb8-131378f96356") # UPLOAD coverage reports to https://codecov.io/gh/gorkang/jsPsychMaker/
   
 
 # REMEMBER ----------------------------------------------------------------
