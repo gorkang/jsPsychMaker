@@ -139,6 +139,39 @@ testthat::test_that('create_protocol', {
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
   
   
+  # BROWSER ----------------------------------------------------------------
+  
+  output_folder = paste0(destination_folder, "/../create_protocol_browser")
+  message_expected = "Open new protocol in browser"
+  
+  # callr::rcmd()
+  OUT = create_protocol_quiet(canonical_tasks = c("AIM"),
+                              folder_output = output_folder, 
+                              launch_browser = TRUE)
+  
+  
+  testthat::expect_match(object = OUT$messages[length(OUT$messages) - 1],
+                         regexp = "Open new protocol in browser")
+  
+  unlink(output_folder, recursive = TRUE)
+  
+  
+  output_folder = paste0(destination_folder, "/../create_protocol_browser")
+  message_expected = "Open new protocol in browser"
+  
+  # callr::rcmd()
+  OUT = create_protocol_quiet(canonical_tasks = c("EmpaTom"),
+                              folder_output = output_folder, 
+                              launch_browser = TRUE)
+  
+  
+  testthat::expect_match(object = OUT$messages[length(OUT$messages) - 1],
+                         regexp = "Open new protocol in browser")
+  
+  unlink(output_folder, recursive = TRUE)
+  
+  
+  
   
   # Final cleanup -----------------------------------------------------------
 

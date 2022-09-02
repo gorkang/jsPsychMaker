@@ -33,7 +33,9 @@
   devtools::check() # Check package (~30s)
   
   devtools::test_coverage()
-
+  # Not necesary because we have a use_github_action???
+  # covr::codecov(token = "6c8a8848-9175-446c-9cb8-131378f96356") # UPLOAD coverage reports to https://codecov.io/gh/gorkang/jsPsychMaker/
+  
   
 
 # Code coverage -----------------------------------------------------------

@@ -42,6 +42,19 @@ testthat::test_that('create_protocol_ERRORS', {
   unlink(output_folder, recursive = TRUE)
   
   
+  # NON Existing canonical_task
+  output_folder = paste0("~/Downloads/TEST_testthat/wrong_block/")
+  testthat::expect_error(
+    regexp = "`block_tasks` needs to be one of the following",
+    create_protocol_quiet(canonical_tasks = "AIM",
+                          folder_output = output_folder,
+                          show_messages = FALSE,
+                          block_tasks = "something-wrong")
+  )
+  unlink(output_folder, recursive = TRUE)
+  
+  
+  
   # Final cleanup -----------------------------------------------------------
 
   # Delete destination_folder created in first step

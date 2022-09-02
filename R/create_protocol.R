@@ -7,6 +7,7 @@
 #' @param piloting_task Name of task to pilot (will be only task in config.js)
 #' @param force_download_media download media even if the file already exists
 #' @param show_messages TRUE/FALSE
+#' @param block_tasks Where to insert the tasks: randomly_ordered_tasks_1 or secuentially_ordered_tasks_1
 #'
 #' @return
 #' @export
@@ -24,7 +25,8 @@ create_protocol <- function(folder_tasks = NULL,
                             force_download_media = FALSE,
                             launch_browser = FALSE, 
                             piloting_task = NULL,
-                            show_messages = TRUE) {
+                            show_messages = TRUE,
+                            block_tasks = "randomly_ordered_tasks_1") {
   
   # DEBUG
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
@@ -173,7 +175,7 @@ create_protocol <- function(folder_tasks = NULL,
   # Replace tasks in config ---
   update_config_js(folder_protocol = folder_output,
                    tasks = tasks_canonical,
-                   block_tasks = "randomly_ordered_tasks_1",
+                   block_tasks = block_tasks,
                    media  = all_media_protocol,
                    show_messages = show_messages)
  
