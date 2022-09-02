@@ -235,14 +235,14 @@ create_protocol <- function(folder_tasks = NULL,
 
   if (launch_browser == TRUE) {
     
-    if (show_messages == TRUE) cli::cli_h1("Open new protocol in browser")
-    
     URL = paste0("file:///", here::here(normalizePath(folder_output)), "/index.html", "?uid=", sample(1:1000, 1))
+    
+    if (show_messages == TRUE) cli::cli_h1("Open new protocol in browser")
+    if (show_messages == TRUE) cli::cli_alert_info("URL: {URL}")
     
     OS = Sys.info()["sysname"]
 
     plugins_CORS = c("video")
-    if (any(grepl(plugins_CORS, PLUGINS_used))) cli::cli_alert_danger("If you want to run the protocol locally you will need to disable web security (CORS)")
     
     if (OS == "Linux") {
       
@@ -252,12 +252,25 @@ create_protocol <- function(folder_tasks = NULL,
       } else {
         system(paste0("google-chrome ", URL, " --incognito &"))  
       }
-      
+    
+    # Mac and Windows
     } else {
+      
+      if (any(grepl(plugins_CORS, PLUGINS_used))) {
+        cli::cli_alert_danger("If you want to run the protocol locally you will need to disable web security (CORS)")
+        cli::cli_alert_info(paste0('- Windows [command line]: start chrome --new-window --incognito --disable-web-security --user-data-dir="C:/Chrome" "', gsub("file:///", "C:/", URL), '"'))
+        # start chrome --new-window --incognito --disable-web-security --user-data-dir="C:/Chrome"  "C:/Users/emrys/Documents/Downloads/TEST/new_protocol1/index.html" 
+      }
+
       utils::browseURL(URL)
       cli::cli_alert_info("If you encounter errors in the Javascript (F12) Console about 'indexedDB_controller.js' or 'Uncaught (in promise) element not found'. Launch the experiment in an Incognito window.")
+      # Works Windows 10: processx::run(command = "powershell", args = c('start chrome --incognito'))
+      
+
     }
     
   }
   
 }
+
+

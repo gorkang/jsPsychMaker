@@ -1,6 +1,6 @@
 Package: jsPsychMaker
 Title: Create behavioral experiments using jsPsych and R
-Version: 0.0.1
+Version: 0.2.0
 Authors@R: 
     person("Gorka", "Navarrete", , "gorkang@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7678-8656"))
