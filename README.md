@@ -18,8 +18,7 @@ Install jsPsychMaker with: `remotes::install_github("gorkang/jsPsychMaker")`
 
 ## Creating a protocol from existing tasks
 
-To create a tasks or full protocol using csv files for the items and html for the instructions, see the  [jsPsychR manual](https://gorkang.github.io/jsPsychR-manual/qmd/07-NEWtasks.html).  
-
+To create tasks or a full protocol using already existing tasks:  
 
 1) List available tasks: `jsPsychMaker::list_available_tasks()`
 
@@ -40,7 +39,7 @@ Check if there are new tasks available in a new version of the Github package:
 
 ## Creating a protocol with new tasks
 
-You can create new tasks using csv or excel files.
+You can create new tasks using csv or excel files.  
 
 1) Copy example tasks to local folder: `jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")`  
   
