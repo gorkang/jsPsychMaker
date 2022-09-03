@@ -6,7 +6,7 @@
 <!-- badges: end -->
 
 
-A set of tools to help create experiments with [jsPsych](https://www.jspsych.org/), randomize participants, etc.
+An set of tools to help create experimental protocols with  [jsPsych](https://www.jspsych.org/). It allows you to randomize participants between conditions, keeping the groups balanced, in online and offline protocols, etc.
 
 For details about the available [tasks](https://github.com/gorkang/jsPsychMaker/tree/main/canonical_protocol/tasks), you can check the [Tareas jsPsychR googledoc](https://docs.google.com/spreadsheets/d/1Eo0F4GcmqWZ1cghTpQlA4aHsc8kTABss-HAeimE2IqA/edit#gid=0) (SPANISH!), or the [jsPsychR-manual](https://gorkang.github.io/jsPsychR-manual/jsPsychMaker.html#available-tasks).
 
@@ -18,11 +18,11 @@ Install jsPsychMaker with: `remotes::install_github("gorkang/jsPsychMaker")`
 
 ## Creating a protocol from existing tasks
 
-To create tasks or a full protocol using already existing tasks:  
+To create a full protocol using already existing tasks:  
 
 1) List available tasks: `jsPsychMaker::list_available_tasks()`
 
-2) Create full protocol with existing tasks:  
+2) Create protocol:  
 
 ```
 jsPsychMaker::create_protocol(canonical_tasks = c("AIM", "EAR", "IRI"),
@@ -39,7 +39,7 @@ Check if there are new tasks available in a new version of the Github package:
 
 ## Creating a protocol with new tasks
 
-You can create new tasks using csv or excel files.  
+You can create a protocol with new tasks using csv or excel files:  
 
 1) Copy example tasks to local folder: `jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")`  
   
