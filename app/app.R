@@ -2,6 +2,12 @@
 # This shiny app creates a canonical_protocol/config.js copy using the shiny inputs
 # Allows to configure a protocol using a UI
 
+
+# TODO: 
+# var_researcher_email appears twice. In consent AND config. 
+# The config one is overwritten by the consent one!!!
+
+
 # TODO: 
   # - Use HTML editor for intro/outro:
     # https://github.com/deepanshu88/ShinyEditor
@@ -32,12 +38,15 @@
 
   # List of available tasks
   available_tasks <- gsub("\\.js", "", get_github_files())
-  # available_tasks2 <- gsub("\\.js", "", list.files(here::here("canonical_protocol/tasks/")))
+  # If we are reading a config file, we add to sequential and random available_tasks tasks those in the file that we do not have in jsPsychMakeR
+  # We don't do that for first and last tasks
   
-  # Use config.js to fill out input parameters
-  # CONFIG_file = readLines(here::here("canonical_protocol/config.js"))
-  CONFIG_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol/config.js")
 
+  # Use config.js to fill out input parameters
+  CONFIG_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol_clean/config.js")
+  # CONFIG_file = readLines(here::here("canonical_protocol_clean/config.js"))
+  # CONFIG_file = readLines(here::here("~/Downloads/config.js"))
+  
   # Consent JS file
   CONSENT_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol/media/consent/consent-placeholder.js")
 
@@ -47,31 +56,43 @@
 # INITIAL VARS ------------------------------------------------------------
 
 # Function to extract individual strings from js vectors. ['DEMOGR', 'AIM'] -> "DEMOGR" "AIM"   
-separate_vector <- function(value) list(lapply(regmatches(value, gregexpr('(\').*?(\')', value, perl = TRUE)), function(y) gsub("^\'|\'$", "", y)))
+  # If the strings are in multiple lines, can´t get them
+separate_vector <- function(value) list(lapply(regmatches(value, gregexpr('(\').*?(\')|(").*?(")', value, perl = TRUE)), function(y) gsub("^\'|\'$|^\"|\"$", "", y)))
 
+  
 # DF with all parameters in config.js
-DF_config = 
-  stringi::stri_extract_all(str = CONFIG_file, regex = "(.*) = (.*)") %>% 
-  gsub("(.*);.*", "\\1", .) %>% # Delete things after ";"
-  as_tibble() %>% 
-  drop_na(value) %>% 
-  separate(value, into = c("variable", "value"), sep = " = ", extra = "merge") %>% 
-  rowwise() %>% 
-  mutate(
-    value = gsub("^'|^`|'$|`$", "", value),
-    value = 
-           case_when(
-             value == "true" ~ list(TRUE),
-             value == "false" ~ list(FALSE),
-             variable == "max_time" ~ list(gsub("\"([0-9]{2}).*", "\\1", value)),
-             variable == "intro_HTML" ~ list(gsub("`", "", value)),
-             variable == "first_tasks" ~ separate_vector(value),
-             variable == "last_tasks" ~ separate_vector(value),
-             grepl("secuentially_ordered_tasks_|randomly_ordered_tasks_", variable) ~ separate_vector(value),
-             variable == "tasks" ~ separate_vector(value),
-             
-             TRUE ~ list(value)
-           ))
+
+# Read a config file  
+read_CONFIG <- function(CONFIG_file) {
+
+  DF =
+    stringi::stri_extract_all(str = CONFIG_file, regex = "(.*) = (.*)") %>% 
+    gsub("(.*);.*", "\\1", .) %>% # Delete things after ";"
+    as_tibble() %>% 
+    drop_na(value) %>% 
+    separate(value, into = c("variable", "value"), sep = " = ", extra = "merge") %>% 
+    rowwise() %>% 
+    mutate(
+      value = gsub("^'|^`|'$|`$", "", value),
+      value = 
+             case_when(
+               value == "true" ~ list(TRUE),
+               value == "false" ~ list(FALSE),
+               variable == "max_time" ~ list(gsub("\"([0-9]{2}).*", "\\1", value)),
+               variable == "intro_HTML" ~ list(gsub("`", "", value)),
+               variable == "first_tasks" ~ separate_vector(value),
+               variable == "last_tasks" ~ separate_vector(value),
+               grepl("secuentially_ordered_tasks_|randomly_ordered_tasks_", variable) ~ separate_vector(value),
+               variable == "tasks" ~ separate_vector(value),
+               
+               TRUE ~ list(value)
+             )
+      )
+  return(DF)
+}
+
+# Initial configuration. By default, reads the Github file  
+DF_config = read_CONFIG(CONFIG_file)
 
 
 DF_consent = 
@@ -84,16 +105,12 @@ DF_consent =
 
 # Function to extract parameters from DF_config and DF_consent
 get_params <- function(variable_str, what, DF = DF_config) {
-  # variable_str = "randomly_ordered_tasks_1"
-  # what = "value"
+  
   DF %>% filter(variable == variable_str) %>% pull(what) %>% unlist()
 }
+# get_params(variable_str = "randomly_ordered_tasks_1", what = "value", DF = DF_config)
+# get_params("secuentially_ordered_tasks_1", "value", DF_config)
 
-# get_params("randomly_ordered_tasks_1", "value")
-# get_params("secuentially_ordered_tasks_1", "value")
-
-# get_params("var_title", "variable", DF_consent)
-# get_params("var_title", "value", DF_consent)
 
 
 
@@ -101,7 +118,13 @@ get_params <- function(variable_str, what, DF = DF_config) {
 # It also adapts the output text to js
 replace_TAG <- function(name_tag) {
   
-  # name_tag = XXX[3]
+  # DEBUG
+  # XXX = list(max_participants = 222,
+  #            randomly_ordered_tasks_1 = c("TEST"),
+  #            randomly_ordered_tasks_2 = c("NEWX"))
+  # name_tag = XXX[1]
+  
+  
   name_text = names(name_tag[1])
   value_text = name_tag[1]
   
@@ -110,12 +133,12 @@ replace_TAG <- function(name_tag) {
   # Prepare vars for js file
   if(value_text %in% c(TRUE, FALSE)) {
     
-    cli::cli_alert("logical")
+    # cli::cli_alert("logical")
     value_text = tolower(value_text)
     
   } else if (is.character(value_text[[1]])) {
     
-    cli::cli_alert("character || {value_text[[1]]}")
+    # cli::cli_alert("character || {value_text[[1]]}")
     
     # If it's a string, add ''
     if (length(value_text[[1]]) == 1) {
@@ -128,13 +151,28 @@ replace_TAG <- function(name_tag) {
     
   } else {
     
-    cli::cli_alert("Numeric")
+    # cli::cli_alert("Numeric")
     value_text = value_text
     
   }
   
   # If it's max_time, replace only hour
   if (name_text == "max_time") value_text = paste0("'", sprintf("%02d", value_text[[1]]), ":00:00'")
+  
+
+  location_name = which(grepl(name_text, CONFIG_file))
+  if (length(location_name) == 0) cli::cli_alert_warning("`{name_text}` not found")
+  
+  # Find position of tasks and insert the secuentially_ordered_tasks_n AND randomly_ordered_tasks_n tags
+  if (length(location_name) == 0 & grepl("secuentially_ordered_tasks_|randomly_ordered_tasks_", name_text)) {
+    ALL_secuential_and_random_positions = c(which(grepl("secuentially_ordered_tasks_", CONFIG_file)), which(grepl("randomly_ordered_tasks_", CONFIG_file)))
+    max_secuential_and_random_positions = max(ALL_secuential_and_random_positions)
+    
+    cli::cli_alert_warning("`{name_text}` ADDED at line {max_secuential_and_random_positions - 3}")
+    CONFIG_file <<- append(x = CONFIG_file, values = paste0(name_text, " = ", value_text), after = max_secuential_and_random_positions - 3)
+    CONFIG_file <<- append(x = CONFIG_file, values = paste0("\n"), after = max_secuential_and_random_positions - 2) # Add empty line after
+    
+  }
   
   # Overwrite CONFIG_file (<<- so it will use it in the map loop)
   CONFIG_file <<- gsub(pattern = paste0("^", name_text, " = .*"),
@@ -170,11 +208,9 @@ ui <- fluidPage(
       
       uiOutput("text"),
       
-      
-      # HTML("This app will help you create your first config.js file for a jsPsychMaker jsPsych protocol. Please, see the <a href = 'https://gorkang.github.io/jsPsychR-manual/'>jsPsychR-manual</a> for more details. <BR><BR>"),
-      # HTML("After selecting the parameters for the experiment, click 'Create config'. <BR><BR>A 'config.js' file will be downloaded to your Downloads folder. Copy the file to your protocol folder."),
-      # selectInput(inputId = "controller", label = "Show", choices = c("Tasks", "Other parameters", "Intro experiment")),
-      
+      shiny::hr(),
+      fileInput("config_file", "Select a config.js file"),
+
       shiny::hr(),
       downloadButton(outputId = "download_button", label = "Create config"),
       downloadButton(outputId = "download_consent", label = "Create consent")
@@ -182,7 +218,6 @@ ui <- fluidPage(
 
 
   # Main panel -------------------------------------------------------------
-
     mainPanel(
       tabsetPanel(
         id = "switcher",
@@ -196,6 +231,10 @@ ui <- fluidPage(
           
           mainPanel(
             
+            # shiny::tableOutput()
+            # shiny::dataTableOutput("SHOWHEADCONFIG"),
+            
+            
             shiny::h3("Main parameters"),
             shiny::hr(),
             
@@ -204,13 +243,17 @@ ui <- fluidPage(
             # shiny::br(),
             
             helpText("Protocol ID for your protocol. If an online protocol, ask the server administrator"),
-            numericInput(inputId = get_params("pid", "variable"), label = get_params("pid", "variable"), value = get_params("pid", "value"), width = "100"),
-            
+            # numericInput(inputId = get_params("pid", "variable"), label = get_params("pid", "variable"), value = get_params("pid", "value"), width = "100"),
+            uiOutput("pid"),
+
             helpText("Max number of participants per condition"),
-            numericInput(inputId = get_params("max_participants", "variable"), label = get_params("max_participants", "variable"), value = get_params("max_participants", "value"), width = "100"),
+            # numericInput(inputId = get_params("max_participants", "variable"), label = get_params("max_participants", "variable"), value = get_params("max_participants", "value"), width = "100"),
+            uiOutput("max_participants"),
             
             helpText("Time in hours participants will have to complete the protocol after accepting the Consent form"),
-            numericInput(inputId = get_params("max_time", "variable"), label = get_params("max_time", "variable"), value = get_params("max_time", "value"), width = "100"),
+            # numericInput(inputId = get_params("max_time", "variable"), label = get_params("max_time", "variable"), value = get_params("max_time", "value"), width = "100"),
+            uiOutput("max_time"),
+            
             
             shiny::hr(),
             # shiny::h4("Logical parameters"),
@@ -218,16 +261,21 @@ ui <- fluidPage(
             # shiny::br(),
             
             helpText("The protocol will run online or offline"),
-            switchInput(inputId = get_params("online", "variable"), label = get_params("online", "variable"), value = get_params("online", "value"), width = "100"),
+            # switchInput(inputId = get_params("online", "variable"), label = get_params("online", "variable"), value = get_params("online", "value"), width = "100"),
+            uiOutput("online"),
+            
             
             helpText("Should participants be able to continue the protocol after they run out of time?"),
-            switchInput(inputId = get_params("accept_discarded", "variable"), label = get_params("accept_discarded", "variable"), value = get_params("accept_discarded", "value"), width = "100"),
+            # switchInput(inputId = get_params("accept_discarded", "variable"), label = get_params("accept_discarded", "variable"), value = get_params("accept_discarded", "value"), width = "100"),
+            uiOutput("accept_discarded"),
             
             helpText("Assign random id to participants of ask for one"),
-            switchInput(inputId = get_params("random_id", "variable"), label = get_params("random_id", "variable"), value = get_params("random_id", "value"), width = "100"),
+            # switchInput(inputId = get_params("random_id", "variable"), label = get_params("random_id", "variable"), value = get_params("random_id", "value"), width = "100"),
+            uiOutput("random_id"),
             
             helpText("If testing the protocol, it is recommended to use debug_mode"),
-            switchInput(inputId = get_params("debug_mode", "variable"), label = get_params("debug_mode", "variable"), value = get_params("debug_mode", "value"), width = "100")
+            # switchInput(inputId = get_params("debug_mode", "variable"), label = get_params("debug_mode", "variable"), value = get_params("debug_mode", "value"), width = "100")
+            uiOutput("debug_mode"),
             
           )
         }),
@@ -245,8 +293,14 @@ ui <- fluidPage(
             shiny::br(),
             
             fluidRow(
-              column(width = 5, selectInput("num_random", "# random blocks", choices = seq(0, 5, 1), selected = 1, width = "150")),
-              column(width = 5, selectInput("num_sequential", "# sequential blocks", choices = seq(0, 5, 1), selected = 0, width = "150"))
+              column(width = 5, 
+                     # selectInput("num_random", "# random blocks", choices = seq(0, 5, 1), selected = 1, width = "150")
+                     uiOutput("num_random")
+                     ),
+              column(width = 5, 
+                     # selectInput("num_sequential", "# sequential blocks", choices = seq(0, 5, 1), selected = 0, width = "150")
+                     uiOutput("num_sequential")
+                     )
             ),
             
             shiny::hr(),
@@ -260,9 +314,10 @@ ui <- fluidPage(
                            choices = available_tasks, 
                            multiple = TRUE, width = "100%",
                            options = list(plugins = list("drag_drop", "remove_button"))),
-            # selectInput(inputId = get_params("first_tasks", "variable"), label = get_params("first_tasks", "variable"), selected = get_params("first_tasks", "value"),  choices = available_tasks, multiple = TRUE, selectize = TRUE, width = "100%"),
+            
             uiOutput("dynamic_sequencial_blocks"),
             uiOutput("dynamic_random_blocks"),
+            
             selectizeInput(inputId = get_params("last_tasks", "variable"), 
                            label = get_params("last_tasks", "variable"), 
                            selected = get_params("last_tasks", "value"),  
@@ -275,7 +330,7 @@ ui <- fluidPage(
             shiny::helpText("Select the order in which the blocks will be presented."),
             shiny::br(),
             
-            uiOutput("dynamic_tasks_input"),
+            uiOutput("dynamic_tasks"),
           )
         }),
         
@@ -296,17 +351,23 @@ ui <- fluidPage(
             shiny::helpText("Text to show in the initial screen (intro_HTML) and in the screen after the user ID is assigned (outro_HTML)"),
             shiny::br(),
             
-            textInput(inputId = get_params("var_researcher_email", "variable"), label = get_params("var_researcher_email", "variable"), value = get_params("var_researcher_email", "value"), placeholder = "youremail@email.com"),
+            # textInput(inputId = get_params("var_researcher_email", "variable"), label = get_params("var_researcher_email", "variable"), value = get_params("var_researcher_email", "value"), placeholder = "youremail@email.com"),
+            # textAreaInput(inputId = get_params("intro_HTML", "variable"), label = get_params("intro_HTML", "variable"), value = get_params("intro_HTML", "value"), width = "100%", rows = 5),
+            # textAreaInput(inputId = get_params("outro_HTML", "variable"), label = get_params("outro_HTML", "variable"), value = get_params("outro_HTML", "value"), width = "100%", rows = 5),
+
+            uiOutput("var_researcher_email"),
+            uiOutput("intro_HTML"),
+            uiOutput("outro_HTML"),
             
-            textAreaInput(inputId = get_params("intro_HTML", "variable"), label = get_params("intro_HTML", "variable"), value = get_params("intro_HTML", "value"), width = "100%", rows = 5),
-            textAreaInput(inputId = get_params("outro_HTML", "variable"), label = get_params("outro_HTML", "variable"), value = get_params("outro_HTML", "value"), width = "100%", rows = 5),
-            
+                        
             shiny::hr(),
             shiny::h4("Messages"),
             shiny::helpText("Text of messages shown in protocol"),
             shiny::br(),
             
-            textInput(inputId = get_params("message_str", "variable"), label = get_params("message_str", "variable"), value = get_params("message_str", "value"), width = "100%"),
+            # textInput(inputId = get_params("message_str", "variable"), label = get_params("message_str", "variable"), value = get_params("message_str", "value"), width = "100%"),
+            uiOutput("message_str"),
+            
             shiny::helpText("Text shown while loading experiment materials.")
             
           )
@@ -381,84 +442,303 @@ ui <- fluidPage(
 
 server <- function(input, output, session) {
 
-      
-  # Change tab --------------------------------------------------------------
-  # UI: selectInput(inputId = "controller", label = "Show", choices = c("jsPsychMakeR", "jsPsychMonkeys", "jsPsychHelpeR")),
   
-  # observeEvent(input$controller, {
-  #   updateTabsetPanel(inputId = "switcher", selected = input$controller)
-  #   })
+  # Dynamic input fields ----------------------------------------------------
 
+    # Function to create the inputs
+    create_dynamic_input <- function(name_input = NULL, DF_config, input_type = "") {
+
+      if (input_type == "numeric") {
+        renderUI(numericInput(inputId = get_params(name_input, "variable", DF_config), label = get_params(name_input, "variable", DF_config), value = get_params(name_input, "value", DF_config), width = "100"))    
+      } else if (input_type == "text") {
+        renderUI(textInput(inputId = get_params(name_input, "variable", DF_config), label = get_params(name_input, "variable", DF_config), value = get_params(name_input, "value", DF_config), width = "100%"))
+      } else if (input_type == "textarea") {
+        renderUI(textAreaInput(inputId = get_params(name_input, "variable", DF_config), label = get_params(name_input, "variable", DF_config), value = get_params(name_input, "value", DF_config), width = "100%", rows = 5))
+      } else if (input_type == "logical") {
+        renderUI(switchInput(inputId = get_params(name_input, "variable", DF_config), label = get_params(name_input, "variable", DF_config), value = get_params(name_input, "value", DF_config), width = "auto", handleWidth = 75, labelWidth = 100))
+
+                
+      } else if (name_input == "num_sequential") {
+        
+        max_choices = 5
+        num_choices = DF_config |> filter(grepl("secuentially", variable)) |> filter(length(unlist(value)) > 0) |> nrow()
+        # print(paste0("num_choices (seq):", num_choices))
+        if (num_choices > 5) max_choices = num_choices
+        renderUI(selectInput(name_input, "# sequential blocks", choices = seq(0, max_choices, 1), selected = num_choices, width = "150"))
+        
+      } else if (name_input == "num_random") {
+        
+        max_choices = 5
+        num_choices = DF_config |> filter(grepl("randomly", variable)) |> filter(length(unlist(value)) > 0) |> nrow()
+        # print(paste0("num_choices (rand):", num_choices))
+        if (num_choices > 5) max_choices = num_choices
+        renderUI(selectInput(name_input, "# random blocks", choices = seq(0, max_choices, 1), selected = num_choices, width = "150"))
+        
+        
+      } else if (name_input == "secuentially_ordered_tasks") {
+      
+        renderUI({
+          
+          # print(paste0("input$num_sequential:", input$num_sequential))
+          
+          num_sequential <- as.integer(input$num_sequential)
+          if (length(num_sequential) == 0) num_sequential = 0
+          
+          if (num_sequential > 0) {
+            
+            lapply(1:num_sequential, function(i) {
+              
+              # print(get_params(paste0(name_input, "_", i), "variable", DF_config))
+              # print(get_params(paste0(name_input, "_", i), "value", DF_config))
+              
+              # If we are reading a config file, add any tasks in the file that we do not have in Github
+              available_tasks = unique(c(available_tasks, get_params(paste0(name_input, "_", i), "value", DF_config)))
+              
+              num_sequential_params = length(get_params(paste0(name_input, "_", i), "variable", DF_config))
+              
+              if (input$num_sequential > num_sequential_params) {
+                variable_name = paste0("secuentially_ordered_tasks_", i)
+              } else {
+                variable_name = get_params(paste0(name_input, "_", i), "variable", DF_config)
+              }
+              
+              selectizeInput(inputId = variable_name,
+                             label = variable_name,
+                             choices = available_tasks,
+                             multiple = TRUE, width = "100%",
+                             selected = get_params(paste0(name_input, "_", i), "value", DF_config),
+                             options = list(plugins = list("drag_drop", "remove_button"))
+              )
+            })
+          }
+        })
+        
+        
+      } else if (name_input == "randomly_ordered_tasks") {
+        
+        renderUI({
+          
+          # print(paste0("input$num_random:", input$num_random))
+          
+          num_random <- as.integer(input$num_random)
+          if (length(num_random) == 0) num_random = 0
+          
+          if (num_random > 0) {
+            
+            lapply(1:num_random, function(i) {
+              
+              # print(get_params(paste0(name_input, "_", i), "variable", DF_config))
+              # print(get_params(paste0(name_input, "_", i), "value", DF_config))
+              
+              # If we are reading a config file, add any tasks in the file that we do not have in Github
+              available_tasks = unique(c(available_tasks, get_params(paste0(name_input, "_", i), "value", DF_config)))
+              
+              num_random_params = length(get_params(paste0(name_input, "_", i), "variable", DF_config))
+              
+              # print("--------------------------------------")
+              # print(paste0("input$num_random: ", input$num_random))
+              # print(paste0("num_random_params: ", num_random_params))
+              # print(paste0("get_params: ", get_params(paste0(name_input, "_", i), "variable", DF_config)))
+              # print("--------------------------------------")
+              
+              if (input$num_random > num_random_params) {
+                variable_name = paste0("randomly_ordered_tasks_", i)
+              } else {
+                variable_name = get_params(paste0(name_input, "_", i), "variable", DF_config)
+              }
+              
+              
+              
+              selectizeInput(inputId = variable_name,
+                             label = variable_name,
+                             choices = available_tasks,
+                             multiple = TRUE, width = "100%",
+                             selected = get_params(paste0(name_input, "_", i), "value", DF_config),
+                             options = list(plugins = list("drag_drop", "remove_button"))
+              )
+            })
+          }
+        })
+        
+        
+      } else if (name_input == "tasks") {
+        renderUI({
+          
+          # All randomly_ordered_tasks_ and secuentially_ordered_tasks_ inputs created dinamically
+          INPUTS_random = ifelse(input$num_random > 0, list(paste0("randomly_ordered_tasks_", 1:input$num_random)), "")
+          INPUTS_sequential = ifelse(input$num_sequential > 0, list(paste0("secuentially_ordered_tasks_", 1:input$num_sequential)), "")
+          
+          # print("--------------------------------------")
+          # print(paste0("TASKS_UI: ", paste(c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"), collapse = ", ")))
+          # print(paste0("TASKS_params: ", paste(get_params(name_input, "value", DF_config), collapse = ",")))
+          # print("--------------------------------------")
+          
+          # Order of task blocks should be read from config initially
+          # tasks_UI = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks")
+          # tasks_params = get_params(name_input, "value", DF_config)
+          
+          
+          selectizeInput(inputId = 'tasks',
+                         label = 'Order of task blocks',
+                         choices = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"),
+                         multiple = TRUE,
+                         # selectize = TRUE,
+                         width = "100%",
+                         selected = get_params("tasks", "value", DF_config), # If we use this, the selection does not change automatically when adding more random or sequential blocks
+                         # selected = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"), # If we use this, it does not respect the tasks parameters in the config, just adds everything
+                         options = list(plugins = list("drag_drop", "remove_button"))
+          )
+        })
+        
+      }
+    }
+    
+    # selectInput("num_sequential", "# sequential blocks", choices = seq(0, 5, 1), selected = 0, width = "150")
+    
+    # Initial state of FORMS (Github config.js) ---
+      # Using DF_config loaded from Github file
+    
+      # MAIN parameters ---
+      output$pid = create_dynamic_input("pid", DF_config, "numeric")
+      output$max_participants = create_dynamic_input("max_participants", DF_config, "numeric")
+      output$max_time = create_dynamic_input("max_time", DF_config, "numeric")
+      output$online = create_dynamic_input("online", DF_config, "logical")
+      output$accept_discarded = create_dynamic_input("accept_discarded", DF_config, "logical")
+      output$random_id = create_dynamic_input("random_id", DF_config, "logical")
+      output$debug_mode = create_dynamic_input("debug_mode", DF_config, "logical")
+      
+      # TEXT parameters ---
+      output$var_researcher_email = create_dynamic_input("var_researcher_email", DF_config, "text")
+      output$intro_HTML = create_dynamic_input("intro_HTML", DF_config, "textarea")
+      output$outro_HTML = create_dynamic_input("outro_HTML", DF_config, "textarea")
+      output$message_str = create_dynamic_input("message_str", DF_config, "text")
+      
+      # TASKS parameters --- 
+      output$num_sequential = create_dynamic_input("num_sequential", DF_config)
+      output$num_random = create_dynamic_input("num_random", DF_config)
+      
+      output$dynamic_sequencial_blocks = create_dynamic_input("secuentially_ordered_tasks", DF_config)
+      output$dynamic_random_blocks = create_dynamic_input("randomly_ordered_tasks", DF_config)
+      
+      output$dynamic_tasks <- create_dynamic_input("tasks", DF_config)
+        
+      
+    # IF a config file is loaded, CHANGE ALL VALUES ---
+      observeEvent(input$config_file,{
+
+        # READS config file selected to get a new DF_config        
+        print(input$config_file$datapath)
+        CONFIG_file = readLines(input$config_file$datapath)
+        DF_config = read_CONFIG(CONFIG_file)
+      
+        # *****These are an exact copy of the ones above******
+        # MAIN parameters ---
+        output$pid = create_dynamic_input("pid", DF_config, "numeric")
+        output$max_participants = create_dynamic_input("max_participants", DF_config, "numeric")
+        output$max_time = create_dynamic_input("max_time", DF_config, "numeric")
+        output$online = create_dynamic_input("online", DF_config, "logical")
+        output$accept_discarded = create_dynamic_input("accept_discarded", DF_config, "logical")
+        output$random_id = create_dynamic_input("random_id", DF_config, "logical")
+        output$debug_mode = create_dynamic_input("debug_mode", DF_config, "logical")
+        
+        # TEXT parameters ---
+        output$var_researcher_email = create_dynamic_input("var_researcher_email", DF_config, "text")
+        output$intro_HTML = create_dynamic_input("intro_HTML", DF_config, "textarea")
+        output$outro_HTML = create_dynamic_input("outro_HTML", DF_config, "textarea")
+        output$message_str = create_dynamic_input("message_str", DF_config, "text")
+        
+        # TASKS parameters --- 
+        output$num_sequential = create_dynamic_input("num_sequential", DF_config)
+        output$num_random = create_dynamic_input("num_random", DF_config)
+        
+        output$dynamic_sequencial_blocks = create_dynamic_input("secuentially_ordered_tasks", DF_config)
+        output$dynamic_random_blocks = create_dynamic_input("randomly_ordered_tasks", DF_config)
+        
+        output$dynamic_tasks <- create_dynamic_input("tasks", DF_config)
+        
+        # *****************************************************
+      })
+      
+
+  
+  # Change tab --------------------------------------------------------------
 
   # Sequential blocks -----------------------------------------------------------
 
-    output$dynamic_sequencial_blocks <- renderUI({
-      
-      num_sequential <- as.integer(input$num_sequential)
-
-      if (num_sequential > 0) {
-
-        lapply(1:num_sequential, function(i) {
-
-          selectizeInput(inputId = paste0("secuentially_ordered_tasks_", i),#'secuentially_ordered_tasks_1',
-                      label = paste0("secuentially_ordered_tasks_", i),
-                      choices = available_tasks,
-                      multiple = TRUE,
-                      # selectize = TRUE,
-                      width = "100%",
-                      selected = get_params(paste0("secuentially_ordered_tasks_", i), "value"),
-                      options = list(plugins = list("drag_drop", "remove_button"))
-                      )
-        })
-      }
-    })
+    # output$dynamic_sequencial_blocks <- renderUI({
+    #   
+    #   print(paste0("input$num_sequential:", input$num_sequential))
+    #   
+    #   num_sequential <- as.integer(input$num_sequential)
+    #   if (length(num_sequential) == 0) num_sequential = 0
+    #   
+    #   if (num_sequential > 0) {
+    # 
+    #     lapply(1:num_sequential, function(i) {
+    # 
+    #       selectizeInput(inputId = paste0("secuentially_ordered_tasks_", i),
+    #                   label = paste0("secuentially_ordered_tasks_", i),
+    #                   choices = available_tasks,
+    #                   multiple = TRUE,
+    #                   # selectize = TRUE,
+    #                   width = "100%",
+    #                   selected = get_params(paste0("secuentially_ordered_tasks_", i), "value", DF_config),
+    #                   options = list(plugins = list("drag_drop", "remove_button"))
+    #                   )
+    #     })
+    #   }
+    # })
     
   # Random blocks -----------------------------------------------------------
     
-    output$dynamic_random_blocks <- renderUI({
-      
-      num_random <- as.integer(input$num_random)
-
-      if (num_random > 0) {
-
-        lapply(1:num_random, function(i) {
-          
-          selectizeInput(inputId = paste0("randomly_ordered_tasks_", i), #'randomly_ordered_tasks_1',
-                      label = paste0("randomly_ordered_tasks_", i),
-                      choices = available_tasks,
-                      multiple = TRUE,
-                      # selectize = TRUE,
-                      width = "100%",
-                      selected = get_params(paste0("randomly_ordered_tasks_", i), "value"),
-                      options = list(plugins = list("drag_drop", "remove_button"))
-                      )
-        })
-
-      }
-    })
+    # output$dynamic_random_blocks <- renderUI({
+    #   
+    #   print(paste0("input$num_random:", input$num_random))
+    #   
+    #   num_random <- as.integer(input$num_random)
+    #   if (length(num_random) == 0) num_random = 0
+    #   
+    # 
+    #   if (num_random > 0) {
+    # 
+    #     lapply(1:num_random, function(i) {
+    #       
+    #       selectizeInput(inputId = paste0("randomly_ordered_tasks_", i),
+    #                   label = paste0("randomly_ordered_tasks_", i),
+    #                   choices = available_tasks,
+    #                   multiple = TRUE,
+    #                   # selectize = TRUE,
+    #                   width = "100%",
+    #                   selected = get_params(paste0("randomly_ordered_tasks_", i), "value", DF_config),
+    #                   options = list(plugins = list("drag_drop", "remove_button"))
+    #                   )
+    #     })
+    # 
+    #   }
+    # })
 
 
   # Tasks -------------------------------------------------------------------
 
-  output$dynamic_tasks_input <- renderUI({
-
-    # num_random <- as.integer(input$num_random)
-
-    # All randomly_ordered_tasks_ and secuentially_ordered_tasks_ inputs created dinamically
-    INPUTS_random = ifelse(input$num_random > 0, list(paste0("randomly_ordered_tasks_", 1:input$num_random)), "")
-    INPUTS_sequential = ifelse(input$num_sequential > 0, list(paste0("secuentially_ordered_tasks_", 1:input$num_sequential)), "")
-
-    selectizeInput(inputId = 'tasks',
-                label = 'Order of task blocks',
-                choices = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"),
-                multiple = TRUE,
-                # selectize = TRUE,
-                width = "100%",
-                # selected = get_params("tasks", "value") # If we use this, the selection does not change automatically when adding more random or sequential blocks
-                selected = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"),
-                options = list(plugins = list("drag_drop", "remove_button"))
-                )
-  })
+  # output$dynamic_tasks <- renderUI({
+  # 
+  #   # num_random <- as.integer(input$num_random)
+  # 
+  #   # All randomly_ordered_tasks_ and secuentially_ordered_tasks_ inputs created dinamically
+  #   INPUTS_random = ifelse(input$num_random > 0, list(paste0("randomly_ordered_tasks_", 1:input$num_random)), "")
+  #   INPUTS_sequential = ifelse(input$num_sequential > 0, list(paste0("secuentially_ordered_tasks_", 1:input$num_sequential)), "")
+  # 
+  #   selectizeInput(inputId = 'tasks',
+  #               label = 'Order of task blocks',
+  #               choices = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"),
+  #               multiple = TRUE,
+  #               # selectize = TRUE,
+  #               width = "100%",
+  #               # selected = get_params("tasks", "value") # If we use this, the selection does not change automatically when adding more random or sequential blocks
+  #               selected = c("first_tasks", unlist(INPUTS_random), unlist(INPUTS_sequential), "last_tasks"),
+  #               options = list(plugins = list("drag_drop", "remove_button"))
+  #               )
+  # })
 
 
 # TODO: These two are redundant, as OUTPUT contains OUTPUT$CONFIG_file and OUTPUT$CONSENT_file
@@ -469,15 +749,18 @@ server <- function(input, output, session) {
 
       # Get all inputs from shiny app
       list_of_inputs <- reactiveValuesToList(input)
-      # print(list_of_inputs)
+      print(list_of_inputs)
 
       # Go trough all list_of_inputs and change one by one in OUTPUT_config
       OUTPUT_config =
         1:length(list_of_inputs) %>%
         purrr::map(~{
+          
+          # print(paste0(.x, ": ",  list_of_inputs[.x]))
           cli::cli_alert_info("{names(list_of_inputs[.x])}: {list_of_inputs[.x]}")
           # .x = 1
           replace_TAG(list_of_inputs[.x])
+          
         })
       
       # Get last element of OUTPUT_config, where all changes have been made
