@@ -30,7 +30,7 @@ last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
 // Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
 randomly_ordered_tasks_1 = ['SHORNAMETASKslider', 'SHORNAMETASKmultichoice']; // Block of tasks in random order
-secuentially_ordered_tasks_1 = ['IDQ', 'REI40']; // Block of tasks in sequential order
+secuentially_ordered_tasks_1 = []; // Block of tasks in sequential order
 
 // FINAL ARRAY of tasks [build combining the above blocks]
   // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];

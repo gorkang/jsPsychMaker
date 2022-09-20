@@ -29,8 +29,8 @@
   devtools::install()
 
   # CHECKS
-  devtools::test() # Run all tests (~30s)
-  devtools::check() # Check package (~30s)
+  devtools::test() # Run all tests (~35s)
+  devtools::check() # Check package (~70s)
   
   devtools::test_coverage()
   # Not necesary because we have a use_github_action???
