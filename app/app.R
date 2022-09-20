@@ -5,6 +5,8 @@
 
 # TODO --------------------------------------------------------------------
 
+# - USE shinyTime::shinyTimeExample() for max_time
+
 # - var_researcher_email appears twice. In consent AND config. The config one is overwritten by the consent one!!!
 
 # - Use HTML editor for intro/outro:
@@ -44,7 +46,7 @@
   # Use config.js to fill out input parameters
   CONFIG_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol_clean/config.js")
   # CONFIG_file = readLines(here::here("canonical_protocol_clean/config.js"))
-  # CONFIG_file = readLines(here::here("~/Downloads/config.js"))
+  # CONFIG_file = readLines(here::here("~/Downloads/new_protocol/config.js"))
   
   # Consent JS file
   CONSENT_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol/media/consent/consent-placeholder.js")
@@ -56,23 +58,29 @@
 
 # Function to extract individual strings from js vectors. ['DEMOGR', 'AIM'] -> "DEMOGR" "AIM"   
   # If the strings are in multiple lines, can´t get them
-separate_vector <- function(value) list(lapply(regmatches(value, gregexpr('(\').*?(\')|(").*?(")', value, perl = TRUE)), function(y) gsub("^\'|\'$|^\"|\"$", "", y)))
-
-  
+separate_vector <- function(value) lapply(regmatches(value, gregexpr('(\').*?(\')|(").*?(")', value, perl = TRUE)), function(y) gsub("^\'|\'$|^\"|\"$", "", y))
+    
 # DF with all parameters in config.js
 
 # Read a config file  
 read_CONFIG <- function(CONFIG_file) {
 
-  DF =
+  DF_temp =
     stringi::stri_extract_all(str = CONFIG_file, regex = "(.*) = (.*)") %>% 
     gsub("(.*);.*", "\\1", .) %>% # Delete things after ";"
     as_tibble() %>% 
     drop_na(value) %>% 
-    separate(value, into = c("variable", "value"), sep = " = ", extra = "merge") %>% 
+    separate(value, into = c("variable", "value"), sep = " = ", extra = "merge")
+  
+  DF = DF_temp %>% 
     rowwise() %>% 
     mutate(
-      value = gsub("^'|^`|'$|`$", "", value),
+      # Get rid of initial ' when not tasks (separate_vector() does not like things like 'Consent')
+      value = 
+        case_when(
+          !grepl("first_tasks|last_tasks|secuentially_ordered_tasks|randomly_ordered_tasks", variable) ~ gsub("^'|^`|'$|`$", "", value),
+          TRUE ~ value
+        ),
       value = 
              case_when(
                value == "true" ~ list(TRUE),
@@ -86,7 +94,10 @@ read_CONFIG <- function(CONFIG_file) {
                
                TRUE ~ list(value)
              )
-      )
+      ) |> 
+    # Avoid comments
+    filter(!grepl("//", variable))
+  
   return(DF)
 }
 
@@ -431,14 +442,22 @@ server <- function(input, output, session) {
         renderUI({
           
           # If we read a config.js file, the only available tasks are those present in the config.js file
-          if (!is.null(input$config_file) & !is.null(input$num_random) & !is.null(input$num_sequential)) {
+          # if (!is.null(input$config_file) & !is.null(input$num_random) & !is.null(input$num_sequential)) {
+            if (!is.null(input$config_file)) available_tasks = NULL
             
-            available_tasks = unique(c(#available_tasks,
-                                       get_params(paste0("randomly_ordered_tasks", "_", 1:input$num_random), "value", DF_config),
-                                       get_params(paste0("secuentially_ordered_tasks", "_", 1:input$num_sequential), "value", DF_config),
+            print(paste0("first_tasks: ", get_params("first_tasks", "value", DF_config)))
+            
+            
+            # If not available yet, value is 5
+            num_random = ifelse(is.null(input$num_random), 5, input$num_random)
+            num_sequential = ifelse(is.null(input$num_sequential), 5, input$num_sequential)
+            
+            available_tasks = unique(c(available_tasks,
+                                       get_params(paste0("randomly_ordered_tasks", "_", 1:num_random), "value", DF_config),
+                                       get_params(paste0("secuentially_ordered_tasks", "_", 1:num_sequential), "value", DF_config),
                                        get_params("first_tasks", "value", DF_config),
                                        get_params("last_tasks", "value", DF_config)))
-          }
+          # }
           
           selectizeInput(inputId = get_params(name_input, "variable"),
                          label = get_params(name_input, "variable"),
@@ -695,8 +714,6 @@ server <- function(input, output, session) {
       )
 
     })
-    
-    
 
 }
 
