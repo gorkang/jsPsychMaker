@@ -70,9 +70,10 @@ create_protocol <- function(folder_tasks = NULL,
     dir.create(folder_output, recursive = TRUE)
   }
   
-  # copy_canonical_clean(destination_folder = folder_output)
+  # copy_canonical_clean protocol
   list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip",
              action = "unzip", destination_folder = folder_output)
+  # Clean unneeded files
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
   
