@@ -13,8 +13,6 @@ if (debug_mode === true) console.warn("helper_functions()");
 
 // ----------------------------------------------------------------------------
 
-
-
 // Parameters - Do not change ----------------------------------
 
 let params = new URLSearchParams(location.search);
@@ -41,14 +39,11 @@ Object.entries(all_conditions).forEach(([task_name, condition_dict]) => {
 // obtaining final array
 all_tasks = flatten(tasks);
 
-
 // Create tasks Array for DB
 var tasks = [];
 for(var i= 0; i < all_tasks.length; i++) {
   tasks.push({ id_protocol: pid, task_name: all_tasks[i]});
 }
-
-
 
 // css_loading.js -------------------------------------------------------------
 
@@ -87,7 +82,11 @@ window.onload = function() {
   document.getElementsByTagName('head')[0].appendChild(link);
 }*/
 
-
+function pad(num, size) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
+}
 
 // config_controller.js -------------------------------------------------------------
 
@@ -115,8 +114,6 @@ function flatten(arr) {
   }
   return final_arr;
 }
-
-
 
 // save_data.js -------------------------------------------------------------
 
@@ -158,8 +155,6 @@ function saveData(data, online, name, version = 'original') {
   }
 }
 
-
-
 // script_loading.js -------------------------------------------------------------
 
 // Load all experiments in a folder included in an array
@@ -192,7 +187,6 @@ function script_loading(folder, array, completed_experiments = [], new_element =
 	}
 }
 
-
 // protocol_controller.js -------------------------------------------------------------
 
 function date_to_mil(date) {
@@ -224,8 +218,6 @@ function check_fullscreen(task_name) {
   });
 }
 
-
-
 function call_function(task_name) {
 
   questions.push({
@@ -240,9 +232,7 @@ function call_function(task_name) {
         saveData(data, online, task_name);
       }
   });
-
 }
-
 
 // En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
 function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
@@ -274,7 +264,7 @@ function continue_page_activation(completed_experiments, questions, completed = 
   } else if (discarded && !accept_discarded) {
     text_input_uid.innerHTML = "Este participante fue descartado del protocolo por superar el tiempo asignado.";
   } else { // New participant
-    text_input_uid.innerHTML = (intro_HTML).concat("<br><br>Presiona el siguiente botón para comenzar.");
+    text_input_uid.innerHTML = (outro_HTML).concat("<br><br>Presiona el siguiente botón para comenzar.");
     start.hidden = false;
     start.removeAttribute("style");
   }
@@ -312,7 +302,6 @@ function obtain_experiments(questions, completed_experiments){
   return questions;
 }
 
-
 // funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
 function start_protocol(questions){
 
@@ -331,7 +320,6 @@ function start_protocol(questions){
   };
   //questions.unshift({type: 'preload', images: images, audios: audios, video: video});
   questions.unshift(preload);
-
 
   // REVIEW: This is called when the experiment ends (?)
   // Store data in database (csv) ----------------------------------
@@ -384,27 +372,24 @@ function start_protocol(questions){
 
 }
 
-
 // flattenObject -------------------------------------------------------------
 
 function flattenObject(ob) {
-    var toReturn = {};
+  var toReturn = {};
 
-    for (var i in ob) {
-        if (!ob.hasOwnProperty(i)) continue;
+  for (var i in ob) {
+    if (!ob.hasOwnProperty(i)) continue;
 
-        if ((typeof ob[i]) == 'object' && ob[i] !== null) {
-            var flatObject = flattenObject(ob[i]);
-            for (var x in flatObject) {
-                if (!flatObject.hasOwnProperty(x)) continue;
-
-                toReturn[i + '.' + x] = flatObject[x];
-            }
-        } else {
-            toReturn[i] = ob[i];
-        }
+    if ((typeof ob[i]) == 'object' && ob[i] !== null) {
+      var flatObject = flattenObject(ob[i]);
+      for (var x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) continue;
+        toReturn[i + '.' + x] = flatObject[x];
+      }
+    } else {
+      toReturn[i] = ob[i];
     }
-
-    return toReturn;
+  }
+  return toReturn;
     //JSON.stringify(flattenObject());
 }
