@@ -105,7 +105,7 @@ create_protocol <- function(folder_tasks = NULL,
   
       
     # Loop through folders with input_CSV_XLS_files ---
-    1:length(TASKS) |> 
+    seq_len(length(TASKS)) |> 
       purrr::walk(~{
         # .x = 1
         if (show_messages == TRUE) cli::cli_h1("create_task: {TASKS[.x]}")
