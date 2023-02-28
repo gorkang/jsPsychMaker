@@ -14,25 +14,37 @@ testthat::test_that('create_protocol_ERRORS', {
   1:length(FOLDERS) |> 
   purrr::walk(~{
     # DEBUG
+    # .x = 1
     # cli::cli_alert_info(paste0(.x, ": ", FOLDERS[.x]))
-    # .x = 4
+    
     folder_task = paste0(destination_folder, "/tasks_errors/", FOLDERS[.x], "/")
     output_folder = paste0("~/Downloads/TEST_testthat/", FOLDERS[.x], "/")
     ERROR = readLines(paste0(folder_task, "/ERROR_expected"))
     
+    # If there is no error, gives an error
     testthat::expect_error(
       regexp = ERROR,
       create_protocol_quiet(folder_tasks = folder_task,
                             folder_output = output_folder)
-      
-      
     )
     unlink(output_folder, recursive = TRUE)
   })
   
   
+  # Not a number
+  output_folder = paste0("~/Downloads/TEST_testthat/folder_without_number/")
+  testthat::expect_error(
+    regexp = "number. We need a number to extract the pid",
+    create_protocol_quiet(canonical_tasks = "AIM",
+                          folder_output = output_folder,
+                          show_messages = FALSE)
+  )
+  unlink(output_folder, recursive = TRUE)
+  
+  
+  
   # NON Existing canonical_task
-  output_folder = paste0("~/Downloads/TEST_testthat/NON-EXISTENT/")
+  output_folder = paste0("~/Downloads/TEST_testthat/NON-EXISTENT-999/")
   testthat::expect_error(
     regexp = "Task/s not found: `NON-EXISTENT`",
     create_protocol_quiet(canonical_tasks = "NON-EXISTENT",
@@ -43,7 +55,7 @@ testthat::test_that('create_protocol_ERRORS', {
   
   
   # NON Existing canonical_task
-  output_folder = paste0("~/Downloads/TEST_testthat/wrong_block/")
+  output_folder = paste0("~/Downloads/TEST_testthat/wrong_block-999/")
   testthat::expect_error(
     regexp = "`block_tasks` needs to be one of the following",
     create_protocol_quiet(canonical_tasks = "AIM",

@@ -7,7 +7,7 @@
 create_protocol(
   folder_tasks = NULL,
   canonical_tasks = NULL,
-  folder_output = "~/Downloads/new_protocol",
+  folder_output = "~/Downloads/new_protocol_999",
   force_download_media = FALSE,
   launch_browser = FALSE,
   piloting_task = NULL,

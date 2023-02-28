@@ -432,12 +432,10 @@ check_NEW_tasks_Github <- function() {
 #' 
 #' Get list of files in the .data/ folder for a project
 #'
-#' @param pid 
+#' @param pid protocol id
 #'
 #' @return
 #' @export
-#'
-#' @examples
 check_progress_pid <- function(pid = 3) {
   
   # remotes::install_github("skgrange/threadr")

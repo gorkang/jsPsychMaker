@@ -21,7 +21,7 @@
 #' @examples
 create_protocol <- function(folder_tasks = NULL, 
                             canonical_tasks = NULL,
-                            folder_output = "~/Downloads/new_protocol", 
+                            folder_output = "~/Downloads/new_protocol_999", 
                             force_download_media = FALSE,
                             launch_browser = FALSE, 
                             piloting_task = NULL,
@@ -45,6 +45,11 @@ create_protocol <- function(folder_tasks = NULL,
   # force_download_media = FALSE
   # show_messages = TRUE
   
+  
+
+  # CHECK -------------------------------------------------------------------
+  
+  if (!grepl("[0-9]", folder_output)) cli::cli_abort("folder_output: {.code {folder_output}} does not contain a number. We need a number to extract the pid.")
   
 
   # Copy canonical_protocol_clean -------------------------------------------
@@ -88,6 +93,7 @@ create_protocol <- function(folder_tasks = NULL,
     
     # Temp var to see if we have CSV_XLS_files
     input_CSV_XLS_files = list.files(folder_tasks, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
+    # if (length(input_CSV_XLS_files) != 1) cli::cli_abort(c("We need 1 CSV/XLS file but you have {length(input_CSV_XLS_files)}"))
     
     TASKS = basename(dirname(input_CSV_XLS_files))
   
@@ -105,7 +111,8 @@ create_protocol <- function(folder_tasks = NULL,
   
       
     # Loop through folders with input_CSV_XLS_files ---
-    seq_len(length(TASKS)) |> 
+    # seq_len(length(TASKS)) |> # With this, when length == 0 it does not enter the loop. Some of the tests depend on this
+    1:length(TASKS) |> 
       purrr::walk(~{
         # .x = 1
         if (show_messages == TRUE) cli::cli_h1("create_task: {TASKS[.x]}")
