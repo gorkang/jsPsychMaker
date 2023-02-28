@@ -218,7 +218,7 @@ function check_fullscreen(task_name) {
   });
 }
 
-function call_function(task_name) {
+function call_function(task_name, version = 'original') {
 
   questions.push({
       type: 'call-function',
@@ -229,7 +229,7 @@ function call_function(task_name) {
         } else {
           var data = jsPsych.data.get().filter({procedure: task_name}).json();
         }
-        saveData(data, online, task_name);
+        saveData(data, online, task_name, version = version);
       }
   });
 }
