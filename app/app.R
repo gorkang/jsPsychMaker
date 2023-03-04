@@ -25,6 +25,10 @@
   library(shinyjs)
   library(httr)
 
+  # DEBUG
+  # reactiveConsole(TRUE)
+
+
 
 # External files ---------------------------------------------------------
 
