@@ -1,3 +1,8 @@
+NEXT:
+
+* Shiny app can work with local config.js files!
+  + Fixed multiple issues. 
+
 # jsPsychMaker 0.2.9999
 
 Major updates  
