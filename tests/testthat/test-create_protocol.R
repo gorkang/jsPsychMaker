@@ -130,8 +130,8 @@ testthat::test_that('create_protocol', {
   
   # Test no output folder ---------------------------------------------
   
-  output_folder = "~/Downloads/new_protocol"
-  files_expected = 39
+  output_folder = "~/Downloads/new_protocol_999"
+  files_expected = 40
 
   OUT = create_protocol_quiet(canonical_tasks = c("AIM"))
   
