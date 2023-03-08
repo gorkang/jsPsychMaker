@@ -17,7 +17,7 @@ var instruction_screen_experiment = {
 
 var question00 = {
   type: 'survey-text',
-  questions: [{prompt: '<div class="justified">Rut Completo (sin puntos ni guión y con dígito verificador, en caso que termine en k, reemplace por un 0):</div>', type: 'number', range: [100000000, 300000000], required: true}],
+  questions: [{prompt: '<div class="justified">Rut Completo (sin puntos ni guión y con dígito verificador, en caso que termine en k, reemplace por un 0):</div>', type: 'number', range: [10000000, 999999999], required: true}],
   data: {trialid: 'SDG_01', procedure: 'SDG'}
 };
 SDG.push(question00);
