@@ -14,7 +14,9 @@ sync_server_local <- function(server_folder, local_folder, direction, only_test 
     dry_run = ""
   }
   
-  local_folder = normalizePath(here::here(local_folder))
+  
+  local_folder = fs::path_abs(local_folder)
+  # local_folder = normalizePath(here::here(local_folder))
   local_folder_terminal = gsub(" ", "\\\\ ", local_folder)
   
   # CHECKS we have credentials and necessary software ------------------------
