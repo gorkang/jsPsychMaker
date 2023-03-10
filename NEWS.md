@@ -1,9 +1,4 @@
-NEXT:
-
-* Shiny app can work with local config.js files!
-  + Fixed multiple issues. 
-
-# jsPsychMaker 0.2.9999
+# jsPsychMaker 0.2.5
 
 Major updates  
 
@@ -16,7 +11,9 @@ Major updates
   + Can deal with if_questions 
   
 * Added docs/ with original papers of tasks
-  
+
+* Shiny app can work with local config.js files!
+  + Fixed multiple issues.   
 
 Minor updates
 

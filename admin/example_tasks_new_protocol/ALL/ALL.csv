@@ -1,0 +1,13 @@
+ID,plugin,stimulus,choices,preamble,prompt,options,html,length
+1,audio-button-response,media/audio/BART_explode.mp3,"1, 2",preamble,"PLUGIN: audio-button-response| CHOICES: 1, 2",,,NA
+2,html-button-response,media/html/consent-placeholder.html,"1, 2",preamble,"PLUGIN: html-button-response| CHOICES: 1, 2",,,NA
+3,html-keyboard-response,media/html/consent-placeholder.html,"1, 2",preamble,"PLUGIN: html-keyboard-response| CHOICES: 1, 2",,,NA
+4,html-slider-response,media/html/consent-placeholder.html,"1, 2",preamble,"PLUGIN: html-slider-response| CHOICES: 1, 2",,,NA
+5,image-button-response,media/img/fox.jpg,"1, 2",preamble,"PLUGIN: image-button-response| CHOICES: 1, 2",,,NA
+6,survey-html-form,media/html/consent-placeholder.html,"1, 2",preamble,"PLUGIN: survey-html-form| CHOICES: 1, 2",,"<p> I am feeling <input name=""first"" type=""text"" />, <input name=""second"" type=""text"" />, and <input name=""third"" type=""text"" />.</p>",NA
+7,survey-multi-choice-horizontal,,"1, 2",preamble,"PLUGIN: survey-multi-choice-horizontal| CHOICES: 1, 2","one, two",,NA
+8,survey-multi-choice-vertical,,"1, 2",preamble,"PLUGIN: survey-multi-choice-vertical| CHOICES: 1, 2","one, two",,NA
+9,survey-multi-choice,,"1, 2",preamble,"PLUGIN: survey-multi-choice| CHOICES: 1, 2","one, two",,NA
+10,survey-multi-select,,"1, 2",preamble,"PLUGIN: survey-multi-select| CHOICES: 1, 2","one, two",,2
+11,survey-text,,"1, 2",preamble,"PLUGIN: survey-text| CHOICES: 1, 2",,,NA
+12,video-button-response,media/vid/Entrevista1.mp4,"1, 2",preamble,"PLUGIN: video-button-response| CHOICES: 1, 2",,,NA
