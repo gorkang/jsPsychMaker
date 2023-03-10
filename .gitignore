@@ -1,5 +1,12 @@
 # Do not upload data in .vault/
 .vault/
+TODO.Rmd
+admin/OUTPUT/
+admin/000_SYNC.R
+app/rsconnect/
+protocols_DEV/CS/
+protocols_DEV/OLD_TESTS/
+canonical_protocol_DEV/config_BACKUP.js
 
 # Personal folders and files
 .data/
