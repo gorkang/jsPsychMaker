@@ -7,7 +7,7 @@
 check_progress_pid(pid = 3)
 }
 \arguments{
-\item{pid}{}
+\item{pid}{protocol id}
 }
 \description{
 Get list of files in the .data/ folder for a project

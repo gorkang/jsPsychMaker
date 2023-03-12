@@ -11,6 +11,7 @@ testthat::test_that('create_protocol_ERRORS', {
   # List all tasks
   FOLDERS = list.dirs(paste0(destination_folder, "/tasks_errors"), recursive = FALSE) |> basename()
   
+  # Works fine with devtools::test(), but fails if run interactively
   1:length(FOLDERS) |> 
   purrr::walk(~{
     # DEBUG
