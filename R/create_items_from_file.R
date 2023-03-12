@@ -127,6 +127,10 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
       NUMERIC_enumerations = c("range")
       DO_NOT_CHANGE_text = c("html")
       
+      # If it is one of the text columns, change 'it's' for 'it’s' to avoid issues
+      if (names(DF_MAP[.x]) %in% TEXT_columns) DF_MAP[.x] =  gsub("'", "’", DF_MAP[.x])
+      
+      
       # Do not process parameters in the blacklist 
       if (!names(DF_MAP[.x]) %in% BLACKLIST_parameters) {
         
