@@ -9,7 +9,7 @@
 #' @param show_messages TRUE/FALSE
 #' @param block_tasks Where to insert the tasks: randomly_ordered_tasks_1 or secuentially_ordered_tasks_1
 #'
-#' @return
+#' @return Creates a full protocol
 #' @export
 #' @importFrom purrr map_df
 #' @importFrom cli cli_h1 cli_h2 cli_alert_success cli_alert_info cli_abort cli_alert_danger
@@ -17,8 +17,6 @@
 #' @importFrom janitor remove_empty
 #' @importFrom here here
 #' @importFrom utils browseURL
-#'
-#' @examples
 create_protocol <- function(folder_tasks = NULL, 
                             canonical_tasks = NULL,
                             folder_output = "~/Downloads/new_protocol_999", 
@@ -107,7 +105,7 @@ create_protocol <- function(folder_tasks = NULL,
       # Names of tasks are correct
       regexp_TASK_NAMES = " |-|_|!|&|\\(|\\)|\\[|\\]|\\{|\\}|^[0-9]"
       check_TASK_NAMES = grepl(regexp_TASK_NAMES, TASKS)
-      if (any(check_TASK_NAMES)) cli::cli_abort("Tasks with forbiden names (use only alphanumeric characters, do not start with a number): {.code {TASKS[check_TASK_NAMES]}}")
+      if (any(check_TASK_NAMES)) cli::cli_abort("Tasks with forbiden names (use only alphanumeric characters, do not start with a number, use CamelCase, AVOID under_scored_task_names): {.code {TASKS[check_TASK_NAMES]}}")
   
       
     # Loop through folders with input_CSV_XLS_files ---
