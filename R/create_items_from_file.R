@@ -4,7 +4,7 @@
 #' @param folder_output Where do we have the canonical_protocol_clean
 #' @param show_messages TRUE/FALSE
 #'
-#' @return
+#' @return A char vector with the items from a file
 # #' @export
 #' @importFrom purrr map
 #' @importFrom cli cli_alert_info cli_abort cli_alert_danger cli_alert
@@ -12,8 +12,7 @@
 #' @importFrom readr read_csv cols col_character
 #' @importFrom readxl read_excel
 #' @importFrom stringr str_replace_all
-#'
-#' @examples
+
 create_items_from_file <- function(file_name, folder_output = NULL, show_messages = FALSE) {
 
   # TODO
@@ -48,7 +47,7 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
   essential_missing = !essential_columns %in% names(DF)
   if (any(essential_missing)) cli::cli_abort("Missing the following essential column: `{essential_columns[essential_missing]}` in `{basename(file_name)}`")
   
-  
+
   # Only parameters DF
   DF_columns_parameters = DF |> dplyr::select(-ID, -plugin)
   
@@ -77,8 +76,11 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
   
 # CHECKS ------------------------------------------------------------------
 
-  # Have text output columns
-  TEXT_columns = c("prompt", "stimulus", "preamble") # TODO: add missing cols
+  # To be able to clean up weird chars latter
+  TEXT_response_columns = c("choices", "options")
+  
+  # Have text output columns # TODO: add missing cols
+  TEXT_columns = c("preamble", "prompt", "stimulus") # stimuli in same-different plugin. SHOULD only contain HTML or images
   text_columns_present = any(TEXT_columns %in% colnames(DF_columns_parameters))
   if (!text_columns_present) cli::cli_abort("Missing an output text column. Usually should have one of: {.code {TEXT_columns}}")
 
@@ -93,6 +95,13 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
 
 # Loop by row (items) [DO NOT CHANGE TABS/SPACES] ---------------------------
 
+  
+  # TODO: CHECK essential columns for certain plugins
+  # e.g. "survey-multi-choice-horizontal" needs "options", not "choices"
+  # e.g. "image-button-response" "choices", not "options"
+  
+  
+  
 # For each row in the csv/xls (each item)
 1:nrow(DF) |>
   purrr::map( ~ {
@@ -113,8 +122,12 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
   
     # Add require_movement to all sliders
     if (grepl("slider", PLUGIN) & !"require_movement" %in% names(DF_MAP)) DF_MAP = DF_MAP |> dplyr::mutate(require_movement = "true")
+    
     # Add require to all non-sliders
     if (!grepl("slider", PLUGIN) & !"required" %in% names(DF_MAP)) DF_MAP = DF_MAP |> dplyr::mutate(required = "true")
+
+    # Add horizontal to multi-choice-horizontal
+    if (grepl("multi-choice-horizontal", PLUGIN) & !"horizontal" %in% names(DF_MAP)) DF_MAP = DF_MAP |> dplyr::mutate(horizontal = "true")
   
    
   # Create a parameter vector with everything in the csv/xls -----------------
@@ -127,8 +140,18 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
       NUMERIC_enumerations = c("range")
       DO_NOT_CHANGE_text = c("html")
       
-      # If it is one of the text columns, change 'it's' for 'it’s' to avoid issues
-      if (names(DF_MAP[.x]) %in% TEXT_columns) DF_MAP[.x] =  gsub("'", "’", DF_MAP[.x])
+      # If it is one of the TEXT_columns or the TEXT_response_columns
+      if (names(DF_MAP[.x]) %in% TEXT_columns | names(DF_MAP[.x]) %in% TEXT_response_columns) {
+        
+        # change 'it's' for 'it’s' to avoid issues
+        DF_MAP[.x] =  gsub("'", "’", DF_MAP[.x])
+        
+        # Forbidden chars: # makes the csv data collection STOP
+        forbidden_chars = c("#")
+        if (grepl(forbidden_chars, DF_MAP[.x])) cli::cli_alert_danger("DF_MAP[.x] contains forbidden_chars: {forbidden_chars}. \n Will delete them so they don´t cause issues")
+        DF_MAP[.x] =  gsub(forbidden_chars, "", DF_MAP[.x])
+        
+      }
       
       
       # Do not process parameters in the blacklist 
