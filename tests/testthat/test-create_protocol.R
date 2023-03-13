@@ -12,10 +12,11 @@ testthat::test_that('create_protocol', {
   
 
 
-  # Only from csv's ---------------------------------------------------------
+  # Using example_tasks csv's, XLS, weird chars ------------------------------
+  
   # Includes all plugins
   output_folder = paste0(destination_folder, "/../create_protocol1")
-  files_expected = 63
+  files_expected = 64
   
   OUT = create_protocol_quiet(folder_tasks = paste0(destination_folder),
                               folder_output = output_folder)
@@ -57,10 +58,10 @@ testthat::test_that('create_protocol', {
   
   
 
-  # Both from csv's AND canonical_tasks -------------------------------------
+  # Both from example_tasks AND canonical_tasks -------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol4")
-  files_expected = 66
+  files_expected = 67
   
   OUT = create_protocol_quiet(folder_tasks = paste0(destination_folder),
                               canonical_tasks = c("AIM", "EAR", "IRI"),
