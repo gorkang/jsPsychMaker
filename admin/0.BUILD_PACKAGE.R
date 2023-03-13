@@ -1,4 +1,7 @@
 
+# Github version
+# remotes::install_github("gorkang/jsPsychMaker")
+
 # Prepare files -----------------------------------------------------------
   
   # IF there are changes to `canonical_protocol/tasks` or `canonical_protocol_clean`, run this:
@@ -30,7 +33,7 @@
 
   # CHECKS
   devtools::test() # Run all tests (~35s)
-  devtools::check() # Check package (~70s)
+  devtools::check() # Check package (~70s) # Includes test()
   
   devtools::test_coverage()
   # Not necessary because we have a use_github_action???

@@ -13,6 +13,9 @@ create_task(folder_task, folder_output = NULL, show_messages = FALSE)
 
 \item{show_messages}{TRUE/FALSE}
 }
+\value{
+Creates a task
+}
 \description{
 This is a description
 }

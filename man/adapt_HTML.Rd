@@ -15,6 +15,9 @@ adapt_HTML(TASKS, new_plugins = NULL, folder_output, show_messages = TRUE)
 
 \item{show_messages}{TRUE/FALSE}
 }
+\value{
+Writes a file
+}
 \description{
 adapt_HTML
 }

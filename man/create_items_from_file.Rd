@@ -13,6 +13,9 @@ create_items_from_file(file_name, folder_output = NULL, show_messages = FALSE)
 
 \item{show_messages}{TRUE/FALSE}
 }
+\value{
+A char vector with the items from a file
+}
 \description{
 create_items_from_file
 }

@@ -6,12 +6,10 @@
 #' @param folder_output Where to create the task
 #' @param show_messages TRUE/FALSE
 #'
-#' @return
+#' @return Creates a task
 #' @export
 #' @importFrom cli cli_alert_success cli_alert_info cli_abort
 #' @importFrom here here
-#'
-#' @examples
 create_task <- function(folder_task, folder_output = NULL, show_messages = FALSE) {
 
   # DEBUG

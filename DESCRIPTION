@@ -1,5 +1,5 @@
 Package: jsPsychMaker
-Title: Create behavioral experiments using jsPsych and R
+Title: Create behavioral experiments and surveys using jsPsych and R
 Version: 0.2.5
 Authors@R: 
     person("Gorka", "Navarrete", , "gorkang@gmail.com", role = c("aut", "cre"),

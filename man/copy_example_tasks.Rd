@@ -17,6 +17,9 @@ copy_example_tasks(
 
 \item{show_messages}{TRUE/FALSE}
 }
+\value{
+unzips example tasks to the destination_folder
+}
 \description{
 copy_example_tasks
 }

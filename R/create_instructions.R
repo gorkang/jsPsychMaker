@@ -3,11 +3,9 @@
 #' @param INSTRUCTIONS HTML files or character vector
 #' @param task_name Name of task
 #'
-#' @return
+#' @return Returns a string with the instructions for a task
 # #' @export
 #' @importFrom purrr map
-#'
-#' @examples
 create_instructions <- function(INSTRUCTIONS, task_name) {
   
   # Can input INSTRUCTIONS as one or more files, and one or more elements (HTML code) in a vector or a list

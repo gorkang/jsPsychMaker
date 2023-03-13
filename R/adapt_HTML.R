@@ -5,13 +5,11 @@
 #' @param folder_output where to change the index.html file
 #' @param show_messages TRUE/FALSE
 #'
-#' @return
+#' @return Writes a file
 # #' @export
 #' @importFrom purrr map_df
 #' @importFrom cli cli_alert_info cli_abort cli_alert_success
 #' @importFrom tibble tibble
-#'
-#' @examples
 adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output, show_messages = TRUE) {
 
   # Read index

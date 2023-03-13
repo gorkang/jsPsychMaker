@@ -4,12 +4,10 @@
 #' @param file_zip name of zip with examples
 #' @param show_messages TRUE/FALSE
 #'
-#' @return
+#' @return unzips example tasks to the destination_folder
 #' @export
 #' @importFrom purrr walk
 #' @importFrom callr r
-#'
-#' @examples
 copy_example_tasks <- function(destination_folder, file_zip = "example_tasks.zip", show_messages = TRUE) {
   
   list_unzip(location = "jsPsychMaker", zip_file = file_zip,

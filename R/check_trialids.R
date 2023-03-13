@@ -5,14 +5,12 @@
 #' @param folder_protocol Folder where the protocol is
 #' @param show_messages TRUE/FALSE
 #'
-#' @return
+#' @return messages about trialid's health
 #' @export
 #' @importFrom dplyr mutate filter rename as_tibble
 #' @importFrom purrr map_df
 #' @importFrom tidyr separate
 #' @importFrom cli cli_h1 cli_h2 cli_alert_danger cli_alert_success
-#'
-#' @examples
 check_trialids <- function(folder_protocol, show_messages = TRUE) {
   
   scripts = dir(path = paste0(folder_protocol, "/tasks"), pattern = ".js", recursive = TRUE, full.names = TRUE)

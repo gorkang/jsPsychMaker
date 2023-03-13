@@ -32,6 +32,9 @@ create_protocol(
 
 \item{block_tasks}{Where to insert the tasks: randomly_ordered_tasks_1 or secuentially_ordered_tasks_1}
 }
+\value{
+Creates a full protocol
+}
 \description{
 create_protocol
 }

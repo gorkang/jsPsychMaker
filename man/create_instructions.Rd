@@ -11,6 +11,9 @@ create_instructions(INSTRUCTIONS, task_name)
 
 \item{task_name}{Name of task}
 }
+\value{
+Returns a string with the instructions for a task
+}
 \description{
 create_instructions
 }

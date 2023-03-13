@@ -11,6 +11,9 @@ check_trialids(folder_protocol, show_messages = TRUE)
 
 \item{show_messages}{TRUE/FALSE}
 }
+\value{
+messages about trialid's health
+}
 \description{
 Checks that trialid's of an experiment in a folder follow the standard expected rules
 }
