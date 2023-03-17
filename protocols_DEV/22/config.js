@@ -22,7 +22,7 @@ intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100
 
 first_tasks = ['Consent'];
 last_tasks = ['Goodbye'];
-secuentially_ordered_tasks_1 = ['DEMOGRfondecyt2022E1', 'FONDECYT2022E1', 'BNT'];
+secuentially_ordered_tasks_1 = ['DEMOGR22', 'Bayesian22', 'BNT'];
 tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'last_tasks'];
 
 // MEDIA preloading ------------------------------------------------------------
@@ -43,5 +43,5 @@ zoom_type = 'fullPage';
 // BETWEEN subject variables ----------------------------------------------
 
 //TYPE IS A VERY BAD NAME (used a lot in javascript jsPsych)
-all_conditions = {"FONDECYT2022E1": {"type": ["Text", "Image"]}};
+all_conditions = {"Bayesian22": {"type": ["Text", "Image"]}};
 

@@ -33,13 +33,13 @@ Follow up Breast cancer:
   test_quality_order.push(jsPsych.randomization.factorial(test_quality, 1, false, false));
 
   // Create final array
-  within_selection["FONDECYT2022E1"] = [];
+  within_selection["Bayesian22"] = [];
   for (var i = 0; i < disease_order.length; i++) {
     for (var j = 0; j < disease_order.length; j++) {
-      within_selection["FONDECYT2022E1"].push({ disease: disease_order[i]["disease"], test_quality: test_quality_order[i][j]["test_quality"] });
+      within_selection["Bayesian22"].push({ disease: disease_order[i]["disease"], test_quality: test_quality_order[i][j]["test_quality"] });
     }
   }
-  //if (debug_mode === true) console.table(within_selection["FONDECYT2022E1"]);
+  //if (debug_mode === true) console.table(within_selection["Bayesian22"]);
 
 
 
@@ -134,8 +134,8 @@ Follow up Breast cancer:
 
   // array final
   questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-  questions.push(check_fullscreen("FONDECYT2022E1"));
-  FONDECYT2022E1 = [];
+  questions.push(check_fullscreen("Bayesian22"));
+  Bayesian22 = [];
 
   // hay que revisar toda la data, para este caso, test_quality y disease
   for (const [key, value] of Object.entries(data_test_quality)) {
@@ -163,8 +163,8 @@ Follow up Breast cancer:
       pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/img/iphone-rotation-475102.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
       button_label_next: 'Siguiente',
       data: {trialid: 'Instructions_000',
-            condition_between: between_selection["FONDECYT2022E1"][0],
-            procedure: 'FONDECYT2022E1'},
+            condition_between: between_selection["Bayesian22"][0],
+            procedure: 'Bayesian22'},
       show_clickable_nav: true,
       on_trial_start: function(){
           bloquear_enter = 0;
@@ -190,30 +190,30 @@ Follow up Breast cancer:
     },
     data: {
       trialid: 'if_instructions_000',
-      condition_between: between_selection["FONDECYT2022E1"][0],
-      procedure: 'FONDECYT2022E1'
+      condition_between: between_selection["Bayesian22"][0],
+      procedure: 'Bayesian22'
     }
   };
 
   var instructions_between_01 = {
       type: 'instructions',
       pages: function() {
-        return ([data_type[between_selection["FONDECYT2022E1"][0]]["page1"]["text"],
-                 data_type[between_selection["FONDECYT2022E1"][0]]["page2"]["text"],
-                 data_type[between_selection["FONDECYT2022E1"][0]]["page3"]["text"]])
+        return ([data_type[between_selection["Bayesian22"][0]]["page1"]["text"],
+                 data_type[between_selection["Bayesian22"][0]]["page2"]["text"],
+                 data_type[between_selection["Bayesian22"][0]]["page3"]["text"]])
       },
       button_label_next: 'Siguiente',
       button_label_previous: 'Anterior',
       data: {trialid: 'Instructions_001',
-            condition_between: between_selection["FONDECYT2022E1"][0],
-            procedure: 'FONDECYT2022E1'},
+            condition_between: between_selection["Bayesian22"][0],
+            procedure: 'Bayesian22'},
       show_clickable_nav: true,
       on_trial_start: function(){
           bloquear_enter = 0;
       }
   };
 
-  //console.log(within_selection["FONDECYT2022E1"]);
+  //console.log(within_selection["Bayesian22"]);
 
 // BLOCK 1: Start within block ---------------------------------------------------------
 // --------------------------------------------------------------------------------------
@@ -238,10 +238,10 @@ Follow up Breast cancer:
             button_label_next: 'Empezar caso',
             data: function () {
               element = {
-                trialid: 'FONDECYT2022E1_01_' + (parseInt(num) + 1).toString(),
+                trialid: 'Bayesian22_01_' + (parseInt(num) + 1).toString(),
                 condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-                condition_between: between_selection["FONDECYT2022E1"][0],
-                procedure: 'FONDECYT2022E1'
+                condition_between: between_selection["Bayesian22"][0],
+                procedure: 'Bayesian22'
               };
               return element;
             },
@@ -286,9 +286,9 @@ Follow up Breast cancer:
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
           // BETWEEN variable [picture / no picture]:
-          if (between_selection["FONDECYT2022E1"][0] == 'Image') {
+          if (between_selection["Bayesian22"][0] == 'Image') {
             html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 100%; max-height: 100%;">' + '<div style="font-size:10px; text-align: center">Haz click para ampliar, y click de nuevo para salir de la imagen.</div></div>';
-          } else if (between_selection["FONDECYT2022E1"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
+          } else if (between_selection["Bayesian22"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
             html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 20%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
           }
           html += '</div><style>#column img {vertical-align: middle}</style>';
@@ -301,11 +301,11 @@ Follow up Breast cancer:
         data: function () {
           // hay que conversar sobre lo que quedará guardado en stimulus del survey-html-form, esto incluye la modificacion del plugin
           var element = {
-            trialid: 'FONDECYT2022E1_02_' + num,
-            //condition_within: within_selection["FONDECYT2022E1"]["timeline_01"],
+            trialid: 'Bayesian22_02_' + num,
+            //condition_within: within_selection["Bayesian22"]["timeline_01"],
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["FONDECYT2022E1"][0],
-            procedure: 'FONDECYT2022E1'
+            condition_between: between_selection["Bayesian22"][0],
+            procedure: 'Bayesian22'
           };
           return element;
         },
@@ -318,9 +318,9 @@ Follow up Breast cancer:
       {
         type: 'survey-multi-choice-vertical',
         questions: function() {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian22_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian22_02_' + num})).select('response').values.length - 1] ) );
           return [
-            {// para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT2022E1_01 se puede obtener con answers[0]
+            {// para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en Bayesian22_01 se puede obtener con answers[0]
               prompt: '<div class="justified">' +
               '<HR><div style="color:#424949; font-size:15px;">Has dicho que la probabilidad de ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ' tener un ' + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ' si el resultado de la ' + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ' es <B>' + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + '</B>' + ' es del ' + answers[0] + '%.</div><HR><BR>' +
 
@@ -335,10 +335,10 @@ Follow up Breast cancer:
         button_label: 'Siguiente',
         data: function () {
           var element = {
-            trialid: 'FONDECYT2022E1_03_' + num,
+            trialid: 'Bayesian22_03_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["FONDECYT2022E1"][0],
-            procedure: 'FONDECYT2022E1'
+            condition_between: between_selection["Bayesian22"][0],
+            procedure: 'Bayesian22'
           };
           return element;
         }
@@ -348,8 +348,8 @@ Follow up Breast cancer:
       {
         type: 'html-slider-response',
         stimulus: function () {
-          answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values.length - 1] ) ),
-                    Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_03_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_03_' + num})).select('response').values.length - 1] ) )];
+          answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian22_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian22_02_' + num})).select('response').values.length - 1] ) ),
+                    Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian22_03_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian22_03_' + num})).select('response').values.length - 1] ) )];
 
           // (?) El condicional se usaba para mostrar el "NO recomendarias". Si usamos SI/NO con toUpperCase(), nos lo ahorramos
           /*if (answers[1][0].trim() == 'Si') {
@@ -374,10 +374,10 @@ Follow up Breast cancer:
         button_label: "Siguiente",
         data: function () {
           var element = {
-            trialid: 'FONDECYT2022E1_04_' + num,
+            trialid: 'Bayesian22_04_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["FONDECYT2022E1"][0],
-            procedure: 'FONDECYT2022E1'
+            condition_between: between_selection["Bayesian22"][0],
+            procedure: 'Bayesian22'
           };
           return element;
         }
@@ -389,11 +389,11 @@ Follow up Breast cancer:
         questions: function() {
 
           // Fetch % response
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian22_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian22_02_' + num})).select('response').values.length - 1] ) );
 
           return [
             {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT2022E1_01 se puede obtener con answers[0]
+              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en Bayesian22_01 se puede obtener con answers[0]
               prompt: '<div class="justified">' +
               'Imagina que, independientemente de tu recomendación, tu paciente se realiza la ' + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '. El resultado  es <b>'+ data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image.toUpperCase() + '</b>.<BR><BR>' +
 
@@ -412,10 +412,10 @@ Follow up Breast cancer:
         button_label: 'Siguiente',
         data: function () {
           var element = {
-            trialid: 'FONDECYT2022E1_05_' + num,
+            trialid: 'Bayesian22_05_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["FONDECYT2022E1"][0],
-            procedure: 'FONDECYT2022E1'
+            condition_between: between_selection["Bayesian22"][0],
+            procedure: 'Bayesian22'
           };
           return element;
         }
@@ -425,8 +425,8 @@ Follow up Breast cancer:
       {
         type: 'html-slider-response',
         stimulus: function () {
-          answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_05_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_05_' + num})).select('response').values.length - 1] ) ),
-                    Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values.length - 1] ) )];
+          answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian22_05_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian22_05_' + num})).select('response').values.length - 1] ) ),
+                    Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian22_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian22_02_' + num})).select('response').values.length - 1] ) )];
 
           // (?) El condicional se usaba para mostrar el "NO recomendarias". Si usamos SI/NO con toUpperCase(), nos lo ahorramos
 
@@ -462,17 +462,17 @@ Follow up Breast cancer:
         button_label: "Siguiente",
         data: function () {
           var element = {
-            trialid: 'FONDECYT2022E1_06_' + num,
+            trialid: 'Bayesian22_06_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["FONDECYT2022E1"][0],
-            procedure: 'FONDECYT2022E1'
+            condition_between: between_selection["Bayesian22"][0],
+            procedure: 'Bayesian22'
           };
           return element;
         }
       }
     ],
-    data: {procedure: 'FONDECYT2022E1'},
-    timeline_variables: within_selection["FONDECYT2022E1"],
+    data: {procedure: 'Bayesian22'},
+    timeline_variables: within_selection["Bayesian22"],
     randomize_order: false, //random order
     sample: {
         type: 'custom',
@@ -481,23 +481,23 @@ Follow up Breast cancer:
         }
     }
   };
-  FONDECYT2022E1.push(within_timeline_01);
+  Bayesian22.push(within_timeline_01);
 
-  FONDECYT2022E1.push({
+  Bayesian22.push({
       type: 'call-function',
-      data: {trialid: FONDECYT2022E1 + '_giro_check_ending', procedure: FONDECYT2022E1},
+      data: {trialid: Bayesian22 + '_giro_check_ending', procedure: Bayesian22},
       func: function(){
         giro_check = false;
       }
   });
 
   // within block finished
-  FONDECYT2022E1.unshift(instructions_between_01);
-  FONDECYT2022E1.unshift(if_instructions_000);
-  questions.push.apply(questions, FONDECYT2022E1);
+  Bayesian22.unshift(instructions_between_01);
+  Bayesian22.unshift(if_instructions_000);
+  questions.push.apply(questions, Bayesian22);
 
   //if (debug_mode == 'true') console.table(within_timeline_01.timeline_variables)
 
 // between block finished ------------------------------------------------------
 
-call_function("FONDECYT2022E1");
+call_function("Bayesian22");
