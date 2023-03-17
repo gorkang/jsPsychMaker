@@ -48,7 +48,7 @@ Follow up Breast cancer:
   // IMAGE
   data_type = {
     'Image': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
-                              "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave.<BR><BR>" +
+                              "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave<BR><BR>" +
                               "En cada caso verás la descripción del caso clínico, información sobre **la prevalencia** de la enfermedad para alguien como esa persona, y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad. " +
                               "Además, se mostrará una imágen representando el Valor Predictivo Positivo o Negativo para alguien como esa persona." + // ONLY in 'Image'
                               "<BR><BR>Por favor, lee con atencion la información y responde lo mejor que puedas." +
@@ -60,33 +60,33 @@ Follow up Breast cancer:
                               "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo<BR><BR>" +
                               // ONLY in 'IMAGE'
                               "Para facilitar la tarea, podrás consultar los valores predictivos en una imagen similar a las de abajo.<BR><BR>" +
-                              "En el eje vertical cambia la *******prevalencia******, y en el eje horizontal, los falsos positivos (falsos +) o falsos negativos (falsos -). Esto permite ver como cambiaria el valor predictivo a partir de la **prevalencia** y de los falsos positivos o negativos.<BR><BR>" +
+                              "En el eje vertical cambia la ***prevalencia***, y en el eje horizontal, los falsos positivos (falsos +) o falsos negativos (falsos -). Esto permite ver como cambiaria el valor predictivo a partir de la **prevalencia** y de los falsos positivos o negativos.<BR><BR>" +
                               "<B>Si haces click en la imagen puedes ampliarla. Si vuelves a hacer click, reducirla</B> (hazlo ahora para que veas como funciona).<BR><BR>" +
                               '<img src="media/img/instructions1.png" style="max-width: 40%; max-height: 40%;"> <img src="media/img/instructions2.png" style="max-width: 40%; max-height: 40%;">' +
                               "<BR><BR>"
                               },
                               
-              'page3': {text: "<H2>Instrucciones (3/3)</H2>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón 'Siguiente >' empezará la tarea y no podrás volver atrás.<BR><BR>"}
+              'page3': {text: "<H2>Instrucciones (3/3)</H2>La información presentada en los siguientes problemas ha sido extraida de estas publicaciones: <ul><li>Brunser, A. M., Cavada, G., Venturelli, P. M., Olavarría, V., Rojo, A., Almeida, J., Díaz, V., Hoppe, A., & Lavados, P. (2018). Diffusion-weighted imaging determinants for acute ischemic stroke diagnosis in the emergency room. Neuroradiology, 60(7), 687–692. https://doi.org/10.1007/s00234-018-2029-x</li><li>Abdullah, P., Alabousi, M., Ramadan, S., Zawawi, I., Zawawi, M., Bhogadi, Y., Freitas, V., Patlas, M. N., & Alabousi, A. (2021b). Synthetic 2D Mammography Versus Standard 2D Digital Mammography: A Diagnostic Test Accuracy Systematic Review and Meta-Analysis. American Journal of Roentgenology, 217(2), 314–325. https://doi.org/10.2214/AJR.20.24204</li><li>Alabousi, M., Wadera, A., Kashif Al-Ghita, M., Kashef Al-Ghetaa, R., Salameh, J.-P., Pozdnyakov, A., Zha, N., Samoilov, L., Dehmoobad Sharifabadi, A., Sadeghirad, B., Freitas, V., McInnes, M. D., & Alabousi, A. (2021a). Performance of Digital Breast Tomosynthesis, Synthetic Mammography, and Digital Mammography in Breast Cancer Screening: A Systematic Review and Meta-Analysis. JNCI: Journal of the National Cancer Institute, 113(6), 680–690. https://doi.org/10.1093/jnci/djaa205</li></ul><BR><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón 'Siguiente >' empezará la tarea y no podrás volver atrás.<BR><BR>"}
             },
           
     // TEXT  
     'Text': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
-                             "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave.<BR><BR>" +
+                             "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave<BR><BR>" +
                              "En cada caso verás la descripción del caso clínico, información sobre la prevalencia de la enfermedad para alguien como esa persona, y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad." +
                              "<BR><BR>Por favor, lee con atencion la información y responde lo mejor que puedas." +
                              "<BR><BR>"
                              },
                              
-              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la ****prevalencia****, sensibilidad y especificidad es posible calcular:<BR><BR>" + 
+              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la ***prevalencia***, sensibilidad y especificidad es posible calcular:<BR><BR>" + 
                               "<li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo<BR>" +
                               "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo<BR><BR>" +
                               // ONLY in 'TEXT'
-                              "Para facilitar la tarea, abajo te mostramos como se calculan.<BR><BR>" +
-                              "<li>Valor Predictivo Positivo: Positivos verdaderos / (Positivos verdaderos + Falsos Positivos)<BR>" +
-                              "<li>Valor Predictivo Negativo: Negativos verdaderos / (Negativos verdaderos + Falsos Negativos)<BR><BR>"
+                              "Para facilitar la tarea, abajo te mostramos como se calculan:<BR><BR>" +
+                              "<li><B>Valor Predictivo Positivo</B>: Positivos verdaderos / (Positivos verdaderos + Falsos Positivos)<BR>" +
+                              "<li><B>Valor Predictivo Negativo</B>: Negativos verdaderos / (Negativos verdaderos + Falsos Negativos)<BR><BR>"
                               },
                               
-             'page3': {text: "<H2>Instrucciones (3/3)</H2>La información presentada en los siguientes problemas ha sido extraida de las siguientes publicaciones: <ul><li>Brunser, A. M., Cavada, G., Venturelli, P. M., Olavarría, V., Rojo, A., Almeida, J., Díaz, V., Hoppe, A., & Lavados, P. (2018). Diffusion-weighted imaging determinants for acute ischemic stroke diagnosis in the emergency room. Neuroradiology, 60(7), 687–692. https://doi.org/10.1007/s00234-018-2029-x</li><li>Abdullah, P., Alabousi, M., Ramadan, S., Zawawi, I., Zawawi, M., Bhogadi, Y., Freitas, V., Patlas, M. N., & Alabousi, A. (2021b). Synthetic 2D Mammography Versus Standard 2D Digital Mammography: A Diagnostic Test Accuracy Systematic Review and Meta-Analysis. American Journal of Roentgenology, 217(2), 314–325. https://doi.org/10.2214/AJR.20.24204</li><li>Alabousi, M., Wadera, A., Kashif Al-Ghita, M., Kashef Al-Ghetaa, R., Salameh, J.-P., Pozdnyakov, A., Zha, N., Samoilov, L., Dehmoobad Sharifabadi, A., Sadeghirad, B., Freitas, V., McInnes, M. D., & Alabousi, A. (2021a). Performance of Digital Breast Tomosynthesis, Synthetic Mammography, and Digital Mammography in Breast Cancer Screening: A Systematic Review and Meta-Analysis. JNCI: Journal of the National Cancer Institute, 113(6), 680–690. https://doi.org/10.1093/jnci/djaa205</li></ul><BR><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón 'Siguiente >' empezará la tarea y no podrás volver atrás.<BR><BR>"}
+             'page3': {text: "<H2>Instrucciones (3/3)</H2>La información presentada en los siguientes problemas ha sido extraida de estas publicaciones: <ul><li>Brunser, A. M., Cavada, G., Venturelli, P. M., Olavarría, V., Rojo, A., Almeida, J., Díaz, V., Hoppe, A., & Lavados, P. (2018). Diffusion-weighted imaging determinants for acute ischemic stroke diagnosis in the emergency room. Neuroradiology, 60(7), 687–692. https://doi.org/10.1007/s00234-018-2029-x</li><li>Abdullah, P., Alabousi, M., Ramadan, S., Zawawi, I., Zawawi, M., Bhogadi, Y., Freitas, V., Patlas, M. N., & Alabousi, A. (2021b). Synthetic 2D Mammography Versus Standard 2D Digital Mammography: A Diagnostic Test Accuracy Systematic Review and Meta-Analysis. American Journal of Roentgenology, 217(2), 314–325. https://doi.org/10.2214/AJR.20.24204</li><li>Alabousi, M., Wadera, A., Kashif Al-Ghita, M., Kashef Al-Ghetaa, R., Salameh, J.-P., Pozdnyakov, A., Zha, N., Samoilov, L., Dehmoobad Sharifabadi, A., Sadeghirad, B., Freitas, V., McInnes, M. D., & Alabousi, A. (2021a). Performance of Digital Breast Tomosynthesis, Synthetic Mammography, and Digital Mammography in Breast Cancer Screening: A Systematic Review and Meta-Analysis. JNCI: Journal of the National Cancer Institute, 113(6), 680–690. https://doi.org/10.1093/jnci/djaa205</li></ul><BR><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón 'Siguiente >' empezará la tarea y no podrás volver atrás.<BR><BR>"}
            }
       };
 
@@ -350,7 +350,9 @@ Follow up Breast cancer:
         stimulus: function () {
           answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values.length - 1] ) ),
                     Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_03_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_03_' + num})).select('response').values.length - 1] ) )];
-          if (answers[1][0].trim() == 'Si') {
+
+          // (?) El condicional se usaba para mostrar el "NO recomendarias". Si usamos SI/NO con toUpperCase(), nos lo ahorramos
+          /*if (answers[1][0].trim() == 'Si') {
             return "<div class='justified'>" +
             '<HR><div style="color:#424949; font-size:15px;">Has dicho que la probabilidad de ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ' tener un ' + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ' si el resultado de la ' + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ' es <B>' + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + '</B>' + ' es del ' + answers[0][0] + '%.</div><HR><BR>' +
             "¿Con qué seguridad recomendarías a tu paciente la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " como prueba <u>" + data_disease[jsPsych.timelineVariable('disease', true)].test1 + "</u> para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
@@ -359,6 +361,10 @@ Follow up Breast cancer:
             '<HR><div style="color:#424949; font-size:15px;">Has dicho que la probabilidad de ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ' tener un ' + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ' si el resultado de la ' + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ' es <B>' + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + '</B>' + ' es del ' + answers[0][0] + '%.</div><HR><BR>' +
              "¿Con qué seguridad NO recomendarías a tu paciente la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " como prueba <u>" + data_disease[jsPsych.timelineVariable('disease', true)].test1 + "</u> para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
           }
+          */
+          return "<div class='justified'>" +
+          '<HR><div style="color:#424949; font-size:15px;">Has dicho que la probabilidad de ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ' tener un ' + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ' si el resultado de la ' + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ' es <B>' + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + '</B>' + ' es del ' + answers[0][0] + '%.</div><HR><BR>' +
+           "¿Con qué seguridad " + answers[1][0].trim().toUpperCase() + " recomendarías a tu paciente la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " como prueba <u>" + data_disease[jsPsych.timelineVariable('disease', true)].test1 + "</u> para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
         },
         require_movement:true,
         min: 0, max: 100, start: 50, step: 1,
@@ -389,13 +395,14 @@ Follow up Breast cancer:
             {
               // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en FONDECYT2022E1_01 se puede obtener con answers[0]
               prompt: '<div class="justified">' +
-              'Imagina que tu paciente se realiza la ' + data_disease[jsPsych.timelineVariable('disease', true)].test_description + ' y el resultado  es <b>'+ data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image.toUpperCase() + '</b>.<BR><BR>' +
+              'Imagina que, independientemente de tu recomendación, tu paciente se realiza la ' + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '. El resultado  es <b>'+ data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image.toUpperCase() + '</b>.<BR><BR>' +
 
-              '<HR><div style="color:#424949; font-size:15px;">Has dicho que la probabilidad de ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ' tener un ' + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ' si el resultado de la ' + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ' es <B>' + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + '</B>' + ' es del ' + answers[0] + '%.</div><HR><BR>' +
+              '<HR><div style="color:#424949; font-size:15px;">Estimaste que la probabilidad de ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ' tener un ' + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ' si el resultado de la ' + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ' es <B>' + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + '</B>' + ' es del ' + answers[0] + '%.</div><HR><BR>' +
 
               data_disease[jsPsych.timelineVariable('disease', true)].follow_up_details + '. <BR><BR>' +
-              'Cuando se aplica, existe una probabilidad de ' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_risk +
-              '<br><br>¿Le recomendarías la ' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + " como "  + data_disease[jsPsych.timelineVariable('disease', true)].follow_up + ' a tu paciente?</div>',
+              //'Cuando se aplica, existe una probabilidad de ' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_risk +
+              'La ' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + ' tiene asociada una probabilidad de ' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_risk +
+              '<br><br>¿Le recomendarías la ' + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + ' como '  + data_disease[jsPsych.timelineVariable('disease', true)].follow_up + ' a tu paciente?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
               horizontal: false
@@ -421,7 +428,9 @@ Follow up Breast cancer:
           answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_05_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_05_' + num})).select('response').values.length - 1] ) ),
                     Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'FONDECYT2022E1_02_' + num})).select('response').values.length - 1] ) )];
 
-          if (answers[0][0].trim() == 'Si') {
+          // (?) El condicional se usaba para mostrar el "NO recomendarias". Si usamos SI/NO con toUpperCase(), nos lo ahorramos
+
+          /*if (answers[0][0].trim() == 'Si') {
 
             return "<div class='justified'>" +
 
@@ -439,7 +448,11 @@ Follow up Breast cancer:
 
             "¿Con qué seguridad NO le recomendarías la " + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + " como "  + data_disease[jsPsych.timelineVariable('disease', true)].follow_up + " para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
 
-          }
+          }*/
+          return "<div class='justified'>"+
+            '<HR><div style="color:#424949; font-size:15px;">Has dicho que la probabilidad de ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ' tener un ' + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ' si el resultado de la ' + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ' es <B>' + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + '</B>' + ' es del ' + answers[1] + '%.<BR><BR>' +
+            'Tu paciente recibió un resultado <B>' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + '</B> en la ' + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.</div><HR><BR>' +
+            "¿Con qué seguridad " + answers[0][0].trim().toUpperCase() + " le recomendarías la " + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + " como "  + data_disease[jsPsych.timelineVariable('disease', true)].follow_up + " para el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + "?</div></br>";
         },
         require_movement:true,
         min: 0, max: 100, start: 50, step: 1,

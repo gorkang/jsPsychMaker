@@ -107,7 +107,8 @@ jsPsych.plugins['survey-html-form'] = (function() {
 
       // save data
       var trialdata = {
-        "stimulus": stripHtml(JSON.stringify(questions_list)),
+        // "stimulus": stripHtml(JSON.stringify(html)), // NO HTML tags
+        "stimulus": html,
         "rt": response_time,
         "response": JSON.stringify(question_data)
       };
