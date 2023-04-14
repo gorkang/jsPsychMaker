@@ -18,6 +18,7 @@ var instruction_screen_experiment = {
     }
 };
 
+
 var question01 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">Indica tu edad</div>', type: 'number', range: [18, 100], required: true, error_text: 'Tienes que ser mayor de edad para poder participar'}],
@@ -32,12 +33,14 @@ var question02 = {
 };
 DEMOGR22.push(question02);
 
+/*
 var question03 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">¿Tienes algún tipo de daltonismo?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'DEMOGR22_03', procedure: 'DEMOGR22'}
 };
 DEMOGR22.push(question03);
+*/
 
 var question04 = {
   type: 'survey-multi-choice-vertical',
@@ -88,7 +91,7 @@ conditional_function: function(){
 
 DEMOGR22.push(if_question06);
 
-
+/*
 var question07 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Indica <B>tú</B> jerarquía en el ámbito médico</div>', options: ['&nbsp;Médico tratante', '&nbsp;Médico residente', '&nbsp;Asistente médico', '&nbsp;Enfermera/o', '&nbsp;Enfermera en prácticas', '&nbsp;Otra dentro del ámbito médico', '&nbsp;Otra fuera del ámbito médico'], required: true,  random_options: false, horizontal: false}],
@@ -104,7 +107,7 @@ var question08 = {
   data: {trialid: 'DEMOGR22_08', procedure: 'DEMOGR22'}
 };
 DEMOGR22.push(question08);
-
+*/
 
 
 DEMOGR22.unshift(instruction_screen_experiment);
