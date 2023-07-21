@@ -156,7 +156,7 @@
       pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/images/Bayesian31/iphone-rotation-475102.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
       button_label_next: 'Siguiente',
       data: {trialid: 'Instructions_000',
-            condition_between: between_selection["Bayesian31"]["type"],
+            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
             procedure: 'Bayesian31'},
       show_clickable_nav: true,
       on_trial_start: function(){
@@ -183,7 +183,7 @@
     },
     data: {
       trialid: 'if_instructions_000',
-      condition_between: between_selection["Bayesian31"]["type"],
+      condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
       procedure: 'Bayesian31'
     }
   };
@@ -198,7 +198,7 @@
       button_label_next: 'Siguiente',
       button_label_previous: 'Anterior',
       data: {trialid: 'Instructions_001',
-            condition_between: between_selection["Bayesian31"]["type"],
+            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
             procedure: 'Bayesian31'},
       show_clickable_nav: true,
       on_trial_start: function(){
@@ -233,7 +233,7 @@
               element = {
                 trialid: 'Bayesian31_01_' + (parseInt(num) + 1).toString(),
                 condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-                condition_between: between_selection["Bayesian31"]["type"],
+                condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
                 procedure: 'Bayesian31'
               };
               return element;
@@ -263,6 +263,7 @@
           "La prueba " + data_disease[jsPsych.timelineVariable('disease', true)].test1 + " usada habitualmente para detectar " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " es la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
           "En una persona como la descrita, el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " tiene una <B>" + prevalence_incidence[jsPsych.timelineVariable('disease', true)].label +" de " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_x + " de cada " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_y + '</B>.<BR><BR> ' +
           "La " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " tiene una <B>sensibilidad del " + data_disease[jsPsych.timelineVariable('disease', true)].number_SENSITIVITY + "%</B> y una <B>especificidad del " + data_disease[jsPsych.timelineVariable('disease', true)].number_SPECIFICITY + '%</B>. <BR><BR>'+
+          "THE PHYSICIAN RECOMMENDS THAT YOU " + between_selection["Bayesian31"]["recommendation"] + " TAKE THE TEST, BUT IT IS ULTIMATELY YOUR CALL " + '.<BR><BR> ' +
           "¿Cual es la probabilidad de " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " tener un " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " si el resultado de la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " es <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
@@ -285,7 +286,7 @@
             trialid: 'Bayesian31_02_' + num,
             //condition_within: within_selection["Bayesian31"]["timeline_01"],
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"],
+            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
             procedure: 'Bayesian31'
           };
           return element;
@@ -318,7 +319,7 @@
           var element = {
             trialid: 'Bayesian31_03_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"],
+            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
             procedure: 'Bayesian31'
           };
           return element;
@@ -345,7 +346,7 @@
           var element = {
             trialid: 'Bayesian31_04_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"],
+            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
             procedure: 'Bayesian31'
           };
           return element;
@@ -383,7 +384,7 @@
           var element = {
             trialid: 'Bayesian31_05_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"],
+            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
             procedure: 'Bayesian31'
           };
           return element;
@@ -411,7 +412,7 @@
           var element = {
             trialid: 'Bayesian31_06_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"],
+            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
             procedure: 'Bayesian31'
           };
           return element;
