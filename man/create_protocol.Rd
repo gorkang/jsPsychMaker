@@ -12,7 +12,8 @@ create_protocol(
   launch_browser = FALSE,
   piloting_task = NULL,
   show_messages = TRUE,
-  block_tasks = "randomly_ordered_tasks_1"
+  block_tasks = "randomly_ordered_tasks_1",
+  options_separator = ","
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ create_protocol(
 \item{show_messages}{TRUE/FALSE}
 
 \item{block_tasks}{Where to insert the tasks: randomly_ordered_tasks_1 or secuentially_ordered_tasks_1}
+
+\item{options_separator}{different options are by default separated by ,}
 }
 \value{
 Creates a full protocol

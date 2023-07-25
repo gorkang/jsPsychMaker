@@ -4,12 +4,19 @@
 \alias{create_task}
 \title{create_task}
 \usage{
-create_task(folder_task, folder_output = NULL, show_messages = FALSE)
+create_task(
+  folder_task,
+  folder_output = NULL,
+  options_separator = ",",
+  show_messages = FALSE
+)
 }
 \arguments{
 \item{folder_task}{Add folder of the task}
 
 \item{folder_output}{Where to create the task}
+
+\item{options_separator}{different options are by default separated by ,}
 
 \item{show_messages}{TRUE/FALSE}
 }

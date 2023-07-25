@@ -4,13 +4,14 @@
 #'
 #' @param folder_task Add folder of the task 
 #' @param folder_output Where to create the task
+#' @param options_separator different options are by default separated by ,
 #' @param show_messages TRUE/FALSE
 #'
 #' @return Creates a task
 #' @export
 #' @importFrom cli cli_alert_success cli_alert_info cli_abort
 #' @importFrom here here
-create_task <- function(folder_task, folder_output = NULL, show_messages = FALSE) {
+create_task <- function(folder_task, folder_output = NULL, options_separator = ",", show_messages = FALSE) {
 
   # DEBUG
   # .x = 1
@@ -62,6 +63,7 @@ create_task <- function(folder_task, folder_output = NULL, show_messages = FALSE
     # Create items
     ITEMS = create_items_from_file(file_name = input_CSV_XLS_files, 
                                    folder_output = folder_output, 
+                                   options_separator = options_separator,
                                    show_messages = show_messages) |> 
     unlist() |> paste(collapse = "")
     

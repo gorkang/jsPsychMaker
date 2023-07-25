@@ -8,6 +8,7 @@
 #' @param force_download_media download media even if the file already exists
 #' @param show_messages TRUE/FALSE
 #' @param block_tasks Where to insert the tasks: randomly_ordered_tasks_1 or secuentially_ordered_tasks_1
+#' @param options_separator different options are by default separated by ,
 #'
 #' @return Creates a full protocol
 #' @export
@@ -24,7 +25,8 @@ create_protocol <- function(folder_tasks = NULL,
                             launch_browser = FALSE, 
                             piloting_task = NULL,
                             show_messages = TRUE,
-                            block_tasks = "randomly_ordered_tasks_1") {
+                            block_tasks = "randomly_ordered_tasks_1",
+                            options_separator = ",") {
   
   # DEBUG
   # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
@@ -116,6 +118,7 @@ create_protocol <- function(folder_tasks = NULL,
         if (show_messages == TRUE) cli::cli_h1("create_task: {TASKS[.x]}")
         create_task(folder_task = paste0(folder_tasks, "/", TASKS[.x], "/"), 
                     folder_output = folder_output, 
+                    options_separator = options_separator,
                     show_messages = show_messages)
       })
   

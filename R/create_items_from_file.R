@@ -2,6 +2,7 @@
 #'
 #' @param file_name CSV/XLS file with info about the task
 #' @param folder_output Where do we have the canonical_protocol_clean
+#' @param options_separator different options are by default separated by ,
 #' @param show_messages TRUE/FALSE
 #'
 #' @return A char vector with the items from a file
@@ -13,7 +14,7 @@
 #' @importFrom readxl read_excel
 #' @importFrom stringr str_replace_all
 
-create_items_from_file <- function(file_name, folder_output = NULL, show_messages = FALSE) {
+create_items_from_file <- function(file_name, folder_output = NULL, options_separator = ",", show_messages = FALSE) {
 
   # TODO
   # At some point we changed the wat conditional questions trialid's are build, so they 
@@ -24,6 +25,8 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
   # DEBUG
   # file_name = "admin/example_ALL/ALL/ALL.csv"
   # folder_output = "admin/OUTPUT/NEW"
+  # options_separator = ";"
+  # show_messages = FALSE
 
   # READ file
   file_extension = strsplit(basename(file_name), split="\\.")[[1]][2]
@@ -159,7 +162,7 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
         
         is_a_number = grepl("^[0-9]+$", DF_MAP[.x])
         is_a_logical = DF_MAP[.x] %in% c("true", "false")
-        is_an_enumeration = grepl(",", DF_MAP[.x])
+        is_an_enumeration = grepl(options_separator, DF_MAP[.x])
         is_text = names(DF_MAP[.x]) %in% DO_NOT_CHANGE_text
         is_video_stimulus = grepl("video", PLUGIN) & names(DF_MAP[.x]) %in% "stimulus"
         is_same_different_stimuli = grepl("same-different", PLUGIN) & names(DF_MAP[.x]) %in% "stimuli"
@@ -174,23 +177,23 @@ create_items_from_file <- function(file_name, folder_output = NULL, show_message
             
           # We do not add &nbsp; to things like range
           } else if (names(DF_MAP[.x]) %in% NUMERIC_enumerations) {
-            DF_MAP[.x] = paste0("[", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = ", "), "]")
+            DF_MAP[.x] = paste0("[", paste(strsplit(x = DF_MAP[[.x]], split = options_separator) |> unlist() |> trimws(), collapse = ", "), "]")
           
           # keyboard-responses need choices to match actual keys!
           } else if (grepl("keyboard", PLUGIN) & names(DF_MAP[.x]) == "choices") {
-            choices = strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws()
+            choices = strsplit(x = DF_MAP[[.x]], split = options_separator) |> unlist() |> trimws()
             if (any(nchar(choices) > 1)) cli::cli_abort("choices ({choices}) in html-keyboard-response are longer than one character ({nchar(choices)})")
             DF_MAP[.x] = paste0("['", paste(choices, collapse = "', '"), "']")
             
           # same-different plugins have enumeration of stimuli
           } else if (is_same_different_stimuli) {
-            choices = strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws()
+            choices = strsplit(x = DF_MAP[[.x]], split = options_separator) |> unlist() |> trimws()
             DF_MAP[.x] = paste0("['", paste(choices, collapse = "', '"), "']")
 
             
           # All the other enumerations  
           } else {
-            DF_MAP[.x] = paste0("['&nbsp;", paste(strsplit(x = DF_MAP[[.x]], split = ",") |> unlist() |> trimws(), collapse = "', '&nbsp;"), "']")
+            DF_MAP[.x] = paste0("['&nbsp;", paste(strsplit(x = DF_MAP[[.x]], split = options_separator) |> unlist() |> trimws(), collapse = "', '&nbsp;"), "']")
             
           }
           

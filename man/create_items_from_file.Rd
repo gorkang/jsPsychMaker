@@ -4,12 +4,19 @@
 \alias{create_items_from_file}
 \title{create_items_from_file}
 \usage{
-create_items_from_file(file_name, folder_output = NULL, show_messages = FALSE)
+create_items_from_file(
+  file_name,
+  folder_output = NULL,
+  options_separator = ",",
+  show_messages = FALSE
+)
 }
 \arguments{
 \item{file_name}{CSV/XLS file with info about the task}
 
 \item{folder_output}{Where do we have the canonical_protocol_clean}
+
+\item{options_separator}{different options are by default separated by ,}
 
 \item{show_messages}{TRUE/FALSE}
 }
