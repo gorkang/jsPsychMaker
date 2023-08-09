@@ -352,7 +352,7 @@ function start_protocol(questions){
 
           findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(user_conditions) {
             for (var i = 0; i < user_conditions.length; i++) {
-              updateIndexed("condition", user_conditions[i].id_condition, "completed_protocol", "+", db);
+              updateIndexed("experimental_condition", user_conditions[i].id_condition, "completed_protocol", "+", db);
             }
           }, function() {console.log("final update user_condition table not found");});
         }, function() {
