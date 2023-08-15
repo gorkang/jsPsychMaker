@@ -1,3 +1,17 @@
+# jsPsychMaker 0.2.6
+
+Major updates  
+
+* Update canonical_protocol_clean:
+  + New media paths
+  + Parametrize config_messages
+
+Minor updates
+
+* Update tests
+* Remove check_progress_pid
+
+
 # jsPsychMaker 0.2.5
 
 Major updates  
