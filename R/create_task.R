@@ -101,11 +101,11 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
     # stringr::str_replace_all(string = ITEMS, pattern = "type: '(.*?)'", replacement = "\\1")
     
     # If we enforce the structure of canonical/media...  we can directly use the stimulus parameter in the input_CSV_XLS_files file
-    images_task = list.files(paste0(folder_task, "/media/img"), recursive = TRUE, full.names = TRUE, pattern = "\\.jpg|\\.png")
-    videos_task = list.files(paste0(folder_task, "/media/vid"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp4|\\.avi")
-    audios_task = list.files(paste0(folder_task, "/media/audio"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp3|\\.wav")
+    images_task = list.files(paste0(folder_task, "/media/images"), recursive = TRUE, full.names = TRUE, pattern = "\\.jpg|\\.png")
+    videos_task = list.files(paste0(folder_task, "/media/videos"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp4|\\.avi")
+    audios_task = list.files(paste0(folder_task, "/media/audios"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp3|\\.wav")
     
-    # CHECK media files NOT in "/media/img/"
+    # CHECK media files NOT in "/media/images/"
     ALL_files = list.files(paste0(folder_task), recursive = TRUE, full.names = TRUE)
     
     # All minus things present in image, videos and audios vectors
@@ -116,17 +116,17 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
     # CHECKS ---
     
       # Non expected files
-      if (length(non_expected_files) != 0) cli::cli_abort(c("Files out of place in {folder_output}:  {.code {basename(non_expected_files)}}\n\n", 
-                                                            "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
+      if (length(non_expected_files) != 0) cli::cli_abort(c("Files out of place in {folder_output}:  {.code {basename(dirname(non_expected_files))}/{basename(non_expected_files)}}\n\n", 
+                                                            "If you have media files, move them to: \n-Images: 'media/images' \n-Videos: 'media/videos' \n-Audio: 'media/audios'\n\n"))
     
       # If we detect an image, video or audio plugin and no files, warning
       if (any(grepl("image|video|audio", PLUGINS_used_raw)) & length(images_task) == 0 & length(videos_task) == 0 & length(audios_task) == 0) cli::cli_abort(c("Media plugin detected, but no media files found in :  {.code {task_name}}\n\n", 
-                                                                                                                                                               "If you have media files, move them to: \n-Images: 'media/img' \n-Videos: 'media/vid' \n-Audio: 'media/audio'\n\n"))
+                                                                                                                                                               "If you have media files, move them to: \n-Images: 'media/images' \n-Videos: 'media/videos' \n-Audio: 'media/audios'\n\n"))
     
     # Copy files ---
-    if (length(images_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/img/", basename(images_task)))
-    if (length(videos_task) != 0) file.copy(from = videos_task, to = paste0(folder_output, "/media/vid/", basename(videos_task)))
-    if (length(audios_task) != 0) file.copy(from = audios_task, to = paste0(folder_output, "/media/audio/", basename(audios_task)))
+    if (length(images_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/images/", basename(images_task)))
+    if (length(videos_task) != 0) file.copy(from = videos_task, to = paste0(folder_output, "/media/videos/", basename(videos_task)))
+    if (length(audios_task) != 0) file.copy(from = audios_task, to = paste0(folder_output, "/media/audios/", basename(audios_task)))
     
     
 

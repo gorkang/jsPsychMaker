@@ -166,7 +166,7 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
 get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol, force_download_media = FALSE, show_messages = TRUE) {
   
   # DEBUG
-  # all_files_js = "stimulus: 'media/img/INFCONS/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class=\"justified\"><p></p></div>',"
+  # all_files_js = "stimulus: 'media/images/INFCONS/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class=\"justified\"><p></p></div>',"
   # folder_protocol = "~/Downloads/example_tasks/"
   # all_files_js |> tibble::as_tibble() |> View()
   
@@ -181,7 +181,7 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol,
   CHECK_media_wrong_folder = !grepl(REGEXP_strict, MEDIA_used)
   if (any(CHECK_media_wrong_folder)) cli::cli_abort(c("Issues with media paths in column `stimulus` :  {.code {MEDIA_used[CHECK_media_wrong_folder]}}\n\n", 
                                                       "",
-                                                      "CHANGE paths to: ", "-Images: 'media/img' ", "-Videos: 'media/vid' ", "-Audio: 'media/audio'\n\n"))
+                                                      "CHANGE paths to: ", "-Images: 'media/images' ", "-Videos: 'media/videos' ", "-Audio: 'media/audios'\n\n"))
   
   # Get all media
   images_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\.jpg|.*\\.png", simplify = FALSE) |> purrr::compact() |> unlist()
@@ -196,7 +196,7 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol,
   
   # All media found
   all_media_protocol = c(images_files, video_files, audios_files)
-  # DEBUG: all_media_protocol = c(all_media_protocol, "media/img/fox2.jpg", "media/img/RMET/35.png", "media/img/RMET/32.png")
+  # DEBUG: all_media_protocol = c(all_media_protocol, "media/images/fox2.jpg", "media/images/RMET/35.png", "media/images/RMET/32.png")
   
   # If there is media
   if (length(all_media_protocol) != 0) {
@@ -221,7 +221,7 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol,
       if (length(media_not_found) != 0) cli::cli_abort("{.code {media_not_found}} not found")
       
       # Media to copy to folder_protocol from Github 
-        # e.g. https://github.com/gorkang/jsPsychMaker/raw/main/canonical_protocol/media/img/RMET/14.png
+        # e.g. https://github.com/gorkang/jsPsychMaker/raw/main/canonical_protocol/media/images/RMET/14.png
       download_from_github = tibble::tibble(all_media_github) |> 
         dplyr::filter(all_media_github %in% paste0("canonical_protocol/", media_on_github)) |> 
         dplyr::mutate(media_on_github = gsub("canonical_protocol/", "", all_media_github))
@@ -424,36 +424,5 @@ check_NEW_tasks_Github <- function() {
     cli::cli_alert_success("No new tasks available")
     
   }
-  
-}
-
-
-#' check_progress_pid
-#' 
-#' Get list of files in the .data/ folder for a project
-#'
-#' @param pid protocol id
-#'
-#' @return
-#' @export
-check_progress_pid <- function(pid = 3) {
-  
-  # remotes::install_github("skgrange/threadr")
-  # sudo apt install sshpass
-  
-  # Get filenames data from server ---
-  
-  # CHECK .credentials file exists
-  if (!file.exists(".vault/.credentials")) cat(cli::col_red("The .vault/.credentials file does not exist. RUN: \n"), cli::col_silver("rstudioapi::navigateToFile('setup/setup_server_credentials.R')\n"))
-  
-  list_credentials = source(".vault/.credentials")
-  files_server = threadr::list_files_scp(host = list_credentials$value$IP,
-                                         directory_remote = paste0(list_credentials$value$main_FOLDER, pid, "/.data"), 
-                                         user = list_credentials$value$user,
-                                         password = list_credentials$value$password)
-  
-  files_csv = grep("csv", basename(files_server), value = TRUE)
-  
-  return(files_csv)
   
 }

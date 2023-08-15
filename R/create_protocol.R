@@ -29,22 +29,22 @@ create_protocol <- function(folder_tasks = NULL,
                             options_separator = ",") {
   
   # DEBUG
-  # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
   # jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")
   # folder_tasks = "~/Downloads/TEST/"
-  # canonical_tasks = NULL
   # canonical_tasks = c("AIM", "EAR", "INFCONS")
   # folder_output = "~/Downloads/TEST/new_protocol"
-  # launch_browser = TRUE
-  # piloting_task = NULL
-  # force_download_media = FALSE
-  # show_messages = FALSE
+
+  # Parameters in create_protocol()
+    # folder_tasks = folder_task
+    # folder_output = output_folder
   
   # canonical_tasks = NULL
   # piloting_task = NULL
   # force_download_media = FALSE
   # show_messages = TRUE
-  
+  # block_tasks = "randomly_ordered_tasks_1"
+  # options_separator = ","
+  # launch_browser = FALSE
   
 
   # CHECK -------------------------------------------------------------------

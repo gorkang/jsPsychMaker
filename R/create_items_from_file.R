@@ -151,7 +151,7 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
         
         # Forbidden chars: # makes the csv data collection STOP
         forbidden_chars = c("#")
-        if (grepl(forbidden_chars, DF_MAP[.x])) cli::cli_alert_danger("DF_MAP[.x] contains forbidden_chars: {forbidden_chars}. \n Will delete them so they don´t cause issues")
+        if (grepl(forbidden_chars, DF_MAP[.x])) cli::cli_alert_danger("DF_MAP[.x] contains forbidden_chars: {forbidden_chars}. \n Will delete them so they don't cause issues")
         DF_MAP[.x] =  gsub(forbidden_chars, "", DF_MAP[.x])
         
       }

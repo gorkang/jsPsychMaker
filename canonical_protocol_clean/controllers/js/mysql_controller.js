@@ -1,3 +1,23 @@
+function isNormalInteger(str) {
+  str = str.trim();
+  if (!str) {
+      return false;
+  }
+  str = str.replace(/^0+/, "") || "0";
+  var n = Math.floor(Number(str));
+  return String(n) === str && n >= 0;
+}
+
+function json_can_parsed(data) {
+  if (/^[\],:{}\s]*$/.test(data.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+    //the json is ok
+    return true;
+  }else{
+    //the json is not ok
+    return false;
+  }
+}
+
 // XMLcall() ------------------------------------------------------------------
 
 // wait_for_response makes the calles synchronic
@@ -325,7 +345,7 @@ function condition_selection(between_selection_temp = {}) {
                 experiment_blocked = true;
                 condition_temp_array = [false]; // REVIEW: Needed here?
                 if (debug_mode === true) console.warn('condition_selection() | Final check NEW | No slots available'); // Ends up in jsPsych.end
-                text_input_uid.innerHTML = 'No hay cupos disponibles. <BR>Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
+                text_input_uid.innerHTML = out_of_slots_message;
                 resolve(false);
 
               // Slots available
@@ -468,7 +488,7 @@ function check_id_status(event) {
           if (debug_mode === true) console.warn("check_id_status() | NEW participant " + new Date().toISOString().slice(0, 19));
 
           uid = 0;
-          text_input_uid.innerHTML = 'Nuevo participante. Iniciando experimento... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
+          text_input_uid.innerHTML = new_participant_message;
 
           // Assign a value to between_selection (if slots available)
           condition_selection().then(function(accepted) {
@@ -552,7 +572,7 @@ function check_id_status(event) {
 
                 if (debug_mode === true) console.warn("check_id_status() | ASSIGNED participant & seconds_since_start < max_sec");
                 user_assigned = true;
-                text_input_uid.innerHTML = 'Participante encontrado. Cargando estado... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
+                text_input_uid.innerHTML = status_loading_message;
 
 
               // [[DISCARDED PARTICIPANT & accept_discarded || ASSIGNED out of time & accept_discarded]] ----------------------------------------------------------------
@@ -592,7 +612,7 @@ function check_id_status(event) {
 
                     if (debug_mode === true) console.warn('check_id_status() | UPDATE | status: assigned, start_date: actual_time, counter + 1, assigned_task + 1 | actual_user.status == "discarded" & accept_discarded === true || (seconds_since_start > max_sec && actual_user.status == "assigned" & accept_discarded === true) --> condition_selection(accepted)');
                     console.warn("OLD participant | available slots, re-assign");
-                    text_input_uid.innerHTML = 'Tiempo excedido. Recuperando datos de participante... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/>';
+                    text_input_uid.innerHTML = discarded_user_message;
 
                     // LOAD all the tasks
                     script_loading("tasks", all_tasks, completed_experiments, true);
@@ -617,7 +637,7 @@ function check_id_status(event) {
 
                 if (debug_mode === true) console.warn("check_id_status() | IMPOSSIBLE CONDITION");
                 // jsPsych.endExperiment WON'T work here. jsPsych not defined yet. WHY?
-                text_input_uid.innerHTML = 'El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
+                text_input_uid.innerHTML = discarded_user_no_time_message;
 
                 // throw ERROR so don't get to the following script_loading()
                 throw new Error('check_id_status() | IMPOSSIBLE CONDITION')
@@ -643,13 +663,13 @@ function check_id_status(event) {
           } else if (actual_user.status == "completed") {
             console.warn("OLD participant | already completed the protocol");
             //jsPsych.endExperiment("check_id_status() | completed");
-            text_input_uid.innerHTML = 'El participante ya completó el protocolo. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
+            text_input_uid.innerHTML = completed_user_message;
 
           // [[DISCARDED PARTICIPANT (!accept_discarded) ]] *****************
           } else  {
             console.warn("OLD participant | discarded (!accept_discarded)");
             //jsPsych.endExperiment("check_id_status() | else");
-            text_input_uid.innerHTML = 'El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>';
+            text_input_uid.innerHTML = discarded_user_no_time_message;
           }
         } // user in DB
       }, function (error) {
@@ -757,7 +777,7 @@ function completed_task_storage(csv, task) {
 
             } else {
               if (debug_mode === true) console.warn("Participante bloqueado por límite en condiciones" +  " #2");
-              jsPsych.endExperiment('No hay cupos disponibles. <BR>Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
+              jsPsych.endExperiment(out_of_slots_message);
             }
           });
         }
@@ -817,7 +837,7 @@ function completed_task_storage(csv, task) {
               // alert("NO hay cupos disponibles");
               protocol_blocked = true;
               if (debug_mode === true) console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #3'); // Ends up in jsPsych.end
-              jsPsych.endExperiment('No hay cupos disponibles. <BR>Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
+              jsPsych.endExperiment(out_of_slots_message);
             }
 
           }
@@ -868,7 +888,7 @@ function completed_task_storage(csv, task) {
           // NO SLOTS AVAILABLE ------------------------------------------------
           } else {
             if (debug_mode === true) console.warn("Participante bloqueado por límite en condiciones" +  " #4");
-            jsPsych.endExperiment('No hay cupos disponibles. <BR>Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
+            jsPsych.endExperiment(out_of_slots_message);
             //alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
           }
         });
@@ -929,7 +949,7 @@ function completed_task_storage(csv, task) {
               if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | status: discarded, counter - 1, for(assigned_task - 1) | actual_user.status == "assigned" --> !accept_discarded --> seconds_since_start > max_sec');
               if (debug_mode === true) console.warn("completed_task_storage() | OUT OF TIME | actual_time: " + actual_time + " | DBtime" + DBtime + " | Started " + seconds_since_start + " seconds ago | Time ends in " + hours_until_discarded + " hours [" + minutes_until_discarded + " minutes]");
 
-              jsPsych.endExperiment('El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
+              jsPsych.endExperiment(discarded_user_no_time_message);
             }
 
           } else {
@@ -942,7 +962,7 @@ function completed_task_storage(csv, task) {
           // If it is not in the last_task we finish the experiment (out of time). If in the last task we allow the participant to finish
           if (!last_task) {
             if (debug_mode === true) console.warn("completed_task_storage() | User discarded: actual_user.status != assigned --> !last_task | jsPsych.endExperiment()");
-            jsPsych.endExperiment('El participante ha sido descartado porque se ha superado el tiempo límite para completar el protocolo. Si tiene dudas puede comunicarse con el contacto que aparece en la página principal. <BR><BR><img src="controllers/media/logo-CSCN.png" name="CSCN" align="bottom" border="0"/>');
+            jsPsych.endExperiment(discarded_user_no_time_message);
           } else {
             if (debug_mode === true) console.warn("completed_task_storage() | User discarded: actual_user.status != assigned --> last_task | continue");
           }
@@ -964,7 +984,7 @@ function completed_task_storage(csv, task) {
 
       // PARTICIPANT NOT in user table in DB
       } else {
-        alert("Participante no encontrado");
+        alert(user_not_found_message);
         if (debug_mode === true) console.warn("completed_task_storage() | Participant not found");
       }
     }, function(user_not_found) {
