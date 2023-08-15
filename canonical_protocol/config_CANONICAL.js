@@ -46,15 +46,15 @@ tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks'];
 message_str = 'El protocolo está cargando, espere un momento...'; // Message when preloading media
 
 // media to preload in protocol_controller
-img_folder = 'media/img/';
-audio_folder = 'media/audio/';
+img_folder = 'media/images/';
+audio_folder = 'media/audios/';
 
 images =  [img_folder + 'VPP_low.png',  img_folder + 'VPP_high.png', img_folder + 'VPN_low.png',  img_folder + 'VPN_high.png',
           img_folder + 'BART/BART_redBalloon.png',
           img_folder + 'Baby_cerebro_VC.png', img_folder + 'Baby_lactancia_VC.png', img_folder + 'Baby_respiratorios_VC.png', img_folder + 'Baby_UCI_VC.png', img_folder + 'Mother_anestesia_VC.png', img_folder + 'Mother_depresion_VC.png', img_folder + 'Mother_histerectomia_VC.png', img_folder + 'Mother_infeccion_VC.png', img_folder + 'Mother_lesion_VC.png', img_folder + 'Mother_paro_VC.png', img_folder + 'Mother_UCI_VC.png'
           ];
 audios = [audio_folder + 'BART_inflate.mp3', audio_folder + 'BART_explode.mp3', audio_folder + 'BART_collect.mp3', audio_folder + 'silence.mp3'];
-video = ['media/vid/Entrevista1.mp4'];
+video = ['media/videos/Entrevista1.mp4'];
 
 
 
