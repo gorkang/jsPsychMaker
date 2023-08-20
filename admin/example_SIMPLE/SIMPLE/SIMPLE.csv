@@ -1,0 +1,2 @@
+ID,plugin,stimulus,choices,preamble,stimuli,answer,same_key,different_key,options,html,length,prompt
+1,html-button-response,media/html/consent-placeholder.html,1; 2,preamble,,,,,,,NA,"PLUGIN: html-button-response| CHOICES: 1, 2 | answer: "

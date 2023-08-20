@@ -38,13 +38,16 @@ create_protocol <- function(folder_tasks = NULL,
     # folder_tasks = folder_task
     # folder_output = output_folder
   
+  # folder_tasks = "~/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/admin/example_ALL/"
+  # folder_output = "~/Downloads/protocolALL999"
+  # options_separator = ";"
+  
   # canonical_tasks = NULL
   # piloting_task = NULL
   # force_download_media = FALSE
   # show_messages = TRUE
   # block_tasks = "randomly_ordered_tasks_1"
-  # options_separator = ","
-  # launch_browser = FALSE
+  
   
 
   # CHECK -------------------------------------------------------------------
@@ -177,6 +180,7 @@ create_protocol <- function(folder_tasks = NULL,
   
   
   # MEDIA ---
+  # Get media and prepare the media strings for config.js
   all_media_protocol = get_media_for_protocol(all_files_js = all_files_js, folder_protocol = folder_output, force_download_media = force_download_media, show_messages = show_messages)
     
   

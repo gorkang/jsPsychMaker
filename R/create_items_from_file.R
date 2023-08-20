@@ -12,10 +12,10 @@
 #' @importFrom janitor remove_empty
 #' @importFrom readr read_csv cols col_character
 #' @importFrom readxl read_excel
-#' @importFrom stringr str_replace_all
+#' @importFrom stringr str_replace_all str_count
 
 create_items_from_file <- function(file_name, folder_output = NULL, options_separator = ",", show_messages = FALSE) {
-
+  
   # TODO
   # At some point we changed the wat conditional questions trialid's are build, so they 
   # do not increase item, they add _1 to the question they depend: e.g. PVC_001_1
@@ -82,6 +82,20 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
   # To be able to clean up weird chars latter
   TEXT_response_columns = c("choices", "options")
   
+  # The options_separator used is adequate?
+  TEXT_existing_columns = TEXT_response_columns[TEXT_response_columns %in% names(DF)]
+  if (length(TEXT_existing_columns) > 0) {
+    
+    TEXT_response_columns_data = DF |> tidyr::pivot_longer(dplyr::all_of(TEXT_existing_columns)) |> dplyr::pull(value)
+    number_options_separator = stringr::str_count(str = TEXT_response_columns_data, pattern = options_separator) |> sum(na.rm = TRUE)
+    number_commas = stringr::str_count(str = TEXT_response_columns_data, pattern = ",") |> sum(na.rm = TRUE)
+    number_semicolons = stringr::str_count(str = TEXT_response_columns_data, pattern = ";") |> sum(na.rm = TRUE)
+    if (any(number_options_separator < c(number_commas, number_semicolons))) {
+      cli::cli_alert_danger("We have {number_commas} ',' and {number_semicolons} ';' but you selected the `options_separator = \"{options_separator}\"`\n Maybe you want to change the value in the `options_separator` parameter?")
+      Sys.sleep(5)
+    }
+  }
+  
   # Have text output columns # TODO: add missing cols
   TEXT_columns = c("preamble", "prompt", "stimulus") # stimuli in same-different plugin. SHOULD only contain HTML or images
   text_columns_present = any(TEXT_columns %in% colnames(DF_columns_parameters))
@@ -138,7 +152,7 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
   # One per column
   ALL = 1:ncol(DF_MAP) |>
     purrr::map(~{
-      
+      # .x=1
       BLACKLIST_parameters = c("if_question")
       NUMERIC_enumerations = c("range")
       DO_NOT_CHANGE_text = c("html")

@@ -18,7 +18,9 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
   # folder_task = paste0(tasks_folder, "/", TASKS[.x], "/")
   # folder_task = "admin/example_tasks_new_protocol/BNT/"
   # folder_output = "tasks/BNT/"
-  # invisible(lapply(list.files("./R", full.names = TRUE, pattern = ".R$"), source))
+  # folder_output = NULL
+  # options_separator=","
+  # devtools::load_all()
 
   
   # Parameters
@@ -105,6 +107,15 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
     videos_task = list.files(paste0(folder_task, "/media/videos"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp4|\\.avi")
     audios_task = list.files(paste0(folder_task, "/media/audios"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp3|\\.wav")
     
+    basename_dir_images = ifelse(length(images_task) > 0, basename(dirname(images_task)), "")
+    basename_dir_videos = ifelse(length(videos_task) > 0, basename(dirname(videos_task)), "")
+    basename_dir_audios = ifelse(length(audios_task) > 0, basename(dirname(audios_task)), "")
+    
+    # Check media inside TASK subfolder
+    if ((length(images_task) > 1 & basename_dir_images == "images") | (length(videos_task) > 1 & basename_dir_videos == "videos") | (length(audios_task) > 1 & basename_dir_audios == "audios")) {
+      cli::cli_abort("Make sure the images, videos o audios are inside /media/[images, videos or audios]/[NAME OF THE TASK]")
+    }
+    
     # CHECK media files NOT in "/media/images/"
     ALL_files = list.files(paste0(folder_task), recursive = TRUE, full.names = TRUE)
     
@@ -124,9 +135,22 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
                                                                                                                                                                "If you have media files, move them to: \n-Images: 'media/images' \n-Videos: 'media/videos' \n-Audio: 'media/audios'\n\n"))
     
     # Copy files ---
-    if (length(images_task) != 0) file.copy(from = images_task, to = paste0(folder_output, "/media/images/", basename(images_task)))
-    if (length(videos_task) != 0) file.copy(from = videos_task, to = paste0(folder_output, "/media/videos/", basename(videos_task)))
-    if (length(audios_task) != 0) file.copy(from = audios_task, to = paste0(folder_output, "/media/audios/", basename(audios_task)))
+    if (length(images_task) != 0) {
+      destination_images = paste0(folder_output, "/media/images/", basename_dir_images, "/", basename(images_task))
+      dir.create(dirname(destination_images), recursive = TRUE, showWarnings = FALSE)
+      file.copy(from = images_task, to = destination_images)
+    }
+    
+    if (length(videos_task) != 0) {
+      destination_videos = paste0(folder_output, "/media/videos/", basename_dir_videos, "/", basename(videos_task))
+      dir.create(dirname(destination_videos), recursive = TRUE, showWarnings = FALSE)
+      file.copy(from = videos_task, to = destination_videos)
+    }
+    if (length(audios_task) != 0) {
+      destination_audios = paste0(folder_output, "/media/audios/", basename_dir_audios, "/", basename(audios_task))
+      dir.create(dirname(destination_audios), recursive = TRUE, showWarnings = FALSE)
+      file.copy(from = audios_task, to = destination_audios)
+    }
     
     
 

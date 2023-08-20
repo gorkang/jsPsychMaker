@@ -27,16 +27,16 @@ TASK_all_plugins = tibble::tibble(ID = 1:length(ALL_available_plugins),
        ) |> 
   dplyr::mutate(stimulus = 
                   dplyr::case_when(
-                    grepl("image", plugin) ~ "media/img/fox.jpg",
-                    grepl("audio", plugin) ~ "media/audio/BART_explode.mp3",
-                    grepl("video", plugin) ~ "media/vid/Entrevista1.mp4",
+                    grepl("image", plugin) ~ "media/images/fox.jpg",
+                    grepl("audio", plugin) ~ "media/audios/BART_explode.mp3",
+                    grepl("video", plugin) ~ "media/videos/Entrevista1.mp4",
                     grepl("html", plugin) ~ "media/html/consent-placeholder.html",
                     TRUE ~ "")) |> 
   
   dplyr::mutate(stimuli = 
                   dplyr::case_when(
                     grepl("same-different-html", plugin) ~ "media/html/consent-placeholder.html, media/html/consent-placeholder.html",
-                    grepl("same-different-image", plugin) ~ "media/img/fox.jpg, media/img/fox.jpg",
+                    grepl("same-different-image", plugin) ~ "media/images/fox.jpg, media/images/fox.jpg",
                     TRUE ~ "")) |> 
 
   # Needs to be a letter, not a number!

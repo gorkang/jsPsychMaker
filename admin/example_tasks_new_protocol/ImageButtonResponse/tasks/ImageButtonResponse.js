@@ -16,7 +16,7 @@
     
   var question001 = {
     type: 'image-button-response',
-    stimulus: 'media/img/fox.jpg',
+    stimulus: 'media/images/fox.jpg',
       choices: ['&nbsp;yes', '&nbsp;no'],
       prompt: 'Do you like the image?',
       required: true,

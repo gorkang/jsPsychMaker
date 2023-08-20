@@ -188,10 +188,14 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol,
   video_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\mp4|.*\\.avi", simplify = FALSE) |> purrr::compact() |> unlist()
   audios_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\.mp3|.*\\.wav", simplify = FALSE) |> purrr::compact() |> unlist()
   
+  if (!is.null(images_files)) basename_dir_images = basename(dirname(images_files))
+  if (!is.null(video_files)) basename_dir_videos = basename(dirname(video_files))
+  if (!is.null(audios_files)) basename_dir_audios = basename(dirname(audios_files))
+  
   media_experiment = list(
-    images =  ifelse (length(images_files) != 0, paste0("images = ['", paste(images_files, collapse = "', '"), "'];"), "images = [];"),
-    video = ifelse (length(video_files) != 0, paste0("video = ['", paste(video_files, collapse = "', '"), "'];"), "video = [];"),
-    audios = ifelse (length(audios_files) != 0, paste0("audios = ['", paste(audios_files, collapse = "', '"), "'];"), "audios = [];")
+    images =  ifelse (length(images_files) != 0, paste0("images = {'", basename_dir_images, "': ['", paste(basename(images_files), collapse = "', '"), "']};"), "images = {};"),
+    video = ifelse (length(video_files) != 0, paste0("video = {'", basename_dir_videos, "': '", paste(basename(video_files), collapse = "', '"), "'};"), "video = {};"),
+    audios = ifelse (length(audios_files) != 0, paste0("audios = {'", basename_dir_audios, "': '", paste(basename(audios_files), collapse = "', '"), "'};"), "audios = {};")
   )
   
   # All media found

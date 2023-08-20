@@ -31,7 +31,6 @@ $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 if (strpos($url,'test') !== false) {
   // If running task in protocols/tests/protocols_DEV/ folder:
   require_once '../../../../../../../../../../.secrets_mysql.php';
-
 } else {
   // If running task in protocols/ folder:
   require_once '../../../../../../../../.secrets_mysql.php';

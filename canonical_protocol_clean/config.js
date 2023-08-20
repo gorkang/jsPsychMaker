@@ -30,8 +30,7 @@ tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks'];
 // MEDIA preloading ------------------------------------------------------------
 
 // media to preload in protocol_controller
-images =  {/*"Bayesian31": ['VPP_low_Cancer.png', 'VPN_high_Cancer.png',  'VPN_low_Stroke.png', 'VPP_high_Stroke.png',
-'instructions1.png', 'instructions2.png', 'iphone-rotation-475102.png'], "WaisWorkingMemory": ['cross.png']*/};
+images =  {/*"Bayesian31": ['VPP_low_Cancer.png', 'VPN_high_Cancer.png',  'VPN_low_Stroke.png', 'VPP_high_Stroke.png', 'instructions1.png', 'instructions2.png', 'iphone-rotation-475102.png'], "WaisWorkingMemory": ['cross.png']*/};
 audios = {};
 videos = {};
 

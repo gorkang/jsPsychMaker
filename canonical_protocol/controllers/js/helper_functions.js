@@ -1,4 +1,3 @@
-
 if (debug_mode === true) console.warn("helper_functions()");
 
 // CHECKS ----------------------------------------------------------------------
@@ -86,6 +85,26 @@ function pad(num, size) {
     num = num.toString();
     while (num.length < size) num = "0" + num;
     return num;
+}
+
+function isNormalInteger(str) {
+    str = str.trim();
+    if (!str) {
+        return false;
+    }
+    str = str.replace(/^0+/, "") || "0";
+    var n = Math.floor(Number(str));
+    return String(n) === str && n >= 0;
+}
+
+function json_can_parsed(data) {
+  if (/^[\],:{}\s]*$/.test(data.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+    //the json is ok
+    return true;
+  }else{
+    //the json is not ok
+    return false;
+  }
 }
 
 // config_controller.js -------------------------------------------------------------
@@ -178,7 +197,7 @@ function script_loading(folder, array, completed_experiments = [], new_element =
 	} else if (index == array.length - 1 && folder == "tasks") {
 		script.onload = function () {
 			if (experiment_blocked)
-				alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
+				alert(max_participants_reached);
 			else {
 				questions = obtain_experiments(questions, completed_experiments);
 				continue_page_activation(completed_experiments, questions);
@@ -202,8 +221,8 @@ function check_fullscreen(task_name) {
   return ({
     timeline: [{
       type: 'fullscreen',
-      message: '<p>El experimento entrará en modo pantalla completa</p>',
-      button_label: 'Full screen',
+      message: '<p>' + fullscreen_text + '</p>',
+      button_label: fullscreen_label,
       delay_after: 0,
       fullscreen_mode: true,
       data: {procedure: task_name}
@@ -218,8 +237,7 @@ function check_fullscreen(task_name) {
   });
 }
 
-function call_function(task_name, version = 'original') {
-
+function call_function(task_name) {
   questions.push({
       type: 'call-function',
       data: {trialid: task_name + '_000', procedure: task_name},
@@ -229,7 +247,7 @@ function call_function(task_name, version = 'original') {
         } else {
           var data = jsPsych.data.get().filter({procedure: task_name}).json();
         }
-        saveData(data, online, task_name, version = version);
+        saveData(data, online, task_name);
       }
   });
 }
@@ -251,20 +269,19 @@ function continue_page_activation(completed_experiments, questions, completed = 
   seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
   hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
   minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON));
-  discard_time_message = " <B>Tu cupo caducará en " + hours_until_discarded + " horas [" + minutes_until_discarded + " minutos].</B>";
-
+  discard_time_message = discarded_time_message[0] + hours_until_discarded + discarded_time_message[1] + minutes_until_discarded + discarded_time_message[2];
 
   // se selecciona el texto a mostrar y si es que se muestra o no el botón para continuar con el protocolo en el punto en el que quedó
   if (completed_experiments.length !== 0 && questions.length !== 0) {
-    text_input_uid.innerHTML = "Ya has completado " + (completed_experiments.length).toString() + " de " + (all_tasks.length).toString() + " tareas. <br><br> Para continuar con las " + (all_tasks.length - completed_experiments.length).toString() + " últimas tareas, presiona el botón. " + discard_time_message;
+    text_input_uid.innerHTML = tasks_count_message[0] + (completed_experiments.length).toString() + tasks_count_message[1] + (all_tasks.length).toString() + tasks_count_message[2] + (all_tasks.length - completed_experiments.length).toString() + tasks_count_message[3] + discard_time_message;
     start.hidden = false;
     start.removeAttribute("style");
   } else if ((completed_experiments.length == all_tasks.length) || completed) {
-    text_input_uid.innerHTML = "Ya has completado todas las tareas de este protocolo.";
+    text_input_uid.innerHTML = tasks_completed_message;
   } else if (discarded && !accept_discarded) {
-    text_input_uid.innerHTML = "Este participante fue descartado del protocolo por superar el tiempo asignado.";
+    text_input_uid.innerHTML = discarded_time_message_2;
   } else { // New participant
-    text_input_uid.innerHTML = (outro_HTML).concat("<br><br>Presiona el siguiente botón para comenzar.");
+    text_input_uid.innerHTML = (outro_HTML).concat(outro_ending);
     start.hidden = false;
     start.removeAttribute("style");
   }
@@ -302,10 +319,28 @@ function obtain_experiments(questions, completed_experiments){
   return questions;
 }
 
+function object_to_array(selected_object) {
+
+  temp_dict = window[selected_object];
+
+  let final_array = Object.keys(temp_dict).map(function(key) {
+    temp_array = []
+    for (element of temp_dict[key]) temp_array.push('media/' + selected_object + "/" + key + "/" + element)
+    return temp_array
+  }).flat(1);
+
+  return final_array
+}
+
 // funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
 function start_protocol(questions){
 
   if (debug_mode === true) console.warn("start_protocol()");
+
+  // se mapea object de imagenes a array
+  images_array = object_to_array("images");
+  audios_array = object_to_array("audios");
+  videos_array = object_to_array("videos");
 
   // Preload ----------------------------------------------------
   // con el arreglo de questions finalizado se pueden agregar restricciones extras, como el precargado de imágenes (son definidas en index):
@@ -313,10 +348,10 @@ function start_protocol(questions){
     type: 'preload',
     show_progress_bar: true,
     auto_preload: true, // Does not work
-    message: 'Cargando imágenes...',
-    images: images,
-    audios: audios,
-    video: video
+    message: loading_resources_message,
+    images: images_array,
+    audios: audios_array,
+    video: videos_array
   };
   //questions.unshift({type: 'preload', images: images, audios: audios, video: video});
   questions.unshift(preload);
@@ -332,7 +367,7 @@ function start_protocol(questions){
 
           findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(user_conditions) {
             for (var i = 0; i < user_conditions.length; i++) {
-              updateIndexed("condition", user_conditions[i].id_condition, "completed_protocol", "+", db);
+              updateIndexed("experimental_condition", user_conditions[i].id_condition, "completed_protocol", "+", db);
             }
           }, function() {console.log("final update user_condition table not found");});
         }, function() {
@@ -362,14 +397,20 @@ function start_protocol(questions){
     timeline: questions,
     override_safe_mode: true,
     show_progress_bar: true,
-    message_progress_bar: 'Porcentaje completado',
+    message_progress_bar: progress_bar_message,
     fullscreen: true,
     on_interaction_data_update: function(data){
-      if (data.event == 'fullscreenexit'){
-        alert("Si sales de pantalla completa pueden perderse datos. Por favor, pulsa F11 para volver al experimento.");
-      }}
+      if (data.event == 'fullscreenexit' & !hasTouchScreen){
+        alert(exit_fullscreen_message);
+      }
+    }
   });
 
+}
+
+// prevent right click on certains questions
+function prevent_right_click(e) {
+  e.preventDefault();
 }
 
 // flattenObject -------------------------------------------------------------
@@ -378,18 +419,121 @@ function flattenObject(ob) {
   var toReturn = {};
 
   for (var i in ob) {
-    if (!ob.hasOwnProperty(i)) continue;
+      if (!ob.hasOwnProperty(i)) continue;
 
-    if ((typeof ob[i]) == 'object' && ob[i] !== null) {
-      var flatObject = flattenObject(ob[i]);
-      for (var x in flatObject) {
-        if (!flatObject.hasOwnProperty(x)) continue;
-        toReturn[i + '.' + x] = flatObject[x];
+      if ((typeof ob[i]) == 'object' && ob[i] !== null) {
+          var flatObject = flattenObject(ob[i]);
+          for (var x in flatObject) {
+              if (!flatObject.hasOwnProperty(x)) continue;
+              toReturn[i + '.' + x] = flatObject[x];
+          }
+      } else {
+          toReturn[i] = ob[i];
       }
-    } else {
-      toReturn[i] = ob[i];
-    }
   }
   return toReturn;
   //JSON.stringify(flattenObject());
 }
+
+// image_zoom controller ------------------------------------------------------
+
+function image_zoom() {
+  let imgs = document.querySelectorAll('img');
+  for (var i = 0; i < imgs.length; i++) {
+    let img = imgs[i];
+    if (img) {
+      if (zoom_type == 'Intense') {
+        Intense(img);
+      } else if (zoom_type == 'fullPage') {
+
+        if (!(document.querySelector('#fullpage_image'))) {
+          var elemDiv = document.createElement('div');
+          elemDiv.id = "fullpage_image";
+
+          let parent = document.querySelector('#jspsych-content');
+          //document.body.appendChild(elemDiv);
+          parent.appendChild(elemDiv);
+          elemDiv.setAttribute("onclick", "this.style.display='none';");
+        }
+
+        let fullPage = document.querySelector('#fullpage_image');
+        img.addEventListener('click', function() {
+          fullPage.style.backgroundImage = 'url(' + img.src + ')';
+          fullPage.style.display = 'block';
+        });
+      }
+    }
+  }
+}
+
+// direccion pantalla para celulares ------------------------------------------
+
+var giro_check = false;
+
+function check_orientation() {
+  if (hasTouchScreen) {
+    return (window.orientation);
+  } else {
+    return (0);
+  }
+};
+
+function rectify_orientation() {
+  if (giro_check){
+    // funcionará para todos los casos normales con un botón continuar con id que termine en "next"
+    if (document.querySelector("[id$=next]") || document.querySelector("[id$=back]")) {
+      if (check_orientation() == 0) {
+        document.querySelector("[id$=next]").disabled = true;
+        document.querySelector("[id$=back]").disabled = true;
+
+        if (!(document.querySelector('#fail-message'))) {
+          var elemDiv = document.createElement('div');
+          elemDiv.id = "fail-message";
+          elemDiv.innerHTML = '<span style="color: red;" class="required">' + "Porfavor gire su teléfono." +'</span>';
+
+          let parent = document.querySelector('#jspsych-content');
+          parent.appendChild(elemDiv);
+        }  else {
+          document.querySelector('#fail-message').innerHTML = '<span style="color: red;" class="required">' + "Porfavor gire su teléfono." +'</span>';
+        }
+
+      } else {
+        document.querySelector("[id$=next]").disabled = false;
+        document.querySelector("[id$=back]").disabled = false;
+
+        if ((document.querySelector('#fail-message'))) {
+          document.querySelector('#fail-message').innerHTML = ""
+        }
+
+      }
+    }
+  }
+}
+
+window.addEventListener("resize", rectify_orientation, false);
+window.addEventListener("orientationchange", rectify_orientation, false);
+
+// Encryption and Decryption codes
+const crypt = (salt, text) => {
+  const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+  const byteHex = (n) => ("0" + Number(n).toString(16)).substr(-2);
+  const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+
+  return text
+    .split("")
+    .map(textToChars)
+    .map(applySaltToChar)
+    .map(byteHex)
+    .join("");
+};
+
+const decrypt = (salt, encoded) => {
+  const textToChars = (text) => text.split("").map((c) => c.charCodeAt(0));
+  const applySaltToChar = (code) => textToChars(salt).reduce((a, b) => a ^ b, code);
+  return encoded
+    .match(/.{1,2}/g)
+    .map((hex) => parseInt(hex, 16))
+    .map(applySaltToChar)
+    .map((charCode) => String.fromCharCode(charCode))
+    .join("");
+};
