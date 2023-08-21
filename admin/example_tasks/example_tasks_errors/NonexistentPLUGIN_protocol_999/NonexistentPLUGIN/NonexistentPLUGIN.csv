@@ -1,0 +1,3 @@
+ID,plugin,prompt,type
+1,survey-text,Hi,number
+2,survey-text-NONEXISTENT,there,text

@@ -3,23 +3,23 @@ testthat::test_that('create_protocol_ERRORS', {
   # Copy example tasks to local folder
   destination_folder = "~/Downloads/TEST_testthat/"
   unlink(destination_folder, recursive = TRUE)
-  jsPsychMaker::copy_example_tasks(destination_folder = destination_folder, file_zip = "tasks_errors.zip", show_messages = FALSE)
+  jsPsychMaker::copy_example_tasks(destination_folder = destination_folder, file_zip = "example_tasks_errors.zip", show_messages = FALSE)
   
   # Create quiet version
   create_protocol_quiet <- purrr::quietly(jsPsychMaker::create_protocol)
   
   # List all tasks
-  FOLDERS = list.dirs(paste0(destination_folder, "/tasks_errors"), recursive = FALSE) |> basename()
+  FOLDERS = list.dirs(paste0(destination_folder), recursive = FALSE) |> basename()
   
-  # Works fine with devtools::test(), but fails if run interactively
+  # Run all tests
   1:length(FOLDERS) |> 
   purrr::walk(~{
     # DEBUG
     # .x = 1
     # cli::cli_alert_info(paste0(.x, ": ", FOLDERS[.x]))
     
-    folder_task = paste0(destination_folder, "/tasks_errors/", FOLDERS[.x], "/")
-    output_folder = paste0("~/Downloads/TEST_testthat/", FOLDERS[.x], "/")
+    folder_task = paste0(destination_folder, FOLDERS[.x], "/")
+    output_folder = paste0("~/Downloads/TEST_testthat/", FOLDERS[.x], "/test/")
     ERROR = readLines(paste0(folder_task, "/ERROR_expected"))
     
     # If there is no error, gives an error

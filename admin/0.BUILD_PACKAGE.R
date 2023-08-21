@@ -1,27 +1,36 @@
-
 # Github version
 # remotes::install_github("gorkang/jsPsychMaker")
 
-# Prepare files -----------------------------------------------------------
+# Prepare inst/ zips ------------------------------------------------------
   
-  # IF there are changes to `canonical_protocol/tasks` or `canonical_protocol_clean`, run this:
+  # If there are changes to `canonical_protocol/tasks`, `canonical_protocol_clean`, `example_tasks` or `example_tasks_errors`, run this:
 
   # TASKS ---
-    # Remove old
     file.remove("inst/templates/tasks.zip")
-    # Copy canonical_protocol/tasks to inst/templates/tasks.zip
-    files_tasks = list.files(path = "canonical_protocol/tasks", full.names = TRUE, recursive = TRUE)
-    zip(zipfile = "inst/templates/tasks.zip", files = files_tasks, extras = "-j")
+    jsPsychHelpeR::zip_files(folder_files = "canonical_protocol/tasks/", 
+                             zip_name = "inst/templates/tasks.zip", 
+                             remove_files = FALSE)
 
   # canonical_protocol_clean ---
-    # Remove old
     file.remove("inst/templates/canonical_protocol_clean.zip")
-    # Copy canonical_protocol_clean to inst/templates/canonical_protocol_clean.zip
-    setwd("canonical_protocol_clean/")
-    files_canonical_protocol_clean = list.files(path = ".", full.names = TRUE, recursive = TRUE)
-    zip(zipfile = "../inst/templates/canonical_protocol_clean.zip", files = files_canonical_protocol_clean)
-    setwd("../")
-  
+    jsPsychHelpeR::zip_files(folder_files = "canonical_protocol_clean/", 
+                             zip_name = "inst/templates/canonical_protocol_clean.zip", 
+                             remove_files = FALSE)
+
+  # Example tasks ---
+    file.remove("inst/templates/example_tasks.zip")
+    jsPsychHelpeR::zip_files(folder_files = "admin/example_tasks/example_tasks/", 
+                             zip_name = "inst/templates/example_tasks.zip", 
+                             remove_files = FALSE)
+    
+  # Example tasks errors ---
+    file.remove("inst/templates/example_tasks_errors.zip")
+    jsPsychHelpeR::zip_files(folder_files = "admin/example_tasks/example_tasks_errors/", 
+                             zip_name = "inst/templates/example_tasks_errors.zip", 
+                             remove_files = FALSE)
+    
+    
+    
 
 # Build package -----------------------------------------------------------
 
@@ -57,6 +66,7 @@
 # REMEMBER ----------------------------------------------------------------
 
 # If warning about non-ASCII characters. Find character and replace 
-  # https://altcodeunicode.com/alt-codes-letter-o-with-accents/
   # tools::showNonASCIIfile(file = "R/create_task.R")
+  
+  # https://altcodeunicode.com/alt-codes-letter-o-with-accents/
   # e.g. ó -> \u00F3
