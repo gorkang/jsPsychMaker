@@ -7,7 +7,7 @@
 create_task(
   folder_task,
   folder_output = NULL,
-  options_separator = ",",
+  options_separator = ";",
   show_messages = FALSE
 )
 }
@@ -16,7 +16,7 @@ create_task(
 
 \item{folder_output}{Where to create the task}
 
-\item{options_separator}{different options are by default separated by ,}
+\item{options_separator}{different options are by default separated by ;}
 
 \item{show_messages}{TRUE/FALSE}
 }

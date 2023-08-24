@@ -1,0 +1,6 @@
+ID,plugin,stimulus,choices,preamble,stimuli,answer,same_key,different_key,options,html,length,prompt
+1,html-button-response,media/html/HTML/html_file.html,1;2,preamble,,,,,,,NA,"PLUGIN: html-button-response| CHOICES: 1, 2 | answer: "
+2,html-keyboard-response,media/html/HTML/html_file.html,1;2,preamble,,,,,,,NA,"PLUGIN: html-keyboard-response| CHOICES: 1, 2 | answer: "
+3,html-slider-response,media/html/HTML/html_file.html,1;2,preamble,,,,,,,NA,"PLUGIN: html-slider-response| CHOICES: 1, 2 | answer: "
+4,same-different-html,,1;2,preamble,media/html/HTML/html_file.html; media/html/HTML/html_file.html,a,a,a,,,NA,"PLUGIN: same-different-html| CHOICES: 1, 2 | answer: a"
+5,survey-html-form,media/html/HTML/html_file.html,1;2,preamble,,,,,,"<p> I am feeling <input name=""first"" type=""text"" />, <input name=""second"" type=""text"" />, and <input name=""third"" type=""text"" />.</p>",NA,"PLUGIN: survey-html-form| CHOICES: 1, 2 | answer: "

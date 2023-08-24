@@ -2,7 +2,7 @@
 #'
 #' @param file_name CSV/XLS file with info about the task
 #' @param folder_output Where do we have the canonical_protocol_clean
-#' @param options_separator different options are by default separated by ,
+#' @param options_separator different options are by default separated by ;
 #' @param show_messages TRUE/FALSE
 #'
 #' @return A char vector with the items from a file
@@ -14,7 +14,7 @@
 #' @importFrom readxl read_excel
 #' @importFrom stringr str_replace_all str_count
 
-create_items_from_file <- function(file_name, folder_output = NULL, options_separator = ",", show_messages = FALSE) {
+create_items_from_file <- function(file_name, folder_output = NULL, options_separator = ";", show_messages = FALSE) {
   
   # TODO
   # At some point we changed the wat conditional questions trialid's are build, so they 
@@ -180,10 +180,20 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
         is_text = names(DF_MAP[.x]) %in% DO_NOT_CHANGE_text
         is_video_stimulus = grepl("video", PLUGIN) & names(DF_MAP[.x]) %in% "stimulus"
         is_same_different_stimuli = grepl("same-different", PLUGIN) & names(DF_MAP[.x]) %in% "stimuli"
+        is_html_stimulus = grepl("html", PLUGIN) & names(DF_MAP[.x]) %in% "stimulus"
+        is_html_stimuli = grepl("html", PLUGIN) & names(DF_MAP[.x]) %in% "stimuli"
+        is_html_file = grepl("\\.html$", DF_MAP[.x])
+        
+
+        # CHECKS
+        if (names(DF_MAP[.x]) %in% NUMERIC_enumerations & is_an_enumeration == FALSE) {
+          cli::cli_abort("We expected to find elements separated by {.code {options_separator}} in the {names(DF_MAP[.x])} column but we found:\n
+                         {DF_MAP[.x][[1]]}")
+        }
         
         # Format modifications depending on content and/or column
-        # If it contains an enumeration (",") and is NOT in the DO_NOT_CHANGE_text list
-        if (is_an_enumeration & !is_text) {
+        # If it contains an enumeration (";") and is NOT in the DO_NOT_CHANGE_text list
+        if (is_an_enumeration & !is_text & !is_html_stimuli) {
           
           # If contains commas but it is one of the text columns
           if (names(DF_MAP[.x]) %in% TEXT_columns) {
@@ -215,6 +225,30 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
           # With video plugins we need: stimulus: ['video/fish.mp4'],
           DF_MAP[.x] = paste0("['", DF_MAP[.x], "']")
           
+          
+        } else if (is_html_stimulus == TRUE & is_html_file == TRUE) {  
+          
+          file_to_read = paste0(dirname(file_name), "/", DF_MAP[.x]$stimulus)
+          cli::cli_alert_info("Reading html file: {file_to_read}")
+          RAW_html = readLines(file_to_read)
+          DF_MAP[.x] = paste0("`", paste(RAW_html, collapse = "\n"), "`")
+          
+        } else if (is_html_stimuli == TRUE & is_html_file == TRUE) {  
+          
+          HTMLS = strsplit(x = DF_MAP[.x]$stimuli, split = options_separator) |> unlist() |> trimws()
+          
+          files_to_read = paste0(dirname(file_name), "/", HTMLS)
+          # cli::cli_alert_info("Reading html file: {files_to_read}")
+          RAW_html = map(files_to_read, readLines)
+          
+          XYZ =  1:length(RAW_html) |> 
+            purrr::map(~
+                         {
+                           paste0("`", paste(RAW_html[[.x]], collapse = "\n"), "`")
+                         })
+          
+          DF_MAP[.x] = paste0("[", paste(XYZ, collapse = ", "), "]")
+          
         # If it is not logical and not a number
         } else if (!is_a_logical & !is_a_number) {
           
@@ -222,6 +256,7 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
           
         } else {
           # Logical, numbers... do not change anything
+          # cli::cli_alert_info("ELSE")
         }
         # Final string
         paste0(colnames(DF_MAP[.x]), ": ", DF_MAP[.x])

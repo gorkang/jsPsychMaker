@@ -1,2 +1,2 @@
 ID,plugin,stimulus,choices,prompt
-1,image-button-response,media/image/NONEXISTENT.jpg,"yes, no",Do you like the image?
+1,image-button-response,media/image/MissingIMAGE/NONEXISTENT.jpg,yes; no,Do you like the image?

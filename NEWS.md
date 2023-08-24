@@ -10,6 +10,10 @@ Minor updates
 
 * Update tests
 * Remove check_progress_pid
+* Add tests
+* Improve some error messages
+* Read html files when added in stimulus
+* Default separator is ; now
 
 
 # jsPsychMaker 0.2.5

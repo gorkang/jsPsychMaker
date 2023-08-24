@@ -7,29 +7,27 @@ testthat::test_that('create_protocol_ERRORS', {
   
   # Create quiet version
   create_protocol_quiet <- purrr::quietly(jsPsychMaker::create_protocol)
-  
+
   # List all tasks
   FOLDERS = list.dirs(paste0(destination_folder), recursive = FALSE) |> basename()
   
   # Run all tests
   1:length(FOLDERS) |> 
-  purrr::walk(~{
-    # DEBUG
-    # .x = 1
-    # cli::cli_alert_info(paste0(.x, ": ", FOLDERS[.x]))
-    
-    folder_task = paste0(destination_folder, FOLDERS[.x], "/")
-    output_folder = paste0("~/Downloads/TEST_testthat/", FOLDERS[.x], "/test/")
-    ERROR = readLines(paste0(folder_task, "/ERROR_expected"))
-    
-    # If there is no error, gives an error
-    testthat::expect_error(
-      regexp = ERROR,
-      create_protocol_quiet(folder_tasks = folder_task,
-                            folder_output = output_folder)
-    )
-    unlink(output_folder, recursive = TRUE)
-  })
+    purrr::walk(~{
+      # .x = 1
+      # cli::cli_alert_info(paste0(.x, ": ", FOLDERS[.x]))
+      folder_task = paste0(destination_folder, FOLDERS[.x], "/")
+      output_folder = paste0("~/Downloads/TEST_testthat/", FOLDERS[.x], "/test/")
+      ERROR = readLines(paste0(folder_task, "/ERROR_expected"))
+      
+      # If there is no error, gives an error
+      testthat::expect_error(
+        regexp = ERROR,
+        create_protocol_quiet(folder_tasks = folder_task,
+                              folder_output = output_folder)
+      )
+      unlink(output_folder, recursive = TRUE)
+    })
   
   
   # Not a number

@@ -1,0 +1,2 @@
+ID,plugin,choices,preamble,options,prompt
+1,survey-multi-choice-horizontal,1;2,preamble,one; two,"PLUGIN: survey-multi-choice-horizontal| CHOICES: 1, 2 | answer: "

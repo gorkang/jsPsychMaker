@@ -4,29 +4,31 @@
 #'
 #' @param folder_task Add folder of the task 
 #' @param folder_output Where to create the task
-#' @param options_separator different options are by default separated by ,
+#' @param options_separator different options are by default separated by ;
 #' @param show_messages TRUE/FALSE
 #'
 #' @return Creates a task
 #' @export
 #' @importFrom cli cli_alert_success cli_alert_info cli_abort
 #' @importFrom here here
-create_task <- function(folder_task, folder_output = NULL, options_separator = ",", show_messages = FALSE) {
+create_task <- function(folder_task, folder_output = NULL, options_separator = ";", show_messages = FALSE) {
 
   # DEBUG
   # .x = 1
   # folder_task = paste0(tasks_folder, "/", TASKS[.x], "/")
-  # folder_task = "admin/example_tasks_new_protocol/BNT/"
+  # folder_task = "/home/emrys/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/admin/example_tasks/example_tasks_errors/ImagesOutOfPlace_protocol_999/ImagesOutOfPlace/"
   # folder_output = "tasks/BNT/"
   # folder_output = NULL
-  # options_separator=","
+  # options_separator=";"
+  # show_messages = TRUE
+  # folder_task = paste0(folder_tasks, "/", TASKS[1], "/")
   # devtools::load_all()
 
   
   # Parameters
   folder_task = here::here(folder_task)
   task_name = gsub("(.*)\\..*", "\\1", basename(folder_task))
-  HTMLs = list.files(folder_task, recursive = TRUE, pattern = "\\.html", full.names = TRUE)
+  HTMLs = list.files(folder_task, recursive = FALSE, pattern = "\\.html", full.names = TRUE)
   input_CSV_XLS_files = list.files(folder_task, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
   task_name_CSV = gsub("(.*)\\..*", "\\1", basename(input_CSV_XLS_files))
   
@@ -44,7 +46,9 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
   if (length(input_CSV_XLS_files) != 1) cli::cli_abort(c("We need 1 CSV/XLS file but you have {length(input_CSV_XLS_files)}"))
   if (task_name != task_name_CSV) cli::cli_abort(c("The name of the folder ({.code {task_name}}) and the .csv inside ({.code {task_name_CSV}}) need to be equal."))
   
-  
+
+  # Task instructions -------------------------------------------------------
+
   # If there are no HTML files, use default instructions 
   if (length(HTMLs) == 0) {
     task_instructions = paste0("<p><left><b><big>", task_name, "</big></b><br/>Lee con atenci\u00F3n y contesta las siguientes preguntas.</left></p>")
@@ -106,13 +110,15 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
     images_task = list.files(paste0(folder_task, "/media/images"), recursive = TRUE, full.names = TRUE, pattern = "\\.jpg|\\.png")
     videos_task = list.files(paste0(folder_task, "/media/videos"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp4|\\.avi")
     audios_task = list.files(paste0(folder_task, "/media/audios"), recursive = TRUE, full.names = TRUE, pattern = "\\.mp3|\\.wav")
+    htmls_task = list.files(paste0(folder_task, "/media/html"), recursive = TRUE, full.names = TRUE, pattern = "\\.html")
     
     basename_dir_images = ifelse(length(images_task) > 0, basename(dirname(images_task)), "")
     basename_dir_videos = ifelse(length(videos_task) > 0, basename(dirname(videos_task)), "")
     basename_dir_audios = ifelse(length(audios_task) > 0, basename(dirname(audios_task)), "")
+    basename_dir_htmls = ifelse(length(htmls_task) > 0, basename(dirname(htmls_task)), "")
     
     # Check media inside TASK subfolder
-    if ((length(images_task) > 1 & basename_dir_images == "images") | (length(videos_task) > 1 & basename_dir_videos == "videos") | (length(audios_task) > 1 & basename_dir_audios == "audios")) {
+    if ((length(images_task) > 0 & basename_dir_images == "images") | (length(videos_task) > 0 & basename_dir_videos == "videos") | (length(audios_task) > 0 & basename_dir_audios == "audios")| (length(htmls_task) > 0 & basename_dir_htmls == "audios")) {
       cli::cli_abort("Make sure the images, videos o audios are inside /media/[images, videos or audios]/[NAME OF THE TASK]")
     }
     
@@ -120,19 +126,34 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
     ALL_files = list.files(paste0(folder_task), recursive = TRUE, full.names = TRUE)
     
     # All minus things present in image, videos and audios vectors
-    ALL_minus_proper_media = ALL_files[!ALL_files %in% images_task & !ALL_files %in% videos_task & !ALL_files %in% audios_task]
+    ALL_minus_proper_media = ALL_files[!ALL_files %in% images_task & !ALL_files %in% videos_task & !ALL_files %in% audios_task & !ALL_files %in% htmls_task]
     # Get rid of expected files
     non_expected_files = ALL_minus_proper_media[!grepl("\\.csv|\\.xls|\\.xlsx|\\.html|\\.txt|\\.js", ALL_minus_proper_media)]
     
     # CHECKS ---
     
       # Non expected files
-      if (length(non_expected_files) != 0) cli::cli_abort(c("Files out of place in {folder_output}:  {.code {basename(dirname(non_expected_files))}/{basename(non_expected_files)}}\n\n", 
-                                                            "If you have media files, move them to: \n-Images: 'media/images' \n-Videos: 'media/videos' \n-Audio: 'media/audios'\n\n"))
+      if (length(non_expected_files) != 0) {
+        
+        cli::cli_abort(c("Files out of place in {folder_output}:\n
+                         - {.code {basename(dirname(non_expected_files))}/{basename(non_expected_files)}}\n
+                         If you have media files, move them to: \n
+                         -Images: 'media/images/{task_name}/' \n
+                         -Videos: 'media/videos/{task_name}/' \n
+                         -Audio: 'media/audios/{task_name}/'\n
+                         -Html: 'media/html/{task_name}/'\n\n"))
+      }
     
       # If we detect an image, video or audio plugin and no files, warning
-      if (any(grepl("image|video|audio", PLUGINS_used_raw)) & length(images_task) == 0 & length(videos_task) == 0 & length(audios_task) == 0) cli::cli_abort(c("Media plugin detected, but no media files found in :  {.code {task_name}}\n\n", 
-                                                                                                                                                               "If you have media files, move them to: \n-Images: 'media/images' \n-Videos: 'media/videos' \n-Audio: 'media/audios'\n\n"))
+      if (any(grepl("image|video|audio", PLUGINS_used_raw)) & length(images_task) == 0 & length(videos_task) == 0 & length(audios_task) == 0) {
+        
+        cli::cli_abort(c("Media plugin detected, but no media files found in :  {.code {task_name}}\n\n", 
+                         "If you have media files, move them to: \n
+                         -Images: 'media/images/{task_name}/' \n
+                         -Videos: 'media/videos/{task_name}/' \n
+                         -Audio: 'media/audios/{task_name}/'\n
+                         -Html: 'media/html/{task_name}/'\n\n"))
+      }
     
     # Copy files ---
     if (length(images_task) != 0) {
@@ -150,6 +171,11 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
       destination_audios = paste0(folder_output, "/media/audios/", basename_dir_audios, "/", basename(audios_task))
       dir.create(dirname(destination_audios), recursive = TRUE, showWarnings = FALSE)
       file.copy(from = audios_task, to = destination_audios)
+    }
+    if (length(htmls_task) != 0) {
+      destination_htmls = paste0(folder_output, "/media/html/", basename_dir_htmls, "/", basename(htmls_task))
+      dir.create(dirname(destination_htmls), recursive = TRUE, showWarnings = FALSE)
+      file.copy(from = htmls_task, to = destination_htmls)
     }
     
     

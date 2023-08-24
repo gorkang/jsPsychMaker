@@ -1,2 +1,2 @@
 ID,plugin,stimulus,choices,prompt
-1,html-keyboard-response,media/html/consent-placeholder.html,"one, two",prompt text
+1,html-keyboard-response,media/html/LongCHOICES/consent-placeholder.html,one; two,prompt text

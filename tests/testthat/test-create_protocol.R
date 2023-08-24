@@ -1,14 +1,12 @@
 testthat::test_that('create_protocol', {
-  
-  destination_folder = "~/Downloads/TEST_testthat/folder_tasks"
-  
-  
+
   # Copy example tasks to local folder
+  destination_folder = "~/Downloads/TEST_testthat/folder_tasks"
+  unlink(destination_folder, recursive = TRUE)
   jsPsychMaker::copy_example_tasks(destination_folder = destination_folder, show_messages = FALSE)
   
   # Create quiet version
   create_protocol_quiet <- purrr::quietly(jsPsychMaker::create_protocol)
-  
   
 
 
@@ -16,7 +14,7 @@ testthat::test_that('create_protocol', {
   
   # Includes all plugins
   output_folder = paste0(destination_folder, "/../create_protocol1")
-  files_expected = 68
+  files_expected = 72
   
   OUT = create_protocol_quiet(folder_tasks = paste0(destination_folder),
                               folder_output = output_folder)
@@ -61,7 +59,7 @@ testthat::test_that('create_protocol', {
   # Both from example_tasks AND canonical_tasks -------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol4")
-  files_expected = 71
+  files_expected = 75
   
   OUT = create_protocol_quiet(folder_tasks = paste0(destination_folder),
                               canonical_tasks = c("AIM", "EAR", "IRI"),
@@ -115,7 +113,6 @@ testthat::test_that('create_protocol', {
   
   
   # Test piloting task -----------------------------------------------------
-  
   
   output_folder = paste0(destination_folder, "/../create_protocol8")
   files_expected = 43

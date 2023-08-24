@@ -8,7 +8,7 @@
 #' @param force_download_media download media even if the file already exists
 #' @param show_messages TRUE/FALSE
 #' @param block_tasks Where to insert the tasks: randomly_ordered_tasks_1 or secuentially_ordered_tasks_1
-#' @param options_separator different options are by default separated by ,
+#' @param options_separator different options are by default separated by ;
 #'
 #' @return Creates a full protocol
 #' @export
@@ -26,7 +26,7 @@ create_protocol <- function(folder_tasks = NULL,
                             piloting_task = NULL,
                             show_messages = TRUE,
                             block_tasks = "randomly_ordered_tasks_1",
-                            options_separator = ",") {
+                            options_separator = ";") {
   
   # DEBUG
   # jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")
@@ -38,10 +38,7 @@ create_protocol <- function(folder_tasks = NULL,
     # folder_tasks = folder_task
     # folder_output = output_folder
   
-  # folder_tasks = "~/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/jsPsychR/jsPsychMaker/admin/example_ALL/"
-  # folder_output = "~/Downloads/protocolALL999"
   # options_separator = ";"
-  
   # canonical_tasks = NULL
   # piloting_task = NULL
   # force_download_media = FALSE
@@ -96,16 +93,45 @@ create_protocol <- function(folder_tasks = NULL,
     
     # Temp var to see if we have CSV_XLS_files
     input_CSV_XLS_files = list.files(folder_tasks, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
-    # if (length(input_CSV_XLS_files) != 1) cli::cli_abort(c("We need 1 CSV/XLS file but you have {length(input_CSV_XLS_files)}"))
-    
     TASKS = basename(dirname(input_CSV_XLS_files))
   
+    # fs::fs_path(input_CSV_XLS_files)
     if (show_messages == TRUE) cli::cli_alert_info("Found the following tasks: {.code {TASKS}}\n")
   
     # CHECKS ---
+
+      # All tasks are in subfolders of folder_tasks
+        
+        DF_checks = tibble(file_name = normalizePath(input_CSV_XLS_files)) |> 
+          mutate(task_name =  gsub('(.?)\\..*', '\\1', basename(file_name)),
+                 task_name_should = basename(dirname(file_name)),
+                 root_folder_task = basename(dirname(dirname(file_name))),
+                 csv_in_subfolder = root_folder_task == basename(folder_tasks))
+        
+        # DF_checks
+        csv_out_of_subfolders = DF_checks |> filter(csv_in_subfolder != TRUE)
+        any_csv_out_of_subfolders = nrow(csv_out_of_subfolders) > 0
+        all_csv_out_of_subfolders = nrow(DF_checks) == nrow(csv_out_of_subfolders)
+        # wrong_task_name = DF_checks |> filter(task_name != task_name_should) # We do this check in create_task
+      
+      if (nrow(DF_checks)> 0 & all_csv_out_of_subfolders) {
+        
+        cli::cli_abort(c("folder_tasks (`{folder_tasks}`) should only contains folders (one for each task).",
+                         "- Maybe you need to move `{folder_tasks}{basename(csv_out_of_subfolders$file_name)}` to `{folder_tasks}{csv_out_of_subfolders$task_name}/{basename(csv_out_of_subfolders$file_name)}`"))
+          
+      } else if (any_csv_out_of_subfolders) {
+        
+        cli::cli_abort(
+          c("ALL csv/xls files should be in subfolders of the main folder. Move: ", 
+            " {folder_tasks}{basename(csv_out_of_subfolders$file_name)} ",
+            "to ",
+            " {folder_tasks}{csv_out_of_subfolders$task_name}/{basename(csv_out_of_subfolders$file_name)}"))
+        
+      }
+         # fs::dir_tree(folder_tasks, recurse = FALSE)
+        
+        
     
-      # Check if csv's in root folder
-      if (basename(folder_tasks) %in% TASKS) cli::cli_abort(c("There is a csv file in the root folder.", " - Please remove: {input_CSV_XLS_files[dirname(input_CSV_XLS_files) %in% gsub('/$','', folder_tasks)]}."))
       
       # Names of tasks are correct
       regexp_TASK_NAMES = " |-|_|!|&|\\(|\\)|\\[|\\]|\\{|\\}|^[0-9]"
@@ -118,8 +144,9 @@ create_protocol <- function(folder_tasks = NULL,
     1:length(TASKS) |> 
       purrr::walk(~{
         # .x = 1
+        folder_task_loop = paste0(folder_tasks, "/", TASKS[.x], "/")
         if (show_messages == TRUE) cli::cli_h1("create_task: {TASKS[.x]}")
-        create_task(folder_task = paste0(folder_tasks, "/", TASKS[.x], "/"), 
+        create_task(folder_task = folder_task_loop, 
                     folder_output = folder_output, 
                     options_separator = options_separator,
                     show_messages = show_messages)
