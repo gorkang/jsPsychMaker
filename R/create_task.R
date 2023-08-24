@@ -28,7 +28,7 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
   # Parameters
   folder_task = here::here(folder_task)
   task_name = gsub("(.*)\\..*", "\\1", basename(folder_task))
-  HTMLs = list.files(folder_task, recursive = FALSE, pattern = "\\.html", full.names = TRUE)
+  HTMLs = list.files(folder_task, recursive = TRUE, pattern = "instructions\\.html", full.names = TRUE)
   input_CSV_XLS_files = list.files(folder_task, recursive = TRUE, pattern = "\\.csv|\\.xls|\\.xlsx", full.names = TRUE)
   task_name_CSV = gsub("(.*)\\..*", "\\1", basename(input_CSV_XLS_files))
   
