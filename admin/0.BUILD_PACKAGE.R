@@ -5,9 +5,9 @@
   
   # If there are changes to `canonical_protocol/tasks`, `canonical_protocol_clean`, `example_tasks` or `example_tasks_errors`, run this:
 
-  # DESCRIPTION ---
-    file.copy(from = "DESCRIPTION",
-              to = "canonical_protocol_clean/DESCRIPTION", 
+  # DESCRIPTION and NEWS ---
+    file.copy(from = c("DESCRIPTION", "NEWS.md"),
+              to = c("canonical_protocol_clean/DESCRIPTION", "canonical_protocol_clean/NEWS.md"), 
               overwrite = TRUE)
 
   # TASKS ---
