@@ -3,8 +3,8 @@ Title: Create behavioral experiments and surveys using jsPsych and R
 Version: 0.2.6
 Date: 2023-08-15
 Authors@R: 
-    person("Gorka", "Navarrete", , "gorkang@gmail.com", role = c("aut", "cre"),
-           comment = c(ORCID = "0000-0001-7678-8656"))
+  c(person("Gorka", "Navarrete", email = "gorkang@gmail.com", role = c("aut", "cre"), comment = c(ORCID = "0000-0001-7678-8656")),
+  person("Herman", "Valencia", email = "herman.valencia.13@sansano.usm.cl", role = c("aut"), comment = c(ORCID = "")))
 Description: With jsPsychMaker you can create new tasks and protocols using jsPsych. 
 License: MIT + file LICENSE
 URL: https://github.com/gorkang/jsPsychMaker

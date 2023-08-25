@@ -5,6 +5,11 @@
   
   # If there are changes to `canonical_protocol/tasks`, `canonical_protocol_clean`, `example_tasks` or `example_tasks_errors`, run this:
 
+  # DESCRIPTION ---
+    file.copy(from = "DESCRIPTION",
+              to = "canonical_protocol_clean/DESCRIPTION", 
+              overwrite = TRUE)
+
   # TASKS ---
     file.remove("inst/templates/tasks.zip")
     jsPsychHelpeR::zip_files(folder_files = "canonical_protocol/tasks/", 

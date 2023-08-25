@@ -5,6 +5,7 @@ Major updates
 * Update canonical_protocol_clean:
   + New media paths
   + Parametrize config_messages
+  + Add spanish and english versions to config_messages
 
 Minor updates
 
@@ -14,6 +15,7 @@ Minor updates
 * Improve some error messages
 * Read html files when added in stimulus
 * Default separator is ; now
+* Reduce images size
 
 
 # jsPsychMaker 0.2.5

@@ -1,7 +1,7 @@
 testthat::test_that('copy_example_tasks', {
 
   destination_folder = "~/Downloads/TEST_testthat/example_tasks"
-  files_example_task = 26
+  files_example_task = 20
   
   testthat::expect_message(
     jsPsychMaker::copy_example_tasks(destination_folder = destination_folder, show_messages = TRUE), 
