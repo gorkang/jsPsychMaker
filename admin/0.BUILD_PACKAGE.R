@@ -11,25 +11,32 @@
               overwrite = TRUE)
 
   # TASKS ---
+
+    # Remove old files
     file.remove("inst/templates/tasks.zip")
+    file.remove("inst/templates/canonical_protocol_clean.zip")
+    file.remove("inst/templates/example_tasks.zip")
+    file.remove("inst/templates/example_tasks_errors.zip")
+
+    Sys.sleep(5) # Time for insync to sync
+        
+    
+    # tasks ---
     jsPsychHelpeR::zip_files(folder_files = "canonical_protocol/tasks/", 
                              zip_name = "inst/templates/tasks.zip", 
                              remove_files = FALSE)
 
   # canonical_protocol_clean ---
-    file.remove("inst/templates/canonical_protocol_clean.zip")
     jsPsychHelpeR::zip_files(folder_files = "canonical_protocol_clean/", 
                              zip_name = "inst/templates/canonical_protocol_clean.zip", 
                              remove_files = FALSE)
 
   # Example tasks ---
-    file.remove("inst/templates/example_tasks.zip")
     jsPsychHelpeR::zip_files(folder_files = "admin/example_tasks/example_tasks/", 
                              zip_name = "inst/templates/example_tasks.zip", 
                              remove_files = FALSE)
     
   # Example tasks errors ---
-    file.remove("inst/templates/example_tasks_errors.zip")
     jsPsychHelpeR::zip_files(folder_files = "admin/example_tasks/example_tasks_errors/", 
                              zip_name = "inst/templates/example_tasks_errors.zip", 
                              remove_files = FALSE)
