@@ -4,10 +4,10 @@
 \alias{check_trialids}
 \title{check_trialids}
 \usage{
-check_trialids(folder_protocol, show_messages = TRUE)
+check_trialids(local_folder_protocol, show_messages = TRUE)
 }
 \arguments{
-\item{folder_protocol}{Folder where the protocol is}
+\item{local_folder_protocol}{Folder where the protocol is}
 
 \item{show_messages}{TRUE/FALSE}
 }

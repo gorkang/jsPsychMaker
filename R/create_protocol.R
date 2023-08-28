@@ -49,7 +49,7 @@ create_protocol <- function(folder_tasks = NULL,
 
   # CHECK -------------------------------------------------------------------
   
-  if (!grepl("[0-9]", folder_output)) cli::cli_abort("folder_output: {.code {folder_output}} does not contain a number. We need a number to extract the pid.")
+  if (!grepl("[0-9]", basename(folder_output))) cli::cli_abort("folder_output: {.code {basename(folder_output)}/} does not contain a number. We need a number to extract the pid (e.g. `{basename(folder_output)}_999/`).")
   
 
   # Copy canonical_protocol_clean -------------------------------------------
@@ -158,8 +158,10 @@ create_protocol <- function(folder_tasks = NULL,
   
 
   # ADD canonical tasks -----------------------------------------------------
+
+  # Get rid of white spaces
+  if(!is.null(canonical_tasks)) canonical_tasks = trimws(canonical_tasks)
   
-  # canonical_tasks = c("AIM", "EAR")
   if (!is.null(canonical_tasks)) {
     
     if (show_messages == TRUE) cli::cli_h1("ADD tasks from canonical_protocol")
@@ -269,7 +271,7 @@ create_protocol <- function(folder_tasks = NULL,
 
   # CHECKS ------------------------------------------------------------------
 
-  check_trialids(folder_protocol = folder_output, show_messages = show_messages)
+  check_trialids(local_folder_protocol = folder_output, show_messages = show_messages)
   
     
   

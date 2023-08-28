@@ -1,6 +1,6 @@
 testthat::test_that('create_task', {
 
-  destination_folder = "~/Downloads/TEST_testthat/example_tasks"
+  destination_folder = paste0(tempdir(), "/TEST_testthat/create_task")
   destination_task = paste0(destination_folder, "/IfQuestion/")
   
   jsPsychMaker::copy_example_tasks(destination_folder = destination_folder, show_messages = FALSE)

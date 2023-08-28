@@ -1,8 +1,54 @@
+#' find_trialids
+#'
+#' @param file_name TASK.js file name
+#'
+#' @return A tibble with trialid's
+#'
+find_trialids <- function(file_name) {
+  
+  # file_name = scripts[1]
+  script = readLines(file_name) 
+  LINES = grepl(".*?trialid: '(.*?)',.*", script)
+  trialid = gsub(".*?trialid: '(.*?)',.*", "\\1", script[LINES])
+  
+  trialid |> dplyr::as_tibble() |> 
+    dplyr::mutate(file = file_name) |> 
+    dplyr::rename(trialid = value) |> 
+    dplyr::filter(!grepl("^Instructions|^Instructions_[0-9]{2}|^Fullscreen|jsPsych.timelineVariable", trialid))
+  
+}
+
+# OLD find_trialids found in HelpeR
+# find_trialids <- function(file_name) {
+#   
+#   # DEBUG
+#   # file_name = scripts[51]
+#   
+#   script = readr::read_file(file_name) 
+#   
+#   expres = ".*?trialid: (.*?),.*?"
+#   trialid = 
+#     gsub(expres, "\\1; \n", script) %>% 
+#     gsub("^(.*; \n).*", "\\1", .) %>% 
+#     gsub(";", "", .) %>% 
+#     gsub(" number \n", "", .) %>% 
+#     gsub("'", "", .) %>% # Get rid of '
+#     gsub('"', '', .) %>% # Get rid of " 
+#     gsub("  ", " ", .) # Get rid of "  "
+#   
+#   if (grepl("This document was made with test_maker", trialid)) trialid = ""
+#   strsplit(trialid, " \n")[[1]] %>% tibble::as_tibble() %>% 
+#     dplyr::mutate(file = file_name) %>% 
+#     dplyr::rename(trialid = value) %>% 
+#     dplyr::filter(!grepl("^Instructions|^Instructions_[0-9]{2}|^Fullscreen|jsPsych.timelineVariable", trialid))
+#   
+# }
+
 #' check_trialids
 #'
 #'Checks that trialid's of an experiment in a folder follow the standard expected rules
 #'
-#' @param folder_protocol Folder where the protocol is
+#' @param local_folder_protocol Folder where the protocol is
 #' @param show_messages TRUE/FALSE
 #'
 #' @return messages about trialid's health
@@ -11,32 +57,18 @@
 #' @importFrom purrr map_df
 #' @importFrom tidyr separate
 #' @importFrom cli cli_h1 cli_h2 cli_alert_danger cli_alert_success
-check_trialids <- function(folder_protocol, show_messages = TRUE) {
+check_trialids <- function(local_folder_protocol, show_messages = TRUE) {
   
-  scripts = dir(path = paste0(folder_protocol, "/tasks"), pattern = ".js", recursive = TRUE, full.names = TRUE)
+  scripts = dir(path = paste0(local_folder_protocol, "/tasks"), pattern = ".js", recursive = TRUE, full.names = TRUE)
   
   # If no files found
   if (length(scripts) == 0) {
     
-    if (show_messages == TRUE) cli::cli_h2("Checking /{basename(folder_protocol)}")
-    if (show_messages == TRUE) cli::cli_alert_danger("Can't find anything in {.code {folder_protocol}}")
+    if (show_messages == TRUE) cli::cli_h2("Checking /{basename(local_folder_protocol)}")
+    if (show_messages == TRUE) cli::cli_alert_danger("Can't find anything in {.code {local_folder_protocol}}")
     
   } else {
-    
-    find_trialids <- function(file_name) {
-      
-      # file_name = scripts[1]
-      script = readLines(file_name) 
-      LINES = grepl(".*?trialid: '(.*?)',.*", script)
-      trialid = gsub(".*?trialid: '(.*?)',.*", "\\1", script[LINES])
 
-      trialid |> dplyr::as_tibble() |> 
-      dplyr::mutate(file = file_name) |> 
-      dplyr::rename(trialid = value) |> 
-      dplyr::filter(!grepl("^Instructions|^Instructions_[0-9]{2}|^Fullscreen|jsPsych.timelineVariable", trialid))
-
-    }
-    
     DF_all_trialids = purrr::map_df(scripts, find_trialids)
     
     # ACCEPTED names: "NAMEtest_01\NAMEtest_01_1\NAMEtest_01_if|NAMEtest_01_1_if" 
@@ -62,7 +94,7 @@ check_trialids <- function(folder_protocol, show_messages = TRUE) {
     
     if (nrow(DF_problematic_trialids) > 0) {
       
-      if (show_messages == TRUE) cli::cli_h1("Checking /{basename(folder_protocol)}")
+      if (show_messages == TRUE) cli::cli_h1("Checking /{basename(local_folder_protocol)}")
       if (show_messages == TRUE) {
         cat(cli::col_red(nrow(DF_problematic_trialids), " ISSUES:\n"), 
             "- experiment:", paste(DF_problematic_trialids |> dplyr::pull(experiment) |> unique(), collapse = ", "), "\n",
@@ -73,7 +105,7 @@ check_trialids <- function(folder_protocol, show_messages = TRUE) {
     } else {
       
       # if (show_all_messages == TRUE) {
-      if (show_messages == TRUE) cli::cli_h1("Checking /{basename(folder_protocol)}")
+      if (show_messages == TRUE) cli::cli_h1("Checking /{basename(local_folder_protocol)}")
       if (show_messages == TRUE) cli::cli_alert_success("All trialid's look great!\n")
       # }
       

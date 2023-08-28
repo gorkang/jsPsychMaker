@@ -1,7 +1,7 @@
 testthat::test_that('create_protocol', {
-
+  
   # Copy example tasks to local folder
-  destination_folder = "~/Downloads/TEST_testthat/folder_tasks"
+  destination_folder = paste0(tempdir(), "/TEST_testthat/create_protocol")
   unlink(destination_folder, recursive = TRUE)
   jsPsychMaker::copy_example_tasks(destination_folder = destination_folder, show_messages = FALSE)
   
@@ -14,7 +14,7 @@ testthat::test_that('create_protocol', {
   
   # Includes all plugins
   output_folder = paste0(destination_folder, "/../create_protocol1")
-  files_expected = 72
+  files_expected = 71
   
   OUT = create_protocol_quiet(folder_tasks = paste0(destination_folder),
                               folder_output = output_folder)
@@ -29,7 +29,7 @@ testthat::test_that('create_protocol', {
   # Only from canonical_tasks (with images)----------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol2")
-  files_expected = 59
+  files_expected = 58
   
   OUT = create_protocol_quiet(canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS"),
                               folder_output = output_folder)
@@ -44,7 +44,7 @@ testthat::test_that('create_protocol', {
   # Only from canonical_tasks (without images)-------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol3")
-  files_expected = 46
+  files_expected = 45
   
   OUT = create_protocol_quiet(canonical_tasks = c("AIM", "EAR", "IRI"),
                               folder_output = output_folder)
@@ -59,7 +59,7 @@ testthat::test_that('create_protocol', {
   # Both from example_tasks AND canonical_tasks -------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol4")
-  files_expected = 75
+  files_expected = 74
   
   OUT = create_protocol_quiet(folder_tasks = paste0(destination_folder),
                               canonical_tasks = c("AIM", "EAR", "IRI"),
@@ -75,7 +75,7 @@ testthat::test_that('create_protocol', {
   # Protocol ALL canonical ------------------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol5")
-  files_expected = 120
+  files_expected = 121
   
   TASKS = jsPsychMaker::list_available_tasks()
   
@@ -94,7 +94,7 @@ testthat::test_that('create_protocol', {
   
   # Create protocol 2x in same folder so the second time needs to remove
   output_folder = paste0(destination_folder, "/../create_protocol7")
-  files_expected = 43
+  files_expected = 42
   
   OUT = create_protocol_quiet(canonical_tasks = c("AIM"),
                               folder_output = output_folder)
@@ -115,7 +115,7 @@ testthat::test_that('create_protocol', {
   # Test piloting task -----------------------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol8")
-  files_expected = 43
+  files_expected = 42
   
   OUT = create_protocol_quiet(canonical_tasks = c("AIM"),
                               folder_output = output_folder, 
@@ -128,12 +128,12 @@ testthat::test_that('create_protocol', {
   
   # Test no output folder ---------------------------------------------
   
-  output_folder = "~/Downloads/new_protocol_999"
-  files_expected = 43
+  default_output_folder = "~/Downloads/new_protocol_999"
+  files_expected = 42
 
   OUT = create_protocol_quiet(canonical_tasks = c("AIM"))
   
-  files_protocol = list.files(output_folder, recursive = TRUE)
+  files_protocol = list.files(default_output_folder, recursive = TRUE)
   testthat::expect_equal(object = length(files_protocol), expected = files_expected)
   
   

@@ -1,7 +1,7 @@
 testthat::test_that('create_task_separator', {
   # Create a task where the options are separated by ";"
   
-  destination_folder = "~/Downloads/TEST_testthat/example_tasks"
+  destination_folder = paste0(tempdir(), "/TEST_testthat/task_separator")
   destination_task = paste0(destination_folder, "/MultiChoiceSeparator/")
   
   jsPsychMaker::copy_example_tasks(destination_folder = destination_folder, show_messages = FALSE)

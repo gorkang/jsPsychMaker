@@ -1,6 +1,6 @@
 testthat::test_that('copy_example_tasks', {
 
-  destination_folder = "~/Downloads/TEST_testthat/example_tasks"
+  destination_folder = paste0(tempdir(), "/TEST_testthat/example_tasks")
   files_example_task = 20
   
   testthat::expect_message(
