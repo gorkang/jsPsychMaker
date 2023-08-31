@@ -24,7 +24,19 @@ update_config_js(
 
 \item{show_messages}{TRUE/FALSE}
 }
+\value{
+Modifies the config.js file of a protocol
+}
 \description{
 update_config_js
 Uses a vector of tasks to replace one of the task blocks in config.js
+}
+\examples{
+\dontrun{
+update_config_js(folder_protocol = "~/Downloads/MyProtocol999", 
+                tasks = NULL, 
+                 block_tasks = "randomly_ordered_tasks_1", 
+                 media = NULL, 
+                 show_messages = TRUE)
+}
 }

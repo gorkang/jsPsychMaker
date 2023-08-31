@@ -9,7 +9,15 @@ extract_tasks_from_protocol(folder_protocol)
 \arguments{
 \item{folder_protocol}{Add folder of the protocol}
 }
+\value{
+A list with the tasks present in a protocol
+}
 \description{
 Extract the list of scripts in the task folder of a protocol, and a vector
 with the names of the tasks
+}
+\examples{
+\dontrun{
+extract_tasks_from_protocol(folder_protocol = "~/Downloads/MyProtocol999")
+}
 }

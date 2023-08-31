@@ -2,12 +2,13 @@
 #'
 #' @param show_help Show information about where to get help?
 #'
-#' @return
+#' @return prints a list with the available tasks
 #' @export
 #' @importFrom cli cli_alert_info
 #' @importFrom stringr str_replace_all
 #'
 #' @examples
+#' list_available_tasks()
 list_available_tasks <- function(show_help = FALSE) {
   
   if (show_help == TRUE) cli::cli_alert_info("For more info about the tasks, see {.url https://docs.google.com/spreadsheets/d/1Eo0F4GcmqWZ1cghTpQlA4aHsc8kTABss-HAeimE2IqA/edit#gid=0}")
@@ -31,11 +32,15 @@ list_available_tasks <- function(show_help = FALSE) {
 #'
 #' @param folder_protocol Add folder of the protocol 
 #'
-#' @return
+#' @return A list with the tasks present in a protocol
 #' @export
 #' @importFrom dplyr filter mutate as_tibble group_by distinct arrange pull
 #'
 #' @examples
+#' \dontrun{
+#' extract_tasks_from_protocol(folder_protocol = "~/Downloads/MyProtocol999")
+#' }
+
 extract_tasks_from_protocol <- function(folder_protocol) {
   
   # DEBUG
@@ -76,17 +81,20 @@ extract_tasks_from_protocol <- function(folder_protocol) {
 #' @param media list with images, video and audios media to include in config
 #' @param show_messages TRUE/FALSE
 #'
-#' @return
+#' @return Modifies the config.js file of a protocol
 #' @export
 #' @importFrom cli cli_alert_info cli_abort cli_h3
 #'
 #' @examples
+#' \dontrun{
+#' update_config_js(folder_protocol = "~/Downloads/MyProtocol999", 
+#'                 tasks = NULL, 
+#'                  block_tasks = "randomly_ordered_tasks_1", 
+#'                  media = NULL, 
+#'                  show_messages = TRUE)
+#' }
+
 update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "randomly_ordered_tasks_1", media = NULL, show_messages = TRUE) {
-  
-  # DEBUG
-  # folder_protocol = "../jsPsychMaker/canonical_protocol/"
-  # block_tasks = "randomly_ordered_tasks_1"
-  # tasks = extract_tasks_from_protocol(folder_protocol)
   
   # Read config
   config_file = paste0(folder_protocol, "/config.js")

@@ -9,6 +9,12 @@ list_available_tasks(show_help = FALSE)
 \arguments{
 \item{show_help}{Show information about where to get help?}
 }
+\value{
+prints a list with the available tasks
+}
 \description{
 list_available_tasks
+}
+\examples{
+list_available_tasks()
 }
