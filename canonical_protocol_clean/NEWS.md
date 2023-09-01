@@ -1,3 +1,13 @@
+# jsPsychMaker 0.2.7
+
+Major updates  
+
+Minor updates
+
+* Tests run from tempdir() 
+* Added examples to more functions
+* New TASKS: CS, EQ
+
 # jsPsychMaker 0.2.6
 
 Major updates  

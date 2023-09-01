@@ -20,6 +20,17 @@ get_media_for_protocol(
 
 \item{show_messages}{TRUE/FALSE}
 }
+\value{
+Downloads media files and outputs a list of files
+}
 \description{
 get_media_for_protocol
+}
+\examples{
+\dontrun{
+  get_media_for_protocol(all_files_js = readLines("canonical_protocol/tasks/INFCONS.js"),
+                        folder_protocol = "canonical_protocol/",
+                        force_download_media = FALSE,
+                        show_messages = TRUE)
+}
 }

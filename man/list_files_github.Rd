@@ -14,6 +14,16 @@ list_files_github(
 
 \item{folder}{folder inside Github project}
 }
+\value{
+Prints a vector of files
+}
 \description{
-list_files_github
+List files inside a Github repo. By default, the canonical_protocol folder inside jsPsychMaker
+}
+\examples{
+\dontrun{
+list_files_github(
+  URL = "https://api.github.com/repos/gorkang/jsPsychMaker/git/trees/main?recursive=1", 
+  folder = "canonical_protocol")
+}
 }

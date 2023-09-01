@@ -161,8 +161,8 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
 #' @param force_download_media download even if the file already exists
 #' @param show_messages TRUE/FALSE
 #'
-#' @return
-# #' @export
+#' @return Downloads media files and outputs a list of files
+#' @export
 #' @importFrom httr GET stop_for_status content
 #' @importFrom stringr str_extract_all str_remove_all
 #' @importFrom tibble tibble
@@ -171,18 +171,25 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
 #' @importFrom purrr compact
 #'
 #' @examples
+#' \dontrun{
+#'   get_media_for_protocol(all_files_js = readLines("canonical_protocol/tasks/INFCONS.js"),
+#'                         folder_protocol = "canonical_protocol/",
+#'                         force_download_media = FALSE,
+#'                         show_messages = TRUE)
+#' }
 get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol, force_download_media = FALSE, show_messages = TRUE) {
+  
   
   # DEBUG
   # all_files_js = "stimulus: 'media/images/INFCONS/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class=\"justified\"><p></p></div>',"
   # folder_protocol = "~/Downloads/example_tasks/"
-  # all_files_js |> tibble::as_tibble() |> View()
   
-  # Get all media. Dirty, as it combines choices and other stuff in the same line
-  MEDIA_used_raw = all_files_js[which(grepl("stimulus: '.*?\\.[a-z0-9]{3}'", all_files_js))] |> trimws() |> unique()
+  # Get all media. Dirty, as it combines choices and other stuff in the same line.
+    # .? Because we can have stimulus: 'media/images/INFCONS/Baby_lactancia_VC.png' or stimulus: ['media/videos/EmpaTom/Entrevista1.mp4']
+  MEDIA_used_raw = all_files_js[which(grepl("stimulus: .?'.*?\\.[a-z0-9]{3}'", all_files_js))] |> trimws() |> unique()
   
   # Extract the specific stimulus
-  MEDIA_used =  gsub(".*stimulus: '(.*?/.*\\.[a-z0-9]{3})'.*", "\\1", MEDIA_used_raw)
+  MEDIA_used =  gsub(".*stimulus: .?'(.*?/.*\\.[a-z0-9]{3})'.*", "\\1", MEDIA_used_raw)
   
   # Check if paths are wrong  
   REGEXP_strict = "^media/.*\\.[a-z0-9]{3}$"
@@ -300,6 +307,8 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol,
 
 
 #' list_files_zip
+#' 
+#' Unzips or lists files inside a zip file that can be in a package or the user filesystem
 #'
 #' @param location either a package name or a folder path
 #' @param action unzip/list
@@ -308,14 +317,37 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol,
 #' @param files_to_unzip files inside zip to unzip
 #' @param silent show cli messages?
 #'
-#' @return
+#' @return Unzips or lists files inside a zip
 #' @export
 #' @importFrom cli cli_abort cli_alert_warning cli_alert_info
 #' @importFrom utils unzip
 #'
 #' @examples
+#' \dontrun{
+#' 
+#' list_unzip(
+#'   location = "jsPsychMaker",
+#'   zip_file = "?",
+#'   action = "list",
+#'   destination_folder = NULL,
+#'   files_to_unzip = NULL,
+#'   silent = TRUE
+#' )
+#' 
+#' list_unzip(
+#'   location = "jsPsychMaker",
+#'   zip_file = "canonical_protocol_clean.zip",
+#'   action = "unzip",
+#'   destination_folder = tempdir(),
+#'   files_to_unzip = NULL,
+#'   silent = FALSE
+#' )
+#' }
+#' 
 list_unzip <- function(location = "jsPsychMaker", zip_file = "?", action = "list", destination_folder = NULL, files_to_unzip = NULL, silent = TRUE) {
   
+  
+    
   # DEBUG
   # location = "jsPsychMaker"
   # location = "protocols_DEV/OLD_TESTS/"
@@ -392,16 +424,25 @@ list_unzip <- function(location = "jsPsychMaker", zip_file = "?", action = "list
 
 
 #' list_files_github
+#' 
+#' List files inside a Github repo. By default, the canonical_protocol folder inside jsPsychMaker
 #'
 #' @param URL api url of Github project 
 #' @param folder folder inside Github project
 #'
-#' @return
+#' @return Prints a vector of files
 #' @export
 #' @importFrom httr GET stop_for_status content
 #'
 #' @examples
-list_files_github <- function(URL = "https://api.github.com/repos/gorkang/jsPsychMaker/git/trees/main?recursive=1", folder = "canonical_protocol") {
+#' \dontrun{
+#' list_files_github(
+#'   URL = "https://api.github.com/repos/gorkang/jsPsychMaker/git/trees/main?recursive=1", 
+#'   folder = "canonical_protocol")
+#' }
+list_files_github <- function(
+    URL = "https://api.github.com/repos/gorkang/jsPsychMaker/git/trees/main?recursive=1", 
+    folder = "canonical_protocol") {
   # Get list of all media in canonical_protocol Github
   req <- httr::GET(URL)
   httr::stop_for_status(req)
@@ -412,13 +453,15 @@ list_files_github <- function(URL = "https://api.github.com/repos/gorkang/jsPsyc
 
 
 #' check_NEW_tasks_Github
+#' 
+#' Check if we have new tasks in jsPsychMaker/canonical_protocol/tasks Github compared to the jsPsychMaker package (jsPsychMaker/inst/tamplates/tasks.zip)
 #'
-#' @return
+#' @return Prints a CLI message
 #' @export
 #' @importFrom cli cli_alert_info cli_alert_success
 #' @importFrom stringr str_remove_all
 #'
-#' @examples
+#' @examples check_NEW_tasks_Github()
 check_NEW_tasks_Github <- function() {
   
   tasks_in_package = list_available_tasks()

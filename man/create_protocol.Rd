@@ -41,3 +41,33 @@ Creates a full protocol
 \description{
 create_protocol
 }
+\examples{
+\dontrun{
+
+# Create a protocol with the tasks AIM, EAR and IRI in ~/Downloads/protocol999 
+# and open it in a browser
+  jsPsychMaker::create_protocol(canonical_tasks = c("AIM", "EAR", "IRI"),
+                                folder_output = "~/Downloads/protocol999", 
+                                launch_browser = TRUE)
+
+
+# Create protocol using csv/xls files:
+
+# 1) Extract example tasks
+  jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/ExampleTasks")
+  
+# 2) Create protocol
+  jsPsychMaker::create_protocol(folder_tasks = "~/Downloads/ExampleTasks/", 
+                                folder_output = "~/Downloads/protocol999", 
+                                launch_browser = TRUE)
+
+
+# Create a protocol with canonical tasks and tasks from csv/xls files: 
+
+ jsPsychMaker::create_protocol(canonical_tasks = c("AIM", "EAR", "IRI"),
+                                folder_tasks = "~/Downloads/ExampleTasks/", 
+                                folder_output = "~/Downloads/protocol999", 
+                                launch_browser = TRUE)
+}
+
+}

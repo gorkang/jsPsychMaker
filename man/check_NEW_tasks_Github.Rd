@@ -6,6 +6,12 @@
 \usage{
 check_NEW_tasks_Github()
 }
+\value{
+Prints a CLI message
+}
 \description{
-check_NEW_tasks_Github
+Check if we have new tasks in jsPsychMaker/canonical_protocol/tasks Github compared to the jsPsychMaker package (jsPsychMaker/inst/tamplates/tasks.zip)
+}
+\examples{
+check_NEW_tasks_Github()
 }

@@ -22,7 +22,8 @@
 #' @examples
 #' \dontrun{
 #' 
-#' # Create a protocol with the tasks AIM, EAR and IRI in ~/Downloads/protocol999 and open it in a browser
+#' # Create a protocol with the tasks AIM, EAR and IRI in ~/Downloads/protocol999 
+#' # and open it in a browser
 #'   jsPsychMaker::create_protocol(canonical_tasks = c("AIM", "EAR", "IRI"),
 #'                                 folder_output = "~/Downloads/protocol999", 
 #'                                 launch_browser = TRUE)
@@ -45,7 +46,8 @@
 #'                                 folder_tasks = "~/Downloads/ExampleTasks/", 
 #'                                 folder_output = "~/Downloads/protocol999", 
 #'                                 launch_browser = TRUE)
-#'                                 
+#' }
+#'
 create_protocol <- function(folder_tasks = NULL, 
                             canonical_tasks = NULL,
                             folder_output = "~/Downloads/new_protocol_999", 
@@ -57,22 +59,11 @@ create_protocol <- function(folder_tasks = NULL,
                             options_separator = ";") {
   
   # DEBUG
-  # jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")
-  # folder_tasks = "~/Downloads/TEST/"
-  # canonical_tasks = c("AIM", "EAR", "INFCONS")
-  # folder_output = "~/Downloads/TEST/new_protocol"
-
-  # Parameters in create_protocol()
-    # folder_tasks = folder_task
-    # folder_output = output_folder
-  
-  # options_separator = ";"
-  # canonical_tasks = NULL
-  # piloting_task = NULL
-  # force_download_media = FALSE
-  # show_messages = TRUE
-  # block_tasks = "randomly_ordered_tasks_1"
-  
+  # jsPsychAdmin::get_parameters_of_function(name_function = "jsPsychMaker::create_protocol()", load_parameters = TRUE)
+    # canonical_tasks = "AIM"
+    # jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")
+    # folder_tasks = "~/Downloads/TEST/"
+  # devtools::load_all()
   
 
   # CHECK -------------------------------------------------------------------
@@ -158,8 +149,6 @@ create_protocol <- function(folder_tasks = NULL,
       }
          # fs::dir_tree(folder_tasks, recurse = FALSE)
         
-        
-    
       
       # Names of tasks are correct
       regexp_TASK_NAMES = " |-|_|!|&|\\(|\\)|\\[|\\]|\\{|\\}|^[0-9]"
@@ -238,8 +227,13 @@ create_protocol <- function(folder_tasks = NULL,
   
   # MEDIA ---
   # Get media and prepare the media strings for config.js
-  all_media_protocol = get_media_for_protocol(all_files_js = all_files_js, folder_protocol = folder_output, force_download_media = force_download_media, show_messages = show_messages)
-    
+  all_media_protocol = get_media_for_protocol(
+    all_files_js = all_files_js,
+    folder_protocol = folder_output,
+    force_download_media = force_download_media,
+    show_messages = show_messages
+  )
+  
   
   
   # Replace tasks in config ---

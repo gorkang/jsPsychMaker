@@ -26,6 +26,32 @@ list_unzip(
 
 \item{silent}{show cli messages?}
 }
+\value{
+Unzips or lists files inside a zip
+}
 \description{
-list_files_zip
+Unzips or lists files inside a zip file that can be in a package or the user filesystem
+}
+\examples{
+\dontrun{
+
+list_unzip(
+  location = "jsPsychMaker",
+  zip_file = "?",
+  action = "list",
+  destination_folder = NULL,
+  files_to_unzip = NULL,
+  silent = TRUE
+)
+
+list_unzip(
+  location = "jsPsychMaker",
+  zip_file = "canonical_protocol_clean.zip",
+  action = "unzip",
+  destination_folder = tempdir(),
+  files_to_unzip = NULL,
+  silent = FALSE
+)
+}
+
 }
