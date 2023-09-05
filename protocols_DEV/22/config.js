@@ -2,7 +2,7 @@
 
 // Main parameters -------------------------------------------------------------
 pid = 22;
-online = true;
+online = false;
 max_participants = 100000000;
 random_id = true;
 max_time = "24:00:00";
@@ -20,7 +20,7 @@ intro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100
 
 // ORDER OF TASKS --------------------------------------------------------------
 
-first_tasks = ['Consent'];
+first_tasks = ['Bayesian22', 'Consent'];
 last_tasks = ['Goodbye'];
 secuentially_ordered_tasks_1 = ['DEMOGR22', 'Bayesian22', 'BNT', 'DEBRIEF22'];
 tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'last_tasks'];
@@ -30,10 +30,11 @@ tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'last_tasks'];
 message_str = 'El protocolo está cargando, espera un momento...';
 
 // media to preload in protocol_controller
-img_folder = 'media/img/';
+img_folder = 'media/img/Bayesian22/';
 
 images =  [img_folder + 'VPP_low_Cancer.png', img_folder + 'VPN_high_Cancer.png',  img_folder + 'VPN_low_Stroke.png', img_folder + 'VPP_high_Stroke.png',
-          img_folder + 'instructions1.png', img_folder + 'instructions2.png', img_folder + 'iphone-rotation-475102.png'];
+          img_folder + 'instructions1.png', img_folder + 'instructions2.png', 
+          img_folder + 'phone-rotation.png', img_folder + 'intro.png'];
 audios = [];
 video = [];
 
@@ -43,5 +44,6 @@ zoom_type = 'fullPage';
 // BETWEEN subject variables ----------------------------------------------
 
 // Conditions for experimental task
-all_conditions = {"Bayesian22": {"type": ["Text", "Image"]}};
+all_conditions = {"Bayesian22": {"type": ["Image"]}};
+//all_conditions = {"Bayesian22": {"type": ["Text", "Image", "TextPV"]}};
 

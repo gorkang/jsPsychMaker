@@ -32,6 +32,23 @@
 
 // INSTRUCCIONES -----------------------------------------------------------------------------
 
+instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes problemas es una aproximación relativamente conservadora a partir de la revisión de la literatura científica. 
+                      La información ha sido extraida de estas publicaciones:<BR>
+                      <img src = "media/img/Bayesian22/intro.png"><BR>
+                      </ul><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón '[Siguiente >]' empezará la tarea y no podrás volver atrás.<BR><BR>`
+
+                      /*
+                      instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes problemas es una aproximación relativamente conservadora a partir de la revisión de la literatura científica. 
+                      La información ha sido extraida de estas publicaciones: <ul>
+                      <li>Brunser, A. M., et al. (2018). Diffusion-weighted imaging determinants for acute ischemic stroke diagnosis in the emergency room. Neuroradiology, 60(7), 687–692. https://doi.org/10.1007/s00234-018-2029-x</li>
+                      <li>Abdullah, P., et al. (2021b). Synthetic 2D Mammography Versus Standard 2D Digital Mammography: A Diagnostic Test Accuracy Systematic Review and Meta-Analysis. American Journal of Roentgenology, 217(2), 314–325. https://doi.org/10.2214/AJR.20.24204</li>
+                      <li>Alabousi, M., et al. (2021a). Performance of Digital Breast Tomosynthesis, Synthetic Mammography, and Digital Mammography in Breast Cancer Screening: A Systematic Review and Meta-Analysis. JNCI: Journal of the National Cancer Institute, 113(6), 680–690. https://doi.org/10.1093/jnci/djaa205</li>
+                      <li>Bulliard, J., et al. (2021). Breast cancer screening and overdiagnosis. International Journal of Cancer, 149(4), 846–853. https://doi.org/10.1002/ijc.33602</li>
+                      <li>Whiteley, W. N., et al. (2016). Risk of intracerebral haemorrhage with alteplase after acute ischaemic stroke: A secondary analysis of an individual patient data meta-analysis. The Lancet Neurology, 15(9), 925–933. https://doi.org/10.1016/S1474-4422(16)30076-X</li>
+                      </ul><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón '[Siguiente >]' empezará la tarea y no podrás volver atrás.<BR><BR>`
+
+                      */
+
   // IMAGE
   data_type = {
     'Image': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
@@ -48,14 +65,33 @@
                               // ONLY in 'IMAGE'
                               "Para facilitar la tarea, podrás consultar los valores predictivos en una imagen similar a las de abajo.<BR><BR>" +
                               "En el eje vertical cambia la prevalencia (o la incidencia), y en el eje horizontal, los falsos positivos (falsos +) o falsos negativos (falsos -). Esto permite ver como cambiaria el valor predictivo a partir de la prevalencia (o la incidencia) y de los falsos positivos o negativos.<BR><BR>" +
-                              "<B>Si haces click en la imagen puedes ampliarla. Si vuelves a hacer click, reducirla</B> (hazlo ahora para que veas como funciona).<BR><BR>" +
-                              '<img src="media/img/instructions1.png" style="max-width: 40%; max-height: 40%;"> <img src="media/img/instructions2.png" style="max-width: 40%; max-height: 40%;">' +
+                              "<B>Si haces click en la imagen puedes ampliarla. Para reducirla, vuelve a hacer click</B> (hazlo ahora para que veas como funciona).<BR><BR>" +
+                              '<img class="image_zoom" src="media/img/Bayesian22/instructions1.png" style="max-width: 40%; max-height: 40%;"> <img class="image_zoom" src="media/img/Bayesian22/instructions2.png" style="max-width: 40%; max-height: 40%;">' +
                               "<BR><BR>"
                               },
                               
-              'page3': {text: "<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes problemas es una aproximación relativamente conservadora a partir de la revisión de la literatura científica. La información ha sido extraida de estas publicaciones: <ul><li>Brunser, A. M., et al. (2018). Diffusion-weighted imaging determinants for acute ischemic stroke diagnosis in the emergency room. Neuroradiology, 60(7), 687–692. https://doi.org/10.1007/s00234-018-2029-x</li><li>Abdullah, P., et al. (2021b). Synthetic 2D Mammography Versus Standard 2D Digital Mammography: A Diagnostic Test Accuracy Systematic Review and Meta-Analysis. American Journal of Roentgenology, 217(2), 314–325. https://doi.org/10.2214/AJR.20.24204</li><li>Alabousi, M., et al. (2021a). Performance of Digital Breast Tomosynthesis, Synthetic Mammography, and Digital Mammography in Breast Cancer Screening: A Systematic Review and Meta-Analysis. JNCI: Journal of the National Cancer Institute, 113(6), 680–690. https://doi.org/10.1093/jnci/djaa205</li><li>Bulliard, J., et al. (2021). Breast cancer screening and overdiagnosis. International Journal of Cancer, 149(4), 846–853. https://doi.org/10.1002/ijc.33602</li><li>Whiteley, W. N., et al. (2016). Risk of intracerebral haemorrhage with alteplase after acute ischaemic stroke: A secondary analysis of an individual patient data meta-analysis. The Lancet Neurology, 15(9), 925–933. https://doi.org/10.1016/S1474-4422(16)30076-X</li></ul><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón '[Siguiente >]' empezará la tarea y no podrás volver atrás.<BR><BR>"}
+              'page3': {text: instructions_page3}
             },
-          
+
+    'TextPV': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
+                               "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave<BR><BR>" +
+                               "En cada caso verás la descripción del caso clínico, información sobre la prevalencia (o la incidencia) de la enfermedad para alguien como esa persona, y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad. " +
+                               "Además, se mostrará una texto con el Valor Predictivo Positivo o Negativo para alguien como esa persona." + // ONLY in 'TextPV'
+                               "<BR><BR>Por favor, lee con atencion la información y responde lo mejor que puedas." +
+                               "<BR><BR>"
+            },
+            
+              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la prevalencia (o la incidencia), sensibilidad y especificidad es posible calcular:<BR><BR>" + 
+                          "<li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo<BR>" +
+                          "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo<BR><BR>" +
+                          // ONLY in 'IMAGE'
+                          "Para facilitar la tarea, podrás consultar los valores predictivos en un texto a la derecha de la pantalla.<BR><BR>" +                        
+                          "<BR><BR>"
+                          },
+                          
+              'page3': {text: instructions_page3}
+              },    
+    
     // TEXT  
     'Text': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
                              "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave<BR><BR>" +
@@ -73,7 +109,7 @@
                               "<li><B>Valor Predictivo Negativo</B>: Negativos verdaderos / (Negativos verdaderos + Falsos Negativos)<BR><BR>"
                               },
                               
-             'page3': {text: "<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes problemas es una aproximación relativamente conservadora a partir de la revisión de la literatura científica. La información ha sido extraida de estas publicaciones: <ul><li>Brunser, A. M., et al. (2018). Diffusion-weighted imaging determinants for acute ischemic stroke diagnosis in the emergency room. Neuroradiology, 60(7), 687–692. https://doi.org/10.1007/s00234-018-2029-x</li><li>Abdullah, P., et al. (2021b). Synthetic 2D Mammography Versus Standard 2D Digital Mammography: A Diagnostic Test Accuracy Systematic Review and Meta-Analysis. American Journal of Roentgenology, 217(2), 314–325. https://doi.org/10.2214/AJR.20.24204</li><li>Alabousi, M., et al. (2021a). Performance of Digital Breast Tomosynthesis, Synthetic Mammography, and Digital Mammography in Breast Cancer Screening: A Systematic Review and Meta-Analysis. JNCI: Journal of the National Cancer Institute, 113(6), 680–690. https://doi.org/10.1093/jnci/djaa205</li><li>Bulliard, J., et al. (2021). Breast cancer screening and overdiagnosis. International Journal of Cancer, 149(4), 846–853. https://doi.org/10.1002/ijc.33602</li><li>Whiteley, W. N., et al. (2016). Risk of intracerebral haemorrhage with alteplase after acute ischaemic stroke: A secondary analysis of an individual patient data meta-analysis. The Lancet Neurology, 15(9), 925–933. https://doi.org/10.1016/S1474-4422(16)30076-X</li></ul><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón '[Siguiente >]' empezará la tarea y no podrás volver atrás.<BR><BR>"}
+             'page3': {text: instructions_page3}
            }
       };
 
@@ -111,10 +147,10 @@
 
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/img/VPP_low_Cancer.png', type_image: 'positivo', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
-    'highQuality_Cancer': {image: 'media/img/VPN_high_Cancer.png', type_image: 'negativo', SINO: 'NO', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/img/VPN_low_Stroke.png', type_image: 'negativo', SINO: 'NO', sex_patient: sex_randomized[0]["sex"]},
-    'highQuality_Stroke': {image: 'media/img/VPP_high_Stroke.png', type_image: 'positivo', SINO: '', sex_patient: sex_randomized[1]["sex"]}
+    'lowQuality_Cancer': {image: 'media/img/Bayesian22/VPP_low_Cancer.png', textPV: '<B>Valor Predictivo Positivo</B>: 5% (muy bajo)', type_image: 'positivo', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/img/Bayesian22/VPN_high_Cancer.png', textPV: '<B>Valor Predictivo Negativo</B>: 100% (muy alto)', type_image: 'negativo', SINO: 'NO', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/img/Bayesian22/VPN_low_Stroke.png', textPV: '<B>Valor Predictivo Negativo</B>: 51% (intermedio)', type_image: 'negativo', SINO: 'NO', sex_patient: sex_randomized[0]["sex"]},
+    'highQuality_Stroke': {image: 'media/img/Bayesian22/VPP_high_Stroke.png', textPV: '<B>Valor Predictivo Positivo</B>: 100% (muy alto)', type_image: 'positivo', SINO: '', sex_patient: sex_randomized[1]["sex"]}
   };
 
   // The label we use depends on the disease
@@ -150,7 +186,7 @@
   // giro de pantalla
   var instructions_000 = {
       type: 'instructions',
-      pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/img/iphone-rotation-475102.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
+      pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/img/Bayesian22/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
       button_label_next: 'Siguiente',
       data: {trialid: 'Instructions_000',
             condition_between: between_selection["Bayesian22"][0],
@@ -263,11 +299,30 @@
           "¿Cual es la probabilidad de " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " tener un " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " si el resultado de la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " es <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
-          // BETWEEN variable [picture / no picture]:
+          // BETWEEN variable [Picture / TextPV / Text]:
           if (between_selection["Bayesian22"][0] == 'Image') {
-            html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 100%; max-height: 100%;">' + '<div style="font-size:10px; text-align: center">Haz click para ampliar, y click de nuevo para salir de la imagen.</div></div>';
+            
+            html += 
+            `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: 20%;">
+            <img class="image_zoom" src="` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + `" style="max-width: 100%; max-height: 100%;" onclick = document.querySelector('[id$=next]').disabled = true> 
+            <div style="font-size:11px; text-align: center">Haz click sobre la imagen para ampliarla, y click de nuevo para salir de ella.</div>
+            <br>
+            <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div>
+            
+            </div>`;
+
+          } else if (between_selection["Bayesian22"][0] == 'TextPV') { // que pasa si las imagenes tienen distintos tamaños? #TODO
+
+            html += '<div class="column" style="height:' + height + 'px; width:' + width + 'px; float: right; width: 2%;">' + 
+            '<img class="image_zoom" src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;"></div>' + 
+            '<div class="column" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 18%;">' + 
+              '<div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].textPV + '</div></div>';
+            
           } else if (between_selection["Bayesian22"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
-            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 20%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
+
+            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 20%;"> <div class="alignitems"> ' + 
+            '<img class="image_zoom" src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
+
           }
           html += '</div><style>#column img {vertical-align: middle}</style>';
           html += '<p><input name ="Q0" type="number" required min=0 max=100 value autofocus> %</p>';
@@ -288,7 +343,12 @@
           return element;
         },
         on_load: function() {
-          image_zoom();
+
+          // Only in the Image condition as it deactivates button
+          //name_first_image = document.querySelectorAll('img')[0].currentSrc.split('/').reverse()[0];
+          //console.log(document.querySelectorAll('img')[0].currentSrc.split('/').reverse()[0])
+          if (between_selection["Bayesian22"][0] == 'Image') image_zoom();
+
         }
       },
 

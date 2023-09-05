@@ -395,30 +395,88 @@ function flattenObject(ob) {
 
 // image_zoom controller ------------------------------------------------------
 
+
 function image_zoom() {
+  button_change = false;
   let imgs = document.querySelectorAll('img');
+  
   for (var i = 0; i < imgs.length; i++) {
     let img = imgs[i];
     if (img) {
-      if (zoom_type == 'Intense') {
-        Intense(img);
-      } else if (zoom_type == 'fullPage') {
+      if (img.classList.contains("image_zoom")) {
 
-        if (!(document.querySelector('#fullpage_image'))) {
-          var elemDiv = document.createElement('div');
-          elemDiv.id = "fullpage_image";
-
-          let parent = document.querySelector('#jspsych-content');
-          //document.body.appendChild(elemDiv);
-          parent.appendChild(elemDiv);
-          elemDiv.setAttribute("onclick", "this.style.display='none';");
+        // Por defecto, el boton Siguiente esta deshabilitado hasta que no se haga click en imagen
+        if (!button_change) {
+          document.querySelector("[id$=next]").disabled = true;
+          document.querySelector("[id$=next]").title = "Tienes que hacer click sobre la imagen para que se active el botón"
+          button_change = true;
         }
 
-        let fullPage = document.querySelector('#fullpage_image');
-        img.addEventListener('click', function() {
-          fullPage.style.backgroundImage = 'url(' + img.src + ')';
-          fullPage.style.display = 'block';
-        });
+        if (zoom_type == 'Intense') {
+          Intense(img);
+        } else if (zoom_type == 'fullPage') {
+          if (!(document.querySelector('#fullpage'))) {
+            // Crear el contenedor principal
+            const mainContainer = document.createElement("div");
+            mainContainer.id = "fullpage";
+            mainContainer.style.display = "none"; // Inicialmente oculto
+            mainContainer.style.position = "fixed";
+            mainContainer.style.top = "0";
+            mainContainer.style.left = "0";
+            mainContainer.style.width = "100%";
+            mainContainer.style.height = "100%";
+            mainContainer.style.backgroundColor = "black";
+            mainContainer.style.zIndex = "999";
+            mainContainer.style.alignItems = "center";
+            mainContainer.style.justifyContent = "center";
+            mainContainer.style.flexDirection = "column";
+            mainContainer.setAttribute("onclick", "this.style.display='none';");
+         
+            // Crear el div de la imagen con fondo
+            const imageDiv = document.createElement("div");
+            imageDiv.style.flex = "1";
+            imageDiv.style.display = "flex";
+            imageDiv.style.alignItems = "center";
+            imageDiv.style.justifyContent = "center";
+            imageDiv.style.backgroundSize = "contain";
+            imageDiv.style.backgroundRepeat = "no-repeat";
+            imageDiv.style.backgroundPosition = "center"; // Centrar la imagen en el div
+            imageDiv.style.width = "inherit";
+
+            // Crear el div del texto con fondo negro
+            const textDiv = document.createElement("div");
+            textDiv.style.backgroundColor = "black"; // Fondo negro
+            textDiv.style.color = "white"; // Texto en blanco
+            textDiv.style.padding = "20px"; // Espaciado interno
+            textDiv.style.textAlign = "center";
+            textDiv.style.width = "100%"; // Cubrir todo el ancho de la pantalla
+
+            mainContainer.appendChild(imageDiv);
+            mainContainer.appendChild(textDiv);
+
+            const paragraph = document.createElement("p");
+            paragraph.textContent = "Haz click de nuevo en la imagen para volver atrás"; // Texto a mostrar
+            textDiv.appendChild(paragraph);
+
+            // Agrega el contenedor al content
+            let parent = document.querySelector('#jspsych-content');
+            parent.appendChild(mainContainer); 
+          }
+
+          let mainContainer = document.querySelector('#fullpage');
+          let imageDiv = document.querySelector('#fullpage > div:nth-child(1)');
+            
+          img.addEventListener('click', function() {
+            // reestablecimiento del container y selección de imagen
+            mainContainer.style.display = "flex";
+            imageDiv.style.backgroundImage = 'url(' + img.src + ')';
+            
+            // If they are in the Image condition, they need to click the image to continue.
+            // CHECK with giro_check
+            document.querySelector("[id$=next]").disabled = false;
+            document.querySelector("[id$=next]").title = ""
+          });
+        }
       }
     }
   }
