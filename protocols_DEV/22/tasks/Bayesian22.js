@@ -32,25 +32,11 @@
 
 // INSTRUCCIONES -----------------------------------------------------------------------------
 
-instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes problemas es una aproximación relativamente conservadora a partir de la revisión de la literatura científica. 
-                      La información ha sido extraida de estas publicaciones:<BR>
-                      <img src = "media/img/Bayesian22/intro.png"><BR>
-                      </ul><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón '[Siguiente >]' empezará la tarea y no podrás volver atrás.<BR><BR>`
+instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes problemas está basada en literatura científica. Hemos intentado usar datos a partir de artículos de la mejor calidad posible, incluyendo revisiones sistemáticas, meta-análisis, etc. La información ha sido extraida de estas publicaciones:<BR><BR>
+<img src = "media/img/Bayesian22/intro.png"><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón '[Siguiente >]' empezará la tarea y no podrás volver atrás.<BR><BR>`
 
-                      /*
-                      instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes problemas es una aproximación relativamente conservadora a partir de la revisión de la literatura científica. 
-                      La información ha sido extraida de estas publicaciones: <ul>
-                      <li>Brunser, A. M., et al. (2018). Diffusion-weighted imaging determinants for acute ischemic stroke diagnosis in the emergency room. Neuroradiology, 60(7), 687–692. https://doi.org/10.1007/s00234-018-2029-x</li>
-                      <li>Abdullah, P., et al. (2021b). Synthetic 2D Mammography Versus Standard 2D Digital Mammography: A Diagnostic Test Accuracy Systematic Review and Meta-Analysis. American Journal of Roentgenology, 217(2), 314–325. https://doi.org/10.2214/AJR.20.24204</li>
-                      <li>Alabousi, M., et al. (2021a). Performance of Digital Breast Tomosynthesis, Synthetic Mammography, and Digital Mammography in Breast Cancer Screening: A Systematic Review and Meta-Analysis. JNCI: Journal of the National Cancer Institute, 113(6), 680–690. https://doi.org/10.1093/jnci/djaa205</li>
-                      <li>Bulliard, J., et al. (2021). Breast cancer screening and overdiagnosis. International Journal of Cancer, 149(4), 846–853. https://doi.org/10.1002/ijc.33602</li>
-                      <li>Whiteley, W. N., et al. (2016). Risk of intracerebral haemorrhage with alteplase after acute ischaemic stroke: A secondary analysis of an individual patient data meta-analysis. The Lancet Neurology, 15(9), 925–933. https://doi.org/10.1016/S1474-4422(16)30076-X</li>
-                      </ul><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón '[Siguiente >]' empezará la tarea y no podrás volver atrás.<BR><BR>`
-
-                      */
-
-  // IMAGE
-  data_type = {
+// IMAGE
+data_type = {
     'Image': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
                               "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave<BR><BR>" +
                               "En cada caso verás la descripción del caso clínico, información sobre la prevalencia (o la incidencia) de la enfermedad para alguien como esa persona, y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad. " +
@@ -282,17 +268,19 @@ instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que 
       {
         type: 'survey-html-form',
         html: function() {
+          
+          var pct_width_left = "75%";
+          var pct_width_right = "25%";
+          
           // parte comun para ambas partes del between
           var html = '<div class="row" style="display: flex; align-items: center">';
 
           // 2 columns
-          html += '<div class="column" style="float: left; width: 80%">' +
+          html += '<div class="column" style="float: left; width: ' + pct_width_left + '">' +
           '<B>Cálculo del valor predictivo <U>' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + '</U></B><BR><BR>' +
 
           // Brief version of case
           '<HR><div style="color:#424949; font-size:15px;">' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient[0].toUpperCase() + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient.slice(1) + data_disease[jsPsych.timelineVariable('disease', true)].brief_context + '</div><HR><BR>' +
-
-          //"Para detectar " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + ", se realiza una " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
           "La prueba " + data_disease[jsPsych.timelineVariable('disease', true)].test1 + " usada habitualmente para detectar " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " es la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
           "En una persona como la descrita, el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " tiene una <B>" + prevalence_incidence[jsPsych.timelineVariable('disease', true)].label +" de " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_x + " de cada " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_y + '</B>.<BR><BR> ' +
           "La " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " tiene una <B>sensibilidad del " + data_disease[jsPsych.timelineVariable('disease', true)].number_SENSITIVITY + "%</B> y una <B>especificidad del " + data_disease[jsPsych.timelineVariable('disease', true)].number_SPECIFICITY + '%</B>. <BR><BR>'+
@@ -303,9 +291,10 @@ instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que 
           if (between_selection["Bayesian22"][0] == 'Image') {
             
             html += 
-            `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: 20%;">
+            `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
+            <div style="font-size:14px; text-align: justify;">En la gráfica se muestra el <b>Valor predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculado a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
             <img class="image_zoom" src="` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + `" style="max-width: 100%; max-height: 100%;" onclick = document.querySelector('[id$=next]').disabled = true> 
-            <div style="font-size:11px; text-align: center">Haz click sobre la imagen para ampliarla, y click de nuevo para salir de ella.</div>
+            <div style="font-size:11px; text-align: center">Haz click sobre la imagen para ampliarla/minimizarla.</div>
             <br>
             <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div>
             
@@ -313,15 +302,16 @@ instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que 
 
           } else if (between_selection["Bayesian22"][0] == 'TextPV') { // que pasa si las imagenes tienen distintos tamaños? #TODO
 
-            html += '<div class="column" style="height:' + height + 'px; width:' + width + 'px; float: right; width: 2%;">' + 
-            '<img class="image_zoom" src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;"></div>' + 
-            '<div class="column" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 18%;">' + 
-              '<div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].textPV + '</div></div>';
+            html += 
+            `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
+            <div style="font-size:14px; text-align: justify;">En el recuadro se muestra el <b>Valor predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculado a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
+            <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div></div>`;
             
           } else if (between_selection["Bayesian22"][0] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
 
-            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 20%;"> <div class="alignitems"> ' + 
-            '<img class="image_zoom" src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
+            html += 
+            `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">&nbsp;` +
+            `</div> </div> `;
 
           }
           html += '</div><style>#column img {vertical-align: middle}</style>';
