@@ -1,16 +1,16 @@
 // You can include regular HTML code between the ``, edit the template, and or fill the template variables
 
 // Template variables
-path_logo = "controllers/media/logo.png";
+path_logo = "media/html/logo-UAI.png";
 var_title = `Comprensión y toma de decisiones en población general y personal sanitario de pruebas de screening y diagnósticas: hacia la toma de decisiones conjunta`;
 var_researcher_name = `Gorka Navarrete`;
 var_researcher_email = `gorkang@gmail.com`;
 var_researcher_affiliation = `Centro de Neurociencia Social y Cognitiva`;
 var_researcher_university = `Universidad Adolfo Ibáñez`;
 
-var_ethics_comitee_name_president = `[[Nombre presidenta/e comité ética]]`;
-var_ethics_comitee_phone = `(562) 2331-1319`;
-var_ethics_comitee_email = `[[Email presidenta/e comité ética]]`;
+var_ethics_comitee_name_president = `Paola Cañon`;
+var_ethics_comitee_phone = `(562) 2331-1277`;
+var_ethics_comitee_email = `paola.canon.g@uai.cl`;
 
 
 var_purpose = `Con su firma, usted accede a participar en este proyecto. En él, estamos investigando como las personas razonan y toman decisiones en contextos médicos. Este estudio es financiado por FONDECYT`;
@@ -21,7 +21,7 @@ var_comprehension = `cómo las personas razonan y toman decisiones. También pod
 // The content of intro_CONSENT will be shown in the Consent.js task
 intro_CONSENT = `
 
-<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + path_logo + `" name="UAI" align="bottom" width="200" height="44" border="0"/></p></div>
+<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + path_logo + `" name="UAI" align="bottom" width="200" height="60" border="0"/></p></div>
 <div>
 <h3 class="western" align="center">Consentimiento Informado</h3><br/>
 <b>Nombre del proyecto: </b>` + var_title + ` <br/>
