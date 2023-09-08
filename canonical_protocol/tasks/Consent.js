@@ -26,14 +26,14 @@ var question01 = {
   on_finish: function(data){
     if(jsPsych.data.get().values().find(x => x.trialid === 'Consent_001').button_pressed == 1){
       jsPsych.endExperiment('Gracias por tu tiempo. Puedes cerrar esta pestaña.');
+    } else {
+      data.response = "Accepted";
     }
   },
     data: {
     trialid: 'Consent_001',
     procedure: 'Consent'
    }
-
-
 };
 Consent.push(question01);
 
@@ -42,6 +42,3 @@ Consent.unshift(instruction_screen_experiment);
 Consent.push.apply(questions, Consent);
 call_function("Consent");
 
-/*
-call_function("Consent");
-*/
