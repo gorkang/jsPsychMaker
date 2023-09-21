@@ -1,6 +1,13 @@
 # Github version
 # remotes::install_github("gorkang/jsPsychMaker")
 
+
+# Process new docs --------------------------------------------------------
+
+  source("admin/process_docs.R")
+  process_docs()
+
+  
 # Prepare inst/ zips ------------------------------------------------------
   
   # If there are changes to `canonical_protocol/tasks`, `canonical_protocol_clean`, `example_tasks` or `example_tasks_errors`, run this:
