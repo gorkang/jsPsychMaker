@@ -4,7 +4,13 @@
 \alias{adapt_HTML}
 \title{adapt_HTML}
 \usage{
-adapt_HTML(TASKS, new_plugins = NULL, folder_output, show_messages = TRUE)
+adapt_HTML(
+  TASKS,
+  new_plugins = NULL,
+  folder_output,
+  show_messages = TRUE,
+  jsPsych_version = 6
+)
 }
 \arguments{
 \item{TASKS}{list of tasks in protocol}
@@ -14,6 +20,8 @@ adapt_HTML(TASKS, new_plugins = NULL, folder_output, show_messages = TRUE)
 \item{folder_output}{where to change the index.html file}
 
 \item{show_messages}{TRUE/FALSE}
+
+\item{jsPsych_version}{By default jsPsych6. Can also be 7 for jsPsych7}
 }
 \value{
 Writes a file

@@ -8,7 +8,8 @@ create_task(
   folder_task,
   folder_output = NULL,
   options_separator = ";",
-  show_messages = FALSE
+  show_messages = FALSE,
+  jsPsych_version = 6
 )
 }
 \arguments{
@@ -19,6 +20,8 @@ create_task(
 \item{options_separator}{different options are by default separated by ;}
 
 \item{show_messages}{TRUE/FALSE}
+
+\item{jsPsych_version}{By default jsPsych6. Can also be 7 for jsPsych7}
 }
 \value{
 Creates a task

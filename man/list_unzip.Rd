@@ -46,7 +46,7 @@ list_unzip(
 
 list_unzip(
   location = "jsPsychMaker",
-  zip_file = "canonical_protocol_clean.zip",
+  zip_file = "canonical_clean_6.zip",
   action = "unzip",
   destination_folder = tempdir(),
   files_to_unzip = NULL,

@@ -4,26 +4,34 @@
 #' @param new_plugins plugins used by tasks
 #' @param folder_output where to change the index.html file
 #' @param show_messages TRUE/FALSE
+#' @param jsPsych_version By default jsPsych6. Can also be 7 for jsPsych7
 #'
 #' @return Writes a file
 # #' @export
 #' @importFrom purrr map_df
 #' @importFrom cli cli_alert_info cli_abort cli_alert_success
 #' @importFrom tibble tibble
-adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output, show_messages = TRUE) {
+adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output, show_messages = TRUE, jsPsych_version = 6) {
 
   # Read index
   index_file = paste0(folder_output, "/index.html")
   INDEX = readLines(index_file)
-
-
+  
   # Plugins -----------------------------------------------------------------
 
     # Used plugins
     PLUGINS = tibble::tibble(plugin = new_plugins) |> dplyr::distinct(plugin)
+    if (jsPsych_version == 7) {
+      PLUGINS$plugin = gsub("jsPsych", "", PLUGINS$plugin) %>% 
+      gsub("([A-Z])", "-\\1", .) %>%
+      gsub("^([a-z])", "-\\1", .) %>%
+      tolower()
+      #gsub("([A-Z])", paste0("-", "\\1"), gsub("jsPsych", "", PLUGINS$plugin)) |> tolower()
+      }
     
     # Create code for all plugins used
-    code_plugins = paste0('\t<script src="jsPsych-6/plugins/jspsych-', PLUGINS$plugin, '.js"></script>')
+    sting_plugins = ifelse(jsPsych_version == 6, "jspsych", "plugin")
+    code_plugins = paste0('\t<script src="jsPsych-', jsPsych_version , paste0('/plugins/', sting_plugins), PLUGINS$plugin, '.js"></script>')
   
     # Detect canonical_clean plugins
     begin_plugins = which(grepl("<!-- Protocol Plugins: CANONICAL -->", INDEX)) + 1

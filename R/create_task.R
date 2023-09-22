@@ -6,12 +6,13 @@
 #' @param folder_output Where to create the task
 #' @param options_separator different options are by default separated by ;
 #' @param show_messages TRUE/FALSE
+#' @param jsPsych_version By default jsPsych6. Can also be 7 for jsPsych7
 #'
 #' @return Creates a task
 #' @export
 #' @importFrom cli cli_alert_success cli_alert_info cli_abort
 #' @importFrom here here
-create_task <- function(folder_task, folder_output = NULL, options_separator = ";", show_messages = FALSE) {
+create_task <- function(folder_task, folder_output = NULL, options_separator = ";", show_messages = FALSE, jsPsych_version = 6) {
 
   # DEBUG
   # .x = 1
@@ -70,11 +71,12 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
     ITEMS = create_items_from_file(file_name = input_CSV_XLS_files, 
                                    folder_output = folder_output, 
                                    options_separator = options_separator,
-                                   show_messages = show_messages) |> 
+                                   show_messages = show_messages,
+                                   jsPsych_version = jsPsych_version) |> 
     unlist() |> paste(collapse = "")
     
     # Create instructions
-    INSTRUCTIONS_out = create_instructions(INSTRUCTIONS = task_instructions, task_name = task_name)
+    INSTRUCTIONS_out = create_instructions(INSTRUCTIONS = task_instructions, task_name = task_name, jsPsych_version = jsPsych_version)
     
     # Create intro [DO NOT CHANGE TABULATION, etc.]
     INTRO = 

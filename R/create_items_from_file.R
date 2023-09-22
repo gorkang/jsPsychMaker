@@ -4,6 +4,7 @@
 #' @param folder_output Where do we have the canonical_protocol_clean
 #' @param options_separator different options are by default separated by ;
 #' @param show_messages TRUE/FALSE
+#' @param jsPsych_version By default jsPsych6. Can also be 7 for jsPsych7
 #'
 #' @return A char vector with the items from a file
 # #' @export
@@ -14,7 +15,7 @@
 #' @importFrom readxl read_excel
 #' @importFrom stringr str_replace_all str_count
 
-create_items_from_file <- function(file_name, folder_output = NULL, options_separator = ";", show_messages = FALSE) {
+create_items_from_file <- function(file_name, folder_output = NULL, options_separator = ";", show_messages = FALSE, jsPsych_version = 6) {
   
   # TODO
   # At some point we changed the wat conditional questions trialid's are build, so they 
@@ -58,21 +59,36 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
 
   PLUGINS_used = DF |> dplyr::distinct(plugin) |> dplyr::pull(plugin)
 
+  
+  # Adapt PLUGIN strings to v7 ----------------------------------------------
+
+  if (jsPsych_version == 7) {
+    # PLUGIN   = "survey-multi-choice"
+    string_plugin = "plugin"
+    # PLUGIN = gsub("^([a-z])", "\\U\\1", PLUGIN, perl = TRUE) %>%
+      # gsub("-([a-z])", "\\U\\1", ., perl = TRUE)
+  } else {
+    string_plugin = "jspsych"
+  }
+
+
+  
   # CHECK lines without plugins
   if (any(is.na(PLUGINS_used))) cli::cli_abort(c("There are rows without plugins"))
   
   # CHECK we have all the used plugins
-  canonical_zip_files = list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip", action = "list", silent = TRUE)
-  ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
-  CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
-  if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}", 
+  canonical_zip_files = list_unzip(location = "jsPsychMaker", zip_file = paste0("canonical_clean_", jsPsych_version, ".zip"), action = "list")
+  ALL_available_plugins = canonical_zip_files[grepl(pattern = paste0("plugins/", string_plugin, "-"), canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+  
+  CHECK_ALL_available_plugins = !paste0(string_plugin, "-", PLUGINS_used) %in% ALL_available_plugins
+  if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-', jsPsych_version, '/plugins/')}}", 
                                                        " - Correct the issue in {.code {file_name}}"))
 
   # Show help message  
-  WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/jspsych-", PLUGINS_used, "/")
+  WEBS_help = paste0("https://www.jspsych.org/", jsPsych_version, ".3/plugins/jspsych-", PLUGINS_used, "/")
   
   # Avoid listing all websites when > 2 plugins in the task
-  if (length(PLUGINS_used) > 2) WEBS_help = paste0("https://www.jspsych.org/6.3/plugins/")
+  if (length(PLUGINS_used) > 2) WEBS_help = paste0("https://www.jspsych.org/", jsPsych_version, ".3/plugins/")
   if (show_messages == TRUE) cli::cli_alert_info("Parameters: {.code {names(DF_columns_parameters)}}")
   if (show_messages == TRUE) cli::cli_alert_info("Plugins: {.code {PLUGINS_used}}. Help: {.url {WEBS_help}}")
   
@@ -268,15 +284,25 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
 
 
 
+  
+
   # Create chunk [DO NOT CHANGE TABS/SPACES] --------------------------------
 
+  if (jsPsych_version == 7) { 
+    # survey-multi-choice -> jsPsychSurveyMultiChoice
+    PLUGIN_type = paste0("jsPsych", gsub("^([a-z])", "\\U\\1", PLUGIN, perl = TRUE) %>% gsub("-([a-z])", "\\U\\1", ., perl = TRUE))
+  } else {
+    PLUGIN_type = PLUGIN
+  }
+
+  
   # We insert the parameters inside questions (if it's a survey plugin)
   # except in survey-html-form
   if (grepl("survey", PLUGIN) & !grepl("survey-html-form", PLUGIN)) {
 
     ITEM_output_RAW = paste0("
   var question", item_number, " = {
-    type: '", PLUGIN, "',
+    type: '", PLUGIN_type, "',
     questions: [{
       ", ALL, "
     }],
@@ -289,13 +315,15 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
 
     ITEM_output_RAW = paste0("
   var question", item_number, " = {
-    type: '", PLUGIN, "',
+    type: '", PLUGIN_type, "',
     ", ALL, ",
     data: {trialid: '", task_name, "_", item_number, "', procedure: '", task_name,"'}
   };
   ", ifelse("if_question" %in% names(DF_MAP), "", paste0(task_name, ".push(question", item_number, ");")), "\n") # Show only if NOT an if_question
   }
 
+  # Get rid of the '' so:  type: 'SurveyMultiChoice' -> type: SurveyMultiChoice
+  if (jsPsych_version == 7) ITEM_output_RAW = gsub("(type: )'([a-zA-Z]*)'(,)" , "\\1\\2\\3", ITEM_output_RAW)  
   
   # PREPARE if_questions [DO NOT CHANGE TABS/SPACES] --------------------------
   

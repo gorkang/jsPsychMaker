@@ -14,29 +14,43 @@
 
   # DESCRIPTION and NEWS ---
     file.copy(from = c("DESCRIPTION", "NEWS.md"),
-              to = c("canonical_protocol_clean/DESCRIPTION", "canonical_protocol_clean/NEWS.md"), 
+              to = c("canonical_clean_6/DESCRIPTION", "canonical_clean_6/NEWS.md",
+                     "canonical_clean_7/DESCRIPTION", "canonical_clean_7/NEWS.md"), 
               overwrite = TRUE)
 
   # TASKS ---
 
     # Remove old files
-    file.remove("inst/templates/tasks.zip")
-    file.remove("inst/templates/canonical_protocol_clean.zip")
+    file.remove("inst/templates/tasks6.zip")
+    file.remove("inst/templates/tasks7.zip")
+    file.remove("inst/templates/canonical_clean_6.zip")
+    file.remove("inst/templates/canonical_clean_7.zip")
     file.remove("inst/templates/example_tasks.zip")
     file.remove("inst/templates/example_tasks_errors.zip")
 
     Sys.sleep(5) # Time for insync to sync
         
     
-    # tasks ---
+  # tasks ---
+    # v6
     jsPsychHelpeR::zip_files(folder_files = "canonical_protocol/tasks/", 
-                             zip_name = "inst/templates/tasks.zip", 
+                             zip_name = "inst/templates/tasks6.zip", 
+                             remove_files = FALSE)
+    # v7
+    jsPsychHelpeR::zip_files(folder_files = "canonical_protocol/tasks7/", 
+                             zip_name = "inst/templates/tasks7.zip", 
                              remove_files = FALSE)
 
   # canonical_protocol_clean ---
-    jsPsychHelpeR::zip_files(folder_files = "canonical_protocol_clean/", 
-                             zip_name = "inst/templates/canonical_protocol_clean.zip", 
+    #v6
+    jsPsychHelpeR::zip_files(folder_files = "canonical_clean_6/", 
+                             zip_name = "inst/templates/canonical_clean_6.zip", 
                              remove_files = FALSE)
+    #v7
+    jsPsychHelpeR::zip_files(folder_files = "canonical_clean_7/", 
+                             zip_name = "inst/templates/canonical_clean_7.zip", 
+                             remove_files = FALSE)
+    
 
   # Example tasks ---
     jsPsychHelpeR::zip_files(folder_files = "admin/example_tasks/example_tasks/", 

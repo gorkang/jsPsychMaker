@@ -4,10 +4,12 @@
 \alias{list_available_tasks}
 \title{list_available_tasks}
 \usage{
-list_available_tasks(show_help = FALSE)
+list_available_tasks(show_help = FALSE, jsPsych_version = 6)
 }
 \arguments{
 \item{show_help}{Show information about where to get help?}
+
+\item{jsPsych_version}{By default jsPsych6. Can also be 7 for jsPsych7}
 }
 \value{
 prints a list with the available tasks

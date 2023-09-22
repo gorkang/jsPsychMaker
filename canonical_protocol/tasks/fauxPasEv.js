@@ -100,12 +100,12 @@ var pages = [
   'Una mujer joven que estaba sentada se paró y le dijo “¿quiere usted mi asiento?”'+
   '</p>',
   '<p>'+'<center><b><big>Historia 18</big></b></center><p/>'+
-  '<p>'+'Rodolfo comenzó a trabajar en una oficina nueva. Un día en el bar, estaba hablando con un compañero nuevo, Andrés. Este le preguntó:</br>'+
+  '<p>'+'Rodolfo comenzó a trabajar en una oficina nueva. Un día en la cafetería, estaba hablando con un compañero nuevo, Andrés. Este le preguntó:</br>'+
   '“¿A qué se dedica tu esposa?”.</br>'+
   'Rodolfo contestó “Ella es abogada”.</br>'+
-  'Unos minutos más tarde, Clara llegó al bar, se veía irritada. Les contó “Acabo de recibir una llamada de teléfono terrible, los abogados son todos arrogantes y avaros, no los soporto”.</br>'+
+  'Unos minutos más tarde, Clara llegó a la cafetería, se veía irritada. Les contó “Acabo de recibir una llamada de teléfono terrible, los abogados son todos arrogantes y avaros, no los soporto”.</br>'+
   'Andrés le pidió a Clara. “¿Querés mirar esos informes?”</br>'+
-  'Ella contestó“Ahora no, necesito mi café”.'+
+  'Ella contestó “Ahora no, necesito mi café”.'+
   '</p>',
   '<p>'+'<center><b><big>Historia 19</big></b></center><p/>'+
   '<p>'+'Ricardo compró un auto nuevo, un Peugeot rojo. Unas semanas después que lo había comprado, chocó de atrás al auto de su vecino Tomás, un viejo escarabajo Volkswagen.</br>'+
@@ -157,7 +157,7 @@ var question004 = {
   type: 'survey-html-form',
   html: function() {
     // parte comun para ambas partes del between
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -169,7 +169,7 @@ var question005 = {
   type: 'survey-html-form',
   html: function() {
     // parte comun para ambas partes del between
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que ella/él lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que ella/él lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -263,7 +263,7 @@ var question013 = {
   type: 'survey-html-form',
   html: function() {
     // parte comun para ambas partes del between
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -275,7 +275,7 @@ var question014 = {
   type: 'survey-html-form',
   html: function() {
     // parte comun para ambas partes del between
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que ella/él lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que ella/él lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -363,7 +363,7 @@ var question022 = {
   type: 'survey-html-form',
   html: function() {
     // parte comun para ambas partes del between
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -375,7 +375,7 @@ var question023 = {
   type: 'survey-html-form',
   html: function() {
     // parte comun para ambas partes del between
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que ella/él lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que ella/él lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -474,7 +474,7 @@ var question030 = {
 var question031 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -486,7 +486,7 @@ var question032 = {
   type: 'survey-html-form',
   html: function() {
     // parte comun para ambas partes del between
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que ella/él lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que ella/él lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -496,7 +496,7 @@ var question032 = {
 
 var question033 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">¿Lisa sabía quién había comprado las cortinas?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true, random_options: false, horizontal: false}],
+  questions: [{prompt: '<div class="justified">¿Alicia sabía quién había comprado las cortinas?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true, random_options: false, horizontal: false}],
   data: {trialid: 'fauxPasEv_033', procedure: 'fauxPasEv'}
 };
 
@@ -586,7 +586,7 @@ var question039 = {
 var question040 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -597,7 +597,7 @@ var question040 = {
 var question041 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -693,7 +693,7 @@ var question048 = {
 var question049 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -704,7 +704,7 @@ var question049 = {
 var question050 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -800,7 +800,7 @@ var question057 = {
 var question058 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -811,7 +811,7 @@ var question058 = {
 var question059 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -907,7 +907,7 @@ var question066 = {
 var question067 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -918,7 +918,7 @@ var question067 = {
 var question068 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1014,7 +1014,7 @@ var question075 = {
 var question076 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1025,7 +1025,7 @@ var question076 = {
 var question077 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1121,7 +1121,7 @@ var question084 = {
 var question085 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1132,7 +1132,7 @@ var question085 = {
 var question086 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1221,14 +1221,14 @@ fauxPasEv.push(question092);
 
 var question093 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">¿Quién dijo algo que no debió decir o algo inconveniente?</div>', options: ['&nbsp;Jorge Gomez, el gerente', '&nbsp;Juan mercado, el contador', '&nbsp;Roberto, el ingeniero'], required: true, random_options: false, horizontal: false}],
+  questions: [{prompt: '<div class="justified">¿Quién dijo algo que no debió decir o algo inconveniente?</div>', options: ['&nbsp;Jorge Gomez, el gerente', '&nbsp;Juan Mercado, el contador', '&nbsp;Roberto, el ingeniero'], required: true, random_options: false, horizontal: false}],
   data: {trialid: 'fauxPasEv_093', procedure: 'fauxPasEv'}
 };
 
 var question094 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1239,7 +1239,7 @@ var question094 = {
 var question095 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1335,7 +1335,7 @@ var question102 = {
 var question103 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1346,7 +1346,7 @@ var question103 = {
 var question104 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1442,7 +1442,7 @@ var question111 = {
 var question112 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1453,7 +1453,7 @@ var question112 = {
 var question113 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1549,7 +1549,7 @@ var question120 = {
 var question121 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1560,7 +1560,7 @@ var question121 = {
 var question122 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1656,7 +1656,7 @@ var question129 = {
 var question130 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1667,7 +1667,7 @@ var question130 = {
 var question131 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1753,7 +1753,7 @@ var question138 = {
 var question139 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1764,7 +1764,7 @@ var question139 = {
 var question140 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1808,7 +1808,7 @@ fauxPasEv.push(if_block_16);
 var question143 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + 'En la historia, ¿Porque estaba Héctor parado al lado de la caja?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + 'En la historia, ¿Por qué estaba Héctor parado al lado de la caja?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1860,7 +1860,7 @@ var question147 = {
 var question148 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1871,7 +1871,7 @@ var question148 = {
 var question149 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1967,7 +1967,7 @@ var question156 = {
 var question157 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -1978,7 +1978,7 @@ var question157 = {
 var question158 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -2074,7 +2074,7 @@ var question165 = {
 var question166 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -2085,7 +2085,7 @@ var question166 = {
 var question167 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -2181,7 +2181,7 @@ var question174 = {
 var question175 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque ella/él no debió haberlo dicho o porque era inapropiado?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué ella/él no debió haberlo dicho o por qué era inapropiado?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },
@@ -2192,7 +2192,7 @@ var question175 = {
 var question176 = {
   type: 'survey-html-form',
   html: function() {
-    var html = '<div style="text-align: justify; width: 100%">' + '¿Porque crees que él/ella lo dijo?' + '</div>';
+    var html = '<div style="text-align: justify; width: 100%">' + '¿Por qué crees que él/ella lo dijo?' + '</div>';
     html += '<p><textarea name ="Q0" style="min-width:500px; max-width:100%;min-height:50px;height:100%;width:100%;" required="true" autofocus></textarea></p>'
     return html;
   },

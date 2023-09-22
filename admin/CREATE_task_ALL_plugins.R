@@ -9,7 +9,7 @@ TASKS_NOT_WORKING = c("external-html", "html-slider-response-CSCN", "survey-mult
 
 
 packagePath <- find.package("jsPsychMaker", lib.loc = NULL, quiet = TRUE)
-canonical_zip = paste0(packagePath, "/templates/canonical_protocol_clean.zip")
+canonical_zip = paste0(packagePath, "/templates/canonical_clean_6.zip")
 canonical_zip_files = unzip(canonical_zip, list = TRUE)[,1]
 
 # we have all the used plugins

@@ -4,12 +4,14 @@
 \alias{create_instructions}
 \title{create_instructions}
 \usage{
-create_instructions(INSTRUCTIONS, task_name)
+create_instructions(INSTRUCTIONS, task_name, jsPsych_version = 6)
 }
 \arguments{
 \item{INSTRUCTIONS}{HTML files or character vector}
 
 \item{task_name}{Name of task}
+
+\item{jsPsych_version}{By default jsPsych6. Can also be 7 for jsPsych7}
 }
 \value{
 Returns a string with the instructions for a task

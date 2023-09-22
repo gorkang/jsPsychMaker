@@ -26,7 +26,12 @@ testthat::test_that('list_unzip', {
   
   testthat::expect_message(
     regexp = 'action == "list"',
-    jsPsychMaker::list_unzip(location = "jsPsychMaker", silent = FALSE, action = "list", zip_file = "tasks.zip")
+    jsPsychMaker::list_unzip(location = "jsPsychMaker", silent = FALSE, action = "list", zip_file = "tasks6.zip")
+  )
+  
+  testthat::expect_message(
+    regexp = 'action == "list"',
+    jsPsychMaker::list_unzip(location = "jsPsychMaker", silent = FALSE, action = "list", zip_file = "tasks7.zip")
   )
   
   testthat::expect_error(
@@ -36,7 +41,7 @@ testthat::test_that('list_unzip', {
   
   testthat::expect_error(
     regexp = '`destination_folder` is empty.',
-    jsPsychMaker::list_unzip(location = "jsPsychMaker", destination_folder = NULL, action = "unzip", zip_file = "tasks.zip")
+    jsPsychMaker::list_unzip(location = "jsPsychMaker", destination_folder = NULL, action = "unzip", zip_file = "tasks6.zip")
   )
   
   testthat::expect_message(

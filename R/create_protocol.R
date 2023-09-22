@@ -8,6 +8,7 @@
 #' @param force_download_media download media even if the file already exists
 #' @param show_messages TRUE/FALSE
 #' @param block_tasks Where to insert the tasks: randomly_ordered_tasks_1 or secuentially_ordered_tasks_1
+#' @param jsPsych_version By default jsPsych6. Can also be 7 for jsPsych7
 #' @param options_separator different options are by default separated by ;
 #'
 #' @return Creates a full protocol
@@ -56,6 +57,7 @@ create_protocol <- function(folder_tasks = NULL,
                             piloting_task = NULL,
                             show_messages = TRUE,
                             block_tasks = "randomly_ordered_tasks_1",
+                            jsPsych_version = 6,
                             options_separator = ";") {
   
   # DEBUG
@@ -94,9 +96,12 @@ create_protocol <- function(folder_tasks = NULL,
     dir.create(folder_output, recursive = TRUE)
   }
   
-  # copy_canonical_clean protocol
-  list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip",
-             action = "unzip", destination_folder = folder_output)
+  # copy_canonical_clean protocol version 6 or 7
+  list_unzip(location = "jsPsychMaker", 
+             zip_file = paste0("canonical_clean_", jsPsych_version, ".zip"), 
+             action = "unzip", 
+             destination_folder = folder_output)
+  
   # Clean unneeded files
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
@@ -166,7 +171,8 @@ create_protocol <- function(folder_tasks = NULL,
         create_task(folder_task = folder_task_loop, 
                     folder_output = folder_output, 
                     options_separator = options_separator,
-                    show_messages = show_messages)
+                    show_messages = show_messages,
+                    jsPsych_version = jsPsych_version)
       })
   
   } else {
@@ -184,16 +190,20 @@ create_protocol <- function(folder_tasks = NULL,
     if (show_messages == TRUE) cli::cli_h1("ADD tasks from canonical_protocol")
     
     # Get tasks from "/templates/tasks.zip"
-    tasks = list_available_tasks(show_help = FALSE)
+    tasks = list_available_tasks(show_help = FALSE, jsPsych_version = jsPsych_version)
     
     # Check if canonical_tasks exist  
     if (!all(canonical_tasks %in% tasks$tasks)) cli::cli_abort(c("Task/s not found: {.code {canonical_tasks[!canonical_tasks %in% tasks$tasks]}}",
                                                                " - Run `jsPsychMaker::list_available_tasks()` to list all the available tasks."))
     
-    # Copy canonical_tasks to tasks folder
-    list_unzip(location = "jsPsychMaker", zip_file = "tasks.zip", action = "unzip",
-      destination_folder = paste0(folder_output, "/tasks/"), files_to_unzip = paste0(canonical_tasks, ".js"),
-      silent = TRUE)
+    # Copy canonical_tasks (version 6 or 7) to tasks folder 
+    list_unzip(location = "jsPsychMaker", 
+               zip_file = paste0("tasks", jsPsych_version, ".zip"), 
+               action = "unzip",
+               destination_folder = paste0(folder_output, "/tasks/"), 
+               files_to_unzip = paste0(canonical_tasks, ".js"),
+               silent = TRUE)
+    
     
     if (show_messages == TRUE) cli::cli_alert_success("Added: {.code {canonical_tasks}}")
     
@@ -269,25 +279,27 @@ create_protocol <- function(folder_tasks = NULL,
     # TODO: ALMOST identical to chunk in create_items_from_file.R (Correct the issue in {.code {file_name}} appears in create_items_from_file.R but not here)
     
     # List all files from canonical_protocol_clean.zip
-    canonical_zip_files = list_unzip(location = "jsPsychMaker", zip_file = "canonical_protocol_clean.zip", action = "list")
-    
-    # we have all the used plugins
-    ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
-    CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
-    if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}"
-                                                         # " - Correct the issue in {.code {file_name}}" # 
-                                                         ))
-    
-    # Clean up protocol to keep only the essential and used plugins
-    ESSENTIAL_plugins = c("jspsych-call-function", "jspsych-fullscreen", "jspsych-preload")
-    plugins_to_delete = ALL_available_plugins[!ALL_available_plugins %in% c(ESSENTIAL_plugins, paste0("jspsych-", PLUGINS_used))]
-    file.remove(paste0(folder_output, "/jsPsych-6/plugins/", plugins_to_delete, ".js"))
-    if (show_messages == TRUE) cli::cli_alert_info("Deleted {length(plugins_to_delete)} unused plugin files: {.code {plugins_to_delete}}")
+    canonical_zip_files = list_unzip(location = "jsPsychMaker", zip_file = paste0("canonical_clean_", jsPsych_version, ".zip"), action = "list")
 
+    # TODO: EXTEND TO v7    
+    if (jsPsych_version == 6) {
+      # we have all the used plugins
+      ALL_available_plugins = canonical_zip_files[grepl(pattern = "plugins/jspsych-", canonical_zip_files)] |> basename() |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
+      CHECK_ALL_available_plugins = !paste0("jspsych-", PLUGINS_used) %in% ALL_available_plugins
+      if (any(CHECK_ALL_available_plugins)) cli::cli_abort(c("Plugin/s {.code {PLUGINS_used[CHECK_ALL_available_plugins]}} NOT found in {.code {paste0(folder_output, '/jsPsych-6/plugins/')}}"
+                                                           # " - Correct the issue in {.code {file_name}}" # 
+                                                           ))
+      
+      # Clean up protocol to keep only the essential and used plugins
+      ESSENTIAL_plugins = c("jspsych-call-function", "jspsych-fullscreen", "jspsych-preload")
+      plugins_to_delete = ALL_available_plugins[!ALL_available_plugins %in% c(ESSENTIAL_plugins, paste0("jspsych-", PLUGINS_used))]
+      file.remove(paste0(folder_output, "/jsPsych-6/plugins/", plugins_to_delete, ".js"))
+      if (show_messages == TRUE) cli::cli_alert_info("Deleted {length(plugins_to_delete)} unused plugin files: {.code {plugins_to_delete}}")
+  }
     
   # Adapt HTML ---
   # Adds plugins, media, necessary extra files for tasks...
-  adapt_HTML(TASKS = tasks_canonical$tasks, new_plugins = PLUGINS_used, folder_output = folder_output, show_messages = show_messages)
+  adapt_HTML(TASKS = tasks_canonical$tasks, new_plugins = PLUGINS_used, folder_output = folder_output, show_messages = show_messages, jsPsych_version = jsPsych_version)
   
 
 

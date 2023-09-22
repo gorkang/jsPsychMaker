@@ -13,6 +13,7 @@ create_protocol(
   piloting_task = NULL,
   show_messages = TRUE,
   block_tasks = "randomly_ordered_tasks_1",
+  jsPsych_version = 6,
   options_separator = ";"
 )
 }
@@ -32,6 +33,8 @@ create_protocol(
 \item{show_messages}{TRUE/FALSE}
 
 \item{block_tasks}{Where to insert the tasks: randomly_ordered_tasks_1 or secuentially_ordered_tasks_1}
+
+\item{jsPsych_version}{By default jsPsych6. Can also be 7 for jsPsych7}
 
 \item{options_separator}{different options are by default separated by ;}
 }

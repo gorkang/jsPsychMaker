@@ -1,6 +1,7 @@
 #' list_available_tasks
 #'
 #' @param show_help Show information about where to get help?
+#' @param jsPsych_version By default jsPsych6. Can also be 7 for jsPsych7
 #'
 #' @return prints a list with the available tasks
 #' @export
@@ -9,12 +10,12 @@
 #'
 #' @examples
 #' list_available_tasks()
-list_available_tasks <- function(show_help = FALSE) {
+list_available_tasks <- function(show_help = FALSE, jsPsych_version = 6) {
   
   if (show_help == TRUE) cli::cli_alert_info("For more info about the tasks, see {.url https://docs.google.com/spreadsheets/d/1Eo0F4GcmqWZ1cghTpQlA4aHsc8kTABss-HAeimE2IqA/edit#gid=0}")
   
   # Get tasks from "/templates/tasks.zip"
-  tasks_js = list_unzip(location = "jsPsychMaker", zip_file = "tasks.zip", action = "list")
+  tasks_js = list_unzip(location = "jsPsychMaker", zip_file = paste0("tasks", jsPsych_version, ".zip"), action = "list")
   tasks = tasks_js |> stringr::str_replace_all(pattern = "\\.js", replacement = "")
   
   OUTPUT = list(tasks = tasks,
@@ -336,7 +337,7 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol,
 #' 
 #' list_unzip(
 #'   location = "jsPsychMaker",
-#'   zip_file = "canonical_protocol_clean.zip",
+#'   zip_file = "canonical_clean_6.zip",
 #'   action = "unzip",
 #'   destination_folder = tempdir(),
 #'   files_to_unzip = NULL,
