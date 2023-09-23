@@ -23,7 +23,7 @@ var instruction_screen_experiment = {
 
 var question01 = {
   type: jsPsychVideoButtonResponse,
-  stimulus: ['media/vid/EmpaTom/Entrevista1.mp4'],
+  stimulus: ['media/videos/EmpaTom/Entrevista1.mp4'],
   choices: ['He visto el video'],
   margin_vertical: '10px',
   margin_horizontal: '8px',

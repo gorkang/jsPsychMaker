@@ -23,28 +23,28 @@ if (full_design[0].condition == 'pictorial') {
 
   var question01 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_01', procedure: 'INFCONS'}
   };
   INFCONS.push(question01);
 
   var question02 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Baby_cerebro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Baby_cerebro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_02', procedure: 'INFCONS'}
   };
   INFCONS.push(question02);
 
   var question03 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Baby_UCI_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Baby_UCI_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_03', procedure: 'INFCONS'}
   };
   INFCONS.push(question03);
 
   var question04 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Baby_lactancia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Baby_lactancia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_04', procedure: 'INFCONS'}
   };
   INFCONS.push(question04);
@@ -69,49 +69,49 @@ if (full_design[0].condition == 'pictorial') {
 
   var question05 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Mother_anestesia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Mother_anestesia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_05', procedure: 'INFCONS'}
   };
   INFCONS.push(question05);
 
   var question06 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Mother_paro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Mother_paro_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_06', procedure: 'INFCONS'}
   };
   INFCONS.push(question06);
 
   var question07 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Mother_histerectomia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Mother_histerectomia_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_07', procedure: 'INFCONS'}
   };
   INFCONS.push(question07);
 
   var question08 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Mother_infeccion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Mother_infeccion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_08', procedure: 'INFCONS'}
   };
   INFCONS.push(question08);
 
   var question09 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Mother_lesion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Mother_lesion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_09', procedure: 'INFCONS'}
   };
   INFCONS.push(question09);
 
   var question10 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Mother_UCI_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Mother_UCI_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_10', procedure: 'INFCONS'}
   };
   INFCONS.push(question10);
 
   var question11 = {
     type: jsPsychImageButtonResponse,
-    stimulus: 'media/img/INFCONS/Mother_depresion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
+    stimulus: 'media/images/INFCONS/Mother_depresion_VC.png', choices: ['He leido la información'], prompt: '<div class="justified"><p></p></div>',
     data: {trialid: 'INFCONS_11', procedure: 'INFCONS'}
   };
   INFCONS.push(question11);

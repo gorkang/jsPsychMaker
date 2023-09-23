@@ -45,8 +45,8 @@ testthat::test_that('list_unzip', {
   )
   
   testthat::expect_message(
-    regexp = paste0('UNZIPed `tasks.zip` to `', destination_folder, '`'),
-    jsPsychMaker::list_unzip(location = "jsPsychMaker", destination_folder = destination_folder, silent = FALSE, action = "unzip", zip_file = "tasks.zip")
+    regexp = paste0('UNZIPed `tasks6.zip` to `', destination_folder, '`'),
+    jsPsychMaker::list_unzip(location = "jsPsychMaker", destination_folder = destination_folder, silent = FALSE, action = "unzip", zip_file = "tasks6.zip")
   )
   
   testthat::expect_error(
@@ -56,18 +56,18 @@ testthat::test_that('list_unzip', {
       destination_folder = destination_folder,
       silent = FALSE,
       action = "unzip",
-      zip_file = "tasks.zip", files_to_unzip = "nonexistent"
+      zip_file = "tasks6.zip", files_to_unzip = "nonexistent"
     )
   )
   
   testthat::expect_message(
-    regexp = 'UNZIPing|UNZIPed `1` files from `tasks.zip`',
+    regexp = 'UNZIPing|UNZIPed `1` files from `tasks6.zip`',
     jsPsychMaker::list_unzip(
       location = "jsPsychMaker",
       destination_folder = destination_folder,
       silent = FALSE,
       action = "unzip",
-      zip_file = "tasks.zip", files_to_unzip = "AIM.js"
+      zip_file = "tasks6.zip", files_to_unzip = "AIM.js"
     )
   )
   
@@ -78,7 +78,7 @@ testthat::test_that('list_unzip', {
       destination_folder = destination_folder,
       silent = FALSE,
       action = "sd",
-      zip_file = "tasks.zip", files_to_unzip = "AIM.js"
+      zip_file = "tasks6.zip", files_to_unzip = "AIM.js"
     )
   )
   

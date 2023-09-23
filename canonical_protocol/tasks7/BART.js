@@ -29,11 +29,11 @@ total_money = 0;
 numbers = [1, 5, 10, 14, 18, 23, 27, 31, 36, 40, 44, 49, 53, 57, 62, 66, 70, 75, 79, 83, 88, 92, 96, 101, 105, 109, 114, 118, 122, 128];
 if (debug_mode === false) numbers = jsPsych.randomization.repeat(numbers, 1);
 
-balloon_img = 'media/img/BART/BART_redBalloon.png';
-audio_inflate = 'media/audio/BART/BART_inflate.mp3';
-audio_explode = 'media/audio/BART/BART_explode.mp3';
-audio_collect = 'media/audio/BART/BART_collect.mp3';
-audio_silence = 'media/audio/BART/BART_silence.mp3';
+balloon_img = 'media/images/BART/BART_redBalloon.png';
+audio_inflate = 'media/audios/BART/BART_inflate.mp3';
+audio_explode = 'media/audios/BART/BART_explode.mp3';
+audio_collect = 'media/audios/BART/BART_collect.mp3';
+audio_silence = 'media/audios/BART/BART_silence.mp3';
 
 
 actual_status = "safe";
@@ -149,7 +149,7 @@ BART = [];
 for (var i = 0; i < 30; i++) {
   explode_rounds = numbers.pop();
   var question = {
-    type: 'audio-button-response',
+    type: jsPsychAudioButtonResponse,
     stimulus: audio_silence,
     choices: balloon_img,
     block_size: [max_height, max_width],
