@@ -29,7 +29,7 @@ testthat::test_that('create_protocol', {
   # Only from canonical_tasks (with images)----------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol2")
-  files_expected = 58
+  files_expected = 47
   
   OUT = create_protocol_quiet(canonical_tasks = c("AIM", "EAR", "IRI", "INFCONS"),
                               folder_output = output_folder)
@@ -75,7 +75,7 @@ testthat::test_that('create_protocol', {
   # Protocol ALL canonical ------------------------------------------------
   
   output_folder = paste0(destination_folder, "/../create_protocol5")
-  files_expected = 122
+  files_expected = 110
   
   TASKS = jsPsychMaker::list_available_tasks()
   
