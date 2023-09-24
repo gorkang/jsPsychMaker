@@ -6,6 +6,8 @@
 
   source("admin/process_docs.R")
   process_docs()
+  
+  # jsPsychAdmin::check_tasks_source("gorkang@gmail.com")
 
   
 # Prepare inst/ zips ------------------------------------------------------
@@ -28,7 +30,7 @@
     file.remove("inst/templates/example_tasks.zip")
     file.remove("inst/templates/example_tasks_errors.zip")
 
-    Sys.sleep(5) # Time for insync to sync
+    Sys.sleep(6) # Time for insync to sync
         
     
   # tasks ---
