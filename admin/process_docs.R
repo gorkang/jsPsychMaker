@@ -17,6 +17,7 @@ process_docs <- function(FOLDER = "~/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/j
   BLACKLIST = c("PRFBM_en-US.pdf")
   
   # Initial files in jsPsychR/SHARED-docs/docs"
+    # Duplicated with jsPsychAdmin::tasks_missing_docs()
   INITIAL = tibble::tibble(path_to_file = list.files(FOLDER, recursive = TRUE, full.names = TRUE),
                            file_short = paste0("docs/", basename(dirname(path_to_file)), "/", basename(path_to_file))) 
   
@@ -55,18 +56,7 @@ process_docs <- function(FOLDER = "~/gorkang@gmail.com/RESEARCH/PROYECTOS-Code/j
 
   # CHECK missing docs ------------------------------------------------------
 
-  tasks_with_docs = unique(gsub("(.?)_.*", "\\1", tools::file_path_sans_ext(basename(INITIAL$file_short))))
-  
-  all_prepare_scripts = gsub("pre|post", "", gsub("^prepare_(.*)\\.R", "\\1", list.files("../jsPsychHelpeR/R_tasks/", pattern = "R$")))
-     
-  
-  MISSING_raw = unique(all_prepare_scripts[!all_prepare_scripts %in% tasks_with_docs])
-  
-  BLACKLIST = "Bank|Consent|ConsentHTML|DEBRIEF|Goodbye|Report|SDG|TEMPLATE|AIM[0-9]{1,3}|DEMOGR[0-9]{0,3}|FORM[0-9]{1,3}|FONDECYT.*"
-  
-  MISSING = MISSING_raw[!grepl(BLACKLIST, MISSING_raw)]
-  
-  cli::cli_alert_info("{length(MISSING)} tasks missing docs: ")
+  MISSING = jsPsychAdmin::tasks_missing_docs()
   
   return(MISSING)
   
