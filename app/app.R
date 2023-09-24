@@ -48,7 +48,7 @@
   
 
   # Use config.js to fill out input parameters
-  CONFIG_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_protocol_clean/config.js")
+  CONFIG_file = readLines("https://raw.githubusercontent.com/gorkang/jsPsychMaker/main/canonical_clean_6/config.js")
   # CONFIG_file = readLines(here::here("canonical_protocol_clean/config.js"))
   # CONFIG_file = readLines(here::here("~/Downloads/new_protocol/config.js"))
   
