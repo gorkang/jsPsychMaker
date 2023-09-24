@@ -182,31 +182,33 @@ get_media_for_protocol <- function(all_files_js = all_files_js, folder_protocol,
   # DEBUG
   # all_files_js = "stimulus: 'media/images/INFCONS/Baby_respiratorios_VC.png', choices: ['He leido la información'], prompt: '<div class=\"justified\"><p></p></div>',"
   # folder_protocol = "~/Downloads/example_tasks/"
-  
+
   # Get all media. Dirty, as it combines choices and other stuff in the same line.
     # .? Because we can have stimulus: 'media/images/INFCONS/Baby_lactancia_VC.png' or stimulus: ['media/videos/EmpaTom/Entrevista1.mp4']
   MEDIA_used_raw = all_files_js[which(grepl("stimulus: .?'.*?\\.[a-z0-9]{3}'", all_files_js))] |> trimws() |> unique()
-  MEDIA_hardcoded_raw = all_files_js[which(grepl("'media/.*'", all_files_js))] |> trimws() |> unique()
   
   # Extract the specific stimulus
   MEDIA_used =  gsub(".*stimulus: .?'(.*?/.*\\.[a-z0-9]{3})'.*", "\\1", MEDIA_used_raw)
+  
+  
+  MEDIA_hardcoded_raw = all_files_js[which(grepl("'media/.*'", all_files_js))] |> trimws() |> unique()
   MEDIA_hardcoded =  gsub(".*'(media/.*)'.*", "\\1", MEDIA_hardcoded_raw)
   
   # Make sure we only use existing media (harcoded is quite dirty)
-  MEDIA_used_ALL_raw = c(MEDIA_used, MEDIA_hardcoded)
-  MEDIA_used_ALL = MEDIA_used_ALL_raw[file.exists(paste0("canonical_protocol/", MEDIA_used_ALL_raw))]
+  MEDIA_hardcoded_clean = MEDIA_hardcoded[file.exists(paste0("canonical_protocol/", MEDIA_hardcoded))]
+  if (length(MEDIA_hardcoded_clean) != 0) cli::cli_alert_warning("Media paths hardcoded: {.code {MEDIA_hardcoded_clean}}")
   
-  # Check if paths are wrong  
+  # Check if paths are wrong # REVIEW: only for MEDIA_used  
   REGEXP_strict = "^media/.*\\.[a-z0-9]{3}$"
-  CHECK_media_wrong_folder = !grepl(REGEXP_strict, MEDIA_used_ALL)
-  if (any(CHECK_media_wrong_folder)) cli::cli_abort(c("Issues with media paths in column `stimulus` :  {.code {MEDIA_used_ALL[CHECK_media_wrong_folder]}}\n\n", 
+  CHECK_media_wrong_folder = !grepl(REGEXP_strict, MEDIA_used)
+  if (any(CHECK_media_wrong_folder)) cli::cli_abort(c("Issues with media paths in column `stimulus` :  {.code {MEDIA_used[CHECK_media_wrong_folder]}}\n\n", 
                                                       "",
                                                       "CHANGE paths to: ", "-Images: 'media/images' ", "-Videos: 'media/videos' ", "-Audio: 'media/audios'\n\n"))
   
   # Get all media
-  images_files = stringr::str_extract_all(MEDIA_used_ALL, pattern = ".*\\.jpg|.*\\.png", simplify = FALSE) |> purrr::compact() |> unlist()
-  video_files = stringr::str_extract_all(MEDIA_used_ALL, pattern = ".*\\mp4|.*\\.avi", simplify = FALSE) |> purrr::compact() |> unlist()
-  audios_files = stringr::str_extract_all(MEDIA_used_ALL, pattern = ".*\\.mp3|.*\\.wav", simplify = FALSE) |> purrr::compact() |> unlist()
+  images_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\.jpg|.*\\.png", simplify = FALSE) |> purrr::compact() |> unlist()
+  video_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\mp4|.*\\.avi", simplify = FALSE) |> purrr::compact() |> unlist()
+  audios_files = stringr::str_extract_all(MEDIA_used, pattern = ".*\\.mp3|.*\\.wav", simplify = FALSE) |> purrr::compact() |> unlist()
   
   if (!is.null(images_files)) basename_dir_images = basename(dirname(images_files))
   if (!is.null(video_files)) basename_dir_videos = basename(dirname(video_files))

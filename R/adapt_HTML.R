@@ -19,18 +19,17 @@ adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output, show_messages =
   
   # Plugins -----------------------------------------------------------------
 
-    # Used plugins
+    # Used plugins. jsPsychSurveyMultiChoice -> -survey-multi-choice
     PLUGINS = tibble::tibble(plugin = new_plugins) |> dplyr::distinct(plugin)
     if (jsPsych_version == 7) {
       PLUGINS$plugin = gsub("jsPsych", "", PLUGINS$plugin) %>% 
       gsub("([A-Z])", "-\\1", .) %>%
       gsub("^([a-z])", "-\\1", .) %>%
       tolower()
-      #gsub("([A-Z])", paste0("-", "\\1"), gsub("jsPsych", "", PLUGINS$plugin)) |> tolower()
       }
-    
+
     # Create code for all plugins used
-    sting_plugins = ifelse(jsPsych_version == 6, "jspsych", "plugin")
+    sting_plugins = ifelse(jsPsych_version == 6, "jspsych-", "plugin")
     code_plugins = paste0('\t<script src="jsPsych-', jsPsych_version , paste0('/plugins/', sting_plugins), PLUGINS$plugin, '.js"></script>')
   
     # Detect canonical_clean plugins
