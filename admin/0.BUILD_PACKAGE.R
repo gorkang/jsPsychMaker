@@ -7,8 +7,8 @@
   source("admin/process_docs.R")
   process_docs()
   
-  # jsPsychAdmin::check_tasks_source("gorkang@gmail.com")
-
+  DF_tasks = jsPsychAdmin::check_tasks_source("gorkang@gmail.com")
+  DT::datatable(DF_tasks)
   
 # Prepare inst/ zips ------------------------------------------------------
   
