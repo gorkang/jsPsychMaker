@@ -1,7 +1,7 @@
 // Configuration file
 
 // Main parameters -------------------------------------------------------------
-pid = 999999; // Protocol ID [number]
+pid = 9997; // Protocol ID [number]
 online = false; // Protocol runs online [true/false]
 max_participants = 100000; // Max participants per contition [number]
 random_id = true; // Assign random id to participants [true/false]

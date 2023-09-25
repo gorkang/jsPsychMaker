@@ -1,14 +1,15 @@
 # Help create a protocol with all the available tasks
   # Make sure we have all the prepare_TASK.R files in jsPsychHelpeR
-  # After testing everything works, we should move it to 999/
+  # After testing everything works, we should move it to 9996/ and 9997/
 
 
 # Parameters --------------------------------------------------------------
 
-   jsPsych_version = 6
-  # jsPsych_version = 7
+  jsPsych_version = 6
+  folder_task = "~/Downloads/protocol9996"
 
-  folder_task = "~/Downloads/protocol999"
+  # jsPsych_version = 7
+  # folder_task = "~/Downloads/protocol9997"
 
    
 # Get all tasks in jsPsychMaker -------------------------------------------
@@ -41,10 +42,14 @@
     "SCGT"
     )
   
+  
   # Final tasks
-  # TASKS = TASKS_raw$tasks[TASKS_raw$tasks %in% NOT_WORKING]
   TASKS = TASKS_raw$tasks[!TASKS_raw$tasks %in% NOT_INCLUDED]
-
+  
+  # Tasks not tested. TODO: Fix!
+  TASKS_not_included = TASKS_raw$tasks[TASKS_raw$tasks %in% NOT_INCLUDED]
+  cli::cli_alert_warning("NOT testing {length(TASKS_not_included)} tasks: {.code {TASKS_not_included}}")
+  
 
 # Create protocol ---------------------------------------------------------
 
@@ -68,5 +73,7 @@
 
 # Helper ------------------------------------------------------------------
 
-
-  jsPsychHelpeR::run_initial_setup()
+  
+  jsPsychHelpeR::run_initial_setup(pid = paste0("999", jsPsych_version),
+                                   data_location = folder_task)
+  
