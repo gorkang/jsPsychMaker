@@ -12,7 +12,7 @@ create_protocol(
   launch_browser = FALSE,
   piloting_task = NULL,
   show_messages = TRUE,
-  block_tasks = "randomly_ordered_tasks_1",
+  block_tasks = "secuentially_ordered_tasks_1",
   jsPsych_version = 6,
   options_separator = ";"
 )

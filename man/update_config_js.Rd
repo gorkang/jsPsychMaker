@@ -8,7 +8,7 @@ Uses a vector of tasks to replace one of the task blocks in config.js}
 update_config_js(
   folder_protocol,
   tasks = NULL,
-  block_tasks = "randomly_ordered_tasks_1",
+  block_tasks = "secuentially_ordered_tasks_1",
   media = NULL,
   show_messages = TRUE
 )

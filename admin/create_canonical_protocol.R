@@ -8,21 +8,24 @@
    jsPsych_version = 6
   # jsPsych_version = 7
 
-   folder_task = "~/Downloads/protocol999"
+  folder_task = "~/Downloads/protocol999"
 
    
 # Get all tasks in jsPsychMaker -------------------------------------------
 
-  TASKS_raw = jsPsychMaker::list_available_tasks()
+  TASKS_raw = jsPsychMaker::list_available_tasks(jsPsych_version = jsPsych_version)
 
   # Filter out not working tasks, or tasks with a complex requirement, etc.
   NOT_INCLUDED = c(
+    
+    # NOT WORKING IN v7
+    "ConsentHTML",
     
     # Media paths hardcoded: SHOULD PRELOAD!
     "BART",
     
     # WORKS but requires the monkey to identify with a specific id (123ab)
-    "DMW_01", 
+    "DMW", 
     
     # Tasks with between participants variables
     "FKEA", "CTT",
@@ -45,9 +48,6 @@
 
 # Create protocol ---------------------------------------------------------
 
-  # BUG: block_tasks = "secuentially_ordered_tasks_1" SHOULD ALSO MODIFY tasks in config.js
-          # tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks']; // randomly_ordered_tasks_1 HERE SHOULD BE secuentially_ordered_tasks_1
-  
   jsPsychMaker::create_protocol(
     canonical_tasks = TASKS,
     block_tasks = "secuentially_ordered_tasks_1",

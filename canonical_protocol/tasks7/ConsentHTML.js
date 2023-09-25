@@ -24,8 +24,8 @@ var trial = {
   data: {
     trialid: 'ConsentHTML_001',
     procedure: 'ConsentHTML',
-     stimulus: 'html/consent-placeholder.html',
-     response: document.getElementById("start").id
+    stimulus: 'html/consent-placeholder.html',
+    response: document.getElementById("start").id
    }
 };
 ConsentHTML.push(trial);
