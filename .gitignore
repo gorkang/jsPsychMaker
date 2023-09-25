@@ -7,6 +7,8 @@ app/rsconnect/
 protocols_DEV/CS/
 protocols_DEV/OLD_TESTS/
 canonical_protocol_DEV/config_BACKUP.js
+.Renviron
+NEW_TASKS/
 
 # Personal folders and files
 .data/
