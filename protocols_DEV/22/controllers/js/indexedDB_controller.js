@@ -149,7 +149,7 @@ function updateIndexed(table, id, variable, new_data = "", db) {
     };
     requestUpdate.onsuccess = function(event) {
       // Success - the data is updated!
-      console.log("Has been updated in your database.");
+      if (debug_mode === true) console.log("Has been updated in your database.");
     };
   };
 }
@@ -341,7 +341,7 @@ function addIndexed(table, data, db) {
   .add(data);
 
   request.onsuccess = function(event) {
-    console.log("Has been added to your database.");
+    if (debug_mode === true) console.log("Has been added to your database.");
   };
 
   request.onerror = function(event) {

@@ -103,7 +103,6 @@ var question06 = {
 DEMOGR22.push(question06);
 
 
-
 var question07 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">¿Cual es tu especialidad médica?: </div>', type: 'text', required: true}],
@@ -124,6 +123,15 @@ var if_question07 = {
   }
 };
 DEMOGR22.push(if_question07);
+
+
+var question08 = {
+  type: 'survey-text',
+  questions: [{prompt: '<div class="justified">País donde estudias/has estudiado:</div>', type: 'text', required: true, error_text: 'Tienes que indicar el país donde estudias o has estudiado.'}],
+  data: {trialid: 'DEMOGR22_08', procedure: 'DEMOGR22'}
+};
+DEMOGR22.push(question08);
+
 
 /*
 

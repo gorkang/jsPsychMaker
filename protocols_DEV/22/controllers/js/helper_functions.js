@@ -452,7 +452,7 @@ function image_zoom() {
             textDiv.style.width = "100%"; // Cubrir todo el ancho de la pantalla
 
             mainContainer.appendChild(imageDiv);
-            mainContainer.appendChild(textDiv);
+            if (!hasTouchScreen) mainContainer.appendChild(textDiv); // Do not create in cellphones 
 
             const paragraph = document.createElement("p");
             paragraph.textContent = "Haz click de nuevo en la imagen para volver atrás"; // Texto a mostrar

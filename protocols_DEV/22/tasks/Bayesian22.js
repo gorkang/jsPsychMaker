@@ -32,26 +32,48 @@
 
 // INSTRUCCIONES -----------------------------------------------------------------------------
 
-instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes problemas está basada en literatura científica. Hemos intentado usar datos a partir de artículos de la mejor calidad posible, incluyendo revisiones sistemáticas, meta-análisis, etc. La información ha sido extraida de estas publicaciones:<BR><BR>
-<img src = "media/img/Bayesian22/intro.png"><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora. Si le das al botón '[Siguiente >]' empezará la tarea y no podrás volver atrás.<BR><BR>`
+// Page 1 varies per condition (one of the sentences)
+function instructions_p1 (type) {
+
+  instructions_p1_extra = {Image: "Además, se mostrará una imágen representando el Valor Predictivo Positivo o Negativo para alguien como esa persona.", 
+                          TextPV: "Además, se mostrará una texto con el Valor Predictivo Positivo o Negativo para alguien como esa persona.",
+                          Text: ""};
+
+  instructions_page1 = `<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre dos tipos de situaciones hipotéticas:<BR><BR>
+    <li> personas que llegan a una consulta rutinaria, preguntando por un cribado para Cáncer de mama</li>
+    <li> personas que llegan a urgencias con sospecha de infarto cerebral</li><BR>
+  En cada caso verás la descripción breve del caso clínico, información sobre la prevalencia (*) de la enfermedad para alguien como esa persona, y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad. ` + 
+  instructions_p1_extra[type] +
+
+  `<BR><BR>Por favor, lee con atencion la información y responde lo mejor que puedas.<BR><BR>
+  <HR>
+  <p style = "font-size: small;">(*) Para simplificar la presentación y el cálculo, usaremos siempre la <B>prevalencia</B>, aunque en algunos casos sería técnicamente más apropiado hablar de indicencia o Case Detection Rate (CDR). 
+  Nos referimos a la prevalencia esperada en la población de interés, es decir, cuántas personas similares a la del caso presentado que se someten a la prueba esperamos que padezcan la enfermedad.</p>
+  <HR>
+  <BR>`
+
+  return(instructions_page1);
+
+}
+
+// Page 3
+instructions_page3 = `<H2>Instrucciones (3/3)</H2>La información numérica que se presentará en los siguientes casos está basada en literatura científica. 
+Hemos intentado extraer los datos de artículos de la mejor calidad posible, como revisiones sistemáticas, meta-análisis, etc. por ejemplo:<BR><BR>
+<img src = "media/img/Bayesian22/intro.png"><BR><BR>Si tienes alguna duda, puedes revisar las instrucciones ahora pulsando el botón [ < Anterior ].<BR><BR>
+Si presionas el botón [ Siguiente > ] empezará la tarea y no podrás volver atrás.<BR><BR>`
+
 
 // IMAGE
 data_type = {
-    'Image': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
-                              "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave<BR><BR>" +
-                              "En cada caso verás la descripción del caso clínico, información sobre la prevalencia (o la incidencia) de la enfermedad para alguien como esa persona, y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad. " +
-                              "Además, se mostrará una imágen representando el Valor Predictivo Positivo o Negativo para alguien como esa persona." + // ONLY in 'Image'
-                              "<BR><BR>Por favor, lee con atencion la información y responde lo mejor que puedas." +
-                              "<BR><BR>"
-                              },
+    'Image': {'page1': {text: instructions_p1("Image")},
                               
-              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la prevalencia (o la incidencia), sensibilidad y especificidad es posible calcular:<BR><BR>" + 
-                              "<li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo<BR>" +
-                              "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo<BR><BR>" +
+              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la prevalencia, sensibilidad y especificidad es posible calcular:<BR><BR>" + 
+                              "<li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo</li><BR>" +
+                              "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo</li><BR><BR>" +
                               // ONLY in 'IMAGE'
-                              "Para facilitar la tarea, podrás consultar los valores predictivos en una imagen similar a las de abajo.<BR><BR>" +
-                              "En el eje vertical cambia la prevalencia (o la incidencia), y en el eje horizontal, los falsos positivos (falsos +) o falsos negativos (falsos -). Esto permite ver como cambiaria el valor predictivo a partir de la prevalencia (o la incidencia) y de los falsos positivos o negativos.<BR><BR>" +
-                              "<B>Si haces click en la imagen puedes ampliarla. Para reducirla, vuelve a hacer click</B> (hazlo ahora para que veas como funciona).<BR><BR>" +
+                              "Para facilitar la tarea, podrás consultar los Valores Predictivos en una imagen similar a las de abajo. <B>Haz click en la imagen para ampliarla y vuelve a hacer click en ella para reducirla</B> (hazlo para que se active el botón [ Siguiente > ] ).<BR><BR>" +
+                              "En las imágenes se ve como cambia el Valor Predictivo a partir de la prevalencia y los falsos positivos(+) o negativos(-).<BR><BR>" +
+                              // Images
                               '<img class="image_zoom" src="media/img/Bayesian22/instructions1.png" style="max-width: 40%; max-height: 40%;"> <img class="image_zoom" src="media/img/Bayesian22/instructions2.png" style="max-width: 40%; max-height: 40%;">' +
                               "<BR><BR>"
                               },
@@ -59,19 +81,13 @@ data_type = {
               'page3': {text: instructions_page3}
             },
 
-    'TextPV': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
-                               "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave<BR><BR>" +
-                               "En cada caso verás la descripción del caso clínico, información sobre la prevalencia (o la incidencia) de la enfermedad para alguien como esa persona, y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad. " +
-                               "Además, se mostrará una texto con el Valor Predictivo Positivo o Negativo para alguien como esa persona." + // ONLY in 'TextPV'
-                               "<BR><BR>Por favor, lee con atencion la información y responde lo mejor que puedas." +
-                               "<BR><BR>"
-            },
+    'TextPV': {'page1': {text: instructions_p1("TextPV")},
             
-              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la prevalencia (o la incidencia), sensibilidad y especificidad es posible calcular:<BR><BR>" + 
-                          "<li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo<BR>" +
-                          "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo<BR><BR>" +
-                          // ONLY in 'IMAGE'
-                          "Para facilitar la tarea, podrás consultar los valores predictivos en un texto a la derecha de la pantalla.<BR><BR>" +                        
+              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la prevalencia, sensibilidad y especificidad es posible calcular:<BR><BR>" + 
+                          "<li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo</li><BR>" +
+                          "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo</li><BR><BR>" +
+                          // ONLY in 'TextPV'
+                          "Para facilitar la tarea, podrás consultar los Valores Predictivos en un texto a la derecha de la pantalla.<BR><BR>" +                        
                           "<BR><BR>"
                           },
                           
@@ -79,20 +95,16 @@ data_type = {
               },    
     
     // TEXT  
-    'Text': {'page1': {text: "<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre situaciones hipotéticas. " +
-                             "Verás dos tipos de situaciones: <BR><BR><li> personas que llegan a una consulta rutinaria, preguntando por un cribado <li> personas que llegan a urgencias con sospecha de una condición grave<BR><BR>" +
-                             "En cada caso verás la descripción del caso clínico, información sobre la prevalencia (o la incidencia) de la enfermedad para alguien como esa persona, y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad." +
-                             "<BR><BR>Por favor, lee con atencion la información y responde lo mejor que puedas." +
-                             "<BR><BR>"
-                             },
+    'Text': {'page1': {text: instructions_p1("Text")},
                              
-              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la prevalencia  (o la incidencia), sensibilidad y especificidad es posible calcular:<BR><BR>" + 
-                              "<li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo<BR>" +
-                              "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo<BR><BR>" +
+              'page2': {text: "<H2>Instrucciones (2/3)</H2>Usando la prevalencia, sensibilidad y especificidad es posible calcular:<BR><BR>" + 
+                              "<li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo</li><BR>" +
+                              "<li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo</li><BR><BR>" +
                               // ONLY in 'TEXT'
                               "Para facilitar la tarea, abajo te mostramos como se calculan:<BR><BR>" +
-                              "<li><B>Valor Predictivo Positivo</B>: Positivos verdaderos / (Positivos verdaderos + Falsos Positivos)<BR>" +
-                              "<li><B>Valor Predictivo Negativo</B>: Negativos verdaderos / (Negativos verdaderos + Falsos Negativos)<BR><BR>"
+                              "<li><B>Valor Predictivo Positivo</B>: Positivos verdaderos / (Positivos verdaderos + Falsos Positivos)</li><BR>" +
+                              "<li><B>Valor Predictivo Negativo</B>: Negativos verdaderos / (Negativos verdaderos + Falsos Negativos)</li><BR><BR>" +
+                              "<BR><BR>"
                               },
                               
              'page3': {text: instructions_page3}
@@ -133,16 +145,16 @@ data_type = {
 
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/img/Bayesian22/VPP_low_Cancer.png', textPV: '<B>Valor Predictivo Positivo</B>: 5% (muy bajo)', type_image: 'positivo', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
-    'highQuality_Cancer': {image: 'media/img/Bayesian22/VPN_high_Cancer.png', textPV: '<B>Valor Predictivo Negativo</B>: 100% (muy alto)', type_image: 'negativo', SINO: 'NO', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/img/Bayesian22/VPN_low_Stroke.png', textPV: '<B>Valor Predictivo Negativo</B>: 51% (intermedio)', type_image: 'negativo', SINO: 'NO', sex_patient: sex_randomized[0]["sex"]},
-    'highQuality_Stroke': {image: 'media/img/Bayesian22/VPP_high_Stroke.png', textPV: '<B>Valor Predictivo Positivo</B>: 100% (muy alto)', type_image: 'positivo', SINO: '', sex_patient: sex_randomized[1]["sex"]}
+    'lowQuality_Cancer': {image: 'media/img/Bayesian22/VPP_low_Cancer.png', textPV: '<B>Valor Predictivo Positivo</B>: 5%<br>(muy bajo) <span style = "font-size: small;"><BR>5 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'positivo', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/img/Bayesian22/VPN_high_Cancer.png', textPV: '<B>Valor Predictivo Negativo</B>: 100%<br>(muy alto) <span style = "font-size: small;"><BR>100 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'negativo', SINO: 'NO', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/img/Bayesian22/VPN_low_Stroke.png', textPV: '<B>Valor Predictivo Negativo</B>: 51%<br>(intermedio) <span style = "font-size: small;"><BR>51 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'negativo', SINO: 'NO', sex_patient: sex_randomized[0]["sex"]},
+    'highQuality_Stroke': {image: 'media/img/Bayesian22/VPP_high_Stroke.png', textPV: '<B>Valor Predictivo Positivo</B>: 100%<br>(muy alto) <span style = "font-size: small;"><BR>100 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'positivo', SINO: '', sex_patient: sex_randomized[1]["sex"]}
   };
 
   // The label we use depends on the disease
   prevalence_incidence = {
     'Cancer': {label: 'prevalencia'},
-    'Stroke': {label: 'incidencia'}
+    'Stroke': {label: 'prevalencia'}
   };
 
 
@@ -248,6 +260,12 @@ data_type = {
             ]);
             },
             button_label_next: 'Empezar caso',
+            on_load: function(){
+              // Check Fullscreen and ask for it if not
+              if (!hasTouchScreen) {
+                if(window.innerWidth != screen.width || window.innerHeight != screen.height) alert("Por favor, pulsa F11 para volver a pantalla completa")
+              };
+            },
             data: function () {
               element = {
                 trialid: 'Bayesian22_01_' + (parseInt(num) + 1).toString(),
@@ -292,9 +310,9 @@ data_type = {
             
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
-            <div style="font-size:14px; text-align: justify;">En la gráfica se muestra el <b>Valor predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculado a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
+            <div style="font-size:14px; text-align: justify;">En la gráfica se muestra como el <b>Valor predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> cambia a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
             <img class="image_zoom" src="` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + `" style="max-width: 100%; max-height: 100%;" onclick = document.querySelector('[id$=next]').disabled = true> 
-            <div style="font-size:11px; text-align: center">Haz click sobre la imagen para ampliarla/minimizarla.</div>
+            <div style="font-size:11px; text-align: center">Haz click sobre la imagen para ampliarla/minimizarla.<BR></div>
             <br>
             <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div>
             
@@ -495,3 +513,4 @@ data_type = {
 // between block finished ------------------------------------------------------
 
 call_function("Bayesian22");
+
