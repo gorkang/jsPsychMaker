@@ -40,7 +40,7 @@
   
   # Final tasks
   # TASKS = TASKS_raw$tasks[TASKS_raw$tasks %in% NOT_WORKING]
-  TASKS = TASKS_raw$tasks[!TASKS_raw$tasks %in% NOT_WORKING]
+  TASKS = TASKS_raw$tasks[!TASKS_raw$tasks %in% NOT_INCLUDED]
 
 
 # Create protocol ---------------------------------------------------------
