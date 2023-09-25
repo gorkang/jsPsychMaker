@@ -16,10 +16,10 @@ var instruction_screen_experiment = {
 };
 
 var question00 = {
- type: 'survey-multi-select',
+  type: 'survey-multi-select',
   questions: [{prompt: '<div class="justified">Esta tarea es muy sencilla, y su única finalidad es excluir robots del estudio. <BR><BR>Por favor, selecciona únicamente el número once (menos uno) del siguiente listado</div>', options: ["1", "5", "10", "11", "25", "80"], horizontal: true, required: true}],
   data: {trialid: 'DEBRIEF31_01', procedure: 'DEBRIEF31'}
-  }; 
+}; 
   
 DEBRIEF31.push(question00);
 

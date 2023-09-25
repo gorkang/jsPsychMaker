@@ -112,6 +112,7 @@ jsPsych.plugins.instructions = (function() {
         if (document.querySelector('img'))
           image_zoom();
       }
+      window.scrollTo(0, 0);
     }
 
     function next() {

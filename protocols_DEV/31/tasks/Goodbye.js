@@ -9,8 +9,8 @@ unique_code = jsPsych.randomization.randomID(20);
 var instruction_screen_experiment = {
   type: 'instructions',
   pages: ['<p><left>' +
-  '<p><left><b><big>Gracias por tu participación</big></b><br/><br/>'+ 'Tu código anónimo de participación es: <B>'+ unique_code + '</B><br/><br/>Muchas gracias por formar parte de este estudio. Si tienes alguna duda o comentario, nos puedes escribir a ' + var_researcher_email + '</p>Presiona el botón FINALIZAR ESTUDIO para registrar tus respuestas.'],
-  button_label_next: 'FINALIZAR ESTUDIO',
+  '<p><left><b><big>Thank you very much for taking part in our study.</big></b><br/><br/>'+ 'If you have any further queries or observations arising from this study, please feel free to write to Prof. Nieves Valdés (nieves.valdes@uai.cl) </p>Press the END STUDY button to record your answers.'],
+  button_label_next: 'End Study',
   data: {trialid: 'Goodbye_01', procedure: 'Goodbye', stimulus: '', response: unique_code},
   show_clickable_nav: true,
   on_trial_start: function(){

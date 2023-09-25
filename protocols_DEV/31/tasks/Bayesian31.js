@@ -52,7 +52,7 @@
                               "Para facilitar la tarea, podrás consultar los valores predictivos en una imagen similar a las de abajo.<BR><BR>" +
                               "En el eje vertical cambia la prevalencia (o la incidencia), y en el eje horizontal, los falsos positivos (falsos +) o falsos negativos (falsos -). Esto permite ver como cambiaria el valor predictivo a partir de la prevalencia (o la incidencia) y de los falsos positivos o negativos.<BR><BR>" +
                               "<B>Si haces click en la imagen puedes ampliarla. Si vuelves a hacer click, reducirla</B> (hazlo ahora para que veas como funciona).<BR><BR>" +
-                              '<img src="media/images/Bayesian31/instructions1.png" style="max-width: 40%; max-height: 40%;"> <img src="media/images/Bayesian31/instructions2.png" style="max-width: 40%; max-height: 40%;">' +
+                              '<img class="image_zoom" src="media/images/Bayesian31/instructions1.png" style="max-width: 40%; max-height: 40%;"> <img class="image_zoom" src="media/images/Bayesian31/instructions2.png" style="max-width: 40%; max-height: 40%;">' +
                               "<BR><BR>"
                               },
                               
@@ -269,9 +269,9 @@
 
           // BETWEEN variable [picture / no picture]:
           if (between_selection["Bayesian31"]["type"] == 'Image') {
-            html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 100%; max-height: 100%;">' + '<div style="font-size:10px; text-align: center">Haz click para ampliar, y click de nuevo para salir de la imagen.</div></div>';
+            html += '<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:' + height + 'px; width:' + width + 'px; float: left; width: 50%;">' + '<img class="image_zoom" src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 100%; max-height: 100%;">' + '<div style="font-size:10px; text-align: center">Haz click para ampliar, y click de nuevo para salir de la imagen.</div></div>';
           } else if (between_selection["Bayesian31"]["type"] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
-            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 20%;"> <div class="alignitems"> ' + '<img src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
+            html += '<div class="block" style="height:' + height + 'px; width:' + width + 'px; float: left; width: 20%;"> <div class="alignitems"> ' + '<img class="image_zoom" src="' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + '" style="max-width: 0%; max-height: 0%;">' + ' </div> </div> ';
           }
           html += '</div><style>#column img {vertical-align: middle}</style>';
           html += '<p><input name ="Q0" type="number" required min=0 max=100 value autofocus> %</p>';

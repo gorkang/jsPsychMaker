@@ -186,7 +186,6 @@ jsPsych.plugins['html-slider-response'] = (function() {
       var trialdata = {
         rt: response.rt,
         stimulus: trial.stimulus,
-        // stimulus: stripHtml(JSON.stringify(trial.stimulus)), // NO html tags
         slider_start: trial.slider_start,
         response: response.response
       };

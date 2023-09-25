@@ -11,9 +11,10 @@
 
   <!-- Protocol Configuration -->
   <script src="config.js"></script>
+  <script src="config_messages.js"></script>
   <script src="media/consent/consent-placeholder.js"></script>
 
-  <script>if (debug_mode === true) alert("debug_mode == true: RANDOMIZATION of items is OFF");</script>
+  <script>if (debug_mode === true) alert(`PROTOCOL IN DEVELOPMENT | ONLY USE FOR TESTING\n\nCHANGE debug_mode in config.js BEFORE STARTING DATA COLLECTION:\n\ndebug_mode = true -> debug_mode = false`);</script>
 
   <!-- Helper functions -->
   <script src="controllers/js/helper_functions.js"></script>
@@ -30,7 +31,7 @@
 
   <div class="jspsych-content-wrapper">
     <div id="jspsych-content" class="jspsych-content">
-      <div class="jspsych-instructions-nav" style="padding: 10px 0px; align: center">
+      <div class="jspsych-instructions-nav" style="padding: 10px 0px;">
         <span id="text_input_uid">Cargando protocolo... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/></span><br><br>
         <input id="input_uid" hidden="true" required>
         <input style="display:none !important" id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn">
@@ -72,6 +73,8 @@
   <script src="jsPsych-6/plugins/jspsych-survey-text.js"></script>
   <script src="jsPsych-6/plugins/jspsych-html-slider-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-html-form.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-audio-keyboard-response.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-survey-numbers-CSCN.js"></script>
 
 
 

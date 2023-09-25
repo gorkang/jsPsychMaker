@@ -157,7 +157,6 @@ jsPsych.plugins.instructions = (function() {
       display_element.innerHTML = '';
 
       var trial_data = {
-        // store stimulus (?)
         "view_history": JSON.stringify(view_history),
         "rt": (new Date()).getTime() - start_time
       };

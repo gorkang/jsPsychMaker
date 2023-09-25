@@ -11,7 +11,7 @@
 function stripHtml(html)
 {
   var tmp = document.createElement("DIV");
-  tmp.innerHTML = html;
+  tmp.innerHTML = html.replace("<br>", " ").trim();
   return tmp.textContent || tmp.innerText || "";
 }
 
@@ -178,8 +178,7 @@ jsPsych.plugins['survey-multi-choice-vertical'] = (function() {
       }
       // save data
       var trial_data = {
-        // "stimulus": stripHtml(JSON.stringify(questions_list)), // No HTML tags
-        "stimulus": questions_list,
+        "stimulus": stripHtml(JSON.stringify(questions_list)),
         "rt": response_time,
         "response": stripHtml(JSON.stringify(question_data))
       };
