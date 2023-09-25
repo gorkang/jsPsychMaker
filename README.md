@@ -6,14 +6,14 @@
 <!-- badges: end -->
 
 
-An set of tools to help create experimental protocols with  [jsPsych](https://www.jspsych.org/). It allows you to randomize participants between conditions, keeping the groups balanced, in online and offline protocols, etc.
+An set of tools to help create tasks and experimental protocols with [jsPsych](https://www.jspsych.org/). It allows you quickly create online or offline protocols, randomizing participants between conditions making sure the groups are balanced, etc.
 
 For details about the available [tasks](https://github.com/gorkang/jsPsychMaker/tree/main/canonical_protocol/tasks), you can check the [Tareas jsPsychR googledoc](https://docs.google.com/spreadsheets/d/1Eo0F4GcmqWZ1cghTpQlA4aHsc8kTABss-HAeimE2IqA/edit#gid=0) (SPANISH!), or the [jsPsychR-manual](https://gorkang.github.io/jsPsychR-manual/jsPsychMaker.html#available-tasks).
+
 
 ## Installing
 
 Install jsPsychMaker with: `remotes::install_github("gorkang/jsPsychMaker")`
-
 
 
 ## Creating a protocol from existing tasks
@@ -41,17 +41,17 @@ Check if there are new tasks available in a new version of the Github package:
 
 You can create a protocol with new tasks using csv or excel files:  
 
-1) Copy example tasks to local folder: `jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST")`  
+1) Copy example tasks to local folder: `jsPsychMaker::copy_example_tasks(destination_folder = "~/Downloads/TEST/example_tasks")`  
   
 2) Create protocol
   
 ```
-jsPsychMaker::create_protocol(folder_tasks = "~/Downloads/TEST/"
-                              folder_output = "~/Downloads/TEST/new_protocol", 
+jsPsychMaker::create_protocol(folder_tasks = "~/Downloads/TEST/example_tasks",
+                              folder_output = "~/Downloads/TEST/new_protocol_999", 
                               launch_browser = TRUE)
 ```
 
-See the [jsPsychR manual](https://gorkang.github.io/jsPsychR-manual/qmd/07-NEWtasks.html), and "~/Downloads/TEST" for examples of how to create new tasks.
+See the [jsPsychR manual](https://gorkang.github.io/jsPsychR-manual/qmd/07-NEWtasks.html), and "~/Downloads/TEST/example_tasks" for examples of how to create new tasks.
 
 
 
@@ -62,7 +62,7 @@ After creating a protocol, you can edit the `config.js` file to tweak the config
 
 ## Data preparation
 
-Each of the tasks should have a sister script in [jsPsychHelpeR](https://github.com/gorkang/jsPsychHelpeR) to automatize the data preparation. With [jsPsychHelpeR](https://github.com/gorkang/jsPsychHelpeR), using a simple function `run_initial_setup()` you can setup a full project to automatically run the full data preparation pipeline for a jsPsychMaker protocol.  
+Each of the tasks should have a sister script in [jsPsychHelpeR](https://github.com/gorkang/jsPsychHelpeR) to automatize the data preparation. With [jsPsychHelpeR](https://github.com/gorkang/jsPsychHelpeR), using a simple function `jsPsychHelpeR::run_initial_setup()` you can setup a full project to automatically run the full data preparation pipeline for a jsPsychMaker protocol.  
 
 
 ## HELP with new tasks
