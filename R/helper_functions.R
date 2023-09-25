@@ -95,7 +95,7 @@ extract_tasks_from_protocol <- function(folder_protocol) {
 #'                  show_messages = TRUE)
 #' }
 
-update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "randomly_ordered_tasks_1", media = NULL, show_messages = TRUE) {
+update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "secuentially_ordered_tasks_1", media = NULL, show_messages = TRUE) {
   
   # Read config
   config_file = paste0(folder_protocol, "/config.js")
@@ -106,20 +106,23 @@ update_config_js <- function(folder_protocol, tasks = NULL, block_tasks = "rando
   
   # Tasks
   if (!is.null(tasks)) {
-    
+
     if (show_messages == TRUE) cli::cli_h3("Add tasks to run")
     
     # Read config
     CONFIG = readLines(config_file)
     
+    # Update tasks
     tasks_clean = tasks$tasks[!tasks$tasks %in% c("Consent", "Goodbye")]
     TASKS_vector = paste0(block_tasks, " = ['", paste(gsub("\\.js", "", tasks_clean), collapse = "', '"), "'];")
-    
-    # Update config
     CONFIG[which(grepl(paste0(block_tasks, " = "), CONFIG))] = TASKS_vector
-    final_file = CONFIG
+    
+    # Update task blocs
+    TASKS_blocs_vector = paste0("tasks = ['first_tasks', '", block_tasks, "', 'last_tasks'];")
+    CONFIG[which(grepl("tasks = \\['first_tasks',", CONFIG))] = TASKS_blocs_vector
     
     # Write file
+    final_file = CONFIG
     cat(final_file, file = config_file, sep = "\n")
     
     if (show_messages == TRUE) cli::cli_alert_info("Replaced {block_tasks} in {config_file} with:\n - {TASKS_vector}")
