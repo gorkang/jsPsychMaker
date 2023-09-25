@@ -1,4 +1,4 @@
-
+# Extracts and cleans questions from js files
 extract_clean_questions <- function(FILE, label = "stimulus", separator = "'", get_options = FALSE) {
 
   # DEBUG

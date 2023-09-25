@@ -73,11 +73,11 @@ var question04 = {
   },
   data: {trialid: 'CMApre_04', procedure: 'CMApre'},
   on_load: function () {
-    document.addEventListener('contextmenu', prevent);
+    document.addEventListener('contextmenu', prevent_right_click);
   },
   on_finish: function(data){
     data.stimulus = words_list[assigned_list]
-    document.removeEventListener('contextmenu', prevent);
+    document.removeEventListener('contextmenu', prevent_right_click);
   },
   show_clickable_nav: true
 };

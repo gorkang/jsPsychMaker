@@ -8,7 +8,7 @@
   process_docs()
   
   DF_tasks = jsPsychAdmin::check_tasks_source("gorkang@gmail.com")
-  DT::datatable(DF_tasks)
+  DT::datatable(DF_tasks, filter = 'top', options = list(dom = "tip", pageLength = -1, paging = FALSE))
   
 # Prepare inst/ zips ------------------------------------------------------
   

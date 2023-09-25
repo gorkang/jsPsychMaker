@@ -21,7 +21,7 @@ parse_js_variable <- function(script_path, variable_name) {
   
   # WORKS FOR TASKS THAT USE THE RANDOMIZATION FUNCTION
   ctx <- v8(global = c("jsPsych"))
-  ctx$source("R/parse_js_functions.js") # source the randomization function
+  ctx$source(here::here("admin/parse_js_functions.js")) # source the randomization function
   
   ctx$eval(script)
   ctx$get(variable_name)
