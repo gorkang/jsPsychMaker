@@ -263,7 +263,11 @@ create_protocol <- function(folder_tasks = NULL,
   # PLUGINS ---
   
     # Extract plugins
-    PLUGINS_used_raw = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))] |> 
+    PLUGINS_used_raw0 = all_files_js[which(grepl("^[ ]{1,20}type:", all_files_js))]
+    
+    PLUGINS_used_raw = 
+      # Make sure all plugins are called inside ''
+      gsub('"', "'", PLUGINS_used_raw0) |>
       trimws() |> unique() |> 
       stringr::str_remove_all(pattern = "type: |type:|'|,")
     
