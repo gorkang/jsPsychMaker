@@ -1,6 +1,10 @@
-# Help create a protocol with all the available tasks
-  # Make sure we have all the prepare_TASK.R files in jsPsychHelpeR
-  # After testing everything works, we should move it to 9996/ and 9997/
+# Help create a protocol with all the available tasks for v6 or v7 of jsPsych
+
+# Simulate data with a monkey
+
+# Run jsPsychHelpeR
+
+# After testing everything works, upload to 9996/ and 9997/
 
 
 # Parameters --------------------------------------------------------------
@@ -16,11 +20,15 @@
 
   TASKS_raw = jsPsychMaker::list_available_tasks(jsPsych_version = jsPsych_version)
 
-  # Filter out not working tasks, or tasks with a complex requirement, etc.
+  # Filter out not working tasks, or tasks with a complex requirement, don´t have yet the prepare_TASK.R, etc.
   NOT_INCLUDED = c(
     
-    # NOT WORKING IN v7
-    "ConsentHTML",
+    # NOT WORKING (?)
+    # "ConsentHTML",
+    
+    # DONT HAVE prepare_TASK.R
+    "BDI", "LOT", "MCQ30", "NARS", "RobToM", 
+    
     
     # Media paths hardcoded: SHOULD PRELOAD!
     "BART",
@@ -64,16 +72,42 @@
 
 # Test protocol -----------------------------------------------------------
 
-  jsPsychMonkeys::release_the_monkeys(uid = "1", 
-                                      local_folder_tasks = folder_task,
-                                      disable_web_security = TRUE, 
-                                      keep_alive = TRUE,
-                                      open_VNC = TRUE)
+  # TODO: run 5 monkeys in parallel and use jsPsychHelpeR snapshots to check all is well
+  
+  jsPsychMonkeys::release_the_monkeys(
+    # forced_seed = ???,
+    uid = "1", 
+    local_folder_tasks = folder_task,
+    disable_web_security = TRUE, 
+    keep_alive = TRUE,
+    open_VNC = TRUE
+    )
 
 
 # Helper ------------------------------------------------------------------
 
+  # TODO: get snapshots for 5 monkeys in v6 and v7
+  #     CHECK snapshots match between versions v6 and v7
+  #     CHECK nothing changes
+  jsPsychHelpeR::run_initial_setup(
+    pid = paste0("999", jsPsych_version),
+    data_location = paste0(folder_task, "/.data/")
+    )
   
-  jsPsychHelpeR::run_initial_setup(pid = paste0("999", jsPsych_version),
-                                   data_location = folder_task)
+  # Did not find the prepare_FUN for 5 task: BDI, LOT, MCQ30, NARS, and RobToM. 
+  
+  # Unused prepare_TASKS.R: 
+    # prepare_AIM23.R, prepare_DEMOGR12.R, prepare_DEMOGR22.R, prepare_DEMOGR23.R, prepare_DEMOGR24.R, prepare_DEMOGR27.R, prepare_DEMOGR29.R, prepare_DEMOGR3.R, prepare_FONDECYT2022E1.R, prepare_FORM4.R, prepare_FORM5.R, prepare_FORM6.R
+    # prepare_BART.R, prepare_CEL.R, prepare_CTT.R, prepare_DMW.R, prepare_FKEA.R, prepare_RMET.R, and prepare_SCGT.R
+  
+# Upload to server ---------------------------------------------------------
+
+  # UPLOAD
+  jsPsychHelpeR::sync_server_local(
+    direction = "local_to_server",
+    local_folder = folder_task,
+    server_folder = paste0("999", jsPsych_version),
+    only_test = FALSE,
+    delete_nonexistent = TRUE
+  )  
   
