@@ -22,10 +22,12 @@ adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output, show_messages =
     # Used plugins. jsPsychSurveyMultiChoice -> -survey-multi-choice
     PLUGINS = tibble::tibble(plugin = new_plugins) |> dplyr::distinct(plugin)
     if (jsPsych_version == 7) {
-      PLUGINS$plugin = gsub("jsPsych", "", PLUGINS$plugin) %>% 
-      gsub("([A-Z])", "-\\1", .) %>%
-      gsub("^([a-z])", "-\\1", .) %>%
-      tolower()
+      PLUGINS$plugin = 
+        gsub("^([a-z])", "-\\1",
+             gsub("([A-Z])", "-\\1",
+                  gsub("jsPsych", "", PLUGINS$plugin)
+                  )) |> 
+        tolower()
       }
 
     # Create code for all plugins used
