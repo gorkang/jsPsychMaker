@@ -7,6 +7,8 @@ TODO.Rmd
 ^.vault$
 ^.github$
 ^canonical_protocol*
+^canonical_clean_6
+^canonical_clean_7
 ^protocols_DEV$
 ^DEV$
 ^admin$

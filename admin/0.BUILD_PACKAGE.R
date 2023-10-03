@@ -72,7 +72,7 @@
   # Build and install
   devtools::document()
   devtools::load_all()
-  devtools::build()
+  # devtools::build()
   devtools::install()
 
   # CHECKS
