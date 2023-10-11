@@ -5,6 +5,8 @@
 
 # TODO --------------------------------------------------------------------
 
+# SEE https://github.com/RamiKrispin/shinylive-r to create local shiny servers with webR
+
 # - USE shinyTime::shinyTimeExample() for max_time
 
 # - var_researcher_email appears twice. In consent AND config. The config one is overwritten by the consent one!!!
