@@ -10,7 +10,7 @@ logo_loading = "controllers/media/loading.gif"
 
 switch (language) {
 
-    case "spanish":
+    case "Spanish":
 
         // TODO: Button on index.html
         start_button = "Comenzar";
