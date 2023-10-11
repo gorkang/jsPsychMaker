@@ -34,7 +34,7 @@ function number_block(encripted_number, ID, type, block_name) {
 
     let answer_question = {
         type: 'survey-numbers',
-        questions: [{ prompt: ["<p>Escribe a continuación, los números que escuchaste</p>"] }],
+        questions: [{ prompt: ["<p>Enter the numbers in the keypad</p>"] }],
         timing_post_trial: 100,
         data: {trialid: 'WaisWorkingMemory_' + pad(ID, 3), procedure: 'WaisWorkingMemory'},
         on_load: function(){
@@ -75,7 +75,7 @@ function number_block(encripted_number, ID, type, block_name) {
 
 var instruction_screen_experiment = {
     type: 'instructions',
-    pages: [`<b><big>Retencion de dígitos</big></b><BR>Lee atentamente las siguientes instrucciones<BR><BR>`],
+    pages: [`<b><big>Digit retention</big></b><BR>Please read the following instructions carefully<BR><BR>`],
     button_label: 'Siguiente',
     data: {trialid: 'Instructions_00', procedure: 'WaisWorkingMemory'},
     show_clickable_nav: true,
@@ -87,7 +87,12 @@ var instruction_screen_experiment = {
 var instructions_01 = {
     type: "instructions",
     pages: [
-        "<div class = centerbox><p class = center-block-text>Ahora escuchar&aacute;s algunos n&uacute;meros. Escucha atentamente ya que no ser&aacute;n repetidos.<br />Despu&eacute;s de escucharlos tendr&aacute;s que repetir los n&uacute;meros en el mismo orden que fueron presentados.<br /><br />Haz click en el siguiente bot&oacute;n para comenzar.<br /></p></div>"
+        `<div class = centerbox><p class = center-block-text>
+        <b><big>(1/3) Same order</big></b><BR><BR>
+        Now you will hear some numbers. Listen carefully as <B>they will not be repeated</B>.<br />
+        After listening to them you will have to enter the numbers on a keypad in the same order that they were presented.<br /><br />
+        Please, <B>DO NOT write down the numbers</B> while you are listening to them.<br /><br />
+        Click on the following button to begin.<br /></p></div>`
     ],
     show_clickable_nav: true,
     data: {trialid: 'Instructions_01', procedure: 'WaisWorkingMemory'},
@@ -115,7 +120,14 @@ for (let i = 0; i < encrypted_codes["block_1"].length; i++) {
 
 var instructions_02 = {
     type: "instructions",
-    pages: ["<div class = centerbox><p class = center-block-text>Ahora escuchar&aacute;s otros n&uacute;meros, pero esta vez tendr&aacute;s que repetirlos en orden inverso.<br /><br />Haz click en el siguiente bot&oacute;n para comenzar.<br /></p></div>"],
+    pages: [
+        `<div class = centerbox><p class = center-block-text>
+        <b><big>(2/3) Reverse order</big></b><BR><BR>
+        Now you must <B>enter the numbers in reverse order</B>.<br /><br />
+        Please, <B>DO NOT write down the numbers</B> while you are listening to them.<br /><br />
+        Click on the following button to start.<br />
+        </p></div>`
+    ],
     show_clickable_nav: true,
     data: {trialid: 'Instructions_02', procedure: 'WaisWorkingMemory'},
     on_trial_start: function() {
@@ -142,10 +154,11 @@ var instructions_03 = {
     type: "instructions",
     pages: function() {
         return (["<p>" + 
-            (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_017' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "17" ) ? "Respuesta correcta." : "Eso no es correcto. Los n&uacute;meros eran 71, por lo que en orden inverso la respuesta correcta era 17.") + 
+            (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_017' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "17" ) ? "Correct!" : 
+            "That is not correct.<BR>The numbers where 71, so the correct response in <B>reverse order</B> was 17.") +
             "<br /></p>"])
     },
-    button_label_next: "Continuar",
+    button_label_next: "Continue",
     show_clickable_nav: true,
     data: {trialid: 'Instructions_03', procedure: 'WaisWorkingMemory'},
     on_trial_start: function() {
@@ -169,10 +182,11 @@ var instructions_04 = {
     type: "instructions",
     pages: function() {
         return (["<p>" + 
-            (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_018' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "43" ) ? "Respuesta correcta." : "Eso no es correcto. Los n&uacute;meros eran 34, por lo que en orden inverso la respuesta correcta era 43.") + 
+            (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_018' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "43" ) ? "Correct!" :  
+            "That is not correct.<BR>The numbers where 34, so the correct response in <B>reverse order</B> was 43.") +
             "<br /></p>"])
     },
-    button_label_next: "Continuar",
+    button_label_next: "Continue",
     show_clickable_nav: true,
     data: {trialid: 'Instructions_04', procedure: 'WaisWorkingMemory'},
     on_trial_start: function() {
@@ -197,7 +211,12 @@ for (let i = 0; i < encrypted_codes["block_2"].length; i++) {
 var instructions_05 = {
     type: "instructions",
     pages: [
-        "<div class = centerbox><p class = center-block-text>Ahora escuchar&aacute;s otros n&uacute;meros. Despu&eacute;s de escucharlos tendr&aacute;s que repetirlos en orden,<br />comenzando por el n&uacute;mero menor.<br /><br />Haz click en el siguiente bot&oacute;n para comenzar.<br /></p></div>"
+        `<div class = centerbox><p class = center-block-text>
+        <b><big>(3/3) Sequential order</big></b><BR><BR>
+        Now you must <B>enter the numbers in sequential order</B>, starting from the smaller number.<br /><br />
+        Please, <B>DO NOT write down the numbers</B> while you are listening to them.<br /><br />
+        Click on the following button to start.<br />
+        </p></div>`
     ],
     show_clickable_nav: true,
     data: {trialid: 'Instructions_05', procedure: 'WaisWorkingMemory'},
@@ -224,10 +243,11 @@ var instructions_06 = {
     type: "instructions",
     pages: function() {
         return (["<p>" + 
-            (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_035' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "123" ) ? "Respuesta correcta." : "Eso no es correcto. Los n&uacute;meros eran 321, por lo que en orden inverso la respuesta correcta era 123.") + 
+            (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_035' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "123" ) ? "Correct!" : 
+            "That is not correct.<BR>The numbers where 321, so the correct response in <B>sequential orden</B> was 123.") +
             "<br /></p>"])
     },
-    button_label_next: "Continuar",
+    button_label_next: "Continue",
     show_clickable_nav: true,
     data: {trialid: 'Instructions_06', procedure: 'WaisWorkingMemory'},
     on_trial_start: function() {
@@ -251,10 +271,11 @@ var instructions_07 = {
     type: "instructions",
     pages: function() {
         return (["<p>" + 
-            (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_036' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "225" ) ? "Respuesta correcta." : "Eso no es correcto. Los n&uacute;meros eran 522, por lo que en orden inverso la respuesta correcta era 225.") + 
+            (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_036' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "225" ) ? "Correct!" : 
+            "That is not correct.<BR>The numbers where 522, so the correct response in <B>sequential orden</B> was 225.") +
             "<br /></p>"])
     },
-    button_label_next: "Continuar",
+    button_label_next: "Continue",
     show_clickable_nav: true,
     data: {trialid: 'Instructions_07', procedure: 'WaisWorkingMemory'},
     on_trial_start: function() {
@@ -278,7 +299,7 @@ for (let i = 0; i < encrypted_codes["block_3"].length; i++) {
 
 var instructions_08 = {
     type: "instructions",
-    pages: ["<p><center>Hemos terminado, excelente trabajo.<br /><br />Muchas gracias por su colaboraci&oacute;n.<br /><br />Por favor, llame al examinador."],
+    pages: [`<p><center>You finished the task. Click [Next>] to continue.<br /><br />`],
     show_clickable_nav: true,
     data: {trialid: 'instructions_08', procedure: 'WaisWorkingMemory'},
     on_load: function () {

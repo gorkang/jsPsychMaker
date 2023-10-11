@@ -23,7 +23,7 @@ function resize_buttons() {
 
 var instruction_screen_experiment = {
     type: 'instructions',
-    pages: [`<b><big>Wais Matrices</big></b><BR>Lee atentamente las siguientes instrucciones<BR><BR>`],
+    pages: [`<b><big>WAIS Matrices</big></b><BR>Read the following instructions carefully<BR><BR>`],
     button_label: 'Siguiente',
     data: {trialid: 'Instructions_00', procedure: 'WaisMatrices'},
     show_clickable_nav: true,
@@ -40,11 +40,10 @@ var instruction_screen_experiment = {
 var instructions_01 = {
     type: "instructions",
     pages: [
-        "<div class = centerbox>" +
-            "<p class = center-block-text>" +
-            "A continuaci&oacute;n, le presentaremos una serie de figuras, donde cada una muestra un patr&oacute;n l&oacute;gico.<br /><br />" +
-            "Tendr&aacute; que elegir entre 5 alternativas para completar cada patr&oacute;n." +
-            "</p></div>"
+        `<div class = centerbox>
+            <p class = center-block-text>
+            We will present you with a series of figures, where each one shows a logical pattern.<BR><BR>You will have to choose between 5 alternatives to complete each pattern.
+            </p></div>`
     ],
     allow_keys: false,
     show_clickable_nav: true,
@@ -61,15 +60,12 @@ WaisMatrices.push(instructions_01);
 var question01 = {
     type: "html-button-response",
     stimulus:
-        "<div class = centerbox>" +
-        "<p class = justified>" +
-        "Mire la siguiente figura. Usted debe escoger cu&aacute;l de las opciones que se encuentran abajo va en el " +
-        "cuadro con un signo de interrogaci&oacute;n. La respuesta correcta es aquella que encaja yendo de " +
-        "izquierda a derecha y yendo de arriba hacia abajo. Usted s&oacute;lo debe mirar de izquierda a derecha y " +
-        "de arriba hacia abajo. No mire diagonalmente. &iquest;Cu&aacute;l de las opciones que se encuentran abajo va en " +
-        "el cuadro con un signo de interrogaci&oacute;n?" +
-        "</p><br /></div>" +
-        "<div style='text-align: center;'><img src='media/images/WaisMatrices/1A.png' style='width: 30%; margin-left: -4%' /></div><div style='text-align: center;'><br />",
+        `<div class = centerbox><p class = justified>
+        Look at this picture. You will choose which one of the options below goes in the box with a question mark.<BR><BR>
+        The right answer will work going across (left to right) and going down (top to bottom).<BR>You should <i>only</i> look across and down to find the answer. Do <i>not</i> look diagonally.<BR><BR>
+        Which of the options below goes in the box with a question mark?
+        </p><br /></div>
+        <div style='text-align: center;'><img src='media/images/WaisMatrices/1A.png' style='width: 30%; margin-left: -4%' /></div><div style='text-align: center;'><br />`,
     choices: [
         "<img src='media/images/WaisMatrices/1B_1.png' style='width: 80%'/>",
         "<img src='media/images/WaisMatrices/1B_2.png' style='width: 80%'/>",
@@ -96,15 +92,13 @@ var instructions_02 = {
     type: "instructions",
     pages: function () {
         return [
-            "<div class = matrizlimit><div style='text-align: center;'><img src='media/images/WaisMatrices/1A.png' style='width: 25%; margin-left: -4%' /></div><br /><br /><div style='text-align: center;'><img src='media/images/WaisMatrices/1B.png' style='width: 60%; margin-left: -4%' </img></div><br />" +
-            "<div class='matrizfeedback'><h2>Eso " + (condition1 == false ? "no " : "") + "es correcto.</h2> <br />" + 
-            (condition1 == false ? "Para responder correctamente debe mirar de izquierda a derecha en la fila de arriba.<br /><br />" : "") +
-            "Cuando usted mira la fila de arriba la estrella azul cambia a un circulo amarillo. <br />" +
-            "Esto quiere decir que cuando usted va de izquierda a derecha en la fila de abajo la estrella azul tambi&eacute;n deberia cambiar a un circulo amarillo.<br /><br />" +
-            "Para obtener la respuesta correcta yendo de arriba hacia abajo, usted debe mirar los cuadros de la columna izquierda. " +
-            "Cuando usted va de arriba hacia abajo en la primera columna los cuadros tienen la misma forma y el mismo color: estrellas azules. <br /><br />" +
-            "Esto quiere decir que cuando usted va de arriba hacia abajo en la columna derecha los cuadros tambi&eacute;n deberian tener la misma forma y el mismo color: circulo amarillo. " +
-            "Usted obtiene la misma respuesta yendo de izquierda a derecha y yendo de arriba hacia abajo.</div><br>"
+            `<div class = matrizlimit><div style='text-align: center;'><img src='media/images/WaisMatrices/1A.png' style='width: 25%; margin-left: -4%' /></div><br /><br /><div style='text-align: center;'><img src='media/images/WaisMatrices/1B.png' style='width: 60%; margin-left: -4%' </img></div><br />
+            <div class='matrizfeedback'><h2>That is ` + (condition1 == false ? `not ` : ``) + `correct!</h2> <br />` + 
+            (condition1 == false ? `In the top row you can see how the blue star changes to a yellow circle. <br />
+            When you go from left to right in the bottom row, the blue star should also change to a yellow circle.<br /><br />
+            The leftmost column boxes have the same shape and the same color: blue stars.<br />
+            When you go from top to bottom in the right column, the boxes should also have the same shape and the same color: yellow circle.<br /><br />
+            You get the same answer going from left to right and top to bottom: <B>yellow circle</B></div><br>` : ``)
         ]
     },
     allow_keys: false,
@@ -117,13 +111,12 @@ WaisMatrices.push(instructions_02);
 var question02 = {
     type: "html-button-response",
     stimulus:
-        "<div class = centerbox>" +
-        "<p class = justified>" +
-        "Este es otro tipo de problema. Los cuadros s&oacute;lo van de izquierda a derecha. La respuesta correcta " +
-        "seguir&aacute; el mismo orden que usted ve en los cuadros. &iquest;Cu&aacute;l de las opciones que se encuentran abajo va " +
-        "en el cuadro con un signo de interrogaci&oacute;n?" +
-        "</p><br /></div>" +
-        "<div style='text-align: center;'><img src='media/images/WaisMatrices/2A.png' style='width: 84%; margin-left: -4%' /></div><br>",
+        `<div class = centerbox>
+        <p class = justified>
+        This is another type of problem. The pictures only go from left to right. The correct answer will follow the same order that you see in the boxes. <BR>
+        Which of the options below goes in the box with a question mark?
+        </p><br /></div>
+        <div style='text-align: center;'><img src='media/images/WaisMatrices/2A.png' style='width: 84%; margin-left: -4%' /></div><br>`,
     choices: [
         "<img src='media/images/WaisMatrices/2B_1.png' style='width: 82%' />",
         "<img src='media/images/WaisMatrices/2B_2.png' style='width: 82%' />",
@@ -150,12 +143,12 @@ var instructions_03 = {
     type: "instructions",
     pages: function () {
         return [
-            "<div class = matrizlimit><div style='text-align: center;'><img src='media/images/WaisMatrices/2A.png' style='width: 60%; margin-left: -4%' /></div><br /><br /><div style='text-align: center;'><img src='media/images/WaisMatrices/2B.png' style='width: 60%; margin-left: -4%' </img></div><br /><br />" +
-            "<div class='matrizfeedback'><h2>Eso " + (condition1 == false ? "no " : "") + "es correcto. </h2><br />" + 
-            "Cuando usted mira los cuadros de izquierda a derecha, puede ver que ellos siguen este orden: "  +
-            "c&iacute;rculo grande, c&iacute;rculo peque&ntilde;o, c&iacute;rculo grande, c&iacute;rculo peque&ntilde;o, c&iacute;rculo grande. <br /><br />" +
-            "El c&iacute;rculo peque&ntilde;o va en el cuadro con un signo de interrogaci&oacute;n porque es lo que mantiene el mismo orden que los anteriores.<br /><br />" +
-            "</div>"
+            `<div class = matrizlimit><div style='text-align: center;'><img src='media/images/WaisMatrices/2A.png' style='width: 60%; margin-left: -4%' /></div><br /><br /><div style='text-align: center;'><img src='media/images/WaisMatrices/2B.png' style='width: 60%; margin-left: -4%' </img></div><br /><br />
+            <div class='matrizfeedback'><h2>That is ` + (condition1 == false ? `not ` : ``) + `correct!</h2><br />` + 
+            (condition1 == false ? `When you look at the boxes from left to right, you can see that they follow this order:<br />
+            big circle, small circle, big circle, small circle, big circle. <br /><br />
+            The <B>small circle</B> goes in the box with a question mark because it is what follows the previous pattern.<br /><br />
+            </div>` : ``)
         ]
     },
     allow_keys: false,
@@ -168,10 +161,11 @@ WaisMatrices.push(instructions_03);
 var instructions_04 = {
     type: "instructions",
     pages: [
-        "<div class = centerbox>" +
-            "<p class = center-block-text>" +
-            "Ahora deber&aacute; seguir respondiendo, pero no recibir&aacute; avisos indicando <br />si su respuesta es correcta o incorrecta.<br /><br />" +
-            "</p></div>"
+        `<div class = centerbox>
+            <p class = center-block-text>
+            From this point forward, you will not receive feedback indicating <br />
+            whether your answer is correct or incorrect.<br /><br />
+            </p></div>`
     ],
     allow_keys: false,
     show_clickable_nav: true,
@@ -437,7 +431,7 @@ for (let i = 8; i < 29; i++) { // 8-28
 var instructions_05 = {
     type: "instructions",
     pages: [
-        "<p><center>Hemos terminado esta tarea. Puedes hacer click en [Next>] para continuar.<br /><br />"
+        `<p><center>You finished the task. Click [Next>] to continue.<br /><br />`
     ],
     show_clickable_nav: true,
     data: {trialid: 'instructions_05', procedure: 'WaisMatrices'}
