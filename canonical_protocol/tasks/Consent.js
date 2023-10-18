@@ -5,7 +5,6 @@ switch (language) {
   case "Spanish":
 
     Consent_000 = ['<p><left><b><big>Consentimiento informado</big></b><br /></p>'];
-
     Consent_001_choices = ['acepto participar', 'rechazo participar'];
     Consent_001_end = 'Gracias por tu tiempo. Puedes cerrar esta página.';
 
@@ -57,8 +56,6 @@ var question01 = {
     trialid: 'Consent_001',
     procedure: 'Consent'
    }
-
-
 };
 Consent.push(question01);
 
