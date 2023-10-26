@@ -73,9 +73,10 @@ testthat::test_that('create_protocol', {
 
   
   # Protocol ALL canonical ------------------------------------------------
+    # Needs to be updated when new tasks and/or plugins, etc. are added
   
   output_folder = paste0(destination_folder, "/../create_protocol5")
-  files_expected = 154
+  files_expected = 160
   
   TASKS = jsPsychMaker::list_available_tasks()
   
