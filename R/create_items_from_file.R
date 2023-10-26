@@ -328,10 +328,40 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
   # PREPARE if_questions [DO NOT CHANGE TABS/SPACES] --------------------------
   
   if ("if_question" %in% names(DF_MAP)) {
+    # browser()
     
     if_question_item = sprintf("%03d", as.numeric(gsub("([1-9]{1,99}) ([!=]{1,2}) (.*)", "\\1", DF_MAP$if_question)))
     if_question_condition_symbol = gsub("([1-9]{1,99}) ([!=]{1,2}) (.*)", "\\2", DF_MAP$if_question)
     if_question_condition = gsub("([1-9]{1,99}) ([!=]{1,2}) (.*)", "\\3", DF_MAP$if_question)
+    if_question_plugin = DF |> filter(ID == gsub("[0]{1,3}(.*)", "\\1", if_question_item)) |> pull(plugin)
+    
+    condition_modifier = ifelse(if_question_condition_symbol == "!=", "!", "")
+    
+    # The way to capture the question response changes depending on the plugin
+    if (if_question_plugin == "survey-multi-select") {
+      
+      code_to_capture_response = paste0("
+      let data = JSON.parse(jsPsych.data.get().values().find(x => x.trialid === '", task_name,"_", if_question_item, "')['response']).Q0;
+       if(", condition_modifier, "data.some(index => index.includes('", if_question_condition, "'))){
+       
+            return true;
+          } else {
+            return false;
+          }
+      
+      ")
+    } else {
+      code_to_capture_response = paste0("
+      let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === '", task_name,"_", if_question_item, "'))['response'])['Q0']).trim();
+       if((data) ", if_question_condition_symbol, " '", if_question_condition, "'){
+            return true;
+          } else {
+            return false;
+          }
+      ")
+    }
+    
+    
     
   if_question_ITEM_output_RAW = paste0("
     var if_question", item_number, " = {
@@ -339,16 +369,12 @@ create_items_from_file <- function(file_name, folder_output = NULL, options_sepa
       data: {trialid: '", task_name,"_", item_number, "_if', procedure: '", task_name,"'},
       conditional_function: function(){
         try {
-          let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === '", task_name,"_", if_question_item, "'))['response'])['Q0']).trim();
-          
-          if((data) ", if_question_condition_symbol, " '", if_question_condition, "'){
-            return true;
-          } else {
-            return false;
-          }
+            ", 
+             code_to_capture_response,
+             "
           
         } catch(err) {
-          //alert('we dont have ", task_name,"_03')
+          //alert('Error in if_question ", task_name,"_", item_number, "')
           return false;
         }
       },

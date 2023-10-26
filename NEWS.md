@@ -6,6 +6,10 @@ Major updates
 
 Minor updates
 
+* Fixed small issue with survey-multi-choice (was not capturing stimulus and response was son stringified)
+* Update image_zoom()
+* Fix creation of if_questions for multi-choice
+
 
 # jsPsychMaker 0.2.7
 
