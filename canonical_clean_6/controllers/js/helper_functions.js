@@ -160,12 +160,12 @@ function saveData(data, online, name, version = 'original') {
     link.setAttribute("href", encodedUri);
 
     // obtención de fecha, el slice es para asegurarnos que hayan 2 dígitos en cada elemento
-    actual_time = (new Date().toISOString().slice(0, 19)).replaceAll(":","");
+    actual_time_csv = (new Date().toISOString().slice(0, 19)).replaceAll(":","");
 
     if (uid_external != -1)
-      csv_name = pid + "_" + name + "_" + version + "_" + actual_time + "_" + uid_external + ".csv";
+      csv_name = pid + "_" + name + "_" + version + "_" + actual_time_csv + "_" + uid_external + ".csv";
     else
-      csv_name = pid + "_" + name + "_" + version + "_" + actual_time + "_" + uid + ".csv";
+      csv_name = pid + "_" + name + "_" + version + "_" + actual_time_csv + "_" + uid + ".csv";
 
     link.setAttribute("download", csv_name);
     document.body.appendChild(link); // Required for FF
@@ -399,6 +399,11 @@ function start_protocol(questions){
     show_progress_bar: true,
     message_progress_bar: progress_bar_message,
     fullscreen: true,
+    exclusions: {
+      min_width: 800,
+      min_height: 600,
+      audio: true
+    },
     on_interaction_data_update: function(data){
       if (data.event == 'fullscreenexit' & !hasTouchScreen){
         alert(exit_fullscreen_message);
@@ -438,29 +443,91 @@ function flattenObject(ob) {
 // image_zoom controller ------------------------------------------------------
 
 function image_zoom() {
+  button_change = false;
   let imgs = document.querySelectorAll('img');
+  
   for (var i = 0; i < imgs.length; i++) {
     let img = imgs[i];
     if (img) {
+      if (img.classList.contains("image_zoom")) {
+
+        // Por defecto, el boton Siguiente esta deshabilitado hasta que no se haga click en imagen
+        if (!button_change) {
+
+          // While testing, do not disable. Monkeys are not ready yet
+          disable_button = true
+          if (debug_mode == true) disable_button = false
+
+          document.querySelector("[id$=next]").disabled = disable_button;
+          document.querySelector("[id$=next]").title = "Tienes que hacer click sobre la imagen para que se active el botón"
+          button_change = true;
+        }
+
       if (zoom_type == 'Intense') {
         Intense(img);
       } else if (zoom_type == 'fullPage') {
+          if (!(document.querySelector('#fullpage'))) {
+            // Crear el contenedor principal
+            const mainContainer = document.createElement("div");
+            mainContainer.id = "fullpage";
+            mainContainer.style.display = "none"; // Inicialmente oculto
+            mainContainer.style.position = "fixed";
+            mainContainer.style.top = "0";
+            mainContainer.style.left = "0";
+            mainContainer.style.width = "100%";
+            mainContainer.style.height = "100%";
+            mainContainer.style.backgroundColor = "black";
+            mainContainer.style.zIndex = "999";
+            mainContainer.style.alignItems = "center";
+            mainContainer.style.justifyContent = "center";
+            mainContainer.style.flexDirection = "column";
+            mainContainer.setAttribute("onclick", "this.style.display='none';");
 
-        if (!(document.querySelector('#fullpage_image'))) {
-          var elemDiv = document.createElement('div');
-          elemDiv.id = "fullpage_image";
+            // Crear el div de la imagen con fondo
+            const imageDiv = document.createElement("div");
+            imageDiv.style.flex = "1";
+            imageDiv.style.display = "flex";
+            imageDiv.style.alignItems = "center";
+            imageDiv.style.justifyContent = "center";
+            imageDiv.style.backgroundSize = "contain";
+            imageDiv.style.backgroundRepeat = "no-repeat";
+            imageDiv.style.backgroundPosition = "center"; // Centrar la imagen en el div
+            imageDiv.style.width = "inherit";
 
+            // Crear el div del texto con fondo negro
+            const textDiv = document.createElement("div");
+            textDiv.style.backgroundColor = "black"; // Fondo negro
+            textDiv.style.color = "white"; // Texto en blanco
+            textDiv.style.padding = "20px"; // Espaciado interno
+            textDiv.style.textAlign = "center";
+            textDiv.style.width = "100%"; // Cubrir todo el ancho de la pantalla
+
+            mainContainer.appendChild(imageDiv);
+            mainContainer.appendChild(textDiv);
+
+            const paragraph = document.createElement("p");
+            paragraph.textContent = zoom_in_out_message; // Texto a mostrar
+            textDiv.appendChild(paragraph);
+
+            // Agrega el contenedor al content
           let parent = document.querySelector('#jspsych-content');
-          //document.body.appendChild(elemDiv);
-          parent.appendChild(elemDiv);
-          elemDiv.setAttribute("onclick", "this.style.display='none';");
+            parent.appendChild(mainContainer); 
         }
 
-        let fullPage = document.querySelector('#fullpage_image');
+          let mainContainer = document.querySelector('#fullpage');
+          let imageDiv = document.querySelector('#fullpage > div:nth-child(1)');
+            
         img.addEventListener('click', function() {
-          fullPage.style.backgroundImage = 'url(' + img.src + ')';
-          fullPage.style.display = 'block';
+            // reestablecimiento del container y selección de imagen
+            mainContainer.style.display = "flex";
+            imageDiv.style.backgroundImage = 'url(' + img.src + ')';
+            
+            // If they are in the Image condition, they need to click the image to continue.
+            // CHECK with giro_check
+            document.querySelector("[id$=next]").disabled = false;
+            document.querySelector("[id$=next]").title = ""
         });
+        }
       }
     }
   }
@@ -537,3 +604,64 @@ const decrypt = (salt, encoded) => {
     .map((charCode) => String.fromCharCode(charCode))
     .join("");
 };
+
+// BD controllers functions
+
+// function to separate array into groups
+function groupBy(arr, property) {
+  return arr.reduce(function(memo, x) {
+    if (!memo[x[property]]) {
+      memo[x[property]] = [];
+    }
+    memo[x[property]].push(x);
+      return memo;
+  }, {});
+}
+
+function isNormalInteger(str) {
+  str = str.trim();
+  if (!str) {
+    return false;
+  }
+  str = str.replace(/^0+/, "") || "0";
+  var n = Math.floor(Number(str));
+  return String(n) === str && n >= 0;
+}
+
+function json_can_parsed(data) {
+  if (/^[\],:{}\s]*$/.test(data.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
+    //the json is ok
+    return true;
+  } else {
+    //the json is not ok
+    return false;
+  }
+}
+
+function combinations_from_dict(conditions_dict) {
+  combinations = []
+  for (actual_condition_array of Object.values(conditions_dict)) {
+    for (actual_array of Object.values(actual_condition_array)){
+      combinations.push(actual_array)
+    }
+  }
+
+  if (combinations.length > 1) {
+    var r = [], max = combinations.length-1;
+    function helper(arr, i) {
+      for (var j=0, l=combinations[i].length; j<l; j++) {
+        var a = arr.slice(0); // clone arr
+        a.push(combinations[i][j]);
+        if (i==max)
+          r.push(a);
+        else
+          helper(a, i+1);
+      }
+    }
+    helper([], 0);
+  }
+
+  r = r.map(function (x) { return x.join('|'); });
+
+  return r;
+}
