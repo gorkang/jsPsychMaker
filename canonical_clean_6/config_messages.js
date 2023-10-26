@@ -10,7 +10,7 @@ logo_loading = "controllers/media/loading.gif"
 
 switch (language) {
 
-    case "spanish":
+    case "Spanish":
 
         // TODO: Button on index.html
         start_button = "Comenzar";
@@ -43,6 +43,7 @@ switch (language) {
         exit_fullscreen_message = "Si sales de pantalla completa pueden perderse datos. Por favor, pulsa F11 para volver al protocolo."; // Message when exiting fullscreen mode
         progress_bar_message = 'Porcentaje completado'; // Message to show in the progress bar
         loading_resources_message = 'Cargando recursos...'; // Message to show when loading resources
+        zoom_in_out_message = "Haz click de nuevo en la imagen para volver atrás";
 
 
         // mysql/indexedDB controller messages ------------------------------------------------------------
@@ -90,6 +91,7 @@ switch (language) {
         exit_fullscreen_message = "If you exit Full Screen, your data could be lost. Please, press F11 to go back to the protocol."; // Message when exiting fullscreen mode
         progress_bar_message = 'Percentage completed'; // Message to show in the progress bar
         loading_resources_message = 'Loading resources...'; // Message to show when loading resources
+        zoom_in_out_message = "Click again on the image to zoom out";
 
 
         // mysql/indexedDB controller messages ------------------------------------------------------------
