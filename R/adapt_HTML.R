@@ -35,8 +35,8 @@ adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output, show_messages =
     code_plugins = paste0('\t<script src="jsPsych-', jsPsych_version , paste0('/plugins/', sting_plugins), PLUGINS$plugin, '.js"></script>')
   
     # Detect canonical_clean plugins
-    begin_plugins = which(grepl("<!-- Protocol Plugins: CANONICAL -->", INDEX)) + 1
-    end_plugins = which(grepl("<!-- Mic controller -->", INDEX)) + 1
+    begin_plugins = which(grepl("<!-- Protocol Plugins -->", INDEX)) + 1
+    end_plugins = which(grepl("<!-- END Plugins -->", INDEX)) + 1
     
     # Remove canonical_clean plugins
     INDEX_clean = INDEX[-c(begin_plugins:end_plugins)]
@@ -62,8 +62,15 @@ adapt_HTML <- function(TASKS, new_plugins = NULL, folder_output, show_messages =
     
     # RMET
     if ("RMET" %in% TASKS) {
-      RMET_tooltip = which(grepl("<!-- RMET tooltip -->", INDEX_plugins))
-      INDEX_plugins = INDEX_plugins[-c(RMET_tooltip:(RMET_tooltip + 1))]
+      
+      RMET_tooltip = which(grepl("jspsych\\.css", INDEX_plugins))
+
+      RMET_code = '  <link rel="stylesheet" href="controllers/css/tooltip.css">'
+      # RMET_tooltip = which(grepl("<!-- RMET tooltip -->", INDEX_plugins))
+      # INDEX_plugins = INDEX_plugins[-c(RMET_tooltip:(RMET_tooltip + 1))]
+      
+      INDEX_plugins = append(INDEX_plugins, RMET_code, after = RMET_tooltip)
+      
       if (show_messages == TRUE) cli::cli_alert_info("Added extra dependencies for: `RMET`")
     }
 
