@@ -4,6 +4,7 @@
 #' @param canonical_tasks Add already available tasks to the protocol
 #' @param folder_output Where to create the protocol
 #' @param launch_browser TRUE/FALSE
+#' @param which_browser firefox/chrome
 #' @param piloting_task Name of task to pilot (will be only task in config.js)
 #' @param force_download_media download media even if the file already exists
 #' @param show_messages TRUE/FALSE
@@ -54,6 +55,7 @@ create_protocol <- function(folder_tasks = NULL,
                             folder_output = "~/Downloads/new_protocol_999", 
                             force_download_media = FALSE,
                             launch_browser = FALSE, 
+                            which_browser = "firefox",
                             piloting_task = NULL,
                             show_messages = TRUE,
                             block_tasks = "secuentially_ordered_tasks_1",
@@ -329,10 +331,17 @@ create_protocol <- function(folder_tasks = NULL,
     if (OS == "Linux") {
       
       cors_path = normalizePath("~/.chrome-CORS")
-      if (any(grepl(plugins_CORS, PLUGINS_used))) {
-        system(paste0("google-chrome ", URL, " --incognito --disable-web-security --user-data-dir=\"", cors_path, "\" &"))  
+      
+      if (which_browser == "chrome") {
+        if (any(grepl(plugins_CORS, PLUGINS_used))) {
+          system2(command = "google-chrome", args = c(URL, "--incognito", "--disable-web-security", paste0("--user-data-dir=\"", cors_path, "\"")), stdout = FALSE, stderr = FALSE)
+          # system(paste0("google-chrome ", URL, " --incognito --disable-web-security --user-data-dir=\"", cors_path, "\" &"))  
+        } else {
+          system2(command = "google-chrome", args = c(URL, "--incognito"), stdout = FALSE, stderr = FALSE)
+        }
+      # If not chrome, use firefox
       } else {
-        system(paste0("google-chrome ", URL, " --incognito &"))  
+        system2(command = "firefox", args = c("--private-window", URL), stdout = FALSE, stderr = FALSE)
       }
     
     # Mac and Windows
