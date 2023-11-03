@@ -10,6 +10,7 @@ create_protocol(
   folder_output = "~/Downloads/new_protocol_999",
   force_download_media = FALSE,
   launch_browser = FALSE,
+  which_browser = "firefox",
   piloting_task = NULL,
   show_messages = TRUE,
   block_tasks = "secuentially_ordered_tasks_1",
@@ -27,6 +28,8 @@ create_protocol(
 \item{force_download_media}{download media even if the file already exists}
 
 \item{launch_browser}{TRUE/FALSE}
+
+\item{which_browser}{firefox/chrome}
 
 \item{piloting_task}{Name of task to pilot (will be only task in config.js)}
 

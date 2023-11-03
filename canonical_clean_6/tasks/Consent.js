@@ -16,7 +16,7 @@ switch (language) {
   case "English":
 
     Consent_000 = ['<p><left><b><big>Informed consent</big></b><br /></p>'];
-    Consent_001_choices = ['I agree to participate', 'I reject to participate'];
+    Consent_001_choices = ['I agree to participate', 'I refuse to participate'];
     Consent_001_end = 'Thanks for your time. You can close this page.';
     break;
 

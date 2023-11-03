@@ -7,6 +7,7 @@
 copy_example_tasks(
   destination_folder,
   file_zip = "example_tasks.zip",
+  which_tasks = NULL,
   show_messages = TRUE
 )
 }
@@ -14,6 +15,8 @@ copy_example_tasks(
 \item{destination_folder}{Destination folder for the examples}
 
 \item{file_zip}{name of zip with examples}
+
+\item{which_tasks}{NULL for everything, or a specific name (e.f. Slider)}
 
 \item{show_messages}{TRUE/FALSE}
 }

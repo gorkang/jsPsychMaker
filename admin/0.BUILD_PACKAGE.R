@@ -34,6 +34,13 @@
         
     
   # tasks ---
+    
+    # file.copy(from = "canonical_protocol/tasks/Consent.js", 
+    #           to = "canonical_clean_6/tasks/Consent.js")
+    # 
+    # file.copy(from = "canonical_protocol/tasks/Goodbye.js", 
+    #           to = "canonical_clean_6/tasks/Goodbye.js")
+    
     # v6
     jsPsychHelpeR::zip_files(folder_files = "canonical_protocol/tasks/", 
                              zip_name = "inst/templates/tasks6.zip", 
