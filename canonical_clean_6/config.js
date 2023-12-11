@@ -1,7 +1,6 @@
 // Configuration file
 
 // Main parameters -------------------------------------------------------------
-
 pid = 9996; // Protocol ID [number]
 online = false; // Protocol runs online [true/false]
 max_participants = 1000; // Max participants per contition [number]
@@ -10,6 +9,7 @@ max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
 debug_mode = true; // SHOULD be false in production
 language = "English"; // Spanish or English
+finish_link = "" // link at the end of the experiment example "https://app.prolific.co/submissions/complete?cc=000000"
 
 
 // ORDER OF TASKS --------------------------------------------------------------

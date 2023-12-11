@@ -1,35 +1,15 @@
-function isNormalInteger(str) {
-  str = str.trim();
-  if (!str) {
-      return false;
-  }
-  str = str.replace(/^0+/, "") || "0";
-  var n = Math.floor(Number(str));
-  return String(n) === str && n >= 0;
-}
-
-function json_can_parsed(data) {
-  if (/^[\],:{}\s]*$/.test(data.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-    //the json is ok
-    return true;
-  }else{
-    //the json is not ok
-    return false;
-  }
-}
-
 // XMLcall() ------------------------------------------------------------------
 
 // wait_for_response makes the calles synchronic
-function XMLcall (query, table_name, elements = {}, sql = "", wait_for_response = false) {
+function XMLcall(query, table_name, elements = {}, sql = "", wait_for_response = false) {
   return new Promise(
     function(resolve, reject) {
       var xhr = new XMLHttpRequest();
       xhr.onreadystatechange = function() {
         if (xhr.readyState == XMLHttpRequest.DONE) {
-          response = (xhr.responseText);
-          if (json_can_parsed (response)) {
-            answer = (response !== "") ? JSON.parse(response) : {};
+          response = xhr.responseText;
+          if (json_can_parsed(response)) {
+            answer = (response !== "") ? (JSON.parse(response)) : {};
             // if (debug_mode === true) console.log(query + " // " + table_name);
             // if (debug_mode === true) console.log(answer);
             resolve(answer);
@@ -96,7 +76,7 @@ function XMLcall (query, table_name, elements = {}, sql = "", wait_for_response 
         if (!Object.entries(elements.sql)[0][1].startsWith("SELECT")) throw (new Error('general_query ERROR'));
 
         // Put elements in SQL query
-        base_query.id = Object.entries(elements.id)[0][0] + "=" +  Object.entries(elements.id)[0][1];
+        base_query.id = Object.entries(elements.id)[0][0] + "=" + Object.entries(elements.id)[0][1];
         base_query.sql = Object.entries(elements.sql)[0][1];
 
         //console.log(base_query);
@@ -125,7 +105,11 @@ function start_mysqldb(pid, max_participants) {
 
     // See mysql.php for the source of the mysql calls
     XMLcall("createTable", "protocol", {keys: "id_protocol INT NOT NULL PRIMARY KEY DEFAULT 0, counter INT NOT NULL DEFAULT 0, last_revision TIMESTAMP DEFAULT CURRENT_TIMESTAMP, max_participants INT NOT NULL DEFAULT " + max_participants.toString()});
+
     XMLcall("createTable", "experimental_condition", {keys: "id_condition INT AUTO_INCREMENT NOT NULL PRIMARY KEY, id_protocol INT NOT NULL DEFAULT 0, assigned_task INT NOT NULL DEFAULT 0, blocked BOOLEAN NOT NULL DEFAULT 0, completed_protocol INT NOT NULL DEFAULT 0, condition_key VARCHAR(255) NOT NULL, condition_name VARCHAR(255) NOT NULL, task_name VARCHAR(255) NOT NULL, type VARCHAR(255), UNIQUE KEY unique_combination (id_protocol, condition_name)"});
+
+    // combinaciones entre condiciones experimentales
+    XMLcall("createTable", "combination_between", {keys: "id_combination INT AUTO_INCREMENT NOT NULL PRIMARY KEY, id_protocol INT NOT NULL DEFAULT 0, id_user INT NOT NULL REFERENCES user(id_user), combination VARCHAR(255) NOT NULL, assigned BIT DEFAULT 1, UNIQUE KEY unique_combination (id_protocol, id_user)"})
 
     // necesario para la lista de tareas completadas
     XMLcall("createTable", "task", {keys: "id_task INT AUTO_INCREMENT NOT NULL PRIMARY KEY, id_protocol INT NOT NULL DEFAULT 0, task_name VARCHAR(255) NOT NULL, UNIQUE KEY unique_combination (id_protocol, task_name)"});
@@ -136,15 +120,20 @@ function start_mysqldb(pid, max_participants) {
     XMLcall("createTable", "user_task", {keys: "id INT AUTO_INCREMENT NOT NULL PRIMARY KEY, id_protocol INT NOT NULL DEFAULT 0, id_task INT NOT NULL REFERENCES task(id_task), id_user INT NOT NULL REFERENCES user(id_user), UNIQUE KEY unique_combination (id_protocol, id_task, id_user)"});
   }
 
-
   // CHECK if task table has contents [this select is tied to the pid]
-  XMLcall("findRow", "task", {keys: ["task_name"], values: ["Consent"]}).then(function(tasks_in_table) {
-
-    if (Object.keys(tasks_in_table).length === 0) {
+  XMLcall("findAll", "task").then(function(tasks_in_table) {
+    // create an array with consent (if exists)
+    consent_in_table = tasks_in_table.filter(x => {
+      if (x.task_name === 'Consent' || x.task_name === 'ConsentHTML') 
+        return x.task_name 
+    })
+    
+    if (consent_in_table.length === 0) {
       if (debug_mode === true) console.warn("Creating tasks tables");
-     // REVIEW: THIS CAN BE A SINGLE TRANSACTION
-      for (var i in tasks) {
-        XMLcall("insertIntoTable", "task", {dict: tasks[i]});
+      // REVIEW: THIS CAN BE A SINGLE TRANSACTION
+      // change: stop using "tasks" variable (redundant) same for indexed
+      for (var actual_task of [...new Set(all_tasks)]) {
+        XMLcall("insertIntoTable", "task", {dict: { id_protocol: pid, task_name: actual_task}});
       }
     } else {
       if (debug_mode === true) console.warn("start_mysqldb() | Tasks tables already exist");
@@ -157,7 +146,6 @@ function start_mysqldb(pid, max_participants) {
   for (var j in conditions) {
     XMLcall("insertIntoTable", "experimental_condition", {dict: conditions[j]});
   }
-
 }
 
 // clean_mysql() ---------------------------------------------------------------
@@ -174,13 +162,14 @@ function clean_mysql(){
 
   XMLcall("findAll", "user").then(function(users) {
 
+
     // REVIEW: FILTERING to loop only amongst NON completed. SHOULD BE ONLY amongst assigned (???)
     users = users.filter(function(value,index) { return value["status"]  !== "completed"; });
 
-    for (var i = 0; i < users.length; i++) {
+    max_sec = date_to_mil(max_time);
+    actual_time = new Date().toISOString().slice(0, 19);
 
-      max_sec = date_to_mil(max_time);
-      actual_time = new Date().toISOString().slice(0, 19);
+    for (var i = 0; i < users.length; i++) {
       DBtime = users[i].start_date.replace(" ","T"); // Date already stored in ISO format
       seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
 
@@ -203,6 +192,11 @@ function clean_mysql(){
           }
         });
 
+        XMLcall("findRow", "combination_between", {keys: ["id_user", "id_protocol"], values: [users[i].id_user, pid]}).then(function(actual_combination) {
+          if ("id_combination" in actual_combination)
+            XMLcall("updateTable", "combination_between", {id: {"id_combination": actual_combination.id_combination}, data: {"assigned": 0}});
+        })
+
         if (debug_mode === true) console.warn('clean_mysql() || seconds_since_start > max_sec && users[i].status == "assigned" || UPDATE || status: discarded, counter - 1, for(assigned_task - 1) | users.id_user: ' + users[i].id_user + '(uid_external ' + users[i].uid_external + ')');
 
       }
@@ -210,7 +204,6 @@ function clean_mysql(){
   }, function (error) {
     if (debug_mode === true) console.warn("User Table not found");
   });
-
 }
 
 // load_clean_mysql() ----------------------------------------------------------
@@ -236,8 +229,8 @@ function load_clean_mysql(iterations_for_review, max_participants) {
         clean_mysql();
       }
     }, function () {
-      if (debug_mode === true) console.warn("protocol table not found")
-    })
+      if (debug_mode === true) console.warn("protocol table not found");
+    });
 
     // Update blocked conditions based on assigned_task >= max_participants
     for (var i = 0; i < condition_data.length; i++) {
@@ -261,6 +254,45 @@ function load_clean_mysql(iterations_for_review, max_participants) {
 }
 
 // condition_selection() --------------------------------------------------------
+// select combination from combination_between if there is 2 or more conditions otherwise return a empty array
+function select_combination(feasible_combinations) {
+  console.warn("select_combination")
+  return new Promise(
+    function(resolve, reject) {
+      XMLcall("findAll", "combination_between", {keys: ["id_protocol", "assigned"], values: [pid, 1]}).then(function(all_combinations) {
+        permited_list = [];
+
+        if (feasible_combinations.length > 0) {
+          combination_counter = all_combinations.reduce(function (acc, curr, index, vector) {
+            return (acc[curr["combination"]] ? ++acc[curr["combination"]] : acc[curr["combination"]] = 1, acc)
+          }, {});
+
+          minimun = -1;
+          // retorna la lista de permited list cuando recién se crea el protocolo, en caso de que esto esté vacío, implicará que están todas en el servidor
+          permited_list = feasible_combinations.filter(function (value, index) {
+            if (minimun == -1) { minimun = combination_counter[value] }
+            else { if (minimun > combination_counter[value]) { minimun = combination_counter[value] } }
+            return Object.keys(combination_counter).indexOf(value) == -1; 
+          });
+
+          // cuando ya tenemos todas las combinaciones, el array estará vacío así que pasamos a esta sección
+          if (feasible_combinations != 0 && permited_list.length == 0) {
+            permited_list = feasible_combinations;
+            permited_list = feasible_combinations.filter(function (value, index) { 
+              return combination_counter[value] == minimun; 
+            });
+          }
+          //select 1 combination:
+          permited_list = permited_list[Math.floor(Math.random()*permited_list.length)].split("|");
+        }
+
+        resolve(permited_list);
+      }, function (error) {
+        console.warn("select_combination error");
+      })
+    }
+  )
+}
 
 // Get conditions for NEW participants or recover conditions from DB for OLD participants (Works as promise so it's synchronic)
 // RETURNS true if there are slots available, false if not.
@@ -273,7 +305,6 @@ function condition_selection(between_selection_temp = {}) {
     function(resolve, reject) {
 
       XMLcall("findAll", "experimental_condition").then(function(condition_data) {
-
 
         // [[NEW PARTICIPANTS]] ----------------------------------------------
         // -------------------------------------------------------------------
@@ -290,49 +321,80 @@ function condition_selection(between_selection_temp = {}) {
         // Does not have a between_selection value [NEW PARTICIPANT]
         if (Object.keys(between_selection_temp).length === 0) {
 
-          condition_data_temp = [];
-          ARRAY_between_temp = [];
+          // feasible combinations, needed to know if we can to assign a combination of conditions
+          feasible_combinations = combinations_from_dict(all_conditions)
 
-          // Get array with unique between tasks (we need to select one condition for each one)
-          unique_between_tasks = [...new Set(condition_data.map(item => item.task_name))];
+          // combination counter
+          select_combination(feasible_combinations).then(function (permited_list) {
 
-          // REVIEW: With all_conditions = {}; it will never enter the for loop, and condition_selection() was not giving any response, freezing the protocol
-          if (unique_between_tasks.length === 0) {
+            ARRAY_between_temp = [];
 
-            if (debug_mode === true) console.error('condition_selection() | unique_between_tasks EMPTY | No between_tasks defined | continuing: we assume is a protocol without between conditions');
-            resolve(true);
+            // Get array with unique between tasks (we need to select one condition for each one)
+            unique_between_tasks = [...new Set(condition_data.map(item => item.task_name))];
 
-          } else {
+            // REVIEW: With all_conditions = {}; it will never enter the for loop, and condition_selection() was not giving any response, freezing the protocol
+            if (unique_between_tasks.length === 0) {
 
-            // For each of the between tasks (usually just one)
-            for (var i = 0; i < unique_between_tasks.length; i++) {
+              if (debug_mode === true) console.error('condition_selection() | unique_between_tasks EMPTY | No between_tasks defined | continuing: we assume is a protocol without between conditions');
+              resolve(true);
 
-              // Temporal array for the condition i
-              ARRAY_between_temp[i] = condition_data.filter(function(value,index) { return value["task_name"] === unique_between_tasks[i]; });
+            } else {
+
+              // just get the first between task in the list
+              first_between_task = unique_between_tasks[0]
+            
+              // obtaining assigned tasks counter for any condition in this task
+              for (var j = 0; j < condition_data.length; j++) {
+                if (condition_data[j].task_name == first_between_task) {
+                  condition_data[j].assigned_task = parseInt( condition_data[j].assigned_task );
+                }
+              }
+
+              // Temporal array for the condition i -> it will contain all the conditions for the task i separated by condition_key
+              ARRAY_between_temp = groupBy(condition_data.filter(
+                function(value, index) {
+                  return (value["task_name"] === first_between_task);
+                }
+              ), "condition_key");
+
+              available_conditions_ARRAY = [];
+              
+              // from array ARRAY_between_temp ([0]) we obtain the dict of any condition for the actual task -> [{id_condition:...},{id_condition:...}] only for the first key (if we have 2 keys, like type and recommendation we focus only in one of them)
+              stored_between_data = (Object.values(ARRAY_between_temp)[0])
 
               // Min number of participants assigned to a condition (assigned_task in array)
-              min_assigned_temp = Math.min.apply(Math, ARRAY_between_temp[i].map(function(value,index) { return value["assigned_task"]; }));
+              min_assigned_temp = Math.min.apply(Math, stored_between_data.map(function(value,index) { return value["assigned_task"]; }));
 
               // Filter array so only the rows where assigned_task is <= min_assigned_temp AND < max_participants remain
               // If there are more than one condition with the same number of assigned participants, we get one of them randomly
-              available_conditions_ARRAY = ARRAY_between_temp[i].filter(function(value,index) { return value["assigned_task"] <= min_assigned_temp &&  value["assigned_task"] < max_participants; });
+              available_conditions_ARRAY = (stored_between_data.filter(function(value, index) { return (value["assigned_task"] <= min_assigned_temp && value["assigned_task"] < max_participants);}));
+
+              available_conditions_ARRAY = [].concat(...Object.values(available_conditions_ARRAY))
 
               // Only randomize when there are available conditions, otherwise, sampleWithoutReplacement gives an error
               if (available_conditions_ARRAY.length > 0) {
                 if (debug_mode === true) console.warn("condition_selection() | Choosing between the " + available_conditions_ARRAY.length + " conditions available.");
-                randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(available_conditions_ARRAY.length).fill().map((element, index) => index), 1);
-                condition_data_temp = available_conditions_ARRAY[randomly_selected_index];
 
-                if (debug_mode === true) {
-                  // Create simple versions to print in console
-                  SIMPLE_ARRAY = ARRAY_between_temp[0].map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
-                  SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
-                  available_conditions_SIMPLE_ARRAY = available_conditions_ARRAY.map(function(item){return {"task_name": [item.task_name], "condition_name": [item.condition_name], "assigned_task": [item.assigned_task], "completed_protocol": [item.completed_protocol]};})
-                  available_conditions_SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(available_conditions_SIMPLE_ARRAY)).replace(/","1\.|","2\./, ' \n ').replace(/0\.|\.0|1\.|\.1|2\.|\.2/g, '')
+                grouped_avaliable_conditions = groupBy(available_conditions_ARRAY, "condition_key");
+                condition_data_temp = [];
 
-                  if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " All conditions: \n " + SIMPLE_ARRAY_CHR);
-                  if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " Available conditions: \n " + available_conditions_SIMPLE_ARRAY_CHR);
-                  if (debug_mode === true) console.warn("Selected condition: " + available_conditions_ARRAY[randomly_selected_index].condition_name);
+                for (let avaliable_condition in grouped_avaliable_conditions) {
+
+                  randomly_selected_index = jsPsych.randomization.sampleWithoutReplacement(Array(grouped_avaliable_conditions[avaliable_condition].length).fill().map((element, index) => index), 1);
+
+                  condition_data_temp.push(grouped_avaliable_conditions[avaliable_condition][randomly_selected_index]);
+
+                  if (debug_mode === true) {
+                    // Create simple versions to print in console
+                    SIMPLE_ARRAY = [].concat(...Object.values(ARRAY_between_temp)).map(function(item){return { task_name: [item.task_name], condition_name: [item.condition_name], assigned_task: [item.assigned_task], completed_protocol: [item.completed_protocol]};});
+                    SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(SIMPLE_ARRAY)).replace(/","1\.|","2\./, " \n ").replace(/0\.|\.0|1\.|\.1|2\.|\.2/g,"");
+                    available_conditions_SIMPLE_ARRAY = grouped_avaliable_conditions[avaliable_condition].map(function(item){return {task_name: [item.task_name],condition_name: [item.condition_name],assigned_task: [item.assigned_task],completed_protocol: [item.completed_protocol]};});
+                    available_conditions_SIMPLE_ARRAY_CHR = JSON.stringify(flattenObject(available_conditions_SIMPLE_ARRAY)).replace(/","1\.|","2\./, " \n ").replace(/0\.|\.0|1\.|\.1|2\.|\.2/g,"");
+
+                    if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " All conditions: \n " + SIMPLE_ARRAY_CHR);
+                    if (debug_mode === true) console.warn(new Date().toISOString().slice(0, 19) + " Available conditions: \n " + available_conditions_SIMPLE_ARRAY_CHR);
+                    if (debug_mode === true) console.warn("Selected condition: " + grouped_avaliable_conditions[avaliable_condition][randomly_selected_index].condition_name);
+                  }
                 }
 
               } else {
@@ -340,8 +402,8 @@ function condition_selection(between_selection_temp = {}) {
               }
 
               // FINAL CHECKS FOR NEW PARTICIPANTS ------
-              // No slots available
-              if (condition_data_temp === undefined || condition_data_temp.length == 0) {
+              // No slots available, no condition data or condition data is below than condition of the task
+              if (condition_data_temp === undefined || condition_data_temp.length < Object.keys(grouped_avaliable_conditions).length) {
                 experiment_blocked = true;
                 condition_temp_array = [false]; // REVIEW: Needed here?
                 if (debug_mode === true) console.warn('condition_selection() | Final check NEW | No slots available'); // Ends up in jsPsych.end
@@ -351,15 +413,32 @@ function condition_selection(between_selection_temp = {}) {
               // Slots available
               } else {
                 // DEFINE VALUE OF between_selection{}
-                between_selection[unique_between_tasks[i]] = [condition_data_temp["condition_name"]];
+                between_selection[first_between_task] = {};
+
+                if (permited_list.length !== 0) {
+                  //selected_combination = permited_list.filter(function (value, index) { return value.includes(condition_data_temp[0]["condition_name"]); })[0].split("|");
+                  for (actual_task_name in all_conditions) {
+                    for (actual_condition_key in all_conditions[actual_task_name]){
+                      for (actual_condition_name of all_conditions[actual_task_name][actual_condition_key]) {
+                        if (permited_list.includes(actual_condition_name)) {
+                          between_selection[actual_task_name][actual_condition_key] = actual_condition_name;
+                        }
+                      }
+                    }
+                  }
+                } else {
+                  // basic asignation to between_selection if there is one condition
+                  between_selection[first_between_task][condition_data_temp[0]["condition_key"]] = condition_data_temp[0]["condition_name"];
+                }
+
                 experiment_blocked = false;
                 condition_temp_array = [true]; // REVIEW: Needed here?
-                if (debug_mode === true) console.warn('condition_selection() | Final check NEW | Available slots');
+                if (debug_mode === true) console.warn("condition_selection() | Final check NEW | Available slots");
                 resolve(true);
               }
             } // End of for
 
-          }
+          })
 
         // [[DISCARDED PARTICIPANTS]] ----------------------------------------
         // -------------------------------------------------------------------
@@ -379,12 +458,12 @@ function condition_selection(between_selection_temp = {}) {
               if (debug_mode === true) console.warn("condition_selection() | forEach CHECK if there are available conditions to re-assign the discarded participant");
 
               // Filter those conditions where we have available slots. Create temporal list with true for available slots
-              condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
+              condition_temp_array.push(condition_data.filter(function(value,index) { return (key == value["task_name"] && val[value["condition_key"]] == value["condition_name"] && value["assigned_task"] < max_participants); }).length > 0);
             });
 
             // REVIEW: ALTERNATIVE to the forEach. Would NEED an if // Commented out. Gives ERROR:'between_selection_temp.map is not a function'
             // condition_temp_array = between_selection_temp.map(function (condition, index, array) { return (condition in between_selection_temp); });
-            if (debug_mode === true) console.log(between_selection_temp);
+            if (debug_mode === true) console.warn(between_selection_temp);
             // ??? if (typeof between_selection_temp !== 'undefined')
             // ??? condition_temp_array = between_selection_temp[0].map(function (condition, index, array) { return (condition in between_selection_temp); });
             // if(Object.keys(between_selection_temp).length === 0)
@@ -399,21 +478,25 @@ function condition_selection(between_selection_temp = {}) {
 
               // DO THIS BECAUSE LATTER IT WILL BE NEADED
               // UPDATE status: discarded  & protocol: counter -1
-              XMLcall("updateTable", "user", {id: {"id_user": users[i].id_user}, data: {"status": "discarded"}});
+              XMLcall("updateTable", "user", {id: {"id_user": actual_user.id_user}, data: {"status": "discarded"}});
               XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter - 1"}});
 
               // UPDATE assigned_task -1 for each between_selection condition
-              XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [users[i].id_user]}).then(function(user_conditions) {
+              XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [actual_user.id_user]}).then(function(user_conditions) {
                 for (var i = 0; i < user_conditions.length; i++) {
                   XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
-                  }
-                  });
-                // This is to trick the if (condition_data_temp === undefined || condition_data_temp.length == 0)
-                condition_temp_array = [];
-                condition_temp_array = [true];
+                }
+              });
 
+              XMLcall("findRow", "combination_between", {keys: ["id_user", "id_protocol"], values: [actual_user.id_user, pid]}).then(function(actual_combination) {
+                if ("id_combination" in actual_combination)
+                  XMLcall("updateTable", "combination_between", {id: {"id_combination": actual_combination.id_combination}, data: {"assigned": 0}});
+              })
+
+              // This is to trick the if (condition_data_temp === undefined || condition_data_temp.length == 0)
+              condition_temp_array = [];
+              condition_temp_array = [true];
             }
-
 
             // FINAL CHECKS FOR condition_selection() ------
             if (typeof condition_temp_array !== 'undefined' && condition_temp_array.includes(false)) {
@@ -437,6 +520,20 @@ function condition_selection(between_selection_temp = {}) {
   );
 }
 
+// condition task assignation + 1
+function assign_condition_counter(selected_between_selection) {
+  XMLcall("findAll", "experimental_condition").then(function(condition_data) {
+    // ADD TO experimental_condition / assigned_task
+    for (actual_task_name of Object.keys(selected_between_selection)) {
+      for (actual_condition_key of Object.keys(selected_between_selection[actual_task_name])) {
+        actual_selected_condition = condition_data.find((element) => element.condition_key == actual_condition_key && element.condition_name == between_selection[actual_task_name][actual_condition_key]);
+        console.log(actual_selected_condition.condition_name)
+        XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_selected_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
+      }
+    }
+  })
+  if (debug_mode === true) console.warn('assign_condition_counter() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
+}
 
 
 
@@ -474,210 +571,211 @@ function check_id_status(event) {
 
 
     // gets experimental_condition table. Checks if there are available slots
-    XMLcall("findAll", "experimental_condition").then(function(condition_data) {
+    //XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
-      // Look for uid_external in user table
-      XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
+    // Look for uid_external in user table
+    XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
 
 
-        // [[NEW PARTICIPANT]] (uid_external not in DB) -------------------------------
-        // ---------------------------------------------------------------------
+      // [[NEW PARTICIPANT]] (uid_external not in DB) -------------------------------
+      // ---------------------------------------------------------------------
 
-        if (Object.keys(actual_user).length === 0 && actual_user.constructor === Object) {
+      if (Object.keys(actual_user).length === 0 && actual_user.constructor === Object) {
 
-          if (debug_mode === true) console.warn("check_id_status() | NEW participant " + new Date().toISOString().slice(0, 19));
+        if (debug_mode === true) console.warn("check_id_status() | NEW participant " + new Date().toISOString().slice(0, 19));
 
-          uid = 0;
-          text_input_uid.innerHTML = new_participant_message;
+        uid = 0;
+        text_input_uid.innerHTML = new_participant_message;
 
-          // Assign a value to between_selection (if slots available)
-          condition_selection().then(function(accepted) {
-            // accepted == we have available slots
-            if (accepted) {
-              script_loading("tasks", all_tasks, completed_experiments, true); // LOAD all the tasks. This also loads the between participants conditions
-              console.warn("NEW participant | available slots");
-            } else {
-              if (debug_mode === true) console.warn("check_id_status() | NEW participant | condition_selection returned false");
-              console.warn("NEW participant | no available slots");
+        // Assign a value to between_selection (if slots available)
+        condition_selection().then(function(accepted) {
+          // accepted == we have available slots
+          if (accepted) {
+            script_loading("tasks", all_tasks, completed_experiments); // LOAD all the tasks. This also loads the between participants conditions
+            console.warn("NEW participant | available slots");
+          } else {
+            if (debug_mode === true) console.warn("check_id_status() | NEW participant | condition_selection returned false");
+            console.warn("NEW participant | no available slots");
+          }
+        });
+
+
+      // [[OLD PARTICIPANT]] (uid_external is in DB) --------------------------------
+      // Can be assigned, discarded or completed
+      // ---------------------------------------------------------------------
+
+      } else {
+
+        if (debug_mode === true) console.warn("check_id_status() | OLD participant");
+
+        // Fetch internal DB uid
+        uid = actual_user.id_user;
+
+        // Make user_start_date a global variable so we can use it in continue_page_activation()
+        globalThis.user_start_date = actual_user.start_date;
+
+
+        // assigned OR discarded but recoverable (accept_discarded = true)
+        if (actual_user.status == "assigned" || (actual_user.status == "discarded" && accept_discarded)) {
+
+          // GET **between_selection** conditions for the particicipant from the DB (so she can continue where she left off)
+          XMLcall("condition_selection", "", {id: {"id_user": uid}}).then(function (between_selection_temp){
+            // between_selection_temp = [{"FONDECYT": ['Text']}]
+
+
+            // RECOVER between_selection from the DB ----------------------------------------
+            // ------------------------------------------------------------------------------
+            // Right now:  between_selection = {} (comes from helper_functions.js)
+            if(debug_mode === true) console.warn("check_id_status() || between_selection (showing only first): '" + Object.values(between_selection_temp[0])[0] + "'");
+
+            // EXAMPLES of the variable structure
+            /* // DEBUG, to get to present state (choose one of the following between_selection definitions)
+            between_selection = {"FONDECYT": ['Text']}
+            between_selection = {"FONDECYT": ['Text'], "TASK2": ['condition2']}
+            between_selection_temp = [between_selection]
+            between_selection = {}
+            */
+
+            // REVIEW: Does not work if more than one between. e.g.  {"FONDECYT": ['Text'], "TASK2": ['condition2']}
+            // EXPLAIN goal of this loop
+            for (var i = 0; i < between_selection_temp.length; i++) {
+              let actual_task = Object.keys(between_selection_temp[i])[0];
+              let actual_condition_key = between_selection_temp[i][actual_task]["condition_key"];
+              let actual_condition = between_selection_temp[i][actual_task]["condition_name"];
+
+              // If the task exists in between_selection, add to array, else create array
+              if (!(actual_task in between_selection))
+                between_selection[actual_task] = {}
+              between_selection[actual_task][actual_condition_key] = actual_condition;
             }
+
+            //console.warn(between_selection);
+
+            // ------------------------------------------------------------------------------
+            // ------------------------------------------------------------------------------
+
+            // Vars to CHECK if over time (seconds_since_start > max_sec)
+            max_sec = date_to_mil(max_time);
+            actual_time = new Date().toISOString().slice(0, 19);
+            DBtime = actual_user.start_date.replace(" ","T"); // Date already stored in ISO format
+            seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
+
+
+
+            // [[ASSIGNED PARTICIPANT inside time limit]] ---------------------------
+
+            if (actual_user.status == "assigned" && seconds_since_start < max_sec) {
+
+              if (debug_mode === true) console.warn("check_id_status() | ASSIGNED participant & seconds_since_start < max_sec");
+              user_assigned = true;
+              text_input_uid.innerHTML = status_loading_message;
+
+
+            // [[DISCARDED PARTICIPANT & accept_discarded || ASSIGNED out of time & accept_discarded]] ----------------------------------------------------------------
+
+            } else if (actual_user.status == "discarded" && accept_discarded === true || (actual_user.status == "assigned" && seconds_since_start > max_sec & accept_discarded === true)) {
+            // OLD: if (actual_user.status == "discarded" & accept_discarded === true || (seconds_since_start > max_sec && actual_user.status == "assigned" & accept_discarded === true)) {
+
+              if (debug_mode === true) console.warn("check_id_status() || DISCARDED participant & accept_discarded OR ASSIGNED out of time & accept_discarded || actual_user.status: " + actual_user.status + " || out of time: " +  (seconds_since_start > max_sec));
+
+              // CHECK if we have available slots for the participant's between_selection
+              condition_selection(between_selection).then(function(accepted) {
+
+                if (debug_mode === true) console.warn("check_id_status() || Inside condition_selection(). accepted: " + accepted);
+
+                // If condition_selection() shows there is available slots, re-assign participant and reset start_date
+                if (accepted) {
+
+                  if (debug_mode === true) console.warn("check_id_status() || OLD user || condition_selection() returned true");
+
+                  // Reset starting date to NOW. Update global user_start_date so it can be shown in the screen
+                  globalThis.user_start_date = actual_time;
+
+                  // UPDATE status to assigned in table user, update start_date, update counter
+                  // TODO: The user table updates should be a single call (?)
+                  XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
+                  XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"start_date": actual_time}});
+                  XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
+
+                  // UPDATE: assigned_task + 1 for each between_selection variable
+                  for (var [key, value] of Object.entries(between_selection)) {
+                    for (var i = 0; i < value.length; i++) {
+                      XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [value[i]]}).then(function(actual_condition) {
+                        XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
+                      });
+                    }
+                  }
+
+                  XMLcall("findRow", "combination_between", {keys: ["id_user", "id_protocol"], values: [uid, pid]}).then(function(actual_combination) {
+                    if ("id_combination" in actual_combination)
+                      XMLcall("updateTable", "combination_between", {id: {"id_combination": actual_combination.id_combination}, data: {"assigned": 1}});
+                  })
+
+                  if (debug_mode === true) console.warn('check_id_status() | UPDATE | status: assigned, start_date: actual_time, counter + 1, assigned_task + 1 | actual_user.status == "discarded" & accept_discarded === true || (seconds_since_start > max_sec && actual_user.status == "assigned" & accept_discarded === true) --> condition_selection(accepted)');
+                  console.warn("OLD participant | available slots, re-assign");
+                  text_input_uid.innerHTML = discarded_user_message;
+
+                  // LOAD all the tasks
+                  script_loading("tasks", all_tasks, completed_experiments);
+                  user_assigned = true;
+
+                } else {
+                  if (debug_mode === true) console.warn("check_id_status() || OLD user || condition_selection() returned false");
+                  console.warn("OLD participant | no available slots");
+                }
+              });
+
+            // [[ELSE - IMPOSSIBLE CONDITION (?)]] ----------------------
+
+              // We are in actual_user.status == "assigned" || (actual_user.status == "discarded" && accept_discarded)
+              // We are catching:
+              //  - assigned (over and under time)
+              //  - discarded & accept discarded
+              //  - ELSE is: assigned without time variable or accept_discarded nt defined ?
+
+            } else {
+
+              if (debug_mode === true) console.warn("check_id_status() | IMPOSSIBLE CONDITION");
+              // jsPsych.endExperiment WON'T work here. jsPsych not defined yet. WHY?
+              text_input_uid.innerHTML = discarded_user_no_time_message;
+
+              // throw ERROR so don't get to the following script_loading()
+              throw new Error('check_id_status() | IMPOSSIBLE CONDITION')
+            }
+
+
+            // IF REACHED HERE: GET TASKS LIST AND script_loading() ----------
+            completed_experiments = [];
+
+            // Single call to get the tasks names
+            XMLcall(query = "general_query", table_name = "", elements = {sql: {"sql_call": "SELECT task.task_name FROM user LEFT JOIN user_task USING (id_user) LEFT JOIN task USING (id_task)"}, id: {"id_user": uid}}).then(function(tasks_list) {
+
+              if (debug_mode === true) console.warn("check_id_status() [[ completed_experiments: " + completed_experiments.length + " || all_tasks: " + all_tasks.length + " ]]")
+              completed_experiments =  tasks_list.map(a => a.task_name); // Extract all elements of object answer to completed_experiments
+              script_loading("tasks", all_tasks, completed_experiments);
+            });
+            // ---------------------------------------------------------------
+
           });
 
-
-        // [[OLD PARTICIPANT]] (uid_external is in DB) --------------------------------
-        // Can be assigned, discarded or completed
-        // ---------------------------------------------------------------------
-
+        // [[COMPLETED PARTICIPANT]] *************************************
+        } else if (actual_user.status == "completed") {
+          console.warn("OLD participant | already completed the protocol");
+          //jsPsych.endExperiment("check_id_status() | completed");
+          text_input_uid.innerHTML = completed_user_message;
+        // [[DISCARDED PARTICIPANT (!accept_discarded) ]] *****************
         } else {
-
-          if (debug_mode === true) console.warn("check_id_status() | OLD participant");
-
-          // Fetch internal DB uid
-          uid = actual_user.id_user;
-
-          // Make user_start_date a global variable so we can use it in continue_page_activation()
-          globalThis.user_start_date = actual_user.start_date;
-
-
-          // assigned OR discarded but recoverable (accept_discarded = true)
-          if (actual_user.status == "assigned" || (actual_user.status == "discarded" && accept_discarded)) {
-
-            // GET **between_selection** conditions for the particicipant from the DB (so she can continue where she left off)
-            XMLcall("condition_selection", "", {id: {"id_user": uid}}).then(function (between_selection_temp){
-              // between_selection_temp = [{"FONDECYT": ['Text']}]
-
-
-              // RECOVER between_selection from the DB ----------------------------------------
-              // ------------------------------------------------------------------------------
-              // Right now:  between_selection = {} (comes from helper_functions.js)
-              if(debug_mode === true) console.warn("check_id_status() || between_selection (showing only first): '" + Object.values(between_selection_temp[0])[0] + "'");
-
-              // EXAMPLES of the variable structure
-              /* // DEBUG, to get to present state (choose one of the following between_selection definitions)
-              between_selection = {"FONDECYT": ['Text']}
-              between_selection = {"FONDECYT": ['Text'], "TASK2": ['condition2']}
-              between_selection_temp = [between_selection]
-              between_selection = {}
-              */
-
-              // REVIEW: Does not work if more than one between. e.g.  {"FONDECYT": ['Text'], "TASK2": ['condition2']}
-              // EXPLAIN goal of this loop
-              for (var i = 0; i < between_selection_temp.length; i++) {
-                let actual_task = Object.keys(between_selection_temp[i])[0];
-                let actual_condition = Object.values(between_selection_temp[i])[0];
-
-                // If the task exists in between_selection, add to array, else create array
-                if (actual_task in between_selection) {
-                  between_selection[actual_task].push(actual_condition);
-                } else {
-                  between_selection[actual_task] = [actual_condition];
-                }
-              }
-
-              // console.log(between_selection);
-
-              // ------------------------------------------------------------------------------
-              // ------------------------------------------------------------------------------
-
-              // Vars to CHECK if over time (seconds_since_start > max_sec)
-              max_sec = date_to_mil(max_time);
-              actual_time = new Date().toISOString().slice(0, 19);
-              DBtime = actual_user.start_date.replace(" ","T"); // Date already stored in ISO format
-              seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
-
-
-
-              // [[ASSIGNED PARTICIPANT inside time limit]] ---------------------------
-
-              if ((actual_user.status == "assigned" && seconds_since_start < max_sec)) {
-
-                if (debug_mode === true) console.warn("check_id_status() | ASSIGNED participant & seconds_since_start < max_sec");
-                user_assigned = true;
-                text_input_uid.innerHTML = status_loading_message;
-
-
-              // [[DISCARDED PARTICIPANT & accept_discarded || ASSIGNED out of time & accept_discarded]] ----------------------------------------------------------------
-
-              } else if (actual_user.status == "discarded" && accept_discarded === true || (actual_user.status == "assigned" && seconds_since_start > max_sec & accept_discarded === true)) {
-              // OLD: if (actual_user.status == "discarded" & accept_discarded === true || (seconds_since_start > max_sec && actual_user.status == "assigned" & accept_discarded === true)) {
-
-                if (debug_mode === true) console.warn("check_id_status() || DISCARDED participant & accept_discarded OR ASSIGNED out of time & accept_discarded || actual_user.status: " + actual_user.status + " || out of time: " +  (seconds_since_start > max_sec));
-
-                // CHECK if we have available slots for the participant's between_selection
-                condition_selection(between_selection).then(function(accepted) {
-
-                  if (debug_mode === true) console.warn("check_id_status() || Inside condition_selection(). accepted: " + accepted);
-
-                  // If condition_selection() shows there is available slots, re-assign participant and reset start_date
-                  if (accepted) {
-
-                    if (debug_mode === true) console.warn("check_id_status() || OLD user || condition_selection() returned true");
-
-                    // Reset starting date to NOW. Update global user_start_date so it can be shown in the screen
-                    globalThis.user_start_date = actual_time;
-
-                    // UPDATE status to assigned in table user, update start_date, update counter
-                      // TODO: The user table updates should be a single call (?)
-                    XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "assigned"}});
-                    XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"start_date": actual_time}});
-                    XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
-
-                    // UPDATE: assigned_task + 1 for each between_selection variable
-                    for (var [key, value] of Object.entries(between_selection)) {
-                      for (var i = 0; i < value.length; i++) {
-                        XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [value[i]]}).then(function(actual_condition) {
-                          XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-                        });
-                      }
-                    }
-
-                    if (debug_mode === true) console.warn('check_id_status() | UPDATE | status: assigned, start_date: actual_time, counter + 1, assigned_task + 1 | actual_user.status == "discarded" & accept_discarded === true || (seconds_since_start > max_sec && actual_user.status == "assigned" & accept_discarded === true) --> condition_selection(accepted)');
-                    console.warn("OLD participant | available slots, re-assign");
-                    text_input_uid.innerHTML = discarded_user_message;
-
-                    // LOAD all the tasks
-                    script_loading("tasks", all_tasks, completed_experiments, true);
-                    user_assigned = true;
-
-                  } else {
-                    if (debug_mode === true) console.warn("check_id_status() || OLD user || condition_selection() returned false");
-                    console.warn("OLD participant | no available slots");
-                  }
-                });
-
-
-              // [[ELSE - IMPOSSIBLE CONDITION (?)]] ----------------------
-
-                // We are in actual_user.status == "assigned" || (actual_user.status == "discarded" && accept_discarded)
-                // We are catching:
-                //  - assigned (over and under time)
-                //  - discarded & accept discarded
-                //  - ELSE is: assigned without time variable or accept_discarded nt defined ?
-
-              } else {
-
-                if (debug_mode === true) console.warn("check_id_status() | IMPOSSIBLE CONDITION");
-                // jsPsych.endExperiment WON'T work here. jsPsych not defined yet. WHY?
-                text_input_uid.innerHTML = discarded_user_no_time_message;
-
-                // throw ERROR so don't get to the following script_loading()
-                throw new Error('check_id_status() | IMPOSSIBLE CONDITION')
-              }
-
-
-              // IF REACHED HERE: GET TASKS LIST AND script_loading() ----------
-              completed_experiments = [];
-
-              // Single call to get the tasks names
-              XMLcall(query = "general_query", table_name = "", elements = {sql: {"sql_call": "SELECT task.task_name FROM user LEFT JOIN user_task USING (id_user) LEFT JOIN task USING (id_task)"}, id: {"id_user": uid}}).then(function(tasks_list) {
-
-               if (debug_mode === true) console.warn("check_id_status() [[ completed_experiments: " + completed_experiments.length + " || all_tasks: " + all_tasks.length + " ]]")
-                completed_experiments =  answer.map(a => a.task_name); // Extract all elements of object answer to completed_experiments
-                script_loading("tasks", all_tasks, completed_experiments);
-
-              });
-              // ---------------------------------------------------------------
-
-            });
-
-          // [[COMPLETED PARTICIPANT]] *************************************
-          } else if (actual_user.status == "completed") {
-            console.warn("OLD participant | already completed the protocol");
-            //jsPsych.endExperiment("check_id_status() | completed");
-            text_input_uid.innerHTML = completed_user_message;
-
-          // [[DISCARDED PARTICIPANT (!accept_discarded) ]] *****************
-          } else  {
-            console.warn("OLD participant | discarded (!accept_discarded)");
-            //jsPsych.endExperiment("check_id_status() | else");
-            text_input_uid.innerHTML = discarded_user_no_time_message;
-          }
-        } // user in DB
-      }, function (error) {
-        console.warn("User search error");
-      }); // uid_external in user table
-      //}; completed_protocol_filtered.length == 0
-    }); // Available slots XMLcall
-     // online / offline
+          console.warn("OLD participant | discarded (!accept_discarded)");
+          //jsPsych.endExperiment("check_id_status() | else");
+          text_input_uid.innerHTML = discarded_user_no_time_message;
+        }
+      } // user in DB
+    }, function (error) {
+      console.warn("User search error");
+    }); // uid_external in user table
+    //}; completed_protocol_filtered.length == 0
+  //}); // Available slots XMLcall
+    // online / offline
   } // valid uid
 }
 
@@ -691,21 +789,17 @@ function check_id_status(event) {
   // - If we can recover it, re-assign
   // - If we can't recover it, discard (status discarded, assigned_task -1, etc.)
 
-function completed_task_storage(csv, task) {
+function completed_task_storage(task) {
 
   if (debug_mode === true) console.warn("completed_task_storage()");
 
-  if (task == all_tasks[all_tasks.length - 1]) {
-    last_task = true;
-  } else {
-    last_task = false;
-  }
+  last_task = task == all_tasks[all_tasks.length - 1];
 
   actual_time = new Date().toISOString().slice(0, 19);
 
 
   // [[NEW OR DISCARDED]] -------------------------------------------------------
-      // User NOT assigned and experiment NOT blocked
+  // User NOT assigned and experiment NOT blocked
 
   // user_assigned comes from check_id_status(). REVIEW: Should be passed through the function? Same with experiment_blocked
   if (!user_assigned && !experiment_blocked) {
@@ -730,11 +824,7 @@ function completed_task_storage(csv, task) {
               if (!(condition_data[i].task_name in all_conditions_tasks)) {
                 all_conditions_tasks[condition_data[i].task_name] = false;
               }
-              if (condition_data[i].assigned_task >= max_participants) {
-                condition_data[i].blocked = true;
-              } else {
-                condition_data[i].blocked = false;
-              }
+              condition_data[i].blocked = (condition_data[i].assigned_task >= max_participants) ? true : false;
               if (all_conditions_tasks[condition_data[i].task_name] == false) {
                 if (condition_data[i].blocked == false)
                   all_conditions_tasks[condition_data[i].task_name] = true;
@@ -773,6 +863,12 @@ function completed_task_storage(csv, task) {
                   });
                 }
               }
+
+              XMLcall("findRow", "combination_between", {keys: ["id_user", "id_protocol"], values: [uid, pid]}).then(function(actual_combination) {
+                if ("id_combination" in actual_combination)
+                  XMLcall("updateTable", "combination_between", {id: {"id_combination": actual_combination.id_combination}, data: {"assigned": 1}});
+              })
+
               if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | status: assigned, start_date: actual_time, counter + 1, assigned_task + 1 | !user_assigned && !experiment_blocked --> actual_user.status == "discarded" --> !protocol_blocked && accept_discarded');
 
             } else {
@@ -811,6 +907,13 @@ function completed_task_storage(csv, task) {
           // IN protocols WITHOUT between vars, we need the protocol_blocked = false by default, but it causes issues in protocols with between vars (corner cases)
           if (Object.keys(between_selection).length == 0) protocol_blocked = false;
 
+          all_conditions_size = 0;
+          
+          Object.entries(all_conditions).forEach(([key, value]) => {
+            all_conditions_size += Object.keys(all_conditions[key]).length;
+          })
+          console.log(all_conditions_size)
+
           // For each of the between tasks (usually just one), assigned_task + 1
             // REVIEW: With multiple between conditions, there must be slots in all or none of the conditions, right?
           for (var i = 0; i < Object.keys(between_selection).length; i++) {
@@ -818,28 +921,33 @@ function completed_task_storage(csv, task) {
             if (debug_mode == true) console.warn("completed_task_storage() || LOOP between_selection");
             if (debug_mode == true) console.warn(between_selection);
 
-            // CHECK if available slots
-            completed_protocol_filtered = condition_data.filter(function(value,index) {return value["assigned_task"] < max_participants && value["condition_name"] === between_selection[Object.keys(between_selection)[i]][0]});
+            Object.keys(between_selection[Object.keys(between_selection)[i]]).forEach( selection => {
+              // CHECK if available slots
+              completed_protocol_filtered = condition_data.filter(function(value,index) {
+                return ((value["condition_name"] == (between_selection[Object.keys(between_selection)[i]][selection])) && (value["condition_key"] == selection) && (value["assigned_task"] < max_participants) && (value["task_name"] == Object.keys(between_selection)[i]));
+              });
 
-            // Available slots
-            if (completed_protocol_filtered.length > 0) {
+              // Available slots
+              if (completed_protocol_filtered.length > 0) {
 
-              selected_id_condition = completed_protocol_filtered[0].id_condition;
+                selected_id_condition = completed_protocol_filtered[0].id_condition;
 
-              // ADD TO experimental_condition / assigned_task
-              XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-              if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
-              protocol_blocked = false;
+                // ADD TO experimental_condition / assigned_task -> change: assign_condition_counter in consent, this is only for the 1 or 0 condition way
+                if (!(all_conditions_size > 1)) {
+                  XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
+                  if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
+                }
+                protocol_blocked = false;
 
-            // NO slots available
-            } else {
-              if (debug_mode === true) console.warn("completed_task_storage() | completed_protocol_filtered.length > 0 | NO available slots loop");
-              // alert("NO hay cupos disponibles");
-              protocol_blocked = true;
-              if (debug_mode === true) console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #3'); // Ends up in jsPsych.end
-              jsPsych.endExperiment(out_of_slots_message);
-            }
-
+              // NO slots available
+              } else {
+                if (debug_mode === true) console.warn("completed_task_storage() | completed_protocol_filtered.length > 0 | NO available slots loop");
+                // alert("NO hay cupos disponibles");
+                protocol_blocked = true;
+                if (debug_mode === true) console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #3'); // Ends up in jsPsych.end
+                jsPsych.endExperiment(out_of_slots_message);
+              }
+            });
           }
 
           // AVAILABLE SLOTS --------------------------------------------------------------------
@@ -851,6 +959,13 @@ function completed_task_storage(csv, task) {
             user_assigned = true;
             added_task = completed_protocol_filtered[0]["task_name"];
             if (debug_mode === true) console.warn("completed_task_storage() || NEW user, first task | User assigned | task: " + added_task);
+
+            combination_list = [];
+            all_conditions_size = 0;
+
+            Object.entries(all_conditions).forEach(([key, value]) => {
+              all_conditions_size += Object.keys(all_conditions[key]).length;
+            })
 
             // ADD data to user table
             XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function (actual_user) {
@@ -865,15 +980,33 @@ function completed_task_storage(csv, task) {
                   XMLcall("insertIntoTable", "user_task", {dict: { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}});
                 });
 
-                // INSERT between_selection condition for user
-                Object.entries(between_selection).forEach(([key, value]) => {
-                  for (var i = 0; i < between_selection[key].length; i++) {
-                    XMLcall("findRow", "experimental_condition", {keys: ["condition_name"], values: [between_selection[key][i]]}).then(function(actual_condition) {
-                      XMLcall("insertIntoTable", "user_condition", {dict: { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid}});
-                    });
-                  }
-                });
-
+                Object.keys(between_selection).forEach(task_key => {
+                  Object.keys(between_selection[task_key]).forEach((condition_key) => {
+                    XMLcall("findRow", "experimental_condition", { keys: ["task_name", "condition_key", "condition_name"], values: [ task_key, condition_key, between_selection[task_key][condition_key]] }).then(function(actual_condition) {
+                      XMLcall("insertIntoTable", "user_condition", { dict: { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid } })
+                      combination_list.push(actual_condition.condition_name);
+                    }).then(function(){
+                      if (combination_list.length > 1 && combination_list.length == all_conditions_size) {
+                        ordered_combination = []
+                        tasks = Object.keys(all_conditions)
+                        tasks.sort()
+                        for (actual_task of tasks) {
+                          condition_keys = Object.keys(all_conditions[actual_task])
+                          condition_keys.sort()
+                          for (actual_key of condition_keys){
+                            for (actual_condition of all_conditions[actual_task][actual_key]) {
+                              if (combination_list.includes(actual_condition)) {
+                                ordered_combination.push(actual_condition)
+                              }
+                            }
+                          }
+                        }
+                        XMLcall("insertIntoTable", "combination_between", { dict: { id_protocol: pid, id_user: uid, combination: ordered_combination.join("|")} })
+                      }
+                    })
+                  })
+								})
+                assign_condition_counter(between_selection)
               });
             });
 
@@ -945,6 +1078,11 @@ function completed_task_storage(csv, task) {
                   XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
                 }
               });
+              
+              XMLcall("findRow", "combination_between", {keys: ["id_user", "id_protocol"], values: [uid, pid]}).then(function(actual_combination) {
+                if ("id_combination" in actual_combination)
+                  XMLcall("updateTable", "combination_between", {id: {"id_combination": actual_combination.id_combination}, data: {"assigned": 0}});
+              })
 
               if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | status: discarded, counter - 1, for(assigned_task - 1) | actual_user.status == "assigned" --> !accept_discarded --> seconds_since_start > max_sec');
               if (debug_mode === true) console.warn("completed_task_storage() | OUT OF TIME | actual_time: " + actual_time + " | DBtime" + DBtime + " | Started " + seconds_since_start + " seconds ago | Time ends in " + hours_until_discarded + " hours [" + minutes_until_discarded + " minutes]");

@@ -8,7 +8,6 @@
 
   <!-- Main jsPsych library -->
   <script src="jsPsych-6/jspsych.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
 
   <!-- Protocol Configuration -->
   <script src="config.js"></script>
@@ -33,15 +32,15 @@
 </head>
 
 
-<body id="general_body" style="height:100%;" class=" jspsych-display-element">
+<body id="general_body" style="height:100%;" class="jspsych-display-element">
 
   <div class="jspsych-content-wrapper">
     <div id="jspsych-content" class="jspsych-content">
       <div class="jspsych-instructions-nav" style="padding: 10px 0px;">
         <span id="text_input_uid">Loading protocol...<BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/></span><br><br>
         <input id="input_uid" hidden="true" required>
-        <input style="display:none !important" id="check" type="submit" onclick="check_id_status(event)" value="Continuar" class="jspsych-btn">
-        <input style="display:none !important" id="start" type="button" onclick="start_protocol(questions)" value="Comenzar" class="jspsych-btn" hidden>
+        <input style="display:none !important" id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn">
+        <input style="display:none !important" id="start" type="button" onclick="start_protocol(questions_consent)" value="Continuar" class="jspsych-btn" hidden>
       </div>
     </div>
   </div>
@@ -68,11 +67,13 @@
 
 
 
-  <!-- LOAD Protocol Plugins at the end -->
+  <!-- LOAD plugins at the end -->
 
   <!-- Esential plugins -->
   <script src="jsPsych-6/plugins/jspsych-call-function.js"></script>
   <script src="jsPsych-6/plugins/jspsych-preload.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
+
 
   <!-- Instructions for zoomed images -->
   <script src="jsPsych-6/plugins/jspsych-instructions-zoom.js"></script>
@@ -87,6 +88,7 @@
   <script src="jsPsych-6/plugins/jspsych-survey-html-form.js"></script>
   <script src="jsPsych-6/plugins/jspsych-audio-keyboard-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-numbers-CSCN.js"></script>
+  <!-- END Plugins -->
 
 
 
