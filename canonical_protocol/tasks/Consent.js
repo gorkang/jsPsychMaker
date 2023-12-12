@@ -9,7 +9,6 @@ switch (language) {
 
     Consent_001_choices = ['acepto participar', 'rechazo participar'];
     Consent_001_end = 'Gracias por tu tiempo. Puedes cerrar esta página.';
-    Consent_001_response = 'Aceptado';
 
     Consent_002_pages = ["<p><center>Gracias por aceptar el consentimiento. <br><br> Presione el siguiente botón para poder empezar con el protocolo.<br /><br /></center></p>"];
  
@@ -21,7 +20,6 @@ switch (language) {
     Consent_000 = ['<p><left><b><big>Informed consent</big></b><br /></p>'];
     Consent_001_choices = ['I agree to participate', 'I refuse to participate'];
     Consent_001_end = 'Thanks for your time. You can close this page.';
-    Consent_001_response = 'Accepted';
 
     Consent_002_pages = ["<p><center>Thanks for accepting the consent. <br><br> Press the next button to start the protocol.<br /><br /></center></p>"];
 
@@ -55,7 +53,7 @@ var question01 = {
     if(jsPsych.data.get().values().find(x => x.trialid === 'Consent_001').button_pressed == 1){
       jsPsych.endExperiment(Consent_001_end);
     } else {
-			data.response = Consent_001_response;
+			data.response = Consent_001_choices[0];
       consent_script_selector();
     }
   },

@@ -17,13 +17,17 @@ finish_link = "" // link at the end of the experiment example "https://app.proli
 first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
-// Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
-randomly_ordered_tasks_1 = ['AIM', 'BART', 'BNT', 'Bank', 'CAS', 'COVIDCONTROL', 'CRS', 'CRT7', 'CRTMCQ4', 'CRTv', 'ConsentHTML', 'Cov19Q', 'DASS21', 'DEBRIEF', 'DEMOGR', 'EAR', 'ERQ', 'ESM', 'EmpaTom', 'GBS', 'GHQ12', 'HRPVB', 'HRPVBpost', 'IBT', 'IDQ', 'IEC', 'INFCONS', 'IRI', 'IRS', 'MDDF', 'MDMQ', 'MIS', 'OBJNUM', 'OTRASRELIG', 'PBS', 'PRFBM', 'PRFBMpost', 'PSETPP', 'PSPPC', 'PSS', 'PVC', 'PWb', 'REI40', 'RSS', 'RTS', 'Report', 'SASS', 'SBS', 'SCSORF', 'SDG', 'SRA', 'SRBQP', 'SRSav', 'STAI', 'SWBQ', 'WEBEXEC', 'bRCOPE', 'fauxPasEv'];
-secuentially_ordered_tasks_1 = []; // Block of tasks in sequential order
+// Block of tasks in sequential order
+secuentially_ordered_tasks_1 = ['AIM', 'AntiBots', 'Bank', 'BART', 'BDI', 'BNT', 'bRCOPE', 'CAS', 'CEL', 'CIT', 'CMApost', 'CMApre', 'ConsentHTML', 'Cov19Q', 'COVIDCONTROL', 'CRQ', 'CRS', 'CRT7', 'CRTMCQ4', 'CRTv', 'CS', 'DASS21', 'DEBRIEF', 'DEMOGR', 'EAR', 'EmpaTom', 'EQ', 'ERQ', 'ESM', 'ESV', 'ESZ', 'fauxPasEv', 'FDMQ', 'GBS', 'GHQ12', 'Goodbye', 'HRPVB', 'HRPVBpost', 'IBT', 'ICvsID', 'IDQ', 'IEC', 'IRI', 'IRS', 'LoB', 'LOT', 'LSNS', 'MCQ30', 'MDDF', 'MDMQ', 'MIS', 'NARS', 'OBJNUM', 'OTRASRELIG', 'PBSr', 'PERMA', 'PPD', 'PRFBM', 'PRFBMpost', 'PSC', 'PSETPP', 'PSPPC', 'PSS', 'PVC', 'PWb', 'REI40', 'Report', 'RMET', 'RobToM', 'RSS', 'RTS', 'SASS', 'SBS', 'SCSORF', 'SDG', 'SILS', 'sProQOL', 'SRA', 'SRBQP', 'SRSav', 'STAI', 'SWBQ', 'UCLA', 'WaisMatricesES', 'WaisWorkingMemoryES', 'WEBEXEC'];
+
+// The order of the tasks in the arrays starting with "random" will be randomized
+randomly_ordered_tasks_1 = []; 
+
+// Create as many as needed of secuentially_ordered_tasks_n and randomly_ordered_tasks_n
 
 // FINAL ARRAY of tasks [build combining the above blocks]
   // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];
-tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks'];
+tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'last_tasks'];
 
 
 

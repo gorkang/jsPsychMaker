@@ -53,7 +53,7 @@ var question01 = {
     trialid: 'ConsentHTML_001',
     procedure: 'ConsentHTML',
     stimulus: 'html/consent-placeholder.html',
-    response: document.getElementById("start").id
+    response: Consent_001_choices[0]
   }
 };
 ConsentHTML.push(question01);

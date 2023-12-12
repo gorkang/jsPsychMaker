@@ -108,7 +108,6 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
     }
     // generate question order. this is randomized here as opposed to randomizing the order of trial.questions
     // so that the data are always associated with the same question regardless of order
-    var questions_list = {}
     var question_order = [];
     for(var i=0; i<trial.questions.length; i++){
       question_order.push(i);
@@ -138,9 +137,6 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
         html += "<span class='required'>*</span>";
       }
       html += '</p>';
-
-      questions_list["Q".concat(i.toString())] = question.prompt;
-
 
       // create option radio buttons
       for (var j = 0; j < question.options.length; j++) {
@@ -195,10 +191,8 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
       }
       // save data
       var trial_data = {
-        stimulus: stripHtml(JSON.stringify(questions_list)),
         rt: response_time,
-        //response: question_data,
-        response: JSON.stringify(question_data),
+        response: question_data,
         question_order: question_order
       };
       display_element.innerHTML = '';
