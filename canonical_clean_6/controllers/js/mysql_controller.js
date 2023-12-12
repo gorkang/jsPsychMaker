@@ -124,7 +124,7 @@ function start_mysqldb(pid, max_participants) {
   XMLcall("findAll", "task").then(function(tasks_in_table) {
     // create an array with consent (if exists)
     consent_in_table = tasks_in_table.filter(x => {
-      if (x.task_name === 'Consent' || x.task_name === 'ConsentHTML') 
+      if (x.task_name === 'Consent' || x.task_name === 'ConsentHTML' || x.task_name === 'ConsentAudio') 
         return x.task_name 
     })
     
