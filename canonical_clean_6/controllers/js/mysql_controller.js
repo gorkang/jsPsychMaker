@@ -527,7 +527,6 @@ function assign_condition_counter(selected_between_selection) {
     for (actual_task_name of Object.keys(selected_between_selection)) {
       for (actual_condition_key of Object.keys(selected_between_selection[actual_task_name])) {
         actual_selected_condition = condition_data.find((element) => element.condition_key == actual_condition_key && element.condition_name == between_selection[actual_task_name][actual_condition_key]);
-        console.log(actual_selected_condition.condition_name)
         XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_selected_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
       }
     }
