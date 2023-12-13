@@ -39,9 +39,11 @@ var question01 = {
         function id_verification() {
             if (allowed_ids.includes(actual_input.value))
                 button.disabled = false
+            else if (debug_mode == true) 
+                button.disabled = false
+                console.warn("DMW: button is always enabled in debug mode. Make sure to update the list of allowed ids before starting data collection")
             else
                 button.disabled = true
-                //button.disabled = false // DELETE THIS WHEN ENTERING PRODUCTION
         }
 
         id_verification();
