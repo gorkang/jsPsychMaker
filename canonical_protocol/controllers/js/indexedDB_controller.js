@@ -210,8 +210,20 @@ function findIndexedSync(table, column, keyword, pid, db) {
       request.onsuccess = function (event) {
         var cursor = event.target.result;
         if (cursor) {
-          if (cursor.value[column] == keyword) {
-            if (cursor.value.id_protocol == pid) {
+          if (typeof column === 'string' || column instanceof String) {
+            if (cursor.value[column] == keyword) {
+              if (cursor.value.id_protocol == pid) {
+                resolve(cursor.value);
+              }
+            }
+          } else if (Array.isArray(column)){
+            let coincidences = 0
+            for (var i = 0; i < column.length; i++) {
+              if (cursor.value[column[i]] == keyword[i]) {
+                coincidences += 1;
+              }
+            }
+            if (coincidences == column.length) {
               resolve(cursor.value);
             }
           }
@@ -941,6 +953,12 @@ function completed_task_storage(task) {
           // IN protocols WITHOUT between vars, we need the protocol_blocked = false by default, but it causes issues in protocols with between vars (corner cases)
           if (Object.keys(between_selection).length == 0) protocol_blocked = false;
 
+          all_conditions_size = 0;
+
+          Object.entries(all_conditions).forEach(([key, value]) => {
+            all_conditions_size += Object.keys(all_conditions[key]).length;
+          })
+
           // For each of the between tasks (usually just one), assigned_task + 1
           // REVIEW: With multiple between conditions, there must be slots in all or none of the conditions, right?
           for (var i = 0; i < Object.keys(between_selection).length; i++) {
@@ -957,10 +975,10 @@ function completed_task_storage(task) {
               // Available slots
               if (completed_protocol_filtered.length > 0) {
 
-                if (completed_protocol_filtered.length == 1) {
-                  selected_id_condition = completed_protocol_filtered[0].id_condition;
+                selected_id_condition = completed_protocol_filtered[0].id_condition;
 
-                  // ADD TO experimental_condition / assigned_task
+                // ADD TO experimental_condition / assigned_task
+                if (!(all_conditions_size > 1)) {
                   updateIndexed("experimental_condition", selected_id_condition, "assigned_task", "+", db);
                   if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
                 }
@@ -978,6 +996,8 @@ function completed_task_storage(task) {
           }
 
           // AVAILABLE SLOTS --------------------------------------------------
+            // INSERTS the participant in all the relevant tables
+          // ------------------------------------------------------------------------------------
 
           if (!protocol_blocked) {
 
@@ -985,15 +1005,10 @@ function completed_task_storage(task) {
             added_task = completed_protocol_filtered[0]["task_name"];
             if (debug_mode === true) console.warn("completed_task_storage() || NEW user, first task | User assigned | task: " + added_task);
 
+            combination_list = [];
+
             // Se agrega la data a indexedDB en la tabla assigned_users
             addIndexed("user", { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time }, db);
-
-            combination_list = [];
-            all_conditions_size = 0;
-
-            Object.entries(all_conditions).forEach(([key, value]) => {
-              all_conditions_size += Object.keys(all_conditions[key]).length;
-            })
 
             // GET DB internal uid
             findIndexedSync("user", "uid_external", uid_external, pid, db).then(function (actual_user) {
@@ -1005,15 +1020,13 @@ function completed_task_storage(task) {
                 addIndexed("user_task", { id_protocol: pid, id_task: actual_task.id_task, id_user: uid }, db);
               });
 
-              // INSERT between_selection condition for user
-              Object.entries(between_selection).forEach(([key, value]) => {
-                for (const actual_condition_key in between_selection[key]) {
-                  //for (var i = 0; i < between_selection[key].length; i++) {
-                  findAllIndexedSync("experimental_condition", "condition_key", actual_condition_key, pid, db).then(function (reduced_condition_list) {
-                    actual_condition = reduced_condition_list.filter(function (value, index) { return (value["condition_name"] == between_selection[key][actual_condition_key] && value["task_name"] == key); })[0];
+
+              Object.keys(between_selection).forEach(task_key => {
+                Object.keys(between_selection[task_key]).forEach((condition_key) => {
+                  findIndexedSync("experimental_condition", ["task_name", "condition_key", "condition_name"], [task_key, condition_key, between_selection[task_key][condition_key]], pid, db).then(function(actual_condition) {
                     addIndexed("user_condition", { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid }, db);
                     combination_list.push(actual_condition.condition_name);
-                  }).then(function () {
+                  }).then(function(){
                     if (combination_list.length > 1 && combination_list.length == all_conditions_size) {
                       ordered_combination = []
                       tasks = Object.keys(all_conditions)
@@ -1031,9 +1044,9 @@ function completed_task_storage(task) {
                       }
                       addIndexed("combination_between", { id_protocol: pid, id_user: uid, combination: ordered_combination.join("|"), assigned: 1}, db);
                     }
-                  });
-                }
-              });
+                  })
+                })
+              })
               assign_condition_counter(between_selection)
             });
 
