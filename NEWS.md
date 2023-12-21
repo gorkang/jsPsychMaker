@@ -1,3 +1,15 @@
+# jsPsychMaker 0.2.9
+
+Major updates  
+
+* Protocols now balance correctly multiple between variables
+* Big review to mysql and indexeddb controllers
+
+Minor updates
+
+* Cleaning up - WIP
+
+
 # jsPsychMaker 0.2.8
 
 Major updates  

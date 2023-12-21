@@ -83,7 +83,7 @@
   devtools::install()
 
   # CHECKS
-  devtools::test() # Run all tests (~35s)
+  devtools::test() # Run all tests (~53s)
   devtools::check() # Check package (~70s) # Includes test()
   
   devtools::test_coverage()

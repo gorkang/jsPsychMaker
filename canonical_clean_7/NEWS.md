@@ -1,3 +1,15 @@
+# jsPsychMaker 0.2.9
+
+Major updates  
+
+* Protocols now balance correctly multiple between variables
+* Big review to mysql and indexeddb controllers
+
+Minor updates
+
+* Cleaning up - WIP
+
+
 # jsPsychMaker 0.2.8
 
 Major updates  
@@ -5,6 +17,11 @@ Major updates
 * Now we can create jsPsych 7.3 tasks and protocols using `jsPsych_version`
 
 Minor updates
+
+* Fixed small issue with survey-multi-choice (was not capturing stimulus and response was son stringified)
+* Update image_zoom()
+* Fix creation of if_questions for multi-choice
+* Almost all index content is now translatable
 
 
 # jsPsychMaker 0.2.7

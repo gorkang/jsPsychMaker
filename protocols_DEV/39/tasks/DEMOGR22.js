@@ -19,7 +19,7 @@ var instruction_screen_experiment = {
 };
 
 
-/*
+
 var question01 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">¿Eres estudiante de Medicina o profesional Médico?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
@@ -83,7 +83,7 @@ var question05 = {
 };
 DEMOGR22.push(question05);
 
-*/
+
 // https://www.mscbs.gob.es/profesionales/formacion/EspecialistasExtracomunitarios/Docs/2020EspecialidadesRecoEspanaV2.pdf
 var question06 = {
   type: 'survey-html-form',
