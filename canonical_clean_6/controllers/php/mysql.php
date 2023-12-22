@@ -1,46 +1,36 @@
 <?php
-/*
-  //TO DEBUG THE SQL commands
-    ?>
-    <script>alert("<?php echo $query; ?>")</script>
-    <?php
-*/
+  /*
+    //TO DEBUG THE SQL commands
+      ?>
+      <script>alert("<?php echo $query; ?>")</script>
+      <?php
+  */
 
-// Random sleep for a few ms to avoid clashes when checking assigned_task in the DB
-// REVIEW: If we manage to lock the table this can go
-$sleep_time = rand (1, 10);
-usleep( $sleep_time );
+  // Random sleep for a few ms to avoid clashes when checking assigned_task in the DB
+  // REVIEW: If we manage to lock the table this can go
+  $sleep_time = rand (1, 10);
+  usleep( $sleep_time );
 
+  // MySQL credentials: .secrets_mysql.php --------------------------------------
 
-// MySQL credentials: .secrets_mysql.php --------------------------------------
+    // DO NOT FILL THE PARAMETERS HERE
+    // .secrets_mysql.php SHOULD NOT BE IN A PUBLIC FOLDER OR REPOSITORY
 
-  // DO NOT FILL THE PARAMETERS HERE
-  // .secrets_mysql.php SHOULD NOT BE IN A PUBLIC FOLDER OR REPOSITORY
+  /* The file .secrets_mysql.php contains the following information:
+    $servername = "";
+    $username = "";
+    $password = "";
+    $dbname = "";
+  */
 
-/* The file .secrets_mysql.php contains the following information:
-  $servername = "";
-  $username = "";
-  $password = "";
-  $dbname = "";
-*/
+  // Path to .secrets_mysql.php is different if running in protocols/test/ or protocols/
+  $url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
 
-
-// Path to .secrets_mysql.php is different if running in protocols/test/ or protocols/
-$url =  "//{$_SERVER['HTTP_HOST']}{$_SERVER['REQUEST_URI']}";
-
-if (strpos($url,'test') !== false) {
-  // If running task in protocols/tests/protocols_DEV/ folder:
-  require_once '../../../../../../../../../../.secrets_mysql.php';
-} else {
-  // If running task in protocols/ folder:
-  require_once '../../../../../../../../.secrets_mysql.php';
-}
-
-
+  require_once '../../../../../../.secrets_mysql.php';
 
   $data = json_decode(file_get_contents('php://input'), true);
-// REMEMBER: delete me
-// echo '<pre>'; print_r($data); echo '</pre>';
+  // REMEMBER: delete me
+  // echo '<pre>'; print_r($data); echo '</pre>';
 
   // Create connection
   $conn = new mysqli($servername, $username, $password, $dbname);
@@ -50,29 +40,28 @@ if (strpos($url,'test') !== false) {
     die("Connection failed: " . $conn->connect_error);
   }
 
-
-// FUNCTIONS -----------------------------------------------------------------
+  // FUNCTIONS -----------------------------------------------------------------
 
 
   // general_query  ----------------------------------------------------
   // -------------------------------------------------------------------
 
   function general_query($data, $conn) {
- 
+
     $query = $data["sql"] . " WHERE " . $data["id"] . " AND task.id_protocol = " . $data["pid"];
     // echo($query);
-  
+
       if (array_key_exists('keys', $data) && array_key_exists('values', $data)) {
         for ($i=0; $i < count($data["keys"]); $i++) {
           $query = $query . " AND " . $data["keys"][$i] . " = " . $data["values"][$i];
         }
       }
-  
+
       echo("[");
       $starting = true;
       $query = $query . ";";
       $result = mysqli_query($conn, $query);
-  
+
       while ($row = $result->fetch_assoc()) {
         $first = true;
         if ($starting){
@@ -81,7 +70,7 @@ if (strpos($url,'test') !== false) {
         } else {
           echo ", {";
         }
-  
+
         foreach($row as $key=>$value) {
           if ($first) {
             $first = false;
@@ -95,12 +84,9 @@ if (strpos($url,'test') !== false) {
       echo("]");
 
   };
-  
-  // -------------------------------------------------------------------
-  // -------------------------------------------------------------------
-  
-  
 
+  // -------------------------------------------------------------------
+  // -------------------------------------------------------------------
 
   function createTable($data, $conn) {
     $query = "CREATE TABLE IF NOT EXISTS " . $data["table_name"] . " (" . $data["keys"] .")";
@@ -154,9 +140,8 @@ if (strpos($url,'test') !== false) {
     echo(']');
   };
 
-
   function findAll($data, $conn) {
-  
+
     $query = "LOCK TABLES " . $data["table_name"] . " WRITE;";
     $result = mysqli_query($conn, $query);
 
@@ -202,7 +187,6 @@ if (strpos($url,'test') !== false) {
 
   }
 
-
   function findRow($data, $conn) {
 
     $query = "SELECT * from " . $data["table_name"] . " WHERE id_protocol = " . $data["pid"];
@@ -232,9 +216,7 @@ if (strpos($url,'test') !== false) {
     }
   }
 
-
-
-// Function to use depending on the 'query' parameter
+  // Function to use depending on the 'query' parameter
   if ($data["query"] == "createTable") {
     createTable($data, $conn);
   } else if ($data["query"] == "insertIntoTable") {
