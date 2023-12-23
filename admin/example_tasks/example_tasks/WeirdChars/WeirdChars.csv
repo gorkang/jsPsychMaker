@@ -1,0 +1,11 @@
+ID,plugin,options,choices,stimulus,preamble,prompt
+1,survey-multi-choice-horizontal,one; two,1; 2,"Include some “quotations” of ‘different types’, none should cause 'issues'.","Include some “quotations” of ‘different types’, none should cause 'issues'.","Include some “quotations” of ‘different types’, none should cause 'issues'."
+2,survey-multi-choice-horizontal,one; two,"1, 2","Also add weird chars myemail@this.com, or (this) or [this]!","Also add weird chars myemail@this.com, or (this) or [this]!","Also add weird chars myemail@this.com, or (this) or [this]!"
+3,survey-multi-choice-horizontal,’option 1’; ’option 2’,’choice 1’; ’choice 2’,Here choices and/or options may be problematic,Here choices and/or options may be problematic,Here choices and/or options may be problematic
+4,survey-multi-choice-horizontal,'option 1'; 'option 2','choice 1'; 'choice 2',Here choices and/or options may be problematic,Here choices and/or options may be problematic,Here choices and/or options may be problematic
+5,survey-multi-choice-horizontal,“option 1”; “option 2”,“'choice 1”; “choice 2”,Here choices and/or options may be problematic,Here choices and/or options may be problematic,Here choices and/or options may be problematic
+6,survey-multi-choice-horizontal,#option 1; #option 2,#choice 1; #choice 2,Here choices and/or options may be problematic,Here choices and/or options may be problematic,Here choices and/or options may be problematic
+7,survey-multi-choice-horizontal,one; two,1; 2,Some more |weird| chars,Some more |weird| chars,Some more |weird| chars
+8,survey-multi-choice-horizontal,one; two,1; 2,# Some more weird chars that will be deleted,# Some more weird chars that will be deleted,# Some more weird chars that will be deleted
+9,survey-multi-choice-horizontal,one; two,1; 2,Some more weird chars /some people/,Some more weird chars /some people/,Some more weird chars /some people/
+10,survey-multi-choice-horizontal,one; two,1; 2,Some more \could use\. \\WHY!\\,Some more \could use\. \\WHY!\\,Some more \could use\. \\WHY!\\

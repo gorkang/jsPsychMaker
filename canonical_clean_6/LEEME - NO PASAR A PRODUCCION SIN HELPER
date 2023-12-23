@@ -1,0 +1,3 @@
+No pasar ningun protocolo a produccion si no tenemos los scripts de preparacion de datos.
+
+BORRA este archivo al pasar el protocolo a produccion.

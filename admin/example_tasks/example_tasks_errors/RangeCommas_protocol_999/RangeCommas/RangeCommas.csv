@@ -1,0 +1,2 @@
+ID,plugin,prompt,type,range,error_text
+1,survey-text,"De las 1.000 personas que viven en un pequeño pueblo, 500 son miembros de un coro. De esos 500 miembros del coro, 100 son hombres. De los 500 habitantes que no pertenecen a un coro, 300 son hombres. ¿Cuál es la probabilidad de que un hombre seleccionado al azar sea miembro de un coro? Por favor, indique la probabilidad en porcentaje:",number,"0, 100",Tienes que introducir un porcentaje entre 0 y 100
