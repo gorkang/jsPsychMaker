@@ -22,7 +22,7 @@ testthat::test_that('create_protocol', {
   
   files_expected_controllers = 17
   files_expected_tasks = 11
-  files_expected_media = 17
+  files_expected_media = 11
   files_expected_jsPsych = 25  
   
   files_protocol_controllers = list.files(paste0(output_folder, "/controllers/"), recursive = TRUE)
@@ -50,7 +50,7 @@ testthat::test_that('create_protocol', {
   
   files_expected_controllers = 17
   files_expected_tasks = 6
-  files_expected_media = 22
+  files_expected_media = 16
   files_expected_jsPsych = 12
   
   files_protocol_controllers = list.files(paste0(output_folder, "/controllers/"), recursive = TRUE)
@@ -78,7 +78,7 @@ testthat::test_that('create_protocol', {
   
   files_expected_controllers = 17
   files_expected_tasks = 5
-  files_expected_media = 11
+  files_expected_media = 5
   files_expected_jsPsych = 11
   
   files_protocol_controllers = list.files(paste0(output_folder, "/controllers/"), recursive = TRUE)
@@ -107,7 +107,7 @@ testthat::test_that('create_protocol', {
   
   files_expected_controllers = 17
   files_expected_tasks = 14
-  files_expected_media = 17
+  files_expected_media = 11
   files_expected_jsPsych = 25
   
   files_protocol_controllers = list.files(paste0(output_folder, "/controllers/"), recursive = TRUE)
@@ -139,7 +139,7 @@ testthat::test_that('create_protocol', {
   # REVIEW:  # Maybe don´t include tests for tasks and media in here, as this protocol will change often
   files_expected_controllers = 17
   files_expected_tasks = 93
-  files_expected_media = 22
+  files_expected_media = 18
   files_expected_jsPsych = 25
   
   files_protocol_controllers = list.files(paste0(output_folder, "/controllers/"), recursive = TRUE)
@@ -169,7 +169,7 @@ testthat::test_that('create_protocol', {
   
   files_expected_controllers = 17
   files_expected_tasks = 3
-  files_expected_media = 11
+  files_expected_media = 5
   files_expected_jsPsych = 10
   
   files_protocol_controllers = list.files(paste0(output_folder, "/controllers/"), recursive = TRUE)
@@ -189,7 +189,7 @@ testthat::test_that('create_protocol', {
   
   files_expected_controllers = 17
   files_expected_tasks = 3
-  files_expected_media = 11
+  files_expected_media = 5
   files_expected_jsPsych = 10
   
   files_protocol_controllers = list.files(paste0(output_folder, "/controllers/"), recursive = TRUE)
@@ -218,7 +218,7 @@ testthat::test_that('create_protocol', {
   
   files_expected_controllers = 17
   files_expected_tasks = 3
-  files_expected_media = 11
+  files_expected_media = 5
   files_expected_jsPsych = 10
   
   files_protocol_controllers = list.files(paste0(output_folder, "/controllers/"), recursive = TRUE)
@@ -244,7 +244,7 @@ testthat::test_that('create_protocol', {
   
   files_expected_controllers = 17
   files_expected_tasks = 3
-  files_expected_media = 11
+  files_expected_media = 5
   files_expected_jsPsych = 10
   
   files_protocol_controllers = list.files(paste0(default_output_folder, "/controllers/"), recursive = TRUE)

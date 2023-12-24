@@ -17,3 +17,4 @@ TODO.Rmd
 
 ^codecov\.yml$
 ^\.github$
+^\.Rbuildignore$
