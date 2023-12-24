@@ -7,11 +7,8 @@
  * documentation: docs.jspsych.org
  *
  */
-
-
 jsPsych.plugins['survey-multi-choice'] = (function() {
   var plugin = {};
-
   plugin.info = {
     name: 'survey-multi-choice',
     description: '',
@@ -82,9 +79,7 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
   }
   plugin.trial = function(display_element, trial) {
     var plugin_id_name = "jspsych-survey-multi-choice";
-
     var html = "";
-
     // inject CSS for trial
     html += '<style id="jspsych-survey-multi-choice-css">';
     html += ".jspsych-survey-multi-choice-question { margin-top: 2em; margin-bottom: 2em; text-align: left; }"+
@@ -94,20 +89,19 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
       ".jspsych-survey-multi-choice-horizontal .jspsych-survey-multi-choice-option {  display: inline-block;  margin-left: 1em;  margin-right: 1em;  vertical-align: top;}"+
       "label.jspsych-survey-multi-choice-text input[type='radio'] {margin-right: 1em;}";
     html += '</style>';
-
     // show preamble text
     if(trial.preamble !== null){
       html += '<div id="jspsych-survey-multi-choice-preamble" class="jspsych-survey-multi-choice-preamble">'+trial.preamble+'</div>';
     }
-
     // form element
     if ( trial.autocomplete ) {
-    	html += '<form id="jspsych-survey-multi-choice-form">';
+      html += '<form id="jspsych-survey-multi-choice-form">';
     } else {
-    	html += '<form id="jspsych-survey-multi-choice-form" autocomplete="off">';
+      html += '<form id="jspsych-survey-multi-choice-form" autocomplete="off">';
     }
     // generate question order. this is randomized here as opposed to randomizing the order of trial.questions
     // so that the data are always associated with the same question regardless of order
+    var questions_list = {}
     var question_order = [];
     for(var i=0; i<trial.questions.length; i++){
       question_order.push(i);
@@ -115,28 +109,28 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
     if(trial.randomize_question_order){
       question_order = jsPsych.randomization.shuffle(question_order);
     }
-    
+
     // add multiple-choice questions
     for (var i = 0; i < trial.questions.length; i++) {
-      
+
       // get question based on question_order
       var question = trial.questions[question_order[i]];
       var question_id = question_order[i];
-      
+
       // create question container
       var question_classes = ['jspsych-survey-multi-choice-question'];
       if (question.horizontal) {
         question_classes.push('jspsych-survey-multi-choice-horizontal');
       }
-
       html += '<div id="jspsych-survey-multi-choice-'+question_id+'" class="'+question_classes.join(' ')+'"  data-name="'+question.name+'">';
-
       // add question text
-      html += '<p class="jspsych-survey-multi-choice-text survey-multi-choice">' + question.prompt 
+      html += '<p class="jspsych-survey-multi-choice-text survey-multi-choice">' + question.prompt
       if(question.required){
         html += "<span class='required'>*</span>";
       }
       html += '</p>';
+
+      questions_list["Q".concat(i.toString())] = question.prompt;
 
       // create option radio buttons
       for (var j = 0; j < question.options.length; j++) {
@@ -144,9 +138,7 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
         var option_id_name = "jspsych-survey-multi-choice-option-"+question_id+"-"+j;
         var input_name = 'jspsych-survey-multi-choice-response-'+question_id;
         var input_id = 'jspsych-survey-multi-choice-response-'+question_id+'-'+j;
-
         var required_attr = question.required ? 'required' : '';
-
         // add radio button container
         html += '<div id="'+option_id_name+'" class="jspsych-survey-multi-choice-option">';
         html += '<label class="jspsych-survey-multi-choice-text" for="'+input_id+'">';
@@ -154,23 +146,19 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
         html += question.options[j]+'</label>';
         html += '</div>';
       }
-
       html += '</div>';
     }
-    
+
     // add submit button
     html += '<input type="submit" id="'+plugin_id_name+'-next" class="'+plugin_id_name+' jspsych-btn"' + (trial.button_label ? ' value="'+trial.button_label + '"': '') + '></input>';
     html += '</form>';
-
     // render
     display_element.innerHTML = html;
-
     document.querySelector('form').addEventListener('submit', function(event) {
       event.preventDefault();
       // measure response time
       var endTime = performance.now();
       var response_time = endTime - startTime;
-
       // create object to hold responses
       var question_data = {};
       for(var i=0; i<trial.questions.length; i++){
@@ -191,8 +179,9 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
       }
       // save data
       var trial_data = {
+        stimulus: JSON.stringify(questions_list),
         rt: response_time,
-        response: question_data,
+        response: JSON.stringify(question_data),
         question_order: question_order
       };
       display_element.innerHTML = '';
@@ -200,9 +189,7 @@ jsPsych.plugins['survey-multi-choice'] = (function() {
       // next trial
       jsPsych.finishTrial(trial_data);
     });
-
     var startTime = performance.now();
   };
-
   return plugin;
 })();
