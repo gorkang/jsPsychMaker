@@ -17,7 +17,7 @@ var_researcher_email = `gorkang@gmail.com`;
 
 first_tasks = ['Consent'];
 last_tasks = ['Goodbye'];
-secuentially_ordered_tasks_1 = ['DEMOGR22', 'Bayesian22', 'BNT', 'DEBRIEF22'];
+secuentially_ordered_tasks_1 = ['Bayesian39', 'DEMOGR39', 'BNT', 'DEBRIEF39'];
 tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'last_tasks'];
 
 // MEDIA preloading ------------------------------------------------------------
@@ -25,10 +25,10 @@ tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'last_tasks'];
 message_str = 'El protocolo está cargando, espera un momento...';
 
 // media to preload in protocol_controller
-img_folder = 'media/img/Bayesian22/';
+img_folder = 'media/img/Bayesian39/';
 
 
-images =  {"Bayesian22": ['VPP_low_Cancer.png', 'VPN_high_Cancer.png',  'VPN_low_Stroke.png', 'VPP_high_Stroke.png', 'instructions1.png', 'instructions2.png', 'phone-rotation.png', 'intro.png']};
+images =  {"Bayesian39": ['VPP_low_Cancer.png', 'VPN_high_Cancer.png',  'VPN_low_Stroke.png', 'VPP_high_Stroke.png', 'instructions1.png', 'instructions2.png', 'phone-rotation.png', 'intro.png']};
 audios = {};
 videos = {};
 
@@ -38,6 +38,5 @@ zoom_type = 'fullPage';
 // BETWEEN subject variables ----------------------------------------------
 
 // Conditions for experimental task
-//all_conditions = {"Bayesian22": {"type": ["Image"]}};
-all_conditions = {"Bayesian22": {"type": ["Text", "Image", "TextPV"]}};
-
+all_conditions = {"Bayesian39": {"type": ["Text", "Image", "TextPV"]}};
+all_conditions = {"Bayesian39": {"type": ["Image"]}};
