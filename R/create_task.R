@@ -160,23 +160,24 @@ create_task <- function(folder_task, folder_output = NULL, options_separator = "
     # Copy files ---
     if (length(images_task) != 0) {
       destination_images = paste0(folder_output, "/media/images/", basename_dir_images, "/", basename(images_task))
-      dir.create(dirname(destination_images), recursive = TRUE, showWarnings = FALSE)
+      
+      dir.create(unique(dirname(destination_images)), recursive = TRUE, showWarnings = FALSE)
       file.copy(from = images_task, to = destination_images)
     }
     
     if (length(videos_task) != 0) {
       destination_videos = paste0(folder_output, "/media/videos/", basename_dir_videos, "/", basename(videos_task))
-      dir.create(dirname(destination_videos), recursive = TRUE, showWarnings = FALSE)
+      dir.create(unique(dirname(destination_videos)), recursive = TRUE, showWarnings = FALSE)
       file.copy(from = videos_task, to = destination_videos)
     }
     if (length(audios_task) != 0) {
       destination_audios = paste0(folder_output, "/media/audios/", basename_dir_audios, "/", basename(audios_task))
-      dir.create(dirname(destination_audios), recursive = TRUE, showWarnings = FALSE)
+      dir.create(unique(dirname(destination_audios)), recursive = TRUE, showWarnings = FALSE)
       file.copy(from = audios_task, to = destination_audios)
     }
     if (length(htmls_task) != 0) {
       destination_htmls = paste0(folder_output, "/media/html/", basename_dir_htmls, "/", basename(htmls_task))
-      dir.create(dirname(destination_htmls), recursive = TRUE, showWarnings = FALSE)
+      dir.create(unique(dirname(destination_htmls)), recursive = TRUE, showWarnings = FALSE)
       file.copy(from = htmls_task, to = destination_htmls)
     }
     
