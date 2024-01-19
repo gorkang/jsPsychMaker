@@ -1,3 +1,24 @@
+# jsPsychMaker 0.3
+
+Major updates
+
+* canonical_protocol has tasks and media for all tasks but not the machinery. 
+  This is to avoid duplication with canonical_clean_6, etc.
+
+
+
+# jsPsychMaker 0.2.9
+
+Major updates  
+
+* Protocols now balance correctly multiple between variables
+* Big review to mysql and indexeddb controllers
+
+Minor updates
+
+* Cleaning up - WIP
+
+
 # jsPsychMaker 0.2.8
 
 Major updates  
@@ -5,6 +26,11 @@ Major updates
 * Now we can create jsPsych 7.3 tasks and protocols using `jsPsych_version`
 
 Minor updates
+
+* Fixed small issue with survey-multi-choice (was not capturing stimulus and response was son stringified)
+* Update image_zoom()
+* Fix creation of if_questions for multi-choice
+* Almost all index content is now translatable
 
 
 # jsPsychMaker 0.2.7

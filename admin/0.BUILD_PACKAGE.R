@@ -2,6 +2,13 @@
 # remotes::install_github("gorkang/jsPsychMaker")
 
 
+# Create pull request to merge changes -------------------------------------
+
+  usethis::pr_init(branch = "NameOfTemporalBranch")
+  usethis::pr_push()
+  usethis::pr_finish()
+
+
 # Process new docs --------------------------------------------------------
 
   source("admin/process_docs.R")
@@ -83,7 +90,7 @@
   devtools::install()
 
   # CHECKS
-  devtools::test() # Run all tests (~35s)
+  devtools::test() # Run all tests (~53s)
   devtools::check() # Check package (~70s) # Includes test()
   
   devtools::test_coverage()

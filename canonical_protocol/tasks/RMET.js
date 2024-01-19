@@ -133,7 +133,7 @@ var trials = [ {
 
 var question000 = {
   type: 'survey-multi-choice-CSCN-RMET',
-  preamble: "<img width='100%'src='" + img_folder + "RMET/0.png" + "' />",
+  preamble: "<img width='100%'src='media/images/RMET/0.png' />",
   questions: [{prompt: '', options: ['&nbsp;CELOSO', '&nbsp;EN PÁNICO', '&nbsp;ARROGANTE', '&nbsp;LLENO DE ODIO'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'RMET_t01', procedure: 'RMET'},
   button_label: 'Siguiente'
@@ -196,7 +196,7 @@ index = 1;
 trials.forEach(function(trial) {
   RMET.push({
     type: "survey-multi-choice-CSCN-RMET",
-    preamble: "<img width='100%'src='" + img_folder + "RMET/" + index.toString() + ".png" + "' />",
+    preamble: "<img width='100%'src='media/imagesRMET/" + index.toString() + ".png" + "' />",
     questions: [{
       prompt: "",
       options: trial.options,

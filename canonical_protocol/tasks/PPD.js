@@ -207,7 +207,7 @@ for (var i = 0; i < user_sucession.length; i++) {
 
   var question02 = {
       type: 'html-keyboard-response',
-      stimulus: "<img width='65%'src='" + images[user_sucession[i][0]] + "' style='text-align: center;' />",
+      stimulus: "<img width='65%'src='" + "media/images/PPD/" + images["PPD"][user_sucession[i][0]] + "' style='text-align: center;' />",
       choices: ['z', 'm'],
       trial_duration: 30000,
       data: {trialid: 'PPD_' + pad((3+3*i),3), procedure: 'PPD'},
@@ -282,7 +282,7 @@ PPD.push(instruction2);
 for (var i = 0; i < images.length; i++) {
   var question04 = {
       type: 'html-slider-response',
-      stimulus: "<img width='50%'src='" + images[i] + "' style='margin: auto; text-align: center;' /><br><br>",
+      stimulus: "<img width='50%'src='" + "media/images/PPD/" + images["PPD"][i] + "' style='margin: auto; text-align: center;' /><br><br>",
       require_movement:true,
       required: true,
       min: 0,

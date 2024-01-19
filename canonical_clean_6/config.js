@@ -1,15 +1,15 @@
 // Configuration file
 
 // Main parameters -------------------------------------------------------------
-
-pid = 9996; // Protocol ID [number]
+pid = 999; // Protocol ID [number]
 online = false; // Protocol runs online [true/false]
 max_participants = 1000; // Max participants per contition [number]
 random_id = false; // Assign random id to participants [true/false]
 max_time = "24:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = true; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
 debug_mode = true; // SHOULD be false in production
-language = "English"; // Spanish or English
+language = "Spanish" // spanish or english
+finish_link = "" // link at the end of the experiment example "https://app.prolific.co/submissions/complete?cc=000000"
 
 
 // ORDER OF TASKS --------------------------------------------------------------
@@ -17,13 +17,17 @@ language = "English"; // Spanish or English
 first_tasks = ['Consent']; // First tasks (in sequential order)
 last_tasks = ['Goodbye']; // Last tasks (in sequential order)
 
-// Create as many as needed.  The order of the tasks in the arrays starting with "random" will be randomized
-randomly_ordered_tasks_1 = ['SHORNAMETASKslider', 'SHORNAMETASKmultichoice']; // Block of tasks in random order
-secuentially_ordered_tasks_1 = []; // Block of tasks in sequential order
+// Block of tasks in sequential order
+secuentially_ordered_tasks_1 = ['AIM', 'AntiBots', 'Bank', 'BART', 'BDI', 'BNT', 'bRCOPE', 'CAS', 'CEL', 'CIT', 'CMApost', 'CMApre', 'ConsentHTML', 'Cov19Q', 'COVIDCONTROL', 'CRQ', 'CRS', 'CRT7', 'CRTMCQ4', 'CRTv', 'CS', 'DASS21', 'DEBRIEF', 'DEMOGR', 'EAR', 'EmpaTom', 'EQ', 'ERQ', 'ESM', 'ESV', 'ESZ', 'fauxPasEv', 'FDMQ', 'GBS', 'GHQ12', 'Goodbye', 'HRPVB', 'HRPVBpost', 'IBT', 'ICvsID', 'IDQ', 'IEC', 'IRI', 'IRS', 'LoB', 'LOT', 'LSNS', 'MCQ30', 'MDDF', 'MDMQ', 'MIS', 'NARS', 'OBJNUM', 'OTRASRELIG', 'PBSr', 'PERMA', 'PPD', 'PRFBM', 'PRFBMpost', 'PSC', 'PSETPP', 'PSPPC', 'PSS', 'PVC', 'PWb', 'REI40', 'Report', 'RMET', 'RobToM', 'RSS', 'RTS', 'SASS', 'SBS', 'SCSORF', 'SDG', 'SILS', 'sProQOL', 'SRA', 'SRBQP', 'SRSav', 'STAI', 'SWBQ', 'UCLA', 'WaisMatricesES', 'WaisWorkingMemoryES', 'WEBEXEC'];
+
+// The order of the tasks in the arrays starting with "random" will be randomized
+randomly_ordered_tasks_1 = []; 
+
+// Create as many as needed of secuentially_ordered_tasks_n and randomly_ordered_tasks_n
 
 // FINAL ARRAY of tasks [build combining the above blocks]
   // tasks SHOULD contain an array of strings. GOOD: tasks = ['my_tasks']; BAD: tasks = [my_tasks];
-tasks = ['first_tasks', 'randomly_ordered_tasks_1', 'last_tasks'];
+tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'last_tasks'];
 
 
 

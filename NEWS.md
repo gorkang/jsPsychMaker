@@ -1,3 +1,24 @@
+# jsPsychMaker 0.3
+
+Major updates
+
+* canonical_protocol has tasks and media for all tasks but not the machinery. 
+  This is to avoid duplication with canonical_clean_6, etc.
+
+
+
+# jsPsychMaker 0.2.9
+
+Major updates  
+
+* Protocols now balance correctly multiple between variables
+* Big review to mysql and indexeddb controllers
+
+Minor updates
+
+* Cleaning up - WIP
+
+
 # jsPsychMaker 0.2.8
 
 Major updates  

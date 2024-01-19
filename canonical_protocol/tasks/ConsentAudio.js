@@ -74,10 +74,13 @@ var question01 = {
   stimulus: intro_CONSENT,
   choices: ConsentAudio_001_choices,
   prompt: "<BR><BR>",
-  // If 'I reject to participate' is pressed, end experiment
+  // If 'rechazo participar' is pressed, end experiment
   on_finish: function(data){
-    if(jsPsych.data.get().values().find(x => x.trialid === 'ConsentAudio_001').button_pressed == 1){
-      jsPsych.endExperiment(ConsentAudio_001_end);
+    if(jsPsych.data.get().values().find(x => x.trialid === 'Consent_001').button_pressed == 1){
+      jsPsych.endExperiment(Consent_001_end);
+    } else {
+			data.response = Consent_001_choices[0];
+      consent_script_selector();
     }
   },
     data: {

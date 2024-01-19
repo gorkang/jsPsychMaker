@@ -135,7 +135,7 @@ create_protocol <- function(folder_tasks = NULL,
                  csv_in_subfolder = root_folder_task == basename(folder_tasks))
         
         # DF_checks
-        csv_out_of_subfolders = DF_checks |> filter(csv_in_subfolder != TRUE)
+        csv_out_of_subfolders = DF_checks |> dplyr::filter(csv_in_subfolder != TRUE)
         any_csv_out_of_subfolders = nrow(csv_out_of_subfolders) > 0
         all_csv_out_of_subfolders = nrow(DF_checks) == nrow(csv_out_of_subfolders)
         # wrong_task_name = DF_checks |> filter(task_name != task_name_should) # We do this check in create_task
