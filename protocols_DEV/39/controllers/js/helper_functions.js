@@ -2,16 +2,16 @@ if (debug_mode === true) console.warn("helper_functions()");
 
 // CHECKS ----------------------------------------------------------------------
 
-// Online mode while running locally
-URL_web = window.location.href;
-if (URL_web.startsWith("file:///") & online === true) alert("ERROR: You are running locally but online = true [see config.js]");
+  // Online mode while running locally
+  URL_web = window.location.href;
+  if (URL_web.startsWith("file:///") & online === true) alert("ERROR: You are running locally but online = true [see config.js]");
 
-// Offline mode while running on server
-URL_web = window.location.href;
-if (URL_web.startsWith("http") & online === false) alert("ERROR: You are running on a server but online = false [see config.js]");
+  // Offline mode while running on server
+  URL_web = window.location.href;
+  if (URL_web.startsWith("http") & online === false) alert("ERROR: You are running on a server but online = false [see config.js]");
 
-// Verify if .data folder exists
-file_reader();
+  // Verify if .data folder exists
+  file_reader();
 
 // ----------------------------------------------------------------------------
 

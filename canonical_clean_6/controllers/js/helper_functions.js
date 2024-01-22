@@ -3,12 +3,15 @@ if (debug_mode === true) console.warn("helper_functions()");
 // CHECKS ----------------------------------------------------------------------
 
   // Online mode while running locally
-   URL_web = window.location.href;
-   if (URL_web.startsWith("file:///") & online === true) alert("ERROR: You are running locally but online = true [see config.js]");
+  URL_web = window.location.href;
+  if (URL_web.startsWith("file:///") & online === true) alert("ERROR: You are running locally but online = true [see config.js]");
 
-   // Offline mode while running on server
-   URL_web = window.location.href;
-   if (URL_web.startsWith("http") & online === false) alert("ERROR: You are running on a server but online = false [see config.js]");
+  // Offline mode while running on server
+  URL_web = window.location.href;
+  if (URL_web.startsWith("http") & online === false) alert("ERROR: You are running on a server but online = false [see config.js]");
+
+  // Verify if .data folder exists
+  file_reader();
 
 // ----------------------------------------------------------------------------
 
@@ -31,7 +34,7 @@ actual_condition_data = [];
 var conditions = [];
 Object.entries(all_conditions).forEach(([task_name, condition_dict]) => {
   Object.entries(condition_dict).forEach(([key, conditions_temp]) => {
-    for(var i=0; i < conditions_temp.length; i++) { conditions.push({ id_protocol: pid, condition_key: key, condition_name: conditions_temp[i], assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: task_name, type: "between"}) }
+    for (var i = 0; i < conditions_temp.length; i++) { conditions.push({ id_protocol: pid, condition_key: key, condition_name: conditions_temp[i], assigned_task: 0, completed_protocol: 0, blocked: 0, task_name: task_name, type: "between" }) }
   });
 });
 
@@ -49,16 +52,16 @@ if ("maxTouchPoints" in navigator) {
 } else {
   var mQ = window.matchMedia && matchMedia("(pointer:coarse)");
   if (mQ && mQ.media === "(pointer:coarse)") {
-      hasTouchScreen = !!mQ.matches;
+    hasTouchScreen = !!mQ.matches;
   } else if ('orientation' in window) {
-      hasTouchScreen = true; // deprecated, but good fallback
+    hasTouchScreen = true; // deprecated, but good fallback
   } else {
-      // Only as a last resort, fall back to user agent sniffing
-      var UA = navigator.userAgent;
-      hasTouchScreen = (
-          /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
-          /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
-      );
+    // Only as a last resort, fall back to user agent sniffing
+    var UA = navigator.userAgent;
+    hasTouchScreen = (
+      /\b(BlackBerry|webOS|iPhone|IEMobile)\b/i.test(UA) ||
+      /\b(Android|Windows Phone|iPad|iPod)\b/i.test(UA)
+    );
   }
 }
 /*
@@ -95,17 +98,44 @@ function json_can_parsed(data) {
   if (/^[\],:{}\s]*$/.test(data.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
     //the json is ok
     return true;
-  }else{
+  } else {
     //the json is not ok
     return false;
   }
 }
 
+function file_reader(wait_for_response = false) {
+  return new Promise(
+    function (resolve, reject) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == XMLHttpRequest.DONE) {
+          response = xhr.responseText;
+          if (debug_mode === true) console.warn(response);
+          resolve(response);
+        }
+      };
+
+      // By default perform asynchronous calls.
+      if (wait_for_response === true) {
+        xhr.open('POST', 'controllers/php/read_data.php', false);
+      } else {
+        xhr.open('POST', 'controllers/php/read_data.php');
+      }
+
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.send();
+    }
+  );
+}
+
+
 // config_controller.js -------------------------------------------------------------
 
-onkeydown = function block_fkeys(event){
+onkeydown = function block_fkeys(event) {
   var x = event.which || event.keyCode;
-  if(x == 112 || x == 116){ //blocks f1 and f5 keys
+  if (x == 112 || x == 116) { //blocks f1 and f5 keys
     console.log("Blocked key");
     event.preventDefault();
     return false;
@@ -143,18 +173,18 @@ function saveData(data, online, name, version = 'original') {
     // el false es para que funcione de manera sincrónica
     xhr.open('POST', 'controllers/php/write_data.php', false);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.send(JSON.stringify({short_name: name, filedata: data, user_id: uid_external, project_code: pid, version: version}));
+    xhr.send(JSON.stringify({ short_name: name, filedata: data, user_id: uid_external, project_code: pid, version: version }));
   } else {
 
     // obtención de data
-    data = jsPsych.data.get().filter({procedure: name}).csv();
+    data = jsPsych.data.get().filter({ procedure: name }).csv();
     // creación de uri y objetos html
     var encodedUri = encodeURI("data:text/csv;charset=utf-8," + data);
     var link = document.createElement("a");
     link.setAttribute("href", encodedUri);
 
     // obtención de fecha, el slice es para asegurarnos que hayan 2 dígitos en cada elemento
-    actual_time_csv = (new Date().toISOString().slice(0, 19)).replaceAll(":","");
+    actual_time_csv = (new Date().toISOString().slice(0, 19)).replaceAll(":", "");
 
     if (uid_external != -1)
       csv_name = pid + "_" + name + "_" + version + "_" + actual_time_csv + "_" + uid_external + ".csv";
@@ -176,35 +206,35 @@ function script_loading(folder, array, completed_experiments = [], new_element =
 
   // if (debug_mode === true) console.warn("script_loading()");
 
-	var script = document.createElement("script");
-	script.type = "text/javascript";
-	script.async = false;
+  var script = document.createElement("script");
+  script.type = "text/javascript";
+  script.async = false;
 
   if (folder !== "")
     script.src = folder + "/";
   script.src += array[index] + ".js";
 
-	document.getElementsByTagName("head")[0].appendChild(script);
+  document.getElementsByTagName("head")[0].appendChild(script);
 
-	if (index < array.length - 1) {
+  if (index < array.length - 1) {
     // change: jumping first load of questions
     if (index == 0 && completed_experiments.length === 0) {
       continue_page_activation([], []);
     } else {
       script.onload = script_loading(folder, array, completed_experiments, new_element, index + 1);
     }
-	} else if (index == array.length - 1 && folder == "tasks") {
-		script.onload = function () {
-			if (experiment_blocked) {
-				alert(max_participants_reached);
+  } else if (index == array.length - 1 && folder == "tasks") {
+    script.onload = function () {
+      if (experiment_blocked) {
+        alert(max_participants_reached);
       } else if (completed_experiments.length !== 0) {
-				questions = obtain_experiments(questions, completed_experiments);
-				continue_page_activation(completed_experiments, questions);
+        questions = obtain_experiments(questions, completed_experiments);
+        continue_page_activation(completed_experiments, questions);
       } else {
-				questions = obtain_experiments(questions, completed_experiments);
+        questions = obtain_experiments(questions, completed_experiments);
       }
-		};
-	}
+    };
+  }
 }
 
 // protocol_controller.js -------------------------------------------------------------
@@ -213,7 +243,7 @@ function date_to_mil(date) {
   elements = date.split(":");
   secs = 0;
   for (var i = 0; i < elements.reverse().length; i++) {
-    secs += elements[i]*(60**i);
+    secs += elements[i] * (60 ** i);
   }
   return secs;
 }
@@ -226,11 +256,11 @@ function check_fullscreen(task_name) {
       button_label: fullscreen_label,
       delay_after: 0,
       fullscreen_mode: true,
-      data: {procedure: task_name}
+      data: { procedure: task_name }
     }],
-    data: {procedure: task_name},
-    conditional_function: function(){
-      if((screen.width || screen.width-40) < window.innerWidth ||  (screen.height || screen.height-40) < window.innerHeight)
+    data: { procedure: task_name },
+    conditional_function: function () {
+      if ((screen.width || screen.width - 40) < window.innerWidth || (screen.height || screen.height - 40) < window.innerHeight)
         return true;
       else
         return false;
@@ -241,12 +271,12 @@ function check_fullscreen(task_name) {
 function call_function(task_name) {
   questions.push({
     type: 'call-function',
-    data: {trialid: task_name + '_000', procedure: task_name},
-    func: function(){
+    data: { trialid: task_name + '_000', procedure: task_name },
+    func: function () {
       if (online) {
-        var data = jsPsych.data.get().filter({procedure: task_name}).csv();
+        var data = jsPsych.data.get().filter({ procedure: task_name }).csv();
       } else {
-        var data = jsPsych.data.get().filter({procedure: task_name}).json();
+        var data = jsPsych.data.get().filter({ procedure: task_name }).json();
       }
       saveData(data, online, task_name);
     }
@@ -254,7 +284,7 @@ function call_function(task_name) {
 }
 
 // En caso que haya data almacenada esta funcion se preocupa de manejar lo que muestra el index y cuando iniciar el protocolo
-function continue_page_activation(completed_experiments, questions, completed = false, discarded = false){
+function continue_page_activation(completed_experiments, questions, completed = false, discarded = false) {
 
   if (debug_mode === true) console.warn("continue_page_activation()");
 
@@ -266,10 +296,10 @@ function continue_page_activation(completed_experiments, questions, completed = 
   actual_time = new Date().toISOString().slice(0, 19);
   max_sec = date_to_mil(max_time);
   if (typeof user_start_date == 'undefined') user_start_date = ""
-  DBtime = user_start_date.replace(" ","T");
-  seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
-  hours_until_discarded = Math.round(((max_sec - seconds_since_start)/3600  + Number.EPSILON) * 100) / 100;
-  minutes_until_discarded = Math.round(((max_sec - seconds_since_start)/60  + Number.EPSILON));
+  DBtime = user_start_date.replace(" ", "T");
+  seconds_since_start = (new Date(actual_time) - new Date(DBtime)) / 1000;
+  hours_until_discarded = Math.round(((max_sec - seconds_since_start) / 3600 + Number.EPSILON) * 100) / 100;
+  minutes_until_discarded = Math.round(((max_sec - seconds_since_start) / 60 + Number.EPSILON));
   discard_time_message = discarded_time_message[0] + hours_until_discarded + discarded_time_message[1] + minutes_until_discarded + discarded_time_message[2];
 
   // se selecciona el texto a mostrar y si es que se muestra o no el botón para continuar con el protocolo en el punto en el que quedó
@@ -289,21 +319,21 @@ function continue_page_activation(completed_experiments, questions, completed = 
 }
 
 // filtrador de elementos por questions["procedure"]
-function obtain_experiments(questions, completed_experiments){
+function obtain_experiments(questions, completed_experiments) {
 
   if (debug_mode === true) console.warn("obtain_experiments() [[ completed_experiments: " + completed_experiments.length + " || questions_before: " + questions.length + " ]]");
 
-    // se filtran los experimentos completados para obtener los faltantes
-  acceptedValues = all_tasks.filter( function( element ) {
-    return !completed_experiments.includes( element );
-  } );
+  // se filtran los experimentos completados para obtener los faltantes
+  acceptedValues = all_tasks.filter(function (element) {
+    return !completed_experiments.includes(element);
+  });
 
   if (debug_mode === true) console.warn("obtain_experiments(): [[ " + acceptedValues.length + " ]]");
 
   // se crea el array con los elementos no completados
-    // REVIEW: ADD CHECK WITH AN INFORMATIVE MESSAGE FOR WHEN PROCEDURE IS NOT PRESENT
-    //Uncaught TypeError: Cannot read properties of undefined (reading 'procedure') LINE acceptedValues.includes(questions[e].data.procedure)
-  var questions = Object.keys(questions).reduce(function(r, e) {
+  // REVIEW: ADD CHECK WITH AN INFORMATIVE MESSAGE FOR WHEN PROCEDURE IS NOT PRESENT
+  //Uncaught TypeError: Cannot read properties of undefined (reading 'procedure') LINE acceptedValues.includes(questions[e].data.procedure)
+  var questions = Object.keys(questions).reduce(function (r, e) {
     if (acceptedValues.includes(questions[e].data.procedure)) {
       r[e] = questions[e];
     }
@@ -322,26 +352,26 @@ function obtain_experiments(questions, completed_experiments){
     type: 'call-function',
     func: function () {
       if (online === false) {
-        start_indexeddb().then(function(db) {
+        start_indexeddb().then(function (db) {
           updateIndexed("user", uid, "status", "completed", db);
 
-          findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function(user_conditions) {
+          findAllIndexedSync("user_condition", "id_user", uid, pid, db).then(function (user_conditions) {
             for (var i = 0; i < user_conditions.length; i++) {
               updateIndexed("experimental_condition", user_conditions[i].id_condition, "completed_protocol", "+", db);
             }
-          }, function() {console.log("final update user_condition table not found");});
-        }, function() {
+          }, function () { console.log("final update user_condition table not found"); });
+        }, function () {
           console.log("db not loaded");
         });
       } else if (online === true) {
-        XMLcall("updateTable", "user", {id: {"id_user": uid}, data: {"status": "completed"}});
-        XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(user_conditions) {
+        XMLcall("updateTable", "user", { id: { "id_user": uid }, data: { "status": "completed" } });
+        XMLcall("findAll", "user_condition", { keys: ["id_user"], values: [uid] }).then(function (user_conditions) {
           for (var i = 0; i < user_conditions.length; i++) {
-            XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"completed_protocol": "completed_protocol + 1"}});
+            XMLcall("updateTable", "experimental_condition", { id: { "id_condition": user_conditions[i].id_condition }, data: { "completed_protocol": "completed_protocol + 1" } });
           }
-      if (debug_mode === true) console.warn('start_protocol() | UPDATE | status: completed, completed_protocol + 1 | call-funcion END of protocol');
+          if (debug_mode === true) console.warn('start_protocol() | UPDATE | status: completed, completed_protocol + 1 | call-funcion END of protocol');
 
-        }, function() {console.log("final update user_condition table not found");});
+        }, function () { console.log("final update user_condition table not found"); });
       }
     }, data: {
       procedure: "Goodbye"
@@ -374,7 +404,7 @@ function object_to_array(selected_object) {
 
   temp_dict = window[selected_object];
 
-  let final_array = Object.keys(temp_dict).map(function(key) {
+  let final_array = Object.keys(temp_dict).map(function (key) {
     temp_array = []
     for (element of temp_dict[key]) temp_array.push('media/' + selected_object + "/" + key + "/" + element)
     return temp_array
@@ -384,7 +414,7 @@ function object_to_array(selected_object) {
 }
 
 // funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
-function start_protocol(questions){
+function start_protocol(questions) {
 
   if (debug_mode === true) console.warn("start_protocol()");
 
@@ -407,7 +437,7 @@ function start_protocol(questions){
   //questions.unshift({type: 'preload', images: images, audios: audios, video: video});
   questions.unshift(preload);
 
-// jsPsych.init ---------------------------------------
+  // jsPsych.init ---------------------------------------
 
   jsPsych.init({
     timeline: questions_consent,
@@ -421,12 +451,12 @@ function start_protocol(questions){
       // change to true if is necessary
       audio: false
     },
-    on_interaction_data_update: function(data){
-      if (data.event == 'fullscreenexit' & !hasTouchScreen && !(jsPsych.currentTrial().data.procedure == "Goodbye")){
+    on_interaction_data_update: function (data) {
+      if (data.event == 'fullscreenexit' & !hasTouchScreen && !(jsPsych.currentTrial().data.procedure == "Goodbye")) {
         alert(exit_fullscreen_message);
       }
     },
-    on_finish: function(){
+    on_finish: function () {
       if (typeof finish_link !== "undefined")
         if (finish_link != "")
           window.location = finish_link
@@ -467,7 +497,7 @@ function flattenObject(ob) {
 function image_zoom() {
   button_change = false;
   let imgs = document.querySelectorAll('img');
-  
+
   for (var i = 0; i < imgs.length; i++) {
     let img = imgs[i];
     if (img) {
@@ -484,12 +514,12 @@ function image_zoom() {
           document.querySelector("[id$=next]").title = "Tienes que hacer click sobre la imagen para que se active el botón"
           button_change = true;
           document.getElementsByClassName("fail-message")[0].parentNode.style.display = "flex"
-          document.getElementsByClassName("fail-message")[0].children[0].style.visibility='visible';
+          document.getElementsByClassName("fail-message")[0].children[0].style.visibility = 'visible';
         }
 
-      if (zoom_type == 'Intense') {
-        Intense(img);
-      } else if (zoom_type == 'fullPage') {
+        if (zoom_type == 'Intense') {
+          Intense(img);
+        } else if (zoom_type == 'fullPage') {
           if (!(document.querySelector('#fullpage'))) {
             // Crear el contenedor principal
             const mainContainer = document.createElement("div");
@@ -534,23 +564,23 @@ function image_zoom() {
             textDiv.appendChild(paragraph);
 
             // Agrega el contenedor al content
-          let parent = document.querySelector('#jspsych-content');
-            parent.appendChild(mainContainer); 
-        }
+            let parent = document.querySelector('#jspsych-content');
+            parent.appendChild(mainContainer);
+          }
 
           let mainContainer = document.querySelector('#fullpage');
           let imageDiv = document.querySelector('#fullpage > div:nth-child(1)');
-            
-          img.addEventListener('click', function() {
+
+          img.addEventListener('click', function () {
             // reestablecimiento del container y selección de imagen
             mainContainer.style.display = "flex";
             imageDiv.style.backgroundImage = 'url(' + img.src + ')';
-            
+
             // If they are in the Image condition, they need to click the image to continue.
             // CHECK with giro_check
             document.querySelector("[id$=next]").disabled = false;
-            document.querySelector("[id$=next]").title = ""          
-            document.getElementsByClassName("fail-message")[0].children[0].style.visibility='hidden'
+            document.querySelector("[id$=next]").title = ""
+            document.getElementsByClassName("fail-message")[0].children[0].style.visibility = 'hidden'
           });
         }
       }
@@ -571,7 +601,7 @@ function check_orientation() {
 };
 
 function rectify_orientation() {
-  if (giro_check){
+  if (giro_check) {
     // funcionará para todos los casos normales con un botón continuar con id que termine en "next"
     if (document.querySelector("[id$=next]") || document.querySelector("[id$=back]")) {
       if (check_orientation() == 0) {
@@ -581,12 +611,12 @@ function rectify_orientation() {
         if (!(document.querySelector('#fail-message'))) {
           var elemDiv = document.createElement('div');
           elemDiv.id = "fail-message";
-          elemDiv.innerHTML = '<span style="color: red;" class="required">' + "Porfavor gire su teléfono." +'</span>';
+          elemDiv.innerHTML = '<span style="color: red;" class="required">' + "Porfavor gire su teléfono." + '</span>';
 
           let parent = document.querySelector('#jspsych-content');
           parent.appendChild(elemDiv);
-        }  else {
-          document.querySelector('#fail-message').innerHTML = '<span style="color: red;" class="required">' + "Porfavor gire su teléfono." +'</span>';
+        } else {
+          document.querySelector('#fail-message').innerHTML = '<span style="color: red;" class="required">' + "Porfavor gire su teléfono." + '</span>';
         }
 
       } else {
@@ -634,12 +664,12 @@ const decrypt = (salt, encoded) => {
 
 // function to separate array into groups
 function groupBy(arr, property) {
-  return arr.reduce(function(memo, x) {
+  return arr.reduce(function (memo, x) {
     if (!memo[x[property]]) {
       memo[x[property]] = [];
     }
     memo[x[property]].push(x);
-      return memo;
+    return memo;
   }, {});
 }
 
@@ -666,11 +696,11 @@ function json_can_parsed(data) {
 // combination selector and script loader for all the tasks after consent
 function consent_script_selector() {
   // if more than 1 condition
-  if(!(Object.keys(all_conditions).length == 1 && Object.keys(all_conditions[Object.keys(all_conditions)[0]]).length == 1)){
+  if (!(Object.keys(all_conditions).length == 1 && Object.keys(all_conditions[Object.keys(all_conditions)[0]]).length == 1)) {
     select_combination(feasible_combinations).then(
-      function(actual_combination) {
+      function (actual_combination) {
         for (actual_task_name in all_conditions) {
-          for (actual_condition_key in all_conditions[actual_task_name]){
+          for (actual_condition_key in all_conditions[actual_task_name]) {
             for (actual_condition_name of all_conditions[actual_task_name][actual_condition_key]) {
               if (actual_combination.includes(actual_condition_name)) {
                 between_selection[actual_task_name][actual_condition_key] = actual_condition_name;
@@ -684,7 +714,7 @@ function consent_script_selector() {
     )
   } else {
     script_loading("tasks", all_tasks, completed_experiments, false, 1);
-  }  
+  }
 }
 
 function combinations_from_dict(conditions_dict) {
@@ -694,7 +724,7 @@ function combinations_from_dict(conditions_dict) {
   for (actual_task of tasks) {
     condition_keys = Object.keys(conditions_dict[actual_task])
     condition_keys.sort()
-    for (actual_key of condition_keys){
+    for (actual_key of condition_keys) {
       combinations.push(conditions_dict[actual_task][actual_key])
     }
   }
@@ -703,15 +733,15 @@ function combinations_from_dict(conditions_dict) {
   var r = []
 
   if (combinations.length > 1) {
-    var max = combinations.length-1;
+    var max = combinations.length - 1;
     function helper(arr, i) {
-      for (var j=0, l=combinations[i].length; j<l; j++) {
+      for (var j = 0, l = combinations[i].length; j < l; j++) {
         var a = arr.slice(0); // clone arr
         a.push(combinations[i][j]);
-        if (i==max)
+        if (i == max)
           r.push(a);
         else
-          helper(a, i+1);
+          helper(a, i + 1);
       }
     }
     helper([], 0);

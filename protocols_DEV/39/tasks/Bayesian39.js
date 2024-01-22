@@ -217,6 +217,7 @@ data_type = {
       },
       button_label_next: 'Siguiente',
       button_label_previous: 'Anterior',
+      error_text: 'Tienes que hacer click sobre la imagen para que se active el botón',
       data: {trialid: 'Instructions_001',
             condition_between: between_selection["Bayesian39"]["type"],
             procedure: 'Bayesian39'},
