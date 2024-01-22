@@ -24,6 +24,12 @@ jsPsych.plugins.instructions = (function() {
         array: true,
         description: 'Each element of the array is the content for a single page.'
       },
+      error_text: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'ErrorText',
+        default: "",
+        description: 'Especific text of fail-message'
+      },
       key_forward: {
         type: jsPsych.plugins.parameterType.KEYCODE,
         pretty_name: 'Key forward',
@@ -98,10 +104,13 @@ jsPsych.plugins.instructions = (function() {
         if (current_page != 0 && trial.allow_backward) {
           nav_html += "<button id='jspsych-instructions-back' class='jspsych-btn' style='margin-right: 5px;'>&lt; "+trial.button_label_previous+"</button>";
         }
-        nav_html += "<button id='jspsych-instructions-next' class='jspsych-btn' style='margin-left: 5px;'>"+trial.button_label_next+" &gt;</button></div>"
+        nav_html += "<button id='jspsych-instructions-next' class='jspsych-btn' style='margin-left: 5px;'>"+trial.button_label_next+" &gt;</button>"
+
+        nav_html += '<div class="fail-message"></div></div>';
 
         display_element.innerHTML += nav_html;
-
+        if (trial.hasOwnProperty('error_text'))
+          display_element.querySelector(".fail-message").innerHTML = '<span style="color: red; visibility: hidden; padding-left: 8px; font-size: 16px" class="required">' + trial.error_text +'</span>';
         if (current_page != 0 && trial.allow_backward) {
           display_element.querySelector('#jspsych-instructions-back').addEventListener('click', btnListener);
         }
@@ -110,6 +119,7 @@ jsPsych.plugins.instructions = (function() {
 
         // modification for zoomed images (images)
         if (document.querySelector('img'))
+          console.log(".............")
           image_zoom();
       }
       window.scrollTo(0, 0);
