@@ -10,9 +10,6 @@ if (debug_mode === true) console.warn("helper_functions()");
    URL_web = window.location.href;
    if (URL_web.startsWith("http") & online === false) alert("ERROR: You are running on a server but online = false [see config.js]");
 
-   // Verify if .data folder exists
-   file_reader();
-
 // ----------------------------------------------------------------------------
 
 // Parameters - Do not change ----------------------------------
@@ -102,32 +99,6 @@ function json_can_parsed(data) {
     //the json is not ok
     return false;
   }
-}
-
-function file_reader(wait_for_response = false) {
-  return new Promise(
-    function(resolve, reject) {
-      var xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState == XMLHttpRequest.DONE) {
-          response = xhr.responseText;
-          if (debug_mode === true) console.warn(response);
-          resolve(response);
-        }
-      };
-
-      // By default perform asynchronous calls.
-      if (wait_for_response === true) {
-        xhr.open('POST', 'controllers/php/read_data.php', false);
-      } else {
-        xhr.open('POST', 'controllers/php/read_data.php');
-      }
-
-      xhr.setRequestHeader('Content-Type', 'application/json');
-
-      xhr.send();
-    }
-  );
 }
 
 // config_controller.js -------------------------------------------------------------
