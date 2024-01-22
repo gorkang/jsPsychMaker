@@ -119,7 +119,6 @@ jsPsych.plugins.instructions = (function() {
 
         // modification for zoomed images (images)
         if (document.querySelector('img'))
-          console.log(".............")
           image_zoom();
       }
       window.scrollTo(0, 0);
