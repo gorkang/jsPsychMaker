@@ -503,4 +503,3 @@ data_type = {
 // between block finished ------------------------------------------------------
 
 call_function("Bayesian39");
-

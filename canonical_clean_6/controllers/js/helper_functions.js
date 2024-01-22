@@ -512,6 +512,8 @@ function image_zoom() {
           document.querySelector("[id$=next]").disabled = disable_button;
           document.querySelector("[id$=next]").title = "Tienes que hacer click sobre la imagen para que se active el botón"
           button_change = true;
+          document.getElementsByClassName("fail-message")[0].parentNode.style.display = "flex"
+          document.getElementsByClassName("fail-message")[0].children[0].style.visibility='visible';
         }
 
       if (zoom_type == 'Intense') {
@@ -576,7 +578,8 @@ function image_zoom() {
             // If they are in the Image condition, they need to click the image to continue.
             // CHECK with giro_check
             document.querySelector("[id$=next]").disabled = false;
-            document.querySelector("[id$=next]").title = ""
+            document.querySelector("[id$=next]").title = ""          
+            document.getElementsByClassName("fail-message")[0].children[0].style.visibility='hidden'
           });
         }
       }
