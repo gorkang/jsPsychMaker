@@ -516,11 +516,9 @@ function image_zoom() {
 
           fail_message_div = document.createElement('div')
           fail_message_div.className="fail-message"
-          fail_message_div.innerHTML= '<span style="color: red; visibility: hidden; padding-left: 8px; font-size: 16px" class="required">' + text_error_zoom + '</span>'
+          fail_message_div.innerHTML= '<span style="color: red; padding-left: 8px; font-size: 16px" class="required">' + text_error_zoom + '</span>'
 
           document.querySelector("[id$=next]").parentNode.appendChild(fail_message_div);
-
-          document.getElementsByClassName("fail-message")[0].children[0].style.visibility = 'visible';
         }
 
         if (zoom_type == 'Intense') {
