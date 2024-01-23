@@ -106,11 +106,7 @@ jsPsych.plugins.instructions = (function () {
         }
         nav_html += "<button id='jspsych-instructions-next' class='jspsych-btn' style='margin-left: 5px;'>" + trial.button_label_next + " &gt;</button>"
 
-        nav_html += '<div class="fail-message"></div></div>';
-
         display_element.innerHTML += nav_html;
-        if (trial.hasOwnProperty('error_text'))
-          display_element.querySelector(".fail-message").innerHTML = '<span style="color: red; visibility: hidden; padding-left: 8px; font-size: 16px" class="required">' + trial.error_text + '</span>';
         if (current_page != 0 && trial.allow_backward) {
           display_element.querySelector('#jspsych-instructions-back').addEventListener('click', btnListener);
         }
