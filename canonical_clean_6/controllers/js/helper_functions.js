@@ -260,7 +260,7 @@ function check_fullscreen(task_name) {
     }],
     data: { procedure: task_name },
     conditional_function: function () {
-      if ((screen.width || screen.width - 40) < window.innerWidth || (screen.height || screen.height - 40) < window.innerHeight)
+      if ((screen.width || screen.width - 40) > window.innerWidth && (screen.height || screen.height - 40) > window.innerHeight)
         return true;
       else
         return false;
@@ -511,10 +511,14 @@ function image_zoom() {
           if (debug_mode == true) disable_button = false
 
           document.querySelector("[id$=next]").disabled = disable_button;
-          document.querySelector("[id$=next]").title = "Tienes que hacer click sobre la imagen para que se active el botón"
+          document.querySelector("[id$=next]").title = text_error_zoom;
           button_change = true;
-          document.getElementsByClassName("fail-message")[0].parentNode.style.display = "flex"
-          document.getElementsByClassName("fail-message")[0].children[0].style.visibility = 'visible';
+
+          fail_message_div = document.createElement('div')
+          fail_message_div.className="fail-message"
+          fail_message_div.innerHTML= '<span style="color: red; padding-left: 8px; font-size: 16px" class="required">' + text_error_zoom + '</span>'
+
+          document.querySelector("[id$=next]").parentNode.appendChild(fail_message_div);
         }
 
         if (zoom_type == 'Intense') {

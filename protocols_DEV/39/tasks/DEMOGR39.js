@@ -5,20 +5,6 @@ questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? 
 questions.push( check_fullscreen('DEMOGR39') );
 DEMOGR39 = [];    //temporal timeline
 
-
-var instruction_screen_experiment = {
-    type: 'fullscreen',
-    fullscreen_mode: true,
-    message: [`<b><big>Información demográfica</big></b><BR>Por favor, contesta a las siguientes preguntas<BR><BR>`],
-    button_label: 'Iniciar el estudio a pantalla completa',
-    data: {trialid: 'Instructions_01', procedure: 'DEMOGR39'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
-};
-
-
 var question01 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">¿Eres estudiante de Medicina o profesional Médico?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
