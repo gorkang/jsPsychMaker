@@ -65,7 +65,7 @@ function instructions_p2 (type) {
     TextPV: `Para facilitar la tarea, podrás consultar los Valores Predictivos en un texto a la derecha de la pantalla.<BR><BR><BR><BR>`,
     Text: ""};
 
-  instructions_page2 = `<H2>Instructiones (2/3)</H2>Usando la prevalencia, sensibilidad y especificidad es posible calcular:<BR><BR>
+  instructions_page2 = `<H2>Instrucciones (2/3)</H2>Usando la prevalencia, sensibilidad y especificidad es posible calcular:<BR><BR>
   <li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo</li><BR>
   <li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo</li><BR><BR>` +
   instructions_p2_extra[type]
