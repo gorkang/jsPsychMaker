@@ -120,51 +120,13 @@ var question08 = {
 DEMOGR39.push(question08);
 
 
-/*
-
-var question06 = {
-  type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">Indica <B>tú</B> carrera</div>', options: ['&nbsp;Medicina', '&nbsp;Enfermería', '&nbsp;Administración', '&nbsp;Bioquímica', '&nbsp;Carrera Técnica', '&nbsp;Farmacia', '&nbsp;Fonoaudiología', '&nbsp;Kinesiología', '&nbsp;Nutrición', '&nbsp;Odontología', '&nbsp;Psicología', '&nbsp;Otra'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'DEMOGR39_05', procedure: 'DEMOGR39'}
-};
-DEMOGR39.push(question05);
-
-var if_question06 = {
-timeline: [question06],
-data: {trialid: 'DEMOGR39_06_if', procedure: 'DEMOGR39'},
-conditional_function: function(){
-  let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'DEMOGR39_05'))['response'])['Q0']).trim();
- if((data) ==  'Medicina' | (data) ==  '&nbsp;Medicina'){
-   return true;
-   } else {
-   return false;
-  }
-}
-};
-
-DEMOGR39.push(if_question06);
-
-var question03 = {
-  type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">¿Tienes algún tipo de daltonismo?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'DEMOGR39_03', procedure: 'DEMOGR39'}
-};
-DEMOGR39.push(question03);
-
-var question07 = {
-  type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">Indica <B>tú</B> jerarquía en el ámbito médico</div>', options: ['&nbsp;Médico tratante', '&nbsp;Médico residente', '&nbsp;Asistente médico', '&nbsp;Enfermera/o', '&nbsp;Enfermera en prácticas', '&nbsp;Otra dentro del ámbito médico', '&nbsp;Otra fuera del ámbito médico'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'DEMOGR39_07', procedure: 'DEMOGR39'}
-};
-DEMOGR39.push(question07);
-
-var question08 = {
+var question09 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">Indica los años de estudio (desde el inicio de tus estúdios superiores) o de ejercicio profesional</div>', type: 'number', range: [0, 60], required: true, error_text: 'Tienes que indicar el número de años. Si tan solo llevas unos meses, puedes redondear hasta el entero mas cercano'}],
-  data: {trialid: 'DEMOGR39_08', procedure: 'DEMOGR39'}
+  data: {trialid: 'DEMOGR39_09', procedure: 'DEMOGR39'}
 };
-DEMOGR39.push(question08);
-*/
+DEMOGR39.push(question09);
+
 
 
 DEMOGR39.unshift(instruction_screen_experiment);
