@@ -252,7 +252,7 @@ data_type = {
             on_load: function(){
               // Check Fullscreen and ask for it if not
               if (!hasTouchScreen) {
-                if(window.innerWidth != screen.width || window.innerHeight != screen.height) alert("Por favor, pulsa F11 para volver a pantalla completa")
+                if ((screen.width || screen.width - 40) > window.innerWidth || (screen.height || screen.height - 40) > window.innerHeight) alert("Por favor, pulsa F11 para volver a pantalla completa")
               };
             },
             data: function () {
@@ -502,4 +502,3 @@ data_type = {
 // between block finished ------------------------------------------------------
 
 call_function("Bayesian39");
-
