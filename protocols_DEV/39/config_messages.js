@@ -29,7 +29,7 @@ switch (language) {
         'Bienvenida/o,<BR><BR>' +
         'La duración de este protocolo es de entre 5 y 10 minutos. Incluye unas pocas preguntas demográficas y 4 casos hipotéticos donde te pedimos que realices recomendaciones.<BR><BR>' +
         'Si tienes alguna duda, puedes escribirnos a: <mailto::' + var_researcher_email + '>' + var_researcher_email + '</mailto><BR><BR>' +
-        'Te recomendamos usar <a href = "https://www.google.com/chrome/">Google Chrome <img src="controllers/media/compatible_chrome.png" name="Chrome" align="bottom" border="0", height="24", width="24"/></a>';
+        'Recuerda usar un navegador actualizado';
       
 
         // helper messages ------------------------------------------------------------
