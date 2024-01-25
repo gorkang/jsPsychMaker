@@ -8,6 +8,8 @@
   usethis::pr_push()
   usethis::pr_finish()
 
+  # After approving others' pull requests
+    # Need to delete local branch
 
 # Process new docs --------------------------------------------------------
 
