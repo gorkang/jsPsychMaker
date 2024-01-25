@@ -153,7 +153,7 @@ function updateIndexed(table, id, variable, new_data = "", db) {
     };
     requestUpdate.onsuccess = function (event) {
       // Success - the data is updated!
-      console.log("Has been updated in your database.");
+      if (debug_mode === true) console.log("Has been updated in your database.");
     };
   };
 }
@@ -357,7 +357,7 @@ function addIndexed(table, data, db) {
     .add(data);
 
   request.onsuccess = function (event) {
-    console.log("Has been added to your database.");
+    if (debug_mode === true) console.log("Has been added to your database.");
   };
 
   request.onerror = function (event) {
@@ -378,7 +378,7 @@ function removeIndexed(table, id, db) {
 // condition_selection() --------------------------------------------------------
 // select combination from combination_between if there is 2 or more conditions otherwise return a empty array
 function select_combination(feasible_combinations) {
-  console.warn("select_combination")
+  if (debug_mode === true) console.warn("select_combination()")
   return new Promise(
     function(resolve, reject) {
       start_indexeddb().then(function (db) {
@@ -635,7 +635,7 @@ function assign_condition_counter(selected_between_selection) {
       for (actual_task_name of Object.keys(selected_between_selection)) {
         for (actual_condition_key of Object.keys(selected_between_selection[actual_task_name])) {
           actual_selected_condition = condition_data.find((element) => element.condition_key == actual_condition_key && element.condition_name == between_selection[actual_task_name][actual_condition_key]);
-          console.log(actual_selected_condition.condition_name)
+          if (debug_mode === true) console.log(actual_selected_condition.condition_name)
           updateIndexed("experimental_condition", actual_selected_condition.id_condition, "counter", "+", db);
           //updateFindedIndexed("experimental_condition", actual_selected_condition.id_condition, "assigned_task", "+", db);
           //XMLcall("updateTable", "experimental_condition", {id: {"id_condition": actual_selected_condition.id_condition}, data: {"assigned_task": "assigned_task + 1"}});
@@ -840,10 +840,10 @@ function check_id_status(event) {
           // END DELETEME ------------------------------
           if (accepted) {
             script_loading("tasks", all_tasks, completed_experiments);
-            console.warn("NEW participant | available slots");
+            if (debug_mode === true) console.warn("NEW participant | available slots");
           } else {
             if (debug_mode === true) console.warn("check_id_status() | NEW participant | condition_selection returned false");
-            console.warn("NEW participant | no available slots");
+            console.warn("NEW participant | NO available slots");
           }
         });
       });
