@@ -8,8 +8,8 @@ random_id = true;
 max_time = "24:00:00";
 accept_discarded = false;
 debug_mode = false; // SHOULD be false in production
-language = "Spanish" // spanish or english
-finish_link = "" // link at the end of the experiment example "https://app.prolific.co/submissions/complete?cc=000000"
+language = "Spanish"
+finish_link = ""
 
 var_researcher_email = `gorkang@gmail.com`;
 
@@ -39,4 +39,3 @@ zoom_type = 'fullPage';
 
 // Conditions for experimental task
 all_conditions = {"Bayesian39": {"type": ["Text", "Image", "TextPV"]}};
-all_conditions = {"Bayesian39": {"type": ["Image"]}};
