@@ -6,8 +6,8 @@
 
   usethis::pr_init(branch = "NameOfTemporalBranch")
   usethis::pr_push()
-  usethis::pr_finish()
-
+  usethis::pr_finish() # After merging in Github
+  
   # After approving others' pull requests
     # Need to delete local branch
 
