@@ -39,4 +39,3 @@ zoom_type = 'fullPage';
 
 // Conditions for experimental task
 all_conditions = {"Bayesian39": {"type": ["Text", "Image", "TextPV"]}};
-all_conditions = {"Bayesian39": {"type": ["Image"]}};

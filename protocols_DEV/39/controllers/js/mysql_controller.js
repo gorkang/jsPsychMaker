@@ -911,7 +911,6 @@ function completed_task_storage(task) {
           Object.entries(all_conditions).forEach(([key, value]) => {
             all_conditions_size += Object.keys(all_conditions[key]).length;
           })
-          console.log(all_conditions_size)
 
           // For each of the between tasks (usually just one), assigned_task + 1
             // REVIEW: With multiple between conditions, there must be slots in all or none of the conditions, right?
@@ -960,14 +959,9 @@ function completed_task_storage(task) {
             if (debug_mode === true) console.warn("completed_task_storage() || NEW user, first task | User assigned | task: " + added_task);
 
             combination_list = [];
-            all_conditions_size = 0;
-
-            Object.entries(all_conditions).forEach(([key, value]) => {
-              all_conditions_size += Object.keys(all_conditions[key]).length;
-            })
-
+            
             // ADD data to user table
-            XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function (actual_user) {
+            XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function () {
 
               // GET DB internal uid
               XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
