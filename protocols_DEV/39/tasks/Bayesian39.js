@@ -259,18 +259,21 @@ data_type = {
             button_label_next: 'Empezar caso',
             on_load: function(){
               if (count_timeline === 0){
-                // this is the progress on one question (the question is a timeline of 6 questions) for the progressbar
+                // Progress for one question/case (a timeline of 6 screens) for the progressbar
                 progress_for_fraction = jsPsych.getProgressBarCompleted() - progress_for_fraction;
 
                 // initial progress bar status
                 count_timeline = jsPsych.getProgressBarCompleted()
-                // base "current_trial_global" we use this for count of elements
+                
+                // initial trial
                 base_current_trial_global = jsPsych.progress().current_trial_global;
+                
                 // new fraction is the size of 1 screen 
                 // we have 4 timelines, and 6 questions on each timeline
                 new_fraction = progress_for_fraction/(within_timeline_01.timeline.length)
               }
-              updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global-base_current_trial_global)
+              updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
+              
               // Check Fullscreen and ask for it if not
               if (!hasTouchScreen) {
                 if ((screen.width || screen.width - 40) > window.innerWidth || (screen.height || screen.height - 40) > window.innerHeight) alert("Por favor, pulsa F11 para volver a pantalla completa")
@@ -361,11 +364,9 @@ data_type = {
           return element;
         },
         on_load: function() {
-          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global-base_current_trial_global)
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
 
           // Only in the Image condition as it deactivates button
-          //name_first_image = document.querySelectorAll('img')[0].currentSrc.split('/').reverse()[0];
-          //console.log(document.querySelectorAll('img')[0].currentSrc.split('/').reverse()[0])
           if (between_selection["Bayesian39"]["type"] == 'Image') image_zoom();
 
         }
@@ -391,7 +392,7 @@ data_type = {
         },
         button_label: 'Siguiente',
         on_load: function() {
-          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global-base_current_trial_global)
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
         },
         data: function () {
           var element = {
@@ -421,7 +422,7 @@ data_type = {
         labels: ['Poca', 'Mucha'],
         button_label: "Siguiente",
         on_load: function() {
-          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global-base_current_trial_global)
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
         },
         data: function () {
           var element = {
@@ -462,7 +463,7 @@ data_type = {
         },
         button_label: 'Siguiente',
         on_load: function() {
-          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global-base_current_trial_global)
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
         },
         data: function () {
           var element = {
@@ -493,7 +494,7 @@ data_type = {
         labels: ['Poca', 'Mucha'],
         button_label: "Siguiente",
         on_load: function() {
-          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global-base_current_trial_global)
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
         },
         data: function () {
           var element = {

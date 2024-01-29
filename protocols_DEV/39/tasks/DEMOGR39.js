@@ -5,6 +5,19 @@ questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? 
 questions.push( check_fullscreen('DEMOGR39') );
 DEMOGR39 = [];    //temporal timeline
 
+
+var instruction_screen_experiment = {
+    type: 'instructions',
+    pages: ['<p><left>' +
+    '<p><left><b><big>Datos demográficos</big></b><br />'+'Por favor, contesta a las siguientes preguntas' +'</p>'],
+    data: {trialid: 'Instructions_01', procedure: 'DEBRIEF39'},
+    show_clickable_nav: true,
+    on_trial_start: function(){
+        bloquear_enter = 0;
+    }
+};
+
+
 var question01 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">¿Eres estudiante de Medicina o profesional Médico?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
@@ -63,7 +76,7 @@ DEMOGR39.push(question04);
 
 var question05 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">Indica <B>tú</B> ocupación</div>', options: ['&nbsp;Profesional', '&nbsp;Estudiante'], required: true,  random_options: false, horizontal: false}],
+  questions: [{prompt: '<div class="justified">Indica <B>tú</B> ocupación</div>', options: ['&nbsp;Profesional médico', '&nbsp;Estudiante de medicina'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'DEMOGR39_05', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question05);
@@ -114,7 +127,7 @@ DEMOGR39.push(if_question07);
 
 var question08 = {
   type: 'survey-text',
-  questions: [{prompt: '<div class="justified">País donde estudias/has estudiado:</div>', type: 'text', required: true, error_text: 'Tienes que indicar el país donde estudias o has estudiado.'}],
+  questions: [{prompt: '<div class="justified">País donde has estudiado/estudias:</div>', type: 'text', required: true, error_text: 'Tienes que indicar el país donde estudias o has estudiado.'}],
   data: {trialid: 'DEMOGR39_08', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question08);
@@ -122,7 +135,7 @@ DEMOGR39.push(question08);
 
 var question09 = {
   type: 'survey-text',
-  questions: [{prompt: '<div class="justified">Indica los años de estudio (desde el inicio de tus estúdios superiores) o de ejercicio profesional</div>', type: 'number', range: [0, 60], required: true, error_text: 'Tienes que indicar el número de años. Si tan solo llevas unos meses, puedes redondear hasta el entero mas cercano'}],
+  questions: [{prompt: '<div class="justified">Indica los años de de ejercicio profesional o de estudio (desde el inicio de tus estúdios de Medicina)</div>', type: 'number', range: [0, 60], required: true, error_text: 'Tienes que indicar el número de años. Si tan solo llevas unos meses, puedes redondear hasta el entero mas cercano'}],
   data: {trialid: 'DEMOGR39_09', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question09);
