@@ -509,7 +509,7 @@ function check_id_status(event) {
             // accepted == we have available slots
             if (accepted) {
               script_loading("tasks", all_tasks, completed_experiments, true); // LOAD all the tasks. This also loads the between participants conditions
-              console.warn("NEW participant | available slots");
+              if (debug_mode === true) console.warn("NEW participant | available slots");
             } else {
               if (debug_mode === true) console.warn("check_id_status() | NEW participant | condition_selection returned false");
               console.warn("NEW participant | no available slots");
