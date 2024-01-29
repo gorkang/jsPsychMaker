@@ -256,7 +256,7 @@ function load_clean_mysql(iterations_for_review, max_participants) {
 // condition_selection() --------------------------------------------------------
 // select combination from combination_between if there is 2 or more conditions otherwise return a empty array
 function select_combination(feasible_combinations) {
-  console.warn("select_combination")
+  if (debug_mode === true) console.warn("select_combination()")
   return new Promise(
     function(resolve, reject) {
       XMLcall("findAll", "combination_between", {keys: ["id_protocol", "assigned"], values: [pid, 1]}).then(function(all_combinations) {
@@ -591,7 +591,7 @@ function check_id_status(event) {
           // accepted == we have available slots
           if (accepted) {
             script_loading("tasks", all_tasks, completed_experiments); // LOAD all the tasks. This also loads the between participants conditions
-            console.warn("NEW participant | available slots");
+            if (debug_mode === true) console.warn("NEW participant | available slots");
           } else {
             if (debug_mode === true) console.warn("check_id_status() | NEW participant | condition_selection returned false");
             console.warn("NEW participant | no available slots");

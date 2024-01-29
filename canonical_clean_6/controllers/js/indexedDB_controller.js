@@ -366,7 +366,7 @@ function removeIndexed(table, id, db) {
 // condition_selection() --------------------------------------------------------
 // select combination from combination_between if there is 2 or more conditions otherwise return a empty array
 function select_combination(feasible_combinations) {
-  console.warn("select_combination")
+  if (debug_mode === true) console.warn("select_combination()")
   return new Promise(
     function(resolve, reject) {
       start_indexeddb().then(function (db) {
@@ -828,7 +828,7 @@ function check_id_status(event) {
           // END DELETEME ------------------------------
           if (accepted) {
             script_loading("tasks", all_tasks, completed_experiments);
-            console.warn("NEW participant | available slots");
+            if (debug_mode === true) console.warn("NEW participant | available slots");
           } else {
             if (debug_mode === true) console.warn("check_id_status() | NEW participant | condition_selection returned false");
             console.warn("NEW participant | no available slots");
