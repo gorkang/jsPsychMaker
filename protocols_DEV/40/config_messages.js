@@ -1,6 +1,6 @@
 // Configuration file for messages
 
-var_researcher_email = `changemeto@myemail.com`;
+var_researcher_email = `gorkang@gmail.com`;
 
 // Logos (you can replace the files in controllers/media/)
 logo_intro = "controllers/media/logo.png"
@@ -46,6 +46,7 @@ switch (language) {
         progress_bar_message = 'Porcentaje completado'; // Message to show in the progress bar
         loading_resources_message = 'Cargando recursos...'; // Message to show when loading resources
         zoom_in_out_message = "Haz click de nuevo en la imagen para volver atrás";
+        text_error_zoom = "Tienes que hacer click sobre la imagen para que se active el botón";
 
 
         // mysql/indexedDB controller messages ------------------------------------------------------------
@@ -96,6 +97,7 @@ switch (language) {
         progress_bar_message = 'Percentage completed'; // Message to show in the progress bar
         loading_resources_message = 'Loading resources...'; // Message to show when loading resources
         zoom_in_out_message = "Click again on the image to zoom out";
+        text_error_zoom = "You have to click on the image for the button to activate.";
 
 
         // mysql/indexedDB controller messages ------------------------------------------------------------

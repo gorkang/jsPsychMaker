@@ -4,7 +4,7 @@
 // EXPERIMENTAL DESIGN ---------------------------------------------------------
 
   // Between conditions
-  //between_selection_task = usable_between("Bayesian31")
+  //between_selection_task = usable_between("Bayesian40")
 
   // Within variables
   var disease = {disease: ['Cancer', 'Stroke']};
@@ -23,13 +23,13 @@
   test_quality_order.push(jsPsych.randomization.factorial(test_quality, 1, false, false));
 
   // Create final array
-  within_selection["Bayesian31"] = [];
+  within_selection["Bayesian40"] = [];
   for (var i = 0; i < disease_order.length; i++) {
     for (var j = 0; j < disease_order.length; j++) {
-      within_selection["Bayesian31"].push({ disease: disease_order[i]["disease"], test_quality: test_quality_order[i][j]["test_quality"] });
+      within_selection["Bayesian40"].push({ disease: disease_order[i]["disease"], test_quality: test_quality_order[i][j]["test_quality"] });
     }
   }
-  //if (debug_mode === true) console.table(within_selection["Bayesian31"]);
+  //if (debug_mode === true) console.table(within_selection["Bayesian40"]);
 
 
 
@@ -76,7 +76,7 @@ function instructions_p3 (type) {
   instructions_p3_extra = {
     Image: `To make the task easier, you will be able to check the Predictive Values in an image similar to the ones below. <B>Click on the image to zoom in and out</B> (do it to activate the [ Next > ] button).<BR><BR>
     The images show how the Predictive Value changes depending on the age of the person taking the test or the time since the symptoms started.<BR><BR>
-    <img class="image_zoom" src="media/images/Bayesian31/Example_PPV.png" style="max-width: 40%; max-height: 40%;"> <img class="image_zoom" src="media/images/Bayesian31/Example_NPV.png" style="max-width: 40%; max-height: 40%;"><BR><BR>`,
+    <img class="image_zoom" src="media/images/Bayesian40/Example_PPV.png" style="max-width: 40%; max-height: 40%;"> <img class="image_zoom" src="media/images/Bayesian40/Example_NPV.png" style="max-width: 40%; max-height: 40%;"><BR><BR>`,
     TextPV: `To make the task easier, you will be able to check the Predictive Values in a text on the right of the screen.<BR><BR>`,
     Text: "<BR><BR>"};
 
@@ -97,7 +97,7 @@ function instructions_p3 (type) {
 
 // Page 4
 instructions_page4 = `<H2>Instructions (4/4)</H2>The numerical information that will be presented is based on the scientific literature.<BR><BR>
-<img src = "media/images/Bayesian31/intro.png"><BR><BR>If you have any doubts, you can review the instructions now by pressing the [ < Previous ] button.<BR><BR>
+<img src = "media/images/Bayesian40/intro.png"><BR><BR>If you have any doubts, you can review the instructions now by pressing the [ < Previous ] button.<BR><BR>
 If you press the [ Next > ] button the task will begin and you will not be able to go back.<BR><BR>`
 
 
@@ -152,10 +152,10 @@ data_type = {
 
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/images/Bayesian31/BreastCancer_PPV.png', textPV: '<B>Positive Predictive Value</B>: 5%<br>(very low) <span style = "font-size: small;"><BR>5 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
-    'highQuality_Cancer': {image: 'media/images/Bayesian31/BreastCancer_NPV.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/images/Bayesian31/Stroke_NPV.png', textPV: '<B>Negative Predictive Value</B>: 51%<br>(intermediate) <span style = "font-size: small;"><BR>51 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"]},
-    'highQuality_Stroke': {image: 'media/images/Bayesian31/Stroke_PPV.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"]}
+    'lowQuality_Cancer': {image: 'media/images/Bayesian40/BreastCancer_PPV.png', textPV: '<B>Positive Predictive Value</B>: 5%<br>(very low) <span style = "font-size: small;"><BR>5 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/images/Bayesian40/BreastCancer_NPV.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/images/Bayesian40/Stroke_NPV.png', textPV: '<B>Negative Predictive Value</B>: 51%<br>(intermediate) <span style = "font-size: small;"><BR>51 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"]},
+    'highQuality_Stroke': {image: 'media/images/Bayesian40/Stroke_PPV.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"]}
   };
 
 
@@ -173,8 +173,8 @@ data_type = {
 
   // Final array
   questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-  questions.push(check_fullscreen("Bayesian31"));
-  Bayesian31 = [];
+  questions.push(check_fullscreen("Bayesian40"));
+  Bayesian40 = [];
 
   // If image, get height and width for text block
   for (const [key, value] of Object.entries(data_test_quality)) {
@@ -192,11 +192,11 @@ data_type = {
   // giro de pantalla
   var instructions_000 = {
       type: 'instructions',
-      pages: ['To be able to continue, the screen needs to be positioned horizontally (in landscape). <BR> <img src="media/images/Bayesian31/iphone-rotation-475102.png" style="max-width: 30%; max-height: 30%;"><BR>If the screen is vertical (in portrait) the, [Next >] button will be inactive.'],
+      pages: ['To be able to continue, the screen needs to be positioned horizontally (in landscape). <BR> <img src="media/images/Bayesian40/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>If the screen is vertical (in portrait) the, [Next >] button will be inactive.'],
       button_label_next: 'Next',
       data: {trialid: 'Instructions_000',
-            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-            procedure: 'Bayesian31'},
+            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+            procedure: 'Bayesian40'},
       show_clickable_nav: true,
       on_trial_start: function(){
           bloquear_enter = 0;
@@ -222,31 +222,31 @@ data_type = {
     },
     data: {
       trialid: 'if_instructions_000',
-      condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-      procedure: 'Bayesian31'
+      condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+      procedure: 'Bayesian40'
     }
   };
 
   var instructions_between_01 = {
       type: 'instructions',
       pages: function() {
-        return ([data_type[between_selection["Bayesian31"]["type"]]["page1"]["text"],
-                 data_type[between_selection["Bayesian31"]["type"]]["page2"]["text"],
-                 data_type[between_selection["Bayesian31"]["type"]]["page3"]["text"],
-                 data_type[between_selection["Bayesian31"]["type"]]["page4"]["text"]])
+        return ([data_type[between_selection["Bayesian40"]["type"]]["page1"]["text"],
+                 data_type[between_selection["Bayesian40"]["type"]]["page2"]["text"],
+                 data_type[between_selection["Bayesian40"]["type"]]["page3"]["text"],
+                 data_type[between_selection["Bayesian40"]["type"]]["page4"]["text"]])
       },
       button_label_next: 'Next',
       button_label_previous: 'Previous',
       data: {trialid: 'Instructions_001',
-            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-            procedure: 'Bayesian31'},
+            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+            procedure: 'Bayesian40'},
       show_clickable_nav: true,
       on_trial_start: function(){
           bloquear_enter = 0;
       }
   };
 
-  //console.log(within_selection["Bayesian31"]);
+  //console.log(within_selection["Bayesian40"]);
 
 // BLOCK 1: Start within block ---------------------------------------------------------
 // --------------------------------------------------------------------------------------
@@ -277,10 +277,10 @@ data_type = {
             },
             data: function () {
               element = {
-                trialid: 'Bayesian31_01_' + (parseInt(num) + 1).toString(),
+                trialid: 'Bayesian40_01_' + (parseInt(num) + 1).toString(),
                 condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-                condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-                procedure: 'Bayesian31'
+                condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+                procedure: 'Bayesian40'
               };
               return element;
             },
@@ -323,7 +323,7 @@ data_type = {
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
           // BETWEEN variable [Picture / TextPV / Text]:
-          if (between_selection["Bayesian31"]["type"] == 'Image') {
+          if (between_selection["Bayesian40"]["type"] == 'Image') {
             
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
@@ -336,14 +336,14 @@ data_type = {
             
             </div>`;
 
-          } else if (between_selection["Bayesian31"]["type"] == 'TextPV') { // que pasa si las imagenes tienen distintos tamaños? #TODO
+          } else if (between_selection["Bayesian40"]["type"] == 'TextPV') { // que pasa si las imagenes tienen distintos tamaños? #TODO
 
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
             <div style="font-size:14px; text-align: justify;">In the box you can see the <b>Predictive Value ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculated from the prevalence, sensitivity and specificity: <br><br></div>
             <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div></div>`;
             
-          } else if (between_selection["Bayesian31"]["type"] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
+          } else if (between_selection["Bayesian40"]["type"] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
 
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">&nbsp;` +
@@ -360,11 +360,11 @@ data_type = {
         data: function () {
           // hay que conversar sobre lo que quedará guardado en stimulus del survey-html-form, esto incluye la modificacion del plugin
           var element = {
-            trialid: 'Bayesian31_02_' + num,
-            //condition_within: within_selection["Bayesian31"]["timeline_01"],
+            trialid: 'Bayesian40_02_' + num,
+            //condition_within: within_selection["Bayesian40"]["timeline_01"],
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-            procedure: 'Bayesian31'
+            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+            procedure: 'Bayesian40'
           };
           return element;
         },
@@ -373,7 +373,7 @@ data_type = {
           // Only in the Image condition as it deactivates button
           //name_first_image = document.querySelectorAll('images')[0].currentSrc.split('/').reverse()[0];
           //console.log(document.querySelectorAll('images')[0].currentSrc.split('/').reverse()[0])
-          if (between_selection["Bayesian31"]["type"] == 'Image') image_zoom();
+          if (between_selection["Bayesian40"]["type"] == 'Image') image_zoom();
 
         }
       },
@@ -382,14 +382,14 @@ data_type = {
       {
         type: 'survey-multi-choice-vertical',
         questions: function() {
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian31_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian31_02_' + num})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian40_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian40_02_' + num})).select('response').values.length - 1] ) );
           return [
-            {// para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en Bayesian31_01 se puede obtener con answers[0]
+            {// para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en Bayesian40_01 se puede obtener con answers[0]
               prompt: `<div class="justified"><HR><div style="color:#424949; font-size:15px;">
               You said the probability of ` + 
               data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ` having ` + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ` if the result of the ` + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ` is <B>` + data_test_quality[jsPsych.timelineVariable("test_quality", true) + `_` + jsPsych.timelineVariable("disease", true)].type_image + `</B>` + ` is ` + answers[0] + `%.</div><HR><BR>
     
-              The physician recommendation is to <B>` + between_selection["Bayesian31"]["recommendation"] + `</B> the test. Your friend is unsure and insists on listening to your opinion.<BR><BR>
+              The physician recommendation is to <B>` + between_selection["Bayesian40"]["recommendation"] + `</B> the test. Your friend is unsure and insists on listening to your opinion.<BR><BR>
 
               Would you recommend the ` + data_disease[jsPsych.timelineVariable('disease', true)].test_description + ` as a <u>` + data_disease[jsPsych.timelineVariable('disease', true)].test1 + ` test ` +
               `</u> to detect ` + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + ` to your friend?<BR></div>`,
@@ -403,10 +403,10 @@ data_type = {
         button_label: 'Next',
         data: function () {
           var element = {
-            trialid: 'Bayesian31_03_' + num,
+            trialid: 'Bayesian40_03_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-            procedure: 'Bayesian31'
+            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+            procedure: 'Bayesian40'
           };
           return element;
         }
@@ -417,8 +417,8 @@ data_type = {
         type: 'html-slider-response',
         stimulus: function () {
           
-          answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian31_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian31_02_' + num})).select('response').values.length - 1] ) ),
-                    Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian31_03_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian31_03_' + num})).select('response').values.length - 1] ) )];
+          answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian40_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian40_02_' + num})).select('response').values.length - 1] ) ),
+                    Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian40_03_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian40_03_' + num})).select('response').values.length - 1] ) )];
 
           if (answers[1][0].trim() == "Yes") {
             Yes_No = ""
@@ -440,10 +440,10 @@ data_type = {
         button_label: "Next",
         data: function () {
           var element = {
-            trialid: 'Bayesian31_04_' + num,
+            trialid: 'Bayesian40_04_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-            procedure: 'Bayesian31'
+            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+            procedure: 'Bayesian40'
           };
           return element;
         }
@@ -455,11 +455,11 @@ data_type = {
         questions: function() {
 
           // Fetch % response
-          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian31_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian31_02_' + num})).select('response').values.length - 1] ) );
+          answers = Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian40_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian40_02_' + num})).select('response').values.length - 1] ) );
 
           return [
             {
-              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en Bayesian31_01 se puede obtener con answers[0]
+              // para el caso de que queramos obtener la primera respuesta de la lista de respuestas obtenidas en Bayesian40_01 se puede obtener con answers[0]
               prompt: `<div class="justified">
               Imagine that, regardless of your recommendation, your friend takes the ` + data_disease[jsPsych.timelineVariable('disease', true)].test_description + `. The result is <b>` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image.toUpperCase() + `</b>.<BR><BR>
               <HR><div style="color:#424949; font-size:15px;">You estimated the probability of ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ` having a ` + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ` if the ` + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ` result is <B>` + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + `</B> is ` + answers[0] + `%.</div><HR><BR>` +
@@ -476,10 +476,10 @@ data_type = {
         button_label: 'Next',
         data: function () {
           var element = {
-            trialid: 'Bayesian31_05_' + num,
+            trialid: 'Bayesian40_05_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-            procedure: 'Bayesian31'
+            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+            procedure: 'Bayesian40'
           };
           return element;
         }
@@ -490,8 +490,8 @@ data_type = {
         type: 'html-slider-response',
         stimulus: function () {
 
-          answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian31_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian31_02_' + num})).select('response').values.length - 1] ) ),
-                    Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian31_05_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian31_05_' + num})).select('response').values.length - 1] ) )];
+          answers = [Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian40_02_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian40_02_' + num})).select('response').values.length - 1] ) ),
+                    Object.values( JSON.parse( (jsPsych.data.get().filter({trialid: 'Bayesian40_05_' + num})).select('response').values[(jsPsych.data.get().filter({trialid: 'Bayesian40_05_' + num})).select('response').values.length - 1] ) )];
 
           if (answers[1][0].trim() == "Yes") {
             Yes_No = ""
@@ -516,17 +516,17 @@ data_type = {
         button_label: "Next",
         data: function () {
           var element = {
-            trialid: 'Bayesian31_06_' + num,
+            trialid: 'Bayesian40_06_' + num,
             condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
-            condition_between: between_selection["Bayesian31"]["type"] + "_" + between_selection["Bayesian31"]["recommendation"],
-            procedure: 'Bayesian31'
+            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+            procedure: 'Bayesian40'
           };
           return element;
         }
       }
     ],
-    data: {procedure: 'Bayesian31'},
-    timeline_variables: within_selection["Bayesian31"],
+    data: {procedure: 'Bayesian40'},
+    timeline_variables: within_selection["Bayesian40"],
     randomize_order: false, //random order
     sample: {
         type: 'custom',
@@ -535,23 +535,23 @@ data_type = {
         }
     }
   };
-  Bayesian31.push(within_timeline_01);
+  Bayesian40.push(within_timeline_01);
 
-  Bayesian31.push({
+  Bayesian40.push({
       type: 'call-function',
-      data: {trialid: 'Bayesian31' + '_giro_check_ending', procedure: 'Bayesian31'},
+      data: {trialid: 'Bayesian40' + '_giro_check_ending', procedure: 'Bayesian40'},
       func: function(){
         giro_check = false;
       }
   });
 
   // within block finished
-  Bayesian31.unshift(instructions_between_01);
-  Bayesian31.unshift(if_instructions_000);
-  questions.push.apply(questions, Bayesian31);
+  Bayesian40.unshift(instructions_between_01);
+  Bayesian40.unshift(if_instructions_000);
+  questions.push.apply(questions, Bayesian40);
 
   //if (debug_mode == 'true') console.table(within_timeline_01.timeline_variables)
 
 // between block finished ------------------------------------------------------
 
-call_function("Bayesian31");
+call_function("Bayesian40");
