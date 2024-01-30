@@ -78,6 +78,9 @@ var question01 = {
   on_finish: function(data){
     if(jsPsych.data.get().values().find(x => x.trialid === 'ConsentAudio_001').button_pressed == 1){
       jsPsych.endExperiment(ConsentAudio_001_end);
+    } else {
+      data.response = ConsentAudio_001_choices[0];
+      consent_script_selector();
     }
   },
     data: {
