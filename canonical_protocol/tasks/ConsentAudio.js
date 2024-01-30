@@ -51,8 +51,8 @@ switch (language) {
 
 // Task -----------------------------------------------------------------------
 
-questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-questions.push( check_fullscreen('ConsentAudio') );
+questions_consent = ( typeof questions_consent != 'undefined' && questions_consent instanceof Array ) ? questions_consent : [];
+questions_consent.push( check_fullscreen('ConsentAudio') );
 ConsentAudio = [];    //temporal timeline
 
 
@@ -74,12 +74,12 @@ var question01 = {
   stimulus: intro_CONSENT,
   choices: ConsentAudio_001_choices,
   prompt: "<BR><BR>",
-  // If 'rechazo participar' is pressed, end experiment
+  // If 'I reject to participate' is pressed, end experiment
   on_finish: function(data){
-    if(jsPsych.data.get().values().find(x => x.trialid === 'Consent_001').button_pressed == 1){
-      jsPsych.endExperiment(Consent_001_end);
+    if(jsPsych.data.get().values().find(x => x.trialid === 'ConsentAudio_001').button_pressed == 1){
+      jsPsych.endExperiment(ConsentAudio_001_end);
     } else {
-			data.response = Consent_001_choices[0];
+      data.response = ConsentAudio_001_choices[0];
       consent_script_selector();
     }
   },
@@ -157,7 +157,22 @@ var instructions_END = {
 ConsentAudio.push(instructions_END);
 
 
+// Do not use call_function because it uses "questions" array
+ConsentAudio.push({
+  type: 'call-function',
+  data: {trialid: "ConsentAudio" + '_003', procedure: "ConsentAudio"},
+  func: function(){
+    if (online) {
+      var data = jsPsych.data.get().filter({procedure: "ConsentAudio"}).csv();
+    } else {
+      var data = jsPsych.data.get().filter({procedure: "ConsentAudio"}).json();
+    }
+    saveData(data, online, "ConsentAudio");
+  }
+});
+
+
 
 ConsentAudio.unshift(instruction_screen_experiment);
-ConsentAudio.push.apply(questions, ConsentAudio);
-call_function("ConsentAudio");
+ConsentAudio.push.apply(questions_consent, ConsentAudio);
+//call_function("ConsentAudio");

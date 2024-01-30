@@ -108,6 +108,7 @@ jsPsych.plugins.instructions = (function() {
 
         display_element.querySelector('#jspsych-instructions-next').addEventListener('click', btnListener);
       }
+      window.scrollTo(0, 0);
     }
 
     function next() {
@@ -157,6 +158,7 @@ jsPsych.plugins.instructions = (function() {
       display_element.innerHTML = '';
 
       var trial_data = {
+        // store stimulus (?)
         "view_history": JSON.stringify(view_history),
         "rt": (new Date()).getTime() - start_time
       };

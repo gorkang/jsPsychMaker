@@ -33,7 +33,7 @@ if (strpos($url,'test') !== false) {
   require_once '../../../../../../../../../../.secrets_mysql.php';
 } else {
   // If running task in protocols/ folder:
-  require_once '../../../../../../../../.secrets_mysql.php';
+  require_once '../../../../../../.secrets_mysql.php';
 }
 
 
@@ -124,7 +124,7 @@ if (strpos($url,'test') !== false) {
 
   function condition_selection($data, $conn) {
 
-    $query = "SELECT task_name, condition_name FROM user_condition LEFT JOIN experimental_condition USING (id_condition) WHERE " . $data["id"] . " AND experimental_condition.id_protocol = " . $data["pid"];
+    $query = "SELECT task_name, condition_name, condition_key FROM user_condition LEFT JOIN experimental_condition USING (id_condition) WHERE " . $data["id"] . " AND experimental_condition.id_protocol = " . $data["pid"];
     $result = mysqli_query($conn, $query);
     //echo($result);
     echo('[');
@@ -141,7 +141,9 @@ if (strpos($url,'test') !== false) {
         if ($key == "task_name") {
           echo('{"' . $value . '": ');
         } elseif ($key == "condition_name") {
-          echo('"' . $value . '"}');
+          echo('{"' . $key . '": "' . $value . '",');
+        } elseif ($key == "condition_key") {
+          echo('"' . $key . '": "' . $value . '"}}');
         } else {
           echo ("error en " . $key . " " . $value);
         }

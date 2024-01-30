@@ -178,7 +178,8 @@ jsPsych.plugins['survey-multi-choice-vertical'] = (function() {
       }
       // save data
       var trial_data = {
-        "stimulus": stripHtml(JSON.stringify(questions_list)),
+        // "stimulus": stripHtml(JSON.stringify(questions_list)), // No HTML tags
+        "stimulus": questions_list,
         "rt": response_time,
         "response": stripHtml(JSON.stringify(question_data))
       };

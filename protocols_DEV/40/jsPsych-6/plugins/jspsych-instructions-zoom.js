@@ -9,7 +9,7 @@
  *
  */
 
-jsPsych.plugins.instructions = (function() {
+jsPsych.plugins.instructions = (function () {
 
   var plugin = {};
 
@@ -23,6 +23,12 @@ jsPsych.plugins.instructions = (function() {
         default: undefined,
         array: true,
         description: 'Each element of the array is the content for a single page.'
+      },
+      error_text: {
+        type: jsPsych.plugins.parameterType.STRING,
+        pretty_name: 'ErrorText',
+        default: "",
+        description: 'Especific text of fail-message'
       },
       key_forward: {
         type: jsPsych.plugins.parameterType.KEYCODE,
@@ -69,7 +75,7 @@ jsPsych.plugins.instructions = (function() {
     }
   }
 
-  plugin.trial = function(display_element, trial) {
+  plugin.trial = function (display_element, trial) {
 
     var current_page = 0;
 
@@ -79,14 +85,14 @@ jsPsych.plugins.instructions = (function() {
 
     var last_page_update_time = start_time;
 
-    function btnListener(evt){
-    	evt.target.removeEventListener('click', btnListener);
-    	if(this.id === "jspsych-instructions-back"){
-    		back();
-    	}
-    	else if(this.id === 'jspsych-instructions-next'){
-    		next();
-    	}
+    function btnListener(evt) {
+      evt.target.removeEventListener('click', btnListener);
+      if (this.id === "jspsych-instructions-back") {
+        back();
+      }
+      else if (this.id === 'jspsych-instructions-next') {
+        next();
+      }
     }
 
     function show_current_page() {
@@ -96,12 +102,11 @@ jsPsych.plugins.instructions = (function() {
 
         var nav_html = "<div class='jspsych-instructions-nav' style='padding: 10px 0px;'>";
         if (current_page != 0 && trial.allow_backward) {
-          nav_html += "<button id='jspsych-instructions-back' class='jspsych-btn' style='margin-right: 5px;'>&lt; "+trial.button_label_previous+"</button>";
+          nav_html += "<button id='jspsych-instructions-back' class='jspsych-btn' style='margin-right: 5px;'>&lt; " + trial.button_label_previous + "</button>";
         }
-        nav_html += "<button id='jspsych-instructions-next' class='jspsych-btn' style='margin-left: 5px;'>"+trial.button_label_next+" &gt;</button></div>"
+        nav_html += "<button id='jspsych-instructions-next' class='jspsych-btn' style='margin-left: 5px;'>" + trial.button_label_next + " &gt;</button>"
 
         display_element.innerHTML += nav_html;
-
         if (current_page != 0 && trial.allow_backward) {
           display_element.querySelector('#jspsych-instructions-back').addEventListener('click', btnListener);
         }
@@ -169,7 +174,7 @@ jsPsych.plugins.instructions = (function() {
       jsPsych.finishTrial(trial_data);
     }
 
-    var after_response = function(info) {
+    var after_response = function (info) {
 
       // have to reinitialize this instead of letting it persist to prevent accidental skips of pages by holding down keys too long
       keyboard_listener = jsPsych.pluginAPI.getKeyboardResponse({

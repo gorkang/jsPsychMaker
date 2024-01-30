@@ -4,6 +4,11 @@
  * This stylesheet provides minimal styling to make jsPsych
  * experiments look polished without any additional styles.
  */
+ 
+ /* Increase length for the EspecialidadesMedicas datalist */
+ input[id="formEspecialidadesMedicas"] {
+  width: 400px;
+}
 
  /* Container holding jsPsych content */
 
