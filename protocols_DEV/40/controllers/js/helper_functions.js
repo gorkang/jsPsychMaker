@@ -430,14 +430,21 @@ function start_protocol() {
   var preload = {
     type: 'preload',
     show_progress_bar: true,
-    auto_preload: true, // Does not work
     message: loading_resources_message,
     images: images_array,
-    audios: audios_array,
-    video: videos_array
+    audio: audios_array,
+    video: videos_array,
+    on_error: function(data) {
+      console.warn("Error in file: " + data)
+    },
+    on_success: function(data) {
+      if (debug_mode) console.log(data + " file loaded successfully")
+    },
+    on_finish: function(data) {
+      if (data.success) console.log("Files succesfully loaded")
+    }
   };
-  //questions.unshift({type: 'preload', images: images, audios: audios, video: video});
-  //questions_consent.unshift(preload);
+  questions_consent.unshift(preload);
 
   // jsPsych.init ---------------------------------------
 
@@ -464,12 +471,6 @@ function start_protocol() {
           window.location = finish_link
     },
   });
-
-  jsPsych.pluginAPI.preloadAudio(audios_array, function() {console.log("Audio files loaded")}, function (source) {}, function({source, error}){console.log("error loading audio files"); console.log(error), console.log(source)})
-  
-  jsPsych.pluginAPI.preloadImages(images_array, function() {console.log("Image files loaded")}, function (source) {}, function({source, error}){console.log("error loading image files"); console.log(error), console.log(source)})
-  
-  jsPsych.pluginAPI.preloadVideo(videos_array, function() {console.log("Video files loaded")}, function (source) {}, function({source, error}){console.log("error loading video files"); console.log(error), console.log(source)})
 
 }
 

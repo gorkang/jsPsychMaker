@@ -388,9 +388,11 @@ function obtain_experiments(questions, completed_experiments) {
 
   if (completed_experiments.length == 0) {
     // questions at the end of consent
-    jsPsych.addNodeToEndOfTimeline({
-      timeline: questions
-    })
+    for (actual_question of questions) {
+      jsPsych.addNodeToEndOfTimeline({
+        timeline: [actual_question]
+      })
+    }
     document.getElementById('jspsych-instructions-next').disabled = false;
   } else {
     // otherwise, we add the questions repleacing the actual array
@@ -414,7 +416,7 @@ function object_to_array(selected_object) {
 }
 
 // funcion de jspysch para lanzar un experimento (recibe la lista completa de questions)
-function start_protocol(questions) {
+function start_protocol() {
 
   if (debug_mode === true) console.warn("start_protocol()");
 
@@ -428,14 +430,21 @@ function start_protocol(questions) {
   var preload = {
     type: 'preload',
     show_progress_bar: true,
-    auto_preload: true, // Does not work
     message: loading_resources_message,
     images: images_array,
-    audios: audios_array,
-    video: videos_array
+    audio: audios_array,
+    video: videos_array,
+    on_error: function(data) {
+      console.warn("Error in file: " + data)
+    },
+    on_success: function(data) {
+      if (debug_mode) console.log(data + " file loaded successfully")
+    },
+    on_finish: function(data) {
+      if (data.success) console.log("Files succesfully loaded")
+    }
   };
-  //questions.unshift({type: 'preload', images: images, audios: audios, video: video});
-  questions.unshift(preload);
+  questions_consent.unshift(preload);
 
   // jsPsych.init ---------------------------------------
 
@@ -460,7 +469,7 @@ function start_protocol(questions) {
       if (typeof finish_link !== "undefined")
         if (finish_link != "")
           window.location = finish_link
-    }
+    },
   });
 
 }
