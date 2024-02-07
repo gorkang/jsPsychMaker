@@ -141,7 +141,7 @@ data_type = {
     'Stroke': {description_context1: "Imagine a very close friend goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>. Your friend is ",
               // a man / a woman
               description_context2: `, 40 years old, with good health and without any relevant personal or familiar medical history.<BR><BR>`,
-              brief_context: /*A woman/A man*/", 40 years old, with good health and without any relevant personal or familiar medical history, goes to the Emergency room with <B>symptoms compatible with a Stroke</B>.<BR>",
+              brief_context: /*A woman/A man*/", 40 years old, with good health and without any relevant personal or familiar medical history, goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>.<BR>",
               number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "Stroke",
               test_description: "Difusion Magnetic Resonance", test1: "diagnostic", follow_up: "treatment", follow_up_name: "trombolysis",
               follow_up_details: "The recommended treatment when there is suspicion of cerebral infarction is thrombolysis", 
@@ -261,7 +261,7 @@ data_type = {
             type: 'instructions',
             pages: function() {
               num += 1;
-              return (["<h2>Scenario " + (num).toString() + " de 4</h1><BR>" + //(num-1)/2
+              return (["<h2>Scenario " + (num).toString() + " out of 4</h1><BR>" + //(num-1)/2
               data_disease[jsPsych.timelineVariable('disease', true)].description_context1 +
               data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient +
               data_disease[jsPsych.timelineVariable('disease', true)].description_context2 +

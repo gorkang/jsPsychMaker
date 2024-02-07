@@ -22,19 +22,20 @@ switch (language) {
         intro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI" align="bottom" width="158" height="59" border="0"/></p></div>
         Para cambiar este texto, edita la variable intro_HTML en config_messages.js<BR><BR>
         Si tienes alguna duda, puedes escribirnos a: <a href="mailto:` + var_researcher_email + `?subject=Protocol ` + pid + `">` + var_researcher_email + `</a><BR><BR>
-        Recuerda usar un navegador actualizado`;
+        Recuerda usar un navegador actualizado.`;
 
         // INTRO [index.html] Screen after uid is entered (if random_id = true, this is the first screen)
         outro_HTML = '<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="media/html/logo-UAI.png" name="UAI" align="bottom" width="200" height="60" border="0"/></p></div>' +
         'Bienvenida/o,<BR><BR>' +
-        'La duración de este protocolo es de entre 5 y 10 minutos. Incluye unas pocas preguntas demográficas y 4 casos hipotéticos donde te pedimos que realices recomendaciones.<BR><BR>' +
+        'La duración de este protocolo es de menos de 15 minutos. Incluye preguntas demográficas y 4 casos hipotéticos donde te pedimos que realices recomendaciones.<BR><BR>' +
         'Si tienes alguna duda, puedes escribirnos a: <mailto::' + var_researcher_email + '>' + var_researcher_email + '</mailto><BR><BR>' +
-        'Recuerda usar un navegador actualizado';
+        'Recuerda usar un navegador actualizado.';
       
 
         // helper messages ------------------------------------------------------------
 
-        outro_ending = "<br><br>Presiona el botón " + start_button + " para comenzar el protocolo"; // Text to show at the end of the outro
+        //outro_ending = "<br><br>Presiona el botón " + start_button + " para comenzar el protocolo"; // Text to show at the end of the outro
+        outro_ending = "";
         fullscreen_text = 'El protocolo entrará en modo pantalla completa.'; // Text to show when fullscreen mode is activated
         fullscreen_label = 'Pantalla completa'; // Label of the fullscreen button
         message_str = 'El protocolo está cargando, espere un momento...'; // Message when preloading media

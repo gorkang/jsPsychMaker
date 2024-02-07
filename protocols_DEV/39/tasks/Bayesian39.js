@@ -46,17 +46,19 @@
 // Page 1 varies per condition (one of the sentences)
 function instructions_p1 (type) {
 
-  instructions_p1_extra = {Image: "Además, se mostrará una imágen representando el Valor Predictivo Positivo o Negativo para alguien como esa persona.", 
+  instructions_p1_extra = {Image: "Además, se mostrará una imagen representando el Valor Predictivo Positivo o Negativo para alguien como esa persona.", 
                           TextPV: "Además, se mostrará una texto con el Valor Predictivo Positivo o Negativo para alguien como esa persona.",
                           Text: ""};
 
-  instructions_page1 = `<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre dos tipos de situaciones hipotéticas:<BR><BR>
-    <li> personas que llegan a una consulta rutinaria, preguntando por un cribado para Cáncer de mama</li>
-    <li> personas que llegan a urgencias con sospecha de infarto cerebral</li><BR>
+  instructions_page1 = `<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre dos tipos de situaciones hipotéticas:<BR>
+    <ul>
+    <li> personas que llegan a una consulta rutinaria, preguntando por un cribado para cáncer de mama</li>
+    <li> personas que llegan a urgencias con sospecha de infarto cerebral</li>
+    </ul>
   En cada caso verás la descripción breve del caso clínico, información sobre la prevalencia de la enfermedad para alguien como esa persona (*), y las características del test (sensibilidad y especificidad) que se usaría para detectar esa enfermedad. ` + 
   instructions_p1_extra[type] +
 
-  `<BR><BR>Por favor, lee con atencion la información y responde lo mejor que puedas.<BR><BR>
+  `<BR><BR>Por favor, lee con atención la información y responde lo mejor que puedas.<BR><BR>
   <HR>
   <p style = "font-size: small;">(*) Para simplificar la presentación y el cálculo, hablaremos siempre de <B>prevalencia</B>, aunque en algunos casos sería técnicamente más apropiado hablar de indicencia o Case Detection Rate (CDR). 
   Nos referimos a la prevalencia esperada en la población de interés, es decir, cuántas personas similares a la del caso presentado que se someten a la prueba esperamos que padezcan la enfermedad.</p>
@@ -70,16 +72,18 @@ function instructions_p1 (type) {
 function instructions_p2 (type) {
 
   instructions_p2_extra = {
-    Image: `Para facilitar la tarea, podrás consultar los Valores Predictivos en una imagen similar a las de abajo. <B>Haz click en la imagen para ampliarla y vuelve a hacer click en ella para reducirla</B> (hazlo para que se active el botón [ Siguiente > ] ).<BR><BR>
+    Image: `Para facilitar la tarea, podrás consultar los Valores Predictivos en una imagen similar a las de abajo. <B>Haz click en la imagen para ampliarla y vuelve a hacer click para reducirla</B> (hazlo para que se active el botón [ Siguiente > ]).<BR><BR>
     En las imágenes se ve como cambia el Valor Predictivo a partir de la prevalencia y los falsos positivos(+) o negativos(-).<BR><BR>
-    <img class="image_zoom" src="media/images/Bayesian39/instructions1.png" style="max-width: 40%; max-height: 40%;"> <img class="image_zoom" src="media/images/Bayesian39/instructions2.png" style="max-width: 40%; max-height: 40%;"><BR><BR>`, 
+    <img class="image_zoom" src="media/images/Bayesian39/Example_PPV.png" style="max-width: 40%; max-height: 40%;"> <img class="image_zoom" src="media/images/Bayesian39/Example_NPV.png" style="max-width: 40%; max-height: 40%;"><BR><BR>`, 
     TextPV: `Para facilitar la tarea, podrás consultar los Valores Predictivos en un texto a la derecha de la pantalla.<BR><BR><BR><BR>`,
     Text: ""};
 
-  instructions_page2 = `<H2>Instrucciones (2/3)</H2>Usando la prevalencia, sensibilidad y especificidad es posible calcular:<BR><BR>
+  instructions_page2 = `<H2>Instrucciones (2/3)</H2>Usando la prevalencia, sensibilidad y especificidad es posible calcular:<BR>
+  <ul>
   <li><B>Valor Predictivo Positivo</B>: la probabilidad de tener la enfermedad cuando el test da positivo</li><BR>
-  <li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo</li><BR><BR>` +
-  instructions_p2_extra[type]
+  <li><B>Valor Predictivo Negativo</B>: la probabilidad de NO tener la enfermedad cuando el test da negativo</li><BR>
+  </ul>` +
+  instructions_p2_extra[type];
 
   return(instructions_page2);
 
@@ -132,9 +136,9 @@ data_type = {
     'Stroke': {description_context1: "Imagina que acude a urgencias con <B>sospecha de infarto cerebral</B> ",
               // un hombre / una mujer
               description_context2: " de 40 años de raza caucásica e IMC normal. " +
-                                    "Presenta hipostesia derecha y evidente disatria (NIHSS de 3 puntos) que iniciaron hace 1 hora.<BR><BR>" + 
+                                    "Presenta hipoestesia derecha y evidente disartria (NIHSS de 3 puntos) que iniciaron hace 1 hora.<BR><BR>" + 
                                     "No tiene antecedentes personales o familiares de relevancia, no consume alcohol ni drogas.<BR>",
-              brief_context: /*Una mujer/Un hombre*/" de 40 años sin antecedentes personales o familiares de relevancia acude a urgencias con hispostesia y disartria (NIHSS de 3 puntos): <B>sospecha de infarto cerebral</B>.<BR>",
+              brief_context: /*Una mujer/Un hombre*/" de 40 años sin antecedentes personales o familiares de relevancia acude a urgencias con hipoestesia y disartria (NIHSS de 3 puntos): <B>sospecha de infarto cerebral</B>.<BR>",
               number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "infarto cerebral",
               test_description: "Resonancia Magnética de Difusión", test1: "diagnóstica", follow_up: "tratamiento", follow_up_name: "trombolisis",
               follow_up_details: "El tratamiento recomendado cuando hay sospecha de infarto cerebral es la trombolisis", 
@@ -145,10 +149,10 @@ data_type = {
 
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/images/Bayesian39/VPP_low_Cancer.png', textPV: '<B>Valor Predictivo Positivo</B>: 5%<br>(muy bajo) <span style = "font-size: small;"><BR>5 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'positivo', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
-    'highQuality_Cancer': {image: 'media/images/Bayesian39/VPN_high_Cancer.png', textPV: '<B>Valor Predictivo Negativo</B>: 100%<br>(muy alto) <span style = "font-size: small;"><BR>100 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'negativo', SINO: 'NO', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/images/Bayesian39/VPN_low_Stroke.png', textPV: '<B>Valor Predictivo Negativo</B>: 51%<br>(intermedio) <span style = "font-size: small;"><BR>51 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'negativo', SINO: 'NO', sex_patient: sex_randomized[0]["sex"]},
-    'highQuality_Stroke': {image: 'media/images/Bayesian39/VPP_high_Stroke.png', textPV: '<B>Valor Predictivo Positivo</B>: 100%<br>(muy alto) <span style = "font-size: small;"><BR>100 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'positivo', SINO: '', sex_patient: sex_randomized[1]["sex"]}
+    'lowQuality_Cancer': {image: 'media/images/Bayesian39/VPP_low_Cancer.png', textPV: '<B>Valor Predictivo Positivo</B>: 5%<br>(muy bajo) <span style = "font-size: small;"><BR>5 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'Positivo', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/images/Bayesian39/VPN_high_Cancer.png', textPV: '<B>Valor Predictivo Negativo</B>: 100%<br>(muy alto) <span style = "font-size: small;"><BR>100 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'Negativo', SINO: 'NO', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/images/Bayesian39/VPN_low_Stroke.png', textPV: '<B>Valor Predictivo Negativo</B>: 51%<br>(intermedio) <span style = "font-size: small;"><BR>51 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'Negativo', SINO: 'NO', sex_patient: sex_randomized[0]["sex"]},
+    'highQuality_Stroke': {image: 'media/images/Bayesian39/VPP_high_Stroke.png', textPV: '<B>Valor Predictivo Positivo</B>: 100%<br>(muy alto) <span style = "font-size: small;"><BR>100 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'Positivo', SINO: '', sex_patient: sex_randomized[1]["sex"]}
   };
 
   // The label we use depends on the disease
@@ -308,14 +312,14 @@ data_type = {
 
           // 2 columns
           html += '<div class="column" style="float: left; width: ' + pct_width_left + '">' +
-          '<B>Cálculo del valor predictivo <U>' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + '</U></B><BR><BR>' +
+          '<B>Cálculo del Valor Predictivo <U>' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + '</U></B><BR><BR>' +
 
           // Brief version of case
           '<HR><div style="color:#424949; font-size:15px;">' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient[0].toUpperCase() + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient.slice(1) + data_disease[jsPsych.timelineVariable('disease', true)].brief_context + '</div><HR><BR>' +
           "La prueba " + data_disease[jsPsych.timelineVariable('disease', true)].test1 + " usada habitualmente para detectar " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " es la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
           "En una persona como la descrita, el " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " tiene una <B>" + prevalence_incidence[jsPsych.timelineVariable('disease', true)].label +" de " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_x + " de cada " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_y + '</B>.<BR><BR> ' +
           "La " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " tiene una <B>sensibilidad del " + data_disease[jsPsych.timelineVariable('disease', true)].number_SENSITIVITY + "%</B> y una <B>especificidad del " + data_disease[jsPsych.timelineVariable('disease', true)].number_SPECIFICITY + '%</B>. <BR><BR>'+
-          "¿Cual es la probabilidad de " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " tener un " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " si el resultado de la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " es <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
+          "¿Cuál es la probabilidad de " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " tener un " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " si el resultado de la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " es <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
           // BETWEEN variable [Picture / TextPV / Text]:
@@ -323,7 +327,7 @@ data_type = {
             
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
-            <div style="font-size:14px; text-align: justify;">En la gráfica se muestra como el <b>Valor predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> cambia a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
+            <div style="font-size:14px; text-align: justify;">En la gráfica se muestra como el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> cambia a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
             <img class="image_zoom" src="` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + `" style="max-width: 100%; max-height: 100%;" onclick = document.querySelector('[id$=next]').disabled = true> 
             <div style="font-size:11px; text-align: center">Haz click sobre la imagen para ampliarla/minimizarla.<BR></div>
             <br>
@@ -335,7 +339,7 @@ data_type = {
 
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
-            <div style="font-size:14px; text-align: justify;">En el recuadro se muestra el <b>Valor predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculado a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
+            <div style="font-size:14px; text-align: justify;">En el recuadro se muestra el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculado a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
             <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div></div>`;
             
           } else if (between_selection["Bayesian39"]["type"] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
@@ -382,7 +386,7 @@ data_type = {
               prompt: '<div class="justified">' +
               '<HR><div style="color:#424949; font-size:15px;">Has dicho que la probabilidad de ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ' tener un ' + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ' si el resultado de la ' + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ' es <B>' + data_test_quality[jsPsych.timelineVariable("test_quality", true) + '_' + jsPsych.timelineVariable("disease", true)].type_image + '</B>' + ' es del ' + answers[0] + '%.</div><HR><BR>' +
 
-              '¿Le recomendarias a tu paciente la ' + data_disease[jsPsych.timelineVariable('disease', true)].test_description + ' como prueba <u>' + data_disease[jsPsych.timelineVariable('disease', true)].test1 +
+              '¿Le recomendarías a tu paciente la ' + data_disease[jsPsych.timelineVariable('disease', true)].test_description + ' como prueba <u>' + data_disease[jsPsych.timelineVariable('disease', true)].test1 +
               '</u> para detectar ' + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + '?</div>',
               options: ['&nbsp;Si', '&nbsp;No'],
               required: true,
