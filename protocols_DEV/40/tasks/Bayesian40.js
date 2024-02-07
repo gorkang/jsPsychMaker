@@ -152,10 +152,10 @@ data_type = {
 
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/images/Bayesian40/BreastCancer_PPV.png', textPV: '<B>Positive Predictive Value</B>: 5%<br>(very low) <span style = "font-size: small;"><BR>5 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
-    'highQuality_Cancer': {image: 'media/images/Bayesian40/BreastCancer_NPV.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/images/Bayesian40/Stroke_NPV.png', textPV: '<B>Negative Predictive Value</B>: 51%<br>(intermediate) <span style = "font-size: small;"><BR>51 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"]},
-    'highQuality_Stroke': {image: 'media/images/Bayesian40/Stroke_PPV.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"]}
+    'lowQuality_Cancer': {image: 'media/images/Bayesian40/VPP_low_Cancer.png', textPV: '<B>Positive Predictive Value</B>: 5%<br>(very low) <span style = "font-size: small;"><BR>5 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/images/Bayesian40/VPN_high_Cancer.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/images/Bayesian40/VPN_low_Stroke.png', textPV: '<B>Negative Predictive Value</B>: 51%<br>(intermediate) <span style = "font-size: small;"><BR>51 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"]},
+    'highQuality_Stroke': {image: 'media/images/Bayesian40/VPP_high_Stroke.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"]}
   };
 
 
