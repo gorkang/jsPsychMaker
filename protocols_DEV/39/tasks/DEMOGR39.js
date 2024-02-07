@@ -9,7 +9,7 @@ DEMOGR39 = [];    //temporal timeline
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
-    '<p><left><b><big>Datos demográficos</big></b><br />'+'Por favor, contesta a las siguientes preguntas' +'</p>'],
+    '<p><left><b><big>Datos demográficos</big></b><br />'+'Por favor, contesta a las siguientes preguntas.' +'</p>'],
     data: {trialid: 'Instructions_01', procedure: 'DEBRIEF39'},
     show_clickable_nav: true,
     on_trial_start: function(){
@@ -17,21 +17,33 @@ var instruction_screen_experiment = {
     }
 };
 
-
+/*
 var question01 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">¿Eres estudiante de Medicina o profesional Médico?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'DEMOGR39_01', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question01);
+*/
+
+var question01 = {
+  type: 'survey-multi-choice-vertical',
+  questions: [{prompt: '<div class="justified">Indica <B>tú</B> ocupación</div>', 
+  options: ['&nbsp;Profesional médico', '&nbsp;Estudiante de medicina', '&nbsp;Otro tipo de profesional', '&nbsp;Otro tipo de estudiante'], 
+  required: true,  random_options: false, horizontal: false}],
+  data: {trialid: 'DEMOGR39_01', procedure: 'DEMOGR39'}
+};
+DEMOGR39.push(question01);
+
+
 
 
 // CHECK if Medicine professional -----------------------------------------------------------------
 
 var question02 = {
   type: 'html-button-response',
-  stimulus: `<div><h3 class="western" align="center">Fin del experimento</h3><br/><p>Para este esperimento estamos trabajando únicamente con profesionales de la medicina. 
-  Si quieres saber algo más sobre las cosas que hacemos, puedes acceder a <a href = 'https://cscn.uai.cl/', target = '_blank'>nuestra página web</a>. Muchas gracias por tu interés.</p><BR><BR></div>`,
+  stimulus: `<div><h3 class="western" align="center">Fin del experimento</h3><br/><p>Para este experimento estamos trabajando únicamente con profesionales del área de la salud. 
+  Si quieres saber algo más sobre los proyectos en los que trabajamos, puedes acceder a <a href = 'https://cscn.uai.cl/', target = '_blank'>nuestra página web</a>. Muchas gracias por tu interés.</p><BR><BR></div>`,
   choices: ['Continuar'],
   prompt: "<BR><BR>",
   on_finish: function(data){
@@ -45,8 +57,9 @@ var if_question02 = {
   data: {trialid: 'DEMOGR39_02_if', procedure: 'DEMOGR39'},
   conditional_function: function(){
     let data1 = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'DEMOGR39_01'))['response'])['Q0']).trim();
-    if((data1) ==  'No' | (data1) ==  '&nbsp;No'){
-
+    
+    if((data1) ==  'Otro tipo de profesional' | (data1) ==  'Otro tipo de estudiante') {
+    //if((data1) ==  'No' | (data1) ==  '&nbsp;No') {
       return true;
     } else {
       return false;
@@ -73,14 +86,14 @@ var question04 = {
 };
 DEMOGR39.push(question04);
 
-
+/*
 var question05 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Indica <B>tú</B> ocupación</div>', options: ['&nbsp;Profesional médico', '&nbsp;Estudiante de medicina'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'DEMOGR39_05', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question05);
-
+*/
 
 // https://www.mscbs.gob.es/profesionales/formacion/EspecialistasExtracomunitarios/Docs/2020EspecialidadesRecoEspanaV2.pdf
 var question06 = {
@@ -135,7 +148,7 @@ DEMOGR39.push(question08);
 
 var question09 = {
   type: 'survey-text',
-  questions: [{prompt: '<div class="justified">Indica los años de de ejercicio profesional o de estudio (desde el inicio de tus estúdios de Medicina)</div>', type: 'number', range: [0, 60], required: true, error_text: 'Tienes que indicar el número de años. Si tan solo llevas unos meses, puedes redondear hasta el entero mas cercano'}],
+  questions: [{prompt: '<div class="justified">Indica los años de ejercicio profesional o de estudio (desde el inicio de tus estudios de Medicina)</div>', type: 'number', range: [0, 60], required: true, error_text: 'Tienes que indicar el número de años. Si tan solo llevas unos meses, puedes redondear hasta el entero mas cercano'}],
   data: {trialid: 'DEMOGR39_09', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question09);
