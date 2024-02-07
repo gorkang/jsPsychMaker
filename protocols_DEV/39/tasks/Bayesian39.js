@@ -127,7 +127,7 @@ data_type = {
                                     "Su estado de salud es aparentemente normal.<BR><BR>" +
                                     "No tiene antecedentes personales o familiares de relevancia, no consume alcohol ni drogas.<BR>",
               brief_context: /*mujer*/" de 40 años sin antecedentes personales o familiares de relevancia acude a consulta preguntando por el <B>screening para cáncer de mama</B>.<BR>",
-              number_PREVALENCE_x: 1, number_PREVALENCE_y: 105, number_SENSITIVITY: 95, number_SPECIFICITY: 88, disease_description: "cáncer de mama",
+              number_PREVALENCE_x: 1, number_PREVALENCE_y: 63, number_SENSITIVITY: 86.6, number_SPECIFICITY: 96.8, disease_description: "cáncer de mama",
               test_description: "mamografía digital", test1: "de screening", follow_up: "prueba diagnóstica", follow_up_name: "biopsia",
               follow_up_details: "La prueba diagnóstica recomendada cuando hay sospecha de cáncer de mama es una biopsia del tejido mamario", 
               follow_up_risk: 'sobrediagnóstico de hasta un 10%, que puede acabar en quimioterapia, radioterapia o mastectomías innecesarias.'
@@ -139,7 +139,7 @@ data_type = {
                                     "Presenta hipoestesia derecha y evidente disartria (NIHSS de 3 puntos) que iniciaron hace 1 hora.<BR><BR>" + 
                                     "No tiene antecedentes personales o familiares de relevancia, no consume alcohol ni drogas.<BR>",
               brief_context: /*Una mujer/Un hombre*/" de 40 años sin antecedentes personales o familiares de relevancia acude a urgencias con hipoestesia y disartria (NIHSS de 3 puntos): <B>sospecha de infarto cerebral</B>.<BR>",
-              number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "infarto cerebral",
+              number_PREVALENCE_x: 873, number_PREVALENCE_y: 1000, number_SENSITIVITY: 45, number_SPECIFICITY: 99, disease_description: "infarto cerebral",
               test_description: "Resonancia Magnética de Difusión", test1: "diagnóstica", follow_up: "tratamiento", follow_up_name: "trombolisis",
               follow_up_details: "El tratamiento recomendado cuando hay sospecha de infarto cerebral es la trombolisis", 
               follow_up_risk: "hermorragia intracraneal del 2%, que puede acabar en muerte o incapacidad severa."
@@ -149,9 +149,9 @@ data_type = {
 
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/images/Bayesian39/VPP_low_Cancer.png', textPV: '<B>Valor Predictivo Positivo</B>: 5%<br>(muy bajo) <span style = "font-size: small;"><BR>5 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'Positivo', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Cancer': {image: 'media/images/Bayesian39/VPP_low_Cancer.png', textPV: '<B>Valor Predictivo Positivo</B>: 30%<br>(bajo) <span style = "font-size: small;"><BR>30 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'Positivo', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
     'highQuality_Cancer': {image: 'media/images/Bayesian39/VPN_high_Cancer.png', textPV: '<B>Valor Predictivo Negativo</B>: 100%<br>(muy alto) <span style = "font-size: small;"><BR>100 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'Negativo', SINO: 'NO', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/images/Bayesian39/VPN_low_Stroke.png', textPV: '<B>Valor Predictivo Negativo</B>: 51%<br>(intermedio) <span style = "font-size: small;"><BR>51 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'Negativo', SINO: 'NO', sex_patient: sex_randomized[0]["sex"]},
+    'lowQuality_Stroke': {image: 'media/images/Bayesian39/VPN_low_Stroke.png', textPV: '<B>Valor Predictivo Negativo</B>: 21%<br>(bajo) <span style = "font-size: small;"><BR>21 de cada 100 negativos son verdaderos negativos<BR></span>', type_image: 'Negativo', SINO: 'NO', sex_patient: sex_randomized[0]["sex"]},
     'highQuality_Stroke': {image: 'media/images/Bayesian39/VPP_high_Stroke.png', textPV: '<B>Valor Predictivo Positivo</B>: 100%<br>(muy alto) <span style = "font-size: small;"><BR>100 de cada 100 positivos son verdaderos positivos<BR></span>', type_image: 'Positivo', SINO: '', sex_patient: sex_randomized[1]["sex"]}
   };
 
