@@ -46,9 +46,9 @@
 // Page 1 varies per condition (one of the sentences)
 function instructions_p1 (type) {
 
-  instructions_p1_extra = {Image: "Además, se mostrará una imagen representando el Valor Predictivo Positivo o Negativo para alguien como esa persona.", 
-                          TextPV: "Además, se mostrará una texto con el Valor Predictivo Positivo o Negativo para alguien como esa persona.",
-                          Text: ""};
+  instructions_p1_extra = {visual_aid: "Además, se mostrará una imagen representando el Valor Predictivo Positivo o Negativo para alguien como esa persona.", 
+                          text_aid: "Además, se mostrará una texto con el Valor Predictivo Positivo o Negativo para alguien como esa persona.",
+                          text_only: ""};
 
   instructions_page1 = `<H2>Instrucciones (1/3)</H2>A continuación te pediremos que des recomendaciones sobre dos tipos de situaciones hipotéticas:<BR>
     <ul>
@@ -72,11 +72,11 @@ function instructions_p1 (type) {
 function instructions_p2 (type) {
 
   instructions_p2_extra = {
-    Image: `Para facilitar la tarea, podrás consultar los Valores Predictivos en una imagen similar a las de abajo. <B>Haz click en la imagen para ampliarla y vuelve a hacer click para reducirla</B> (hazlo para que se active el botón [ Siguiente > ]).<BR><BR>
+    visual_aid: `Para facilitar la tarea, podrás consultar los Valores Predictivos en una imagen similar a las de abajo. <B>Haz click en la imagen para ampliarla y vuelve a hacer click para reducirla</B> (hazlo para que se active el botón [ Siguiente > ]).<BR><BR>
     En las imágenes se ve como cambia el Valor Predictivo a partir de la prevalencia y los falsos positivos(+) o negativos(-).<BR><BR>
     <img class="image_zoom" src="media/images/Bayesian39/Example_PPV.png" style="max-width: 40%; max-height: 40%;"> <img class="image_zoom" src="media/images/Bayesian39/Example_NPV.png" style="max-width: 40%; max-height: 40%;"><BR><BR>`, 
-    TextPV: `Para facilitar la tarea, podrás consultar los Valores Predictivos en un texto a la derecha de la pantalla.<BR><BR><BR><BR>`,
-    Text: ""};
+    text_aid: `Para facilitar la tarea, podrás consultar los Valores Predictivos en un texto a la derecha de la pantalla.<BR><BR><BR><BR>`,
+    text_only: ""};
 
   instructions_page2 = `<H2>Instrucciones (2/3)</H2>Usando la prevalencia, sensibilidad y especificidad es posible calcular:<BR>
   <ul>
@@ -98,19 +98,19 @@ Si presionas el botón [ Siguiente > ] empezará la tarea y no podrás volver at
 
 // IMAGE
 data_type = {
-    'Image': {'page1': {text: instructions_p1("Image")},                              
-              'page2': {text: instructions_p2("Image")},                              
+    'visual_aid': {'page1': {text: instructions_p1("visual_aid")},                              
+              'page2': {text: instructions_p2("visual_aid")},                              
               'page3': {text: instructions_page3}
             },
 
-    'TextPV': {'page1': {text: instructions_p1("TextPV")},            
-               'page2': {text: instructions_p2("TextPV")},                          
+    'text_aid': {'page1': {text: instructions_p1("text_aid")},            
+               'page2': {text: instructions_p2("text_aid")},                          
                'page3': {text: instructions_page3}
               },    
     
     // TEXT  
-    'Text': {'page1': {text: instructions_p1("Text")},                             
-             'page2': {text: instructions_p2("Text")},                              
+    'text_only': {'page1': {text: instructions_p1("text_only")},                             
+             'page2': {text: instructions_p2("text_only")},                              
              'page3': {text: instructions_page3}
            }
       };
@@ -138,7 +138,7 @@ data_type = {
               description_context2: " de 40 años de raza caucásica e IMC normal. " +
                                     "Presenta hipoestesia derecha y evidente disartria (NIHSS de 3 puntos) que iniciaron hace 1 hora.<BR><BR>" + 
                                     "No tiene antecedentes personales o familiares de relevancia, no consume alcohol ni drogas.<BR>",
-              brief_context: /*Una mujer/Un hombre*/" de 40 años sin antecedentes personales o familiares de relevancia acude a urgencias con hipoestesia y disartria (NIHSS de 3 puntos): <B>sospecha de infarto cerebral</B>.<BR>",
+              brief_context: /*Una mujer/Un hombre*/" de 40 años sin antecedentes personales o familiares de relevancia acude a urgencias con hipoestesia y disartria (NIHSS de 3 puntos) que iniciaron hace 1 hora: <B>sospecha de infarto cerebral</B>.<BR>",
               number_PREVALENCE_x: 873, number_PREVALENCE_y: 1000, number_SENSITIVITY: 45, number_SPECIFICITY: 99, disease_description: "infarto cerebral",
               test_description: "Resonancia Magnética de Difusión", test1: "diagnóstica", follow_up: "tratamiento", follow_up_name: "trombolisis",
               follow_up_details: "El tratamiento recomendado cuando hay sospecha de infarto cerebral es la trombolisis", 
@@ -322,8 +322,8 @@ data_type = {
           "¿Cuál es la probabilidad de " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " tener un " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " si el resultado de la " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " es <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
-          // BETWEEN variable [Picture / TextPV / Text]:
-          if (between_selection["Bayesian39"]["type"] == 'Image') {
+          // BETWEEN variable [visual_aid / text_aid / text_only]:
+          if (between_selection["Bayesian39"]["type"] == 'visual_aid') {
             
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
@@ -335,14 +335,14 @@ data_type = {
             
             </div>`;
 
-          } else if (between_selection["Bayesian39"]["type"] == 'TextPV') { // que pasa si las imagenes tienen distintos tamaños? #TODO
+          } else if (between_selection["Bayesian39"]["type"] == 'text_aid') { // que pasa si las imagenes tienen distintos tamaños? #TODO
 
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
             <div style="font-size:14px; text-align: justify;">En el recuadro se muestra el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculado a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
             <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div></div>`;
             
-          } else if (between_selection["Bayesian39"]["type"] == 'Text') { // que pasa si las imagenes tienen distintos tamaños? #TODO
+          } else if (between_selection["Bayesian39"]["type"] == 'text_only') { // que pasa si las imagenes tienen distintos tamaños? #TODO
 
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">&nbsp;` +
@@ -370,8 +370,8 @@ data_type = {
         on_load: function() {
           updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
 
-          // Only in the Image condition as it deactivates button
-          if (between_selection["Bayesian39"]["type"] == 'Image') image_zoom();
+          // Only in the visual_aid condition as it deactivates button
+          if (between_selection["Bayesian39"]["type"] == 'visual_aid') image_zoom();
 
         }
       },
