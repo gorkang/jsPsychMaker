@@ -908,45 +908,59 @@ function completed_task_storage(task) {
 
           all_conditions_size = 0;
           
+          // we count all the conditions for every task, (if the first task have 2 condition, and the second task have 1 condition, we have 3)
           Object.entries(all_conditions).forEach(([key, value]) => {
             all_conditions_size += Object.keys(all_conditions[key]).length;
           })
 
-          // For each of the between tasks (usually just one), assigned_task + 1
-            // REVIEW: With multiple between conditions, there must be slots in all or none of the conditions, right?
-          for (var i = 0; i < Object.keys(between_selection).length; i++) {
+        // ENCAPSULATION de reasignacion de between_selection ----------------------------------------------------
+        // ------------------------------------------------------------------------------------------------------------
 
-            if (debug_mode == true) console.warn("completed_task_storage() || LOOP between_selection");
-            if (debug_mode == true) console.warn(between_selection);
+        console.warn("between_selection inicial: ")
+        console.table(between_selection)
 
-            Object.keys(between_selection[Object.keys(between_selection)[i]]).forEach( selection => {
-              // CHECK if available slots
-              completed_protocol_filtered = condition_data.filter(function(value,index) {
-                return ((value["condition_name"] == (between_selection[Object.keys(between_selection)[i]][selection])) && (value["condition_key"] == selection) && (value["assigned_task"] < max_participants) && (value["task_name"] == Object.keys(between_selection)[i]));
-              });
+        condition_selection().then(function(){
+          
+        console.warn("between_selection inicial: ")
+        console.table(between_selection)
 
-              // Available slots
-              if (completed_protocol_filtered.length > 0) {
+              // For each of the between tasks (usually just one), assigned_task + 1
+                // REVIEW: With multiple between conditions, there must be slots in all or none of the conditions, right?
+              for (var i = 0; i < Object.keys(between_selection).length; i++) {
 
-                selected_id_condition = completed_protocol_filtered[0].id_condition;
+                if (debug_mode == true) console.warn("completed_task_storage() || LOOP between_selection");
+                if (debug_mode == true) console.warn(between_selection);
 
-                // ADD TO experimental_condition / assigned_task -> change: assign_condition_counter in consent, this is only for the 1 or 0 condition way
-                if (!(all_conditions_size > 1)) {
-                  XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-                  if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
-                }
-                protocol_blocked = false;
+                Object.keys(between_selection[Object.keys(between_selection)[i]]).forEach( selection => {
+                  // CHECK if available slots
+                  completed_protocol_filtered = condition_data.filter(function(value,index) {
+                    return ((value["condition_name"] == (between_selection[Object.keys(between_selection)[i]][selection])) && (value["condition_key"] == selection) && (value["assigned_task"] < max_participants) && (value["task_name"] == Object.keys(between_selection)[i]));
+                  });
 
-              // NO slots available
-              } else {
-                if (debug_mode === true) console.warn("completed_task_storage() | completed_protocol_filtered.length > 0 | NO available slots loop");
-                // alert("NO hay cupos disponibles");
-                protocol_blocked = true;
-                if (debug_mode === true) console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #3'); // Ends up in jsPsych.end
-                jsPsych.endExperiment(out_of_slots_message);
+                  // Available slots
+                  if (completed_protocol_filtered.length > 0) {
+
+                    selected_id_condition = completed_protocol_filtered[0].id_condition;
+
+                    // ADD TO experimental_condition / assigned_task -> change: assign_condition_counter in consent, this is only for the 1 or 0 condition way
+                    if (!(all_conditions_size > 1)) {
+                      XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
+                      if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
+                    }
+                    protocol_blocked = false;
+
+                  // NO slots available
+                  } else {
+                    if (debug_mode === true) console.warn("completed_task_storage() | completed_protocol_filtered.length > 0 | NO available slots loop");
+                    // alert("NO hay cupos disponibles");
+                    protocol_blocked = true;
+                    if (debug_mode === true) console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #3'); // Ends up in jsPsych.end
+                    jsPsych.endExperiment(out_of_slots_message);
+                  }
+                });
               }
-            });
-          }
+
+     
 
           // AVAILABLE SLOTS --------------------------------------------------------------------
             // INSERTS the participant in all the relevant tables
@@ -998,8 +1012,10 @@ function completed_task_storage(task) {
                       }
                     })
                   })
-								})
-                assign_condition_counter(between_selection)
+                })
+                // If we have more than 1 condition, then we add our conditions to the system (otherwise we have the conditions added on line 935)
+                if (all_conditions_size > 1)
+                  assign_condition_counter(between_selection)
               });
             });
 
@@ -1017,12 +1033,22 @@ function completed_task_storage(task) {
             jsPsych.endExperiment(out_of_slots_message);
             //alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
           }
+
+        });
+
+// END ENCAPSULATION de reasignacion de between_selection ----------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------
+
+
+
+
         });
       }
     }, function(user_not_found) {
       if (debug_mode === true) console.warn("error en base de datos (busqueda de user)");
     });
 
+    
 
   // [[OLD participant]] ---------------------------------------------------------
   // Second to last tasks : user_assigned && !experiment_blocked//
