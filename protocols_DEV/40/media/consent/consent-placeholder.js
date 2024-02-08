@@ -13,7 +13,7 @@ var_ethics_comitee_phone = `(562) 2331-1277`;
 var_ethics_comitee_email = `paola.canon.g@uai.cl`;
 
 
-var_purpose = `Con su firma, usted accede a participar en este proyecto. En él, estamos investigando como las personas razonan y toman decisiones en contextos médicos. Este estudio es financiado por FONDECYT`;
+var_purpose = `Con su firma, usted accede a participar en este proyecto. En él, estamos investigando cómo las personas razonan y toman decisiones en contextos médicos. Este estudio es financiado por FONDECYT`;
 var_procedure = `En este experimento, usted deberá completar algunas pruebas y cuestionarios en un computador. Su tarea consistirá en responder lo más fiel y cuidadosamente que pueda. El tiempo que tomará su participación variará dependiendo de lo rápido que complete las tareas. Sin embargo, estimamos que ese tiempo no superará los 10 minutos`;
 var_comprehension = `cómo las personas razonan y toman decisiones. También podrían beneficiar a las ciencias aplicadas, que usan hallazgos empíricos obtenidos de experimentos como éste`;
 
