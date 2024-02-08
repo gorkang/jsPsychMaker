@@ -904,8 +904,6 @@ function completed_task_storage(task) {
 
 
           // IN protocols WITHOUT between vars, we need the protocol_blocked = false by default, but it causes issues in protocols with between vars (corner cases)
-          if (Object.keys(between_selection).length == 0) protocol_blocked = false;
-
           all_conditions_size = 0;
           
           // we count all the conditions for every task, (if the first task have 2 condition, and the second task have 1 condition, we have 3)
@@ -913,135 +911,84 @@ function completed_task_storage(task) {
             all_conditions_size += Object.keys(all_conditions[key]).length;
           })
 
-        // ENCAPSULATION de reasignacion de between_selection ----------------------------------------------------
-        // ------------------------------------------------------------------------------------------------------------
+          // between_selection reasignation after consent and then update tables
+          condition_selection().then(function(accepted){
 
-        console.warn("between_selection inicial: ")
-        console.table(between_selection)
+            // if there aren't slots or we have any error on condition selection, then we stop the protocol
+            if (!accepted) {
+              if (debug_mode === true) console.warn("completed_task_storage() | completed_protocol_filtered.length > 0 | NO available slots loop");
+              // alert("NO hay cupos disponibles");
+              if (debug_mode === true) console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #3'); // Ends up in jsPsych.end
+              jsPsych.endExperiment(out_of_slots_message);
+            } else {
+              // here we add +1 to assigned_task on experimental_condition table
+              assign_condition_counter(between_selection)
+            }
 
-        condition_selection().then(function(){
-          
-        console.warn("between_selection inicial: ")
-        console.table(between_selection)
+            // AVAILABLE SLOTS --------------------------------------------------------------------
+              // INSERTS the participant in all the relevant tables
+            // ------------------------------------------------------------------------------------
 
-              // For each of the between tasks (usually just one), assigned_task + 1
-                // REVIEW: With multiple between conditions, there must be slots in all or none of the conditions, right?
-              for (var i = 0; i < Object.keys(between_selection).length; i++) {
+            // if we're accepted on condition_selection
+            if (accepted) { 
 
-                if (debug_mode == true) console.warn("completed_task_storage() || LOOP between_selection");
-                if (debug_mode == true) console.warn(between_selection);
+              user_assigned = true;
+              combination_list = [];
+              
+              // ADD data to user table
+              XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function () {
 
-                Object.keys(between_selection[Object.keys(between_selection)[i]]).forEach( selection => {
-                  // CHECK if available slots
-                  completed_protocol_filtered = condition_data.filter(function(value,index) {
-                    return ((value["condition_name"] == (between_selection[Object.keys(between_selection)[i]][selection])) && (value["condition_key"] == selection) && (value["assigned_task"] < max_participants) && (value["task_name"] == Object.keys(between_selection)[i]));
+                // GET DB internal uid
+                XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
+                  uid = actual_user.id_user;
+
+                  // GET id_task for the task
+                  XMLcall("findRow", "task", {keys: ["task_name"], values: [task]}).then(function(actual_task) {
+                    // INSERT details in user_task
+                    XMLcall("insertIntoTable", "user_task", {dict: { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}});
                   });
 
-                  // Available slots
-                  if (completed_protocol_filtered.length > 0) {
-
-                    selected_id_condition = completed_protocol_filtered[0].id_condition;
-
-                    // ADD TO experimental_condition / assigned_task -> change: assign_condition_counter in consent, this is only for the 1 or 0 condition way
-                    if (!(all_conditions_size > 1)) {
-                      XMLcall("updateTable", "experimental_condition", {id: {"id_condition": selected_id_condition}, data: {"assigned_task": "assigned_task + 1"}});
-                      if (debug_mode === true) console.warn('completed_task_storage() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
-                    }
-                    protocol_blocked = false;
-
-                  // NO slots available
-                  } else {
-                    if (debug_mode === true) console.warn("completed_task_storage() | completed_protocol_filtered.length > 0 | NO available slots loop");
-                    // alert("NO hay cupos disponibles");
-                    protocol_blocked = true;
-                    if (debug_mode === true) console.warn('condition_selection() || Participante bloqueado por límite en condiciones' +  ' #3'); // Ends up in jsPsych.end
-                    jsPsych.endExperiment(out_of_slots_message);
-                  }
-                });
-              }
-
-     
-
-          // AVAILABLE SLOTS --------------------------------------------------------------------
-            // INSERTS the participant in all the relevant tables
-          // ------------------------------------------------------------------------------------
-
-          if (!protocol_blocked) { // Comes from for loop above
-
-            user_assigned = true;
-            added_task = completed_protocol_filtered[0]["task_name"];
-            if (debug_mode === true) console.warn("completed_task_storage() || NEW user, first task | User assigned | task: " + added_task);
-
-            combination_list = [];
-            
-            // ADD data to user table
-            XMLcall("insertIntoTable", "user", {dict: { id_protocol: pid, uid_external: uid_external, status: "assigned", start_date: actual_time}}).then( function () {
-
-              // GET DB internal uid
-              XMLcall("findRow", "user", {keys: ["uid_external"], values: [uid_external]}).then(function(actual_user) {
-                uid = actual_user.id_user;
-
-                // GET id_task for the task
-                XMLcall("findRow", "task", {keys: ["task_name"], values: [task]}).then(function(actual_task) {
-                  // INSERT details in user_task
-                  XMLcall("insertIntoTable", "user_task", {dict: { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}});
-                });
-
-                Object.keys(between_selection).forEach(task_key => {
-                  Object.keys(between_selection[task_key]).forEach((condition_key) => {
-                    XMLcall("findRow", "experimental_condition", { keys: ["task_name", "condition_key", "condition_name"], values: [ task_key, condition_key, between_selection[task_key][condition_key]] }).then(function(actual_condition) {
-                      XMLcall("insertIntoTable", "user_condition", { dict: { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid } })
-                      combination_list.push(actual_condition.condition_name);
-                    }).then(function(){
-                      if (combination_list.length > 1 && combination_list.length == all_conditions_size) {
-                        ordered_combination = []
-                        tasks = Object.keys(all_conditions)
-                        tasks.sort()
-                        for (actual_task of tasks) {
-                          condition_keys = Object.keys(all_conditions[actual_task])
-                          condition_keys.sort()
-                          for (actual_key of condition_keys){
-                            for (actual_condition of all_conditions[actual_task][actual_key]) {
-                              if (combination_list.includes(actual_condition)) {
-                                ordered_combination.push(actual_condition)
+                  Object.keys(between_selection).forEach(task_key => {
+                    Object.keys(between_selection[task_key]).forEach((condition_key) => {
+                      XMLcall("findRow", "experimental_condition", { keys: ["task_name", "condition_key", "condition_name"], values: [ task_key, condition_key, between_selection[task_key][condition_key]] }).then(function(actual_condition) {
+                        XMLcall("insertIntoTable", "user_condition", { dict: { id_protocol: pid, id_condition: actual_condition.id_condition, id_user: uid } })
+                        combination_list.push(actual_condition.condition_name);
+                      }).then(function(){
+                        if (combination_list.length > 1 && combination_list.length == all_conditions_size) {
+                          ordered_combination = []
+                          tasks = Object.keys(all_conditions)
+                          tasks.sort()
+                          for (actual_task of tasks) {
+                            condition_keys = Object.keys(all_conditions[actual_task])
+                            condition_keys.sort()
+                            for (actual_key of condition_keys){
+                              for (actual_condition of all_conditions[actual_task][actual_key]) {
+                                if (combination_list.includes(actual_condition)) {
+                                  ordered_combination.push(actual_condition)
+                                }
                               }
                             }
                           }
+                          XMLcall("insertIntoTable", "combination_between", { dict: { id_protocol: pid, id_user: uid, combination: ordered_combination.join("|")} })
                         }
-                        XMLcall("insertIntoTable", "combination_between", { dict: { id_protocol: pid, id_user: uid, combination: ordered_combination.join("|")} })
-                      }
+                      })
                     })
                   })
-                })
-                // If we have more than 1 condition, then we add our conditions to the system (otherwise we have the conditions added on line 935)
-                if (all_conditions_size > 1)
-                  assign_condition_counter(between_selection)
+                });
               });
-            });
 
+              // UPDATE: counter + 1 in protocol
+              XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
+              if (debug_mode === true) console.warn('completed_task_storage() | INSERT | table user, table user_task, table user_condition, counter + 1 | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user --> !protocol_blocked');
 
-            // UPDATE: counter + 1 in protocol
-            XMLcall("updateTable", "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter + 1"}});
-            if (debug_mode === true) console.warn('completed_task_storage() | INSERT | table user, table user_task, table user_condition, counter + 1 | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user --> !protocol_blocked');
+            // NO SLOTS AVAILABLE ------------------------------------------------
+            } else {
+              if (debug_mode === true) console.warn("Participante bloqueado por límite en condiciones" +  " #4");
+              jsPsych.endExperiment(out_of_slots_message);
+              //alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
+            }
 
-            // -------------------------------------------------------------------------------------
-
-
-          // NO SLOTS AVAILABLE ------------------------------------------------
-          } else {
-            if (debug_mode === true) console.warn("Participante bloqueado por límite en condiciones" +  " #4");
-            jsPsych.endExperiment(out_of_slots_message);
-            //alert("Se ha alcanzado el número máximo de participantes para este protocolo.\nPor favor, espere a que se liberen más cupos.");
-          }
-
-        });
-
-// END ENCAPSULATION de reasignacion de between_selection ----------------------------------------------------
-// ------------------------------------------------------------------------------------------------------------
-
-
-
-
+          });
         });
       }
     }, function(user_not_found) {
