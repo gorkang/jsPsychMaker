@@ -28,7 +28,7 @@ DEMOGR39.push(question01);
 
 var question01 = {
   type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">Indica <B>tú</B> ocupación</div>', 
+  questions: [{prompt: '<div class="justified">Indica tú ocupación</div>', 
   options: ['&nbsp;Profesional médico', '&nbsp;Estudiante de medicina', '&nbsp;Otro tipo de profesional', '&nbsp;Otro tipo de estudiante'], 
   required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'DEMOGR39_01', procedure: 'DEMOGR39'}
