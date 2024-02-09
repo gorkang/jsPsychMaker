@@ -995,7 +995,6 @@ function completed_task_storage(task) {
       if (debug_mode === true) console.warn("error en base de datos (busqueda de user)");
     });
 
-    
 
   // [[OLD participant]] ---------------------------------------------------------
   // Second to last tasks : user_assigned && !experiment_blocked//

@@ -9,16 +9,18 @@ random_id = true;
 max_time = "01:01:00";
 accept_discarded = true;
 debug_mode = false; // SHOULD be false in production
+disable_button_interaction = false; // Monkeys control, should be false in production
 language = "English";
 finish_link = "";
 
+var_researcher_email = `gorkang@gmail.com`;
 
 // ORDER OF TASKS --------------------------------------------------------------
 
 first_tasks = ['ConsentAudio'];
+last_tasks = ['Goodbye'];
 secuentially_ordered_tasks_1 = ['DEMOGR40', 'Bayesian40'];
 randomly_ordered_tasks = ['WaisWorkingMemory', 'WaisMatrices', 'BNT', 'DEBRIEF40'];
-last_tasks = ['Goodbye'];
 
 tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'randomly_ordered_tasks', 'last_tasks'];
 
