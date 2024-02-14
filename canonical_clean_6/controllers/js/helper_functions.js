@@ -518,6 +518,7 @@ function image_zoom() {
           // While testing, do not disable. Monkeys are not ready yet
           disable_button = true
           if (debug_mode == true) disable_button = disable_button_interaction
+          if (debug_mode == false && disable_button_interaction == true) console.warn('disable_button_interaction only works when debug_mode == true')
 
           document.querySelector("[id$=next]").disabled = disable_button;
           document.querySelector("[id$=next]").title = text_error_zoom;
