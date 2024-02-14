@@ -260,7 +260,7 @@ function check_fullscreen(task_name) {
     }],
     data: { procedure: task_name },
     conditional_function: function () {
-      if ((screen.width || screen.width - 40) > window.innerWidth || (screen.height || screen.height - 40) > window.innerHeight)
+      if (Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40)
         return true;
       else
         return false;
