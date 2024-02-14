@@ -96,22 +96,66 @@ DEMOGR39.push(question05);
 */
 
 // https://www.mscbs.gob.es/profesionales/formacion/EspecialistasExtracomunitarios/Docs/2020EspecialidadesRecoEspanaV2.pdf
+// used for store choices globally
+var DEMOGR39_question06_choice;
 var question06 = {
   type: 'survey-html-form',
   required_message: "Elige una de las opciones disponibles.",
   preamble: `<div class="justified">Selecciona tu especialidad médica.<BR>
   <span style="font-size: 80%; color: #A9A9A9;">Si no aparece nada, borra lo que has escrito y haz click en el campo de texto. Si tu especialidad no aparece, selecciona: Otra</span></div><BR>`,
-  html: `<input name="Q0" id="formEspecialidadesMedicas" list="EspecialidadesMedicas" 
-  onmouseover="focus();" 
-  placeholder="Haz click para ver las opciones..."
-
-  oninvalid="this.setCustomValidity(\'Elige uno de los elementos del desplegable. Si no aparece nada, borra lo que has escrito y haz click en el campo de texto. Si tu especialidad no aparece, indica: Otra\')"
-  onchange="try{setCustomValidity(\'\')}catch(e){}"
-  oninput="setCustomValidity(\' \')" 
-
-  pattern="^(Otra|Alergología|Anatomía Patológica|Anestesiología y Reanimación|Angiología y Cirugía Vascular|Aparato Digestivo|Cardiología|Cirugía Cardiovascular|Cirugía General y del Aparato Digestivo|Cirugía Oral y Maxilofacial|Cirugía Ortopédica y Traumatología|Cirugía Pediátrica|Cirugía Plástica, Estética y Reparadora|Cirugía Torácica|Dermatología Médico-Quirúrgica y Venereología|Endocrinología y Nutrición|Farmacología Clínica|Geriatría|Hematología y Hemoterapia|Inmunología|Medicina del Trabajo|Medicina Familiar y Comunitaria|Medicina Física y Rehabilitación|Medicina Intensiva|Medicina Interna|Medicina Nuclear|Medicina Preventiva y Salud Pública|Nefrología|Neumología|Neurocirugía|Neurofisiología Clínica|Neurología|Obstetricia y Ginecología|Oftalmología|Oncología Médica|Oncología Radioterápica|Otorrinolaringología|Pediatría y sus Áreas Específicas|Psiquiatría|Radiodiagnóstico|Reumatología|Urología)$" ' +
-  required><datalist id="EspecialidadesMedicas"><option value="Otra"> <option value="Alergología"> <option value="Anatomía Patológica"> <option value="Anestesiología y Reanimación"> <option value="Angiología y Cirugía Vascular"> <option value="Aparato Digestivo"> <option value="Cardiología"> <option value="Cirugía Cardiovascular"> <option value="Cirugía General y del Aparato Digestivo"> <option value="Cirugía Oral y Maxilofacial"> <option value="Cirugía Ortopédica y Traumatología"> <option value="Cirugía Pediátrica"> <option value="Cirugía Plástica, Estética y Reparadora"> <option value="Cirugía Torácica"> <option value="Dermatología Médico-Quirúrgica y Venereología"> <option value="Endocrinología y Nutrición"> <option value="Farmacología Clínica"> <option value="Geriatría"> <option value="Hematología y Hemoterapia"> <option value="Inmunología"> <option value="Medicina del Trabajo"> <option value="Medicina Familiar y Comunitaria"> <option value="Medicina Física y Rehabilitación"> <option value="Medicina Intensiva"> <option value="Medicina Interna"> <option value="Medicina Nuclear"> <option value="Medicina Preventiva y Salud Pública"> <option value="Nefrología"> <option value="Neumología"> <option value="Neurocirugía"> <option value="Neurofisiología Clínica"> <option value="Neurología"> <option value="Obstetricia y Ginecología"> <option value="Oftalmología"> <option value="Oncología Médica"> <option value="Oncología Radioterápica"> <option value="Otorrinolaringología"> <option value="Pediatría y sus Áreas Específicas"> <option value="Psiquiatría"> <option value="Radiodiagnóstico"> <option value="Reumatología"> <option value="Urología"> </datalist>&nbsp;`,
-  data: {trialid: 'DEMOGR39_06', procedure: 'DEMOGR39'}
+  html: `<select id="choices_select"><option value="">Haz click para ver las opciones...</option>
+  <option>Otra</option>
+  <option>Alergología</option>
+  <option>Anatomía Patológica</option>
+  <option>Anestesiología y Reanimación</option>
+  <option>Angiología y Cirugía Vascular</option>
+  <option>Aparato Digestivo</option>
+  <option>Cardiología</option>
+  <option>Cirugía Cardiovascular</option>
+  <option>Cirugía General y del Aparato Digestivo</option>
+  <option>Cirugía Oral y Maxilofacial</option>
+  <option>Cirugía Ortopédica y Traumatología</option>
+  <option>Cirugía Pediátrica</option>
+  <option>Cirugía Plástica, Estética y Reparadora</option>
+  <option>Cirugía Torácica</option>
+  <option>Dermatología Médico-Quirúrgica y Venereología</option>
+  <option>Endocrinología y Nutrición</option>
+  <option>Farmacología Clínica</option>
+  <option>Geriatría</option>
+  <option>Hematología y Hemoterapia</option>
+  <option>Inmunología</option>
+  <option>Medicina del Trabajo</option>
+  <option>Medicina Familiar y Comunitaria</option>
+  <option>Medicina Física y Rehabilitación</option>
+  <option>Medicina Intensiva</option>
+  <option>Medicina Interna</option>
+  <option>Medicina Nuclear</option>
+  <option>Medicina Preventiva y Salud Pública</option>
+  <option>Nefrología</option>
+  <option>Neumología</option>
+  <option>Neurocirugía</option>
+  <option>Neurofisiología Clínica</option>
+  <option>Neurología</option>
+  <option>Obstetricia y Ginecología</option>
+  <option>Oftalmología</option>
+  <option>Oncología Médica</option>
+  <option>Oncología Radioterápica</option>
+  <option>Otorrinolaringología</option>
+  <option>Pediatría y sus Áreas Específicas</option>
+  <option>Psiquiatría</option>
+  <option>Radiodiagnóstico</option>
+  <option>Reumatología</option>
+  <option>Urología</option></select>&nbsp;`,
+  data: {trialid: 'DEMOGR39_06', procedure: 'DEMOGR39'},
+  on_load: function () {
+    //const example = new Choices(document.getElementById("choices_select"))
+    DEMOGR39_question06_choice = new Choices(document.getElementById("choices_select"), {
+      position: "top"
+    })
+  }, 
+  on_finish: function (data) {
+    data.response = JSON.stringify({Q0: DEMOGR39_question06_choice.getValue(true)})
+  }
 };
 DEMOGR39.push(question06);
 
