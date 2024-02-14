@@ -981,8 +981,6 @@ function completed_task_storage(task) {
             if (accepted) {
 
               user_assigned = true;
-              added_task = completed_protocol_filtered[0]["task_name"];
-              if (debug_mode === true) console.warn("completed_task_storage() || NEW user, first task | User assigned | task: " + added_task);
 
               combination_list = [];
 
