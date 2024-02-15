@@ -41,7 +41,7 @@
   <div class="jspsych-content-wrapper">
     <div id="jspsych-content" class="jspsych-content">
       <div class="jspsych-instructions-nav" style="padding: 10px 0px;">
-        <span id="text_input_uid">Cargando protocolo... <BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/></span><br><br>
+        <span id="text_input_uid">Loading protocol...<BR><BR><img src="controllers/media/loading.gif" name="UAI" align="bottom" border="0"/></span><br><br>
         <input id="input_uid" hidden="true" required>
         <input style="display:none !important" id="check" type="submit" onclick="check_id_status(event)" value="Comenzar" class="jspsych-btn">
         <input style="display:none !important" id="start" type="button" onclick="start_protocol()" value="Continuar" class="jspsych-btn" hidden>
@@ -70,11 +70,12 @@
 
 
 
-  <!-- LOAD Protocol Plugins at the end -->
+  <!-- LOAD plugins at the end -->
 
   <!-- Esential plugins -->
   <script src="jsPsych-6/plugins/jspsych-call-function.js"></script>
   <script src="jsPsych-6/plugins/jspsych-preload.js"></script>
+  <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
 
   <!-- Instructions for zoomed images -->
   <script src="jsPsych-6/plugins/jspsych-instructions-zoom.js"></script>
@@ -83,7 +84,6 @@
   <script src="jsPsych-6/plugins/jspsych-survey-multi-choice-vertical.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-multi-select.js"></script>
   <script src="jsPsych-6/plugins/jspsych-html-button-response.js"></script>
-  <script src="jsPsych-6/plugins/jspsych-fullscreen.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-text.js"></script>
   <script src="jsPsych-6/plugins/jspsych-html-slider-response.js"></script>
   <script src="jsPsych-6/plugins/jspsych-survey-html-form.js"></script>
