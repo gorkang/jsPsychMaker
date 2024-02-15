@@ -23,7 +23,7 @@ function number_block(encripted_number, ID, type, block_name) {
         choices: "NO_KEYS",
         prompt: "<div class='crux' id='cruz'><img src='media/images/WaisWorkingMemory/cross.png' /></div>",
         trial_ends_after_audio: true,
-        data: {trialid: 'WaisWorkingMemory_' + pad(ID, 3), procedure: 'WaisWorkingMemory'},
+        data: {trialid: 'WaisWorkingMemory_' + pad(ID, 3) + '_audio', procedure: 'WaisWorkingMemory'},
         on_load: function () {
             console.log("Encrypted number: " + encripted_number)
             console.log("Decripted number: " + decrypt(salt, encripted_number));
