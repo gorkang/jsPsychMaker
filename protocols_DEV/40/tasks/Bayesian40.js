@@ -130,8 +130,9 @@ data_type = {
   data_disease = {
     'Cancer': {description_context1: "Imagine a very close friend is offered to participate in a routine <B>breast cancer screening</B> at no cost. Everyone in her age range is offered the screening test, regardless of health status. Your friend is ",
               // una mujer
-              description_context2: `, 40 years old, with good health and without any relevant personal or familiar medical history.<BR><BR>`,
-              brief_context: /*woman*/", 40 years old, with good health and without any relevant personal or familiar medical history, is offered to participate in a routine <B>breast cancer screening</B> at no cost.<BR>",
+              description_context2: `, 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs.<BR><BR>
+              Breast cancer is a very serious condition that can lead to death if not treated in time. But sometimes, breasts can have small lumps that can be confused with breast cancer although do not need to be treated.<BR><BR>`,
+              brief_context: /*woman*/", 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs, is offered to participate in a routine <B>breast cancer screening</B> at no cost.<BR>",
               number_PREVALENCE_x: 1, number_PREVALENCE_y: 105, number_SENSITIVITY: 95, number_SPECIFICITY: 88, disease_description: "breast cancer",
               test_description: "digital mammogram", test1: "screening", follow_up: "diagnostic test", follow_up_name: "biopsy",
               follow_up_details: "The recommended diagnostic test when there is suspicion of breast cancer is a biopsy of the breast tissue", 
@@ -140,8 +141,9 @@ data_type = {
 
     'Stroke': {description_context1: "Imagine a very close friend goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>. Your friend is ",
               // a man / a woman
-              description_context2: `, 40 years old, with good health and without any relevant personal or familiar medical history.<BR><BR>`,
-              brief_context: /*A woman/A man*/", 40 years old, with good health and without any relevant personal or familiar medical history, goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>.<BR>",
+              description_context2: `, 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs.<BR><BR>
+              Stroke is a very serious condition that can lead to death or permanent damage in the brain if not treated in time. But sometimes, other conditions can cause symptoms that can be confused with a Stroke although they do not need to be treated.<BR><BR>`,
+              brief_context: /*A woman/A man*/", 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs, goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>.<BR>",
               number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "Stroke",
               test_description: "Difusion Magnetic Resonance", test1: "diagnostic", follow_up: "treatment", follow_up_name: "trombolysis",
               follow_up_details: "The recommended treatment when there is suspicion of cerebral infarction is thrombolysis", 
@@ -152,9 +154,9 @@ data_type = {
 
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/images/Bayesian40/VPP_low_Cancer.png', textPV: '<B>Positive Predictive Value</B>: 5%<br>(very low) <span style = "font-size: small;"><BR>5 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
+    'lowQuality_Cancer': {image: 'media/images/Bayesian40/VPP_low_Cancer.png', textPV: '<B>Positive Predictive Value</B>: 30%<br>(very low) <span style = "font-size: small;"><BR>30 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
     'highQuality_Cancer': {image: 'media/images/Bayesian40/VPN_high_Cancer.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/images/Bayesian40/VPN_low_Stroke.png', textPV: '<B>Negative Predictive Value</B>: 51%<br>(intermediate) <span style = "font-size: small;"><BR>51 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"]},
+    'lowQuality_Stroke': {image: 'media/images/Bayesian40/VPN_low_Stroke.png', textPV: '<B>Negative Predictive Value</B>: 21%<br>(intermediate) <span style = "font-size: small;"><BR>21 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"]},
     'highQuality_Stroke': {image: 'media/images/Bayesian40/VPP_high_Stroke.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"]}
   };
 
@@ -319,7 +321,7 @@ data_type = {
           "The " + data_disease[jsPsych.timelineVariable('disease', true)].test1 + " test commonly used to detect " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " is a " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
           "In a person like your friend, " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " has a <B>" + prevalence_incidence[jsPsych.timelineVariable('disease', true)].label +" of " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_x + " out of " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_y + '</B>.<BR><BR> ' +
           "The " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " has a <B>sensitivity of " + data_disease[jsPsych.timelineVariable('disease', true)].number_SENSITIVITY + "%</B> and a <B>specificity of " + data_disease[jsPsych.timelineVariable('disease', true)].number_SPECIFICITY + '%</B>. <BR><BR>'+
-          "What is the probability of " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " having a " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " if the " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " result is <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
+          "What is the probability of <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " having</B> a " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " if the " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " result is <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
           // BETWEEN variable [Picture / TextPV / Text]:

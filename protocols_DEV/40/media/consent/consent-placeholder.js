@@ -47,11 +47,11 @@ Dear participant, <br/><br/>
 
 Thanks for your interest in our study! <br/><br/>
 
-In order to participate, you must be at least 50 years old, be a fluent English speaker and must reside in the US. <br/><br/>
+In order to participate, you must be at least 18 years old and be a fluent English speaker. <br/><br/>
 
-During your participation in this study, you will be presented with financial information, and will have to answer questions about hypothetical financial decisions. Other than that, you will encounter no greater risks or discomfort other than those incurred in routine daily activities. <br/><br/>
+During your participation in this study, you will be presented with hypothetical medical cases and will need to perform estimations and recommendations. We will also present you tasks to measure your ability to reason numerically, recognize patterns, etc. Other than that, you will encounter no greater risks or discomfort other than those incurred in routine daily activities. <br/><br/>
 
-Questions or concerns about this study, the use of your data, or interest in the final results of the study, may be directed to Prof. Nieves Valdés (nieves.valdes@uai.cl). <br/><br/>
+Questions or concerns about this study, the use of your data, or interest in the final results of the study, may be directed to Prof. Gorka Navarrete (gorkang@gmail.com). <br/><br/>
 
 As an informed participant, by advancing to the next page I acknowledge: <br/><br/>
 
@@ -59,6 +59,8 @@ My participation is voluntary and I may cease to take part in this study at any 
 All my questions about the experiment have been satisfactorily answered.<br/>
 The data collected will only be used to promote scientific knowledge and the researcher will use the data I provide for no purpose other than research.<br/>
 The data I provide is confidential.<br/><br/>
+
+If you have a complaint or feel that your rights were violated by any of the people carrying out this study, you can contact the Ethics Committee of the ` + var_researcher_university + `, whose President or Secretary is ` + var_ethics_comitee_name_president + ` on the phone ` + var_ethics_comitee_phone + `, or on the email: <a href="mailto:` + var_ethics_comitee_email + `">` + var_ethics_comitee_email + `</a>. <br/><br/>
 
 <em>By selecting “I agree to participate” you declare that you are willing to voluntarily participate in this research: </em>
 <BR><BR>
