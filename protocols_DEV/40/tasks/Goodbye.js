@@ -9,7 +9,7 @@ unique_code = jsPsych.randomization.randomID(20);
 var instruction_screen_experiment = {
   type: 'instructions',
   pages: ['<p><left>' +
-  '<p><left><b><big>Thank you very much for taking part in our study.</big></b><br/><br/>'+ 'If you have any further queries or observations arising from this study, please feel free to write to Prof. Nieves Valdés (nieves.valdes@uai.cl) </p>Press the END STUDY button to record your answers.'],
+  '<p><left><b><big>Thank you very much for taking part in our study.</big></b><br/><br/>'+ 'If you have any further queries or observations arising from this study, please feel free to write to Prof. Gorka Navarrete (gorkang@gmail.com) </p>Press the END STUDY button to record your answers.'],
   button_label_next: 'End Study',
   data: {trialid: 'Goodbye_01', procedure: 'Goodbye', stimulus: '', response: unique_code},
   show_clickable_nav: true,
