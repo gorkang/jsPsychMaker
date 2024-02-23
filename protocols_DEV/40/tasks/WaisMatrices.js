@@ -1,3 +1,7 @@
+// First element blank so the position starts from 1
+var encrypted_array = ["", "53","50","51","55","53","52","52","55","51","51","50","55","55","53","50","51","52","55","50","53","51","51","52","50","53","52"];
+
+
 /* ********************************* VARIABLES GENERALES ********************************* */
 
 questions = (typeof questions != 'undefined' && questions instanceof Array) ? questions : [];
@@ -5,14 +9,13 @@ questions.push(check_fullscreen('WaisMatrices'));
 WaisMatrices = [];    //temporal timeline
 
 var condition1 = false; //indicates if the answer given by the subject in example is correct
-
 var wrongs_in_row = 0; //indicates if subjects has 3 wrongs in a row
+
 /*indicates if subject got question 4 wrong and if the subject manages to get 2 rights in a row*/
 var rights_in_row = 0;
-
 var first_repeat = false;
 var second_repeat = false;
-var repeat = []
+var repeat = [];
 
 function resize_buttons() {
   buttons = document.getElementsByClassName("jspsych-html-button-response-button");
@@ -20,10 +23,10 @@ function resize_buttons() {
     buttons[i].style.width = "17.5%";
   }
 
-  img = document.getElementsByTagName("img")[0]
+  img = document.getElementsByTagName("img")[0];
 
   if (img.naturalHeight < 200)
-    img.style.width = "79%"
+    img.style.width = "79%";
 }
 
 function verify_question(data, correct_answer, selected_repeat = 0) {
@@ -53,9 +56,7 @@ var instruction_screen_experiment = {
 };
 
 
-/* ********************************* INSTRUCCIONES ********************************* */
-
-/* Texto Inicial */
+/* ********************************* INSTRUCCIONS ********************************* */
 
 var instructions_01 = {
   type: "instructions",
@@ -75,7 +76,7 @@ WaisMatrices.push(instructions_01);
 /* ************************************************************************************************************ */
 
 
-/* INICIO BLOQUES DE PRACTICA ********************************************************************************* */
+/* PRACTICE BLOCK ******************************************************************************************** */
 
 var question01 = {
   type: "html-button-response",
@@ -194,15 +195,16 @@ var instructions_04 = {
 };
 WaisMatrices.push(instructions_04);
 
-/* FIN BLOQUES DE PRACTICA */
+/* END PRACTICE */
 /* ************************************************************************************************ */
 
-/* ITEMS 3 to 5 *********************************************************************************** */
+/* ITEMS 1 to 3 *********************************************************************************** */
+// Only presented, in reverse order, if 4 or 5 failed
 
-// items 3 - 2 - 1 according to document
-correct_answers_1_to_3 = [2, 1, 0]
-repeated_array = []
-for (let i = 1; i <= 3; i++) { // 3, 4, 5
+correct_answers_1_to_3 = encrypted_array.slice(1, 4); // end not included in slice
+
+repeated_array = [];
+for (let i = 1; i <= 3; i++) { // 1, 2, 3
   var if_question_loop = {
     timeline: [{
       type: "html-button-response",
@@ -220,7 +222,8 @@ for (let i = 1; i <= 3; i++) { // 3, 4, 5
       margin_horizontal: "1%",
       on_load: function () { resize_buttons() },
       on_finish: function (data) {
-        if (data.button_pressed == correct_answers_1_to_3[i - 1]) {
+        if (data.button_pressed == decrypt(salt, correct_answers_1_to_3[i - 1])) {
+                
           //if the answer is right
           data.response = 1;
           wrongs_in_row = 0; //wrongs in a row
@@ -233,13 +236,12 @@ for (let i = 1; i <= 3; i++) { // 3, 4, 5
       }
     }],
     conditional_function: function () {
-      // if wrongs_in_row == 3 the experiment ends
+      // if wrongs_in_row == 3 the experiment ends // REDUNDANT?
       if (wrongs_in_row >= 3) {
         return false;
       } else {
-        // if is the first time of this questions there isn't a problem, so it pass, then, when you have the question 6 or 7 
-        // you have active the "first_repeat" or the "second_repeat", in which case the loops ends if you have 2 correct questions in row
-        // if you never have 2 corrects questions in row or 3 wrongs this loop is infinite
+        
+        // Exit loop if 2 rights in a row
         if (rights_in_row < 2) {
           return true;
         } else {
@@ -249,13 +251,12 @@ for (let i = 1; i <= 3; i++) { // 3, 4, 5
     },
     data: { trialid: 'if_question_loop', procedure: 'WaisMatrices' }
   };
-  //WaisMatrices.push(if_question_loop);
 
   repeated_array.push(if_question_loop);
 }
 repeated_array.reverse();
 
-/* ITEM 6 *********************************************************************************** */
+/* ITEM 4 *********************************************************************************** */
 
 var if_question04 = {
   timeline: [{
@@ -274,7 +275,7 @@ var if_question04 = {
     margin_horizontal: "1%",
     on_load: function () { resize_buttons() },
     on_finish: function (data) {
-      verify_question(data, 4, 1)
+      verify_question(data, decrypt(salt, encrypted_array.slice(4, 5).toString()), 1);
     }
   }],
   conditional_function: function () {
@@ -307,7 +308,7 @@ WaisMatrices.push(if_WaisMatrices_04);
 /* ******************************************************************************************* */
 
 
-/* ITEM 7 *********************************************************************************** */
+/* ITEM 5 *********************************************************************************** */
 
 var if_question05 = {
   timeline: [{
@@ -325,13 +326,13 @@ var if_question05 = {
     margin_horizontal: "1%",
     on_load: function () { resize_buttons() },
     on_finish: function (data) {
-      verify_question(data, 2, 2)
+       verify_question(data, decrypt(salt, encrypted_array.slice(5, 6).toString()), 2);
     }
   }],
   conditional_function: function () {
-    // if question 6th is wrong and he doesn't have 2 corrects in row (ex. if he fails on second question from 3-2-1 loop), then this questions doesn't shows
-    if ((wrongs_in_row >= 3) || ((jsPsych.data.get().values().filter(x => x.trialid == "WaisMatrices_004")[0].button_pressed != 4) && rights_in_row < 2)) {
-      return false
+    // if question 4th is wrong and doesn't have 2 corrects in a row (ex. if he fails on second question from 3-2-1 loop), then this questions doesn't show
+    if ((wrongs_in_row >= 3) || ((jsPsych.data.get().values().filter(x => x.trialid == "WaisMatrices_004")[0].button_pressed != decrypt(salt, encrypted_array.slice(4, 5).toString())) && rights_in_row < 2)) {
+      return false;
     } else {
       return true;
     }
@@ -344,8 +345,8 @@ WaisMatrices.push(if_question05);
 var if_WaisMatrices_05 = {
   timeline: repeated_array,
   conditional_function: function () {
-    // this only shows if participant have the 6th question correct and 7th wrong
-    if (repeat.length == 1 && repeat[0] == 2 && (jsPsych.data.get().values().filter(x => x.trialid == "WaisMatrices_004")[0].button_pressed == 4)) {
+    // this only shows if participant have the 4th question correct and 5th wrong
+    if (repeat.length == 1 && repeat[0] == 2 && (jsPsych.data.get().values().filter(x => x.trialid == "WaisMatrices_004")[0].button_pressed == decrypt(salt, encrypted_array.slice(4, 5).toString()))) {
       return true;
     } else {
       return false;
@@ -361,13 +362,12 @@ WaisMatrices.push(if_WaisMatrices_05);
 /* ******************************************************************************************* */
 
 
-/* ITEMS 8 to 28 ***************************************************************************** */
-
-correct_answers_6_to_26 = [3, 3, 4, 0, 0, 1, 4, 4, 2, 1, 0, 3, 4, 1, 2, 0, 0, 3, 1, 2, 3]
-
+/* ITEMS 6 to 26 ***************************************************************************** */
+  
+correct_answers_6_to_26 = encrypted_array.slice(6, 27);// end not included in slice
 //long_images = [7, 10, 12, 16, 17, 18, 19, 22, 26]
 
-for (let i = 6; i <= 26; i++) { // 8-28
+for (let i = 6; i <= 26; i++) { // 6-26
   var if_question_loop = {
     timeline: [{
       type: "html-button-response",
@@ -385,7 +385,8 @@ for (let i = 6; i <= 26; i++) { // 8-28
       margin_horizontal: "1%",
       on_load: function () { resize_buttons() },
       on_finish: function (data) {
-        verify_question(data, correct_answers_6_to_26[i - 6])
+//        verify_question(data, correct_answers_6_to_26[i - 6])
+        verify_question(data, decrypt(salt, correct_answers_6_to_26[i - 6]))
       }
     }],
     conditional_function: function () {
