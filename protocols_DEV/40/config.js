@@ -9,7 +9,7 @@ random_id = true;
 max_time = "01:01:00";
 accept_discarded = true;
 debug_mode = true; // SHOULD be false in production
-disable_button_interaction = false; // false when testing with monkeys
+disable_button_interaction = false; // Monkeys control, should be false in production
 language = "English";
 finish_link = "";
 
@@ -24,6 +24,7 @@ last_tasks = ['AntiBots', 'Goodbye'];
 
 tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'randomly_ordered_tasks', 'last_tasks'];
 
+// MEDIA preloading ------------------------------------------------------------
 
 
 // media to preload in protocol_controller

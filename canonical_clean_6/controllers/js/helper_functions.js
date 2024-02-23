@@ -677,8 +677,8 @@ const decrypt = (salt, encoded) => {
 // Encrypt full array (used offline to create the encrypted arrays)
 const encrypt_array = (salt, array) => {
     var encrypted_array = [];
-    for (var i = 0; i <= ALL.length - 1; i++) {
-        encrypted_number = crypt(salt, ALL[i])
+    for (var i = 0; i <= array.length - 1; i++) {
+        encrypted_number = crypt(salt, array[i])
         encrypted_array.push(encrypted_number);
     }
     //console.log(JSON.stringify(encrypted_array)) 
