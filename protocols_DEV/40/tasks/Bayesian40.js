@@ -38,8 +38,8 @@
 // Page 1 varies per condition (one of the sentences)
 function instructions_p1 (type) {
 
-  instructions_p1_extra = {Image: "Also, an image representing the Positive or Negative Predictive value for someone like your friend will be shown.<BR><BR>", 
-                          TextPV: "Also, a textbox representing the Positive or Negative Predictive value for someone like your friend will be shown.<BR><BR>",
+  instructions_p1_extra = {Image: "Also, an image representing the Positive or Negative Predictive Value for someone like your friend will be shown.<BR><BR>", 
+                          TextPV: "Also, a textbox representing the Positive or Negative Predictive Value for someone like your friend will be shown.<BR><BR>",
                           Text: ""};
 
   instructions_page1 = `<H2>Instructions (1/4)</H2>In the following screens, we will ask you to give recommendations in two hypotetical scenarios:
