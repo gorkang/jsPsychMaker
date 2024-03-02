@@ -1,5 +1,5 @@
 // First element blank so the position starts from 1
-var encrypted_array = ["", "53","50","51","55","53","52","52","55","51","51","50","55","55","53","50","51","52","55","50","53","51","51","52","50","53","52"];
+var encrypted_array = ["", "53", "50", "51", "55", "53", "52", "52", "55", "51", "51", "50", "55", "55", "53", "50", "51", "52", "55", "50", "53", "51", "51", "52", "50", "53", "52"];
 
 
 /* ********************************* VARIABLES GENERALES ********************************* */
@@ -7,6 +7,13 @@ var encrypted_array = ["", "53","50","51","55","53","52","52","55","51","51","50
 questions = (typeof questions != 'undefined' && questions instanceof Array) ? questions : [];
 questions.push(check_fullscreen('WaisMatrices'));
 WaisMatrices = [];    //temporal timeline
+
+var max_response_seconds = 120;
+// alert text when you have x seconds left
+var seconds_text = {
+  60: '¿Tienes alguna respuesta?',
+  30: 'Saltaremos al siguiente item en 30 segundos'
+};
 
 var condition1 = false; //indicates if the answer given by the subject in example is correct
 var wrongs_in_row = 0; //indicates if subjects has 3 wrongs in a row
@@ -16,17 +23,76 @@ var rights_in_row = 0;
 var first_repeat = false;
 var second_repeat = false;
 var repeat = [];
+var actual_sec = 0;
+
+// countdown timer
+function time_counter(stimulus) {
+  var now = new Date().getTime();
+  var end_time = now + max_response_seconds * 1000;
+  var x = setInterval(function () {
+    now = new Date().getTime();
+    // difference in milliseconds between final time and now
+    var distance = end_time - now;
+    //var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    //var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    var seconds = Math.floor(distance/1000);
+    if (actual_sec !== seconds) {
+      actual_sec = seconds
+
+      if (seconds in seconds_text) {
+        text = document.getElementById('text_timer');
+        console.log(seconds_text[seconds])
+        if (text)
+          text.innerHTML = seconds_text[seconds];
+      }
+
+      /*if (seconds <= 30 && div_check === 0) {
+        div_check = 1;
+        text = document.getElementById('text_timer');
+        console.log(seconds_text[30])
+        if (text)
+          text.innerHTML = seconds_text[30];
+      }
+      else if (seconds <= 10 && div_check === 1) {
+        div_check = 2;
+        text = document.getElementById('text_timer');
+        console.log(seconds_text[10])
+        if (text)
+          text.innerHTML = seconds_text[10];
+      } */
+      if (seconds <= 0) {
+        clearInterval(x);
+        console.log("se salta al siguiente item");
+        let data = {
+          button_pressed: -1,
+          response: 0,
+          rt: max_response_seconds * 1000,
+          stimulus: stimulus
+        };
+        //this.jsPsych.finishTrial(data);
+      }
+    }
+  })
+  return x
+}
 
 function resize_buttons() {
   buttons = document.getElementsByClassName("jspsych-html-button-response-button");
   for (let i = 0; i < buttons.length; i++) {
-    buttons[i].style.width = "17.5%";
+    buttons[i].style.height = "17.5%";
   }
+
+  buttons_group = document.getElementById("jspsych-html-button-response-btngroup")
+  
+  buttons_group.style["display"] = "flex";
+  buttons_group.style["justify-content"] = "center";
+  buttons_group.style["margin-top"] = "3%";
 
   img = document.getElementsByTagName("img")[0];
 
   if (img.naturalHeight < 200)
-    img.style.width = "79%";
+    img.style.height = "79%";
 }
 
 function verify_question(data, correct_answer, selected_repeat = 0) {
@@ -61,10 +127,9 @@ var instruction_screen_experiment = {
 var instructions_01 = {
   type: "instructions",
   pages: [
-    `<div class = centerbox>
-      <p class = center-block-text>
+    `<div>
       We will present you with a series of figures, where each one shows a logical pattern.<BR><BR>You will have to choose between 5 alternatives to complete each pattern.
-      </p></div>`
+    </div>`
   ],
   allow_keys: false,
   show_clickable_nav: true,
@@ -81,23 +146,24 @@ WaisMatrices.push(instructions_01);
 var question01 = {
   type: "html-button-response",
   stimulus:
-    `<div class = centerbox><p class = justified>
+    `<div><div>
     Look at this picture. You will choose which one of the options below goes in the box with a question mark.<BR><BR>
     The right answer will work going across (left to right) and going down (top to bottom).<BR>You should <i>only</i> look across and down to find the answer. Do <i>not</i> look diagonally.<BR><BR>
     Which of the options below goes in the box with a question mark?
-    </p><br /></div>
-    <div style='text-align: center;'><img src='media/images/WaisMatrices/AA.png' style='width: 30%; margin-left: -4%' /></div><div style='text-align: center;'><br />`,
+    <div id='text_timer' style='color: red; text-align: center; margin-top: 1%; margin-bottom: 2%;'></div>
+    </div></div>
+    <div style='text-align: center;'><img src='media/images/WaisMatrices/AA.png' style='height: 30%;' /></div>`,
   choices: [
-    "<img src='media/images/WaisMatrices/AB_1.png' style='width: 80%'/>",
-    "<img src='media/images/WaisMatrices/AB_2.png' style='width: 80%'/>",
-    "<img src='media/images/WaisMatrices/AB_3.png' style='width: 80%'/>",
-    "<img src='media/images/WaisMatrices/AB_4.png' style='width: 80%'/>",
-    "<img src='media/images/WaisMatrices/AB_5.png' style='width: 80%' />"
+    "<img src='media/images/WaisMatrices/AB_1.png' style='height: 80%'/>",
+    "<img src='media/images/WaisMatrices/AB_2.png' style='height: 80%'/>",
+    "<img src='media/images/WaisMatrices/AB_3.png' style='height: 80%'/>",
+    "<img src='media/images/WaisMatrices/AB_4.png' style='height: 80%'/>",
+    "<img src='media/images/WaisMatrices/AB_5.png' style='height: 80%' />"
   ],
   button_html: '<button class="jspsych-matrix-button">%choice%</button>',
   data: { trialid: 'WaisMatrices_A', procedure: 'WaisMatrices' },
   margin_horizontal: "1%",
-  on_load: function () { resize_buttons() },
+  on_load: function () { x = time_counter(jsPsych.currentTrial().stimulus); resize_buttons() },
   on_finish: function (data) {
     //CHECKs WICH SCREEN SHOW NEXT
     if (data.button_pressed == 4) {
@@ -105,6 +171,8 @@ var question01 = {
     } else {
       condition1 = false;
     }
+    // stops x counter from time_counter function
+    clearInterval(x);
   }
 };
 WaisMatrices.push(question01);
@@ -113,12 +181,13 @@ var instructions_02 = {
   type: "instructions",
   pages: function () {
     return [
-      `<div class = matrizlimit><div style='text-align: center;'><img src='media/images/WaisMatrices/AA.png' style='width: 25%; margin-left: -4%' /></div><br /><br /><div style='text-align: center;'><img src='media/images/WaisMatrices/AB.png' style='width: 60%; margin-left: -4%' </img></div><br />
-      <div class='matrizfeedback'><h2>That is ` + (condition1 == false ? `not ` : ``) + `correct!</h2> <br />` +
+      `<div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/AA.png' style='width: 25%;' /></div><br /><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/AB.png' style='width: 60%;' </img></div><br />
+      <div><h2>That is ` + (condition1 == false ? `not ` : ``) + `correct!</h2> <br />` +
       (condition1 == false ? `In the top row you can see how the blue star changes to a yellow circle. <br />
       When you go from left to right in the bottom row, the blue star should also change to a yellow circle.<br /><br />
       The leftmost column boxes have the same shape and the same color: blue stars.<br />
-      When you go from top to bottom in the right column, the boxes should also have the same shape and the same color: yellow circle.<br /><br />
+      When you go from top to bottom in the right column, the boxes should also have the same shape and the same color: yellow circle.
+      <br /><br />
       You get the same answer going from left to right and top to bottom: <B>yellow circle</B></div><br>` : ``)
     ]
   },
@@ -132,23 +201,23 @@ WaisMatrices.push(instructions_02);
 var question02 = {
   type: "html-button-response",
   stimulus:
-    `<div class = centerbox>
-    <p class = justified>
+    `<div><div>
     This is another type of problem. The pictures only go from left to right. The correct answer will follow the same order that you see in the boxes. <BR>
     Which of the options below goes in the box with a question mark?
-    </p><br /></div>
-    <div style='text-align: center;'><img src='media/images/WaisMatrices/BA.png' style='width: 84%; margin-left: -4%' /></div><br>`,
+    <div id='text_timer' style='color: red; text-align: center; margin-top: 1%; margin-bottom: 2%;'></div>
+    </div></div>
+    <div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/BA.png' style='height: 84%;' /></div><br>`,
   choices: [
-    "<img src='media/images/WaisMatrices/BB_1.png' style='width: 82%' />",
-    "<img src='media/images/WaisMatrices/BB_2.png' style='width: 82%' />",
-    "<img src='media/images/WaisMatrices/BB_3.png' style='width: 82%' />",
-    "<img src='media/images/WaisMatrices/BB_4.png' style='width: 82%' />",
-    "<img src='media/images/WaisMatrices/BB_5.png' style='width: 82%' />"
+    "<img src='media/images/WaisMatrices/BB_1.png' style='height: 82%' />",
+    "<img src='media/images/WaisMatrices/BB_2.png' style='height: 82%' />",
+    "<img src='media/images/WaisMatrices/BB_3.png' style='height: 82%' />",
+    "<img src='media/images/WaisMatrices/BB_4.png' style='height: 82%' />",
+    "<img src='media/images/WaisMatrices/BB_5.png' style='height: 82%' />"
   ],
   button_html: '<button class="jspsych-matrix-button">%choice%</button>',
   data: { trialid: 'WaisMatrices_B', procedure: 'WaisMatrices' },
   margin_horizontal: "1%",
-  on_load: function () { resize_buttons() },
+  on_load: function () { x = time_counter(jsPsych.currentTrial().stimulus); resize_buttons() },
   on_finish: function (data) {
     //CHECKs WICH SCREEN SHOW NEXT
     if (data.button_pressed == 3) {
@@ -156,6 +225,8 @@ var question02 = {
     } else {
       condition1 = false;
     }
+    // stops x counter from time_counter function
+    clearInterval(x);
   }
 };
 WaisMatrices.push(question02);
@@ -164,8 +235,8 @@ var instructions_03 = {
   type: "instructions",
   pages: function () {
     return [
-      `<div class = matrizlimit><div style='text-align: center;'><img src='media/images/WaisMatrices/BA.png' style='width: 60%; margin-left: -4%' /></div><br /><br /><div style='text-align: center;'><img src='media/images/WaisMatrices/BB.png' style='width: 60%; margin-left: -4%' </img></div><br /><br />
-      <div class='matrizfeedback'><h2>That is ` + (condition1 == false ? `not ` : ``) + `correct!</h2><br />` +
+      `<div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/BA.png' style='width: 60%;' /></div><br /><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/BB.png' style='width: 60%;' </img></div><br /><br />
+      <div><h2>That is ` + (condition1 == false ? `not ` : ``) + `correct!</h2><br />` +
       (condition1 == false ? `When you look at the boxes from left to right, you can see that they follow this order:<br />
       big circle, small circle, big circle, small circle, big circle. <br /><br />
       The <B>small circle</B> goes in the box with a question mark because it is what follows the previous pattern.<br /><br />
@@ -182,11 +253,10 @@ WaisMatrices.push(instructions_03);
 var instructions_04 = {
   type: "instructions",
   pages: [
-    `<div class = centerbox>
-      <p class = center-block-text>
+    `<div>
       From this point forward, you will not receive feedback indicating <br />
       whether your answer is correct or incorrect.<br /><br />
-      </p></div>`
+    </div>`
   ],
   allow_keys: false,
   show_clickable_nav: true,
@@ -209,21 +279,21 @@ for (let i = 1; i <= 3; i++) { // 1, 2, 3
     timeline: [{
       type: "html-button-response",
       stimulus:
-        "<div style='text-align: center;'><img src='media/images/WaisMatrices/" + i.toString() + "A.png' style='width: 30%; margin-left: -4%' /></div>",
+        "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/" + i.toString() + "A.png' style='height: 30%;' /></div>",
       choices: [
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_1.png' style='width: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_2.png' style='width: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_3.png' style='width: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_4.png' style='width: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_5.png' style='width: 82%'/>"
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_1.png' style='height: 82%'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_2.png' style='height: 82%'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_3.png' style='height: 82%'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_4.png' style='height: 82%'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_5.png' style='height: 82%'/>"
       ],
       button_html: '<button class="jspsych-matrix-button">%choice%</button>',
       data: { trialid: 'WaisMatrices_00' + i.toString(), procedure: 'WaisMatrices' },
       margin_horizontal: "1%",
-      on_load: function () { resize_buttons() },
+      on_load: function () { x = time_counter(jsPsych.currentTrial().stimulus); resize_buttons() },
       on_finish: function (data) {
         if (data.button_pressed == decrypt(salt, correct_answers_1_to_3[i - 1])) {
-                
+
           //if the answer is right
           data.response = 1;
           wrongs_in_row = 0; //wrongs in a row
@@ -233,6 +303,8 @@ for (let i = 1; i <= 3; i++) { // 1, 2, 3
           wrongs_in_row = wrongs_in_row + 1;
           rights_in_row = 0;
         }
+        // stops x counter from time_counter function
+        clearInterval(x);
       }
     }],
     conditional_function: function () {
@@ -240,7 +312,7 @@ for (let i = 1; i <= 3; i++) { // 1, 2, 3
       if (wrongs_in_row >= 3) {
         return false;
       } else {
-        
+
         // Exit loop if 2 rights in a row
         if (rights_in_row < 2) {
           return true;
@@ -262,20 +334,22 @@ var if_question04 = {
   timeline: [{
     type: "html-button-response",
     stimulus:
-      "<div style='text-align: center;'><img src='media/images/WaisMatrices/4A.png' style='width: 30%; margin-left: -4%' /></div>",
+      "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/4A.png' style='height: 30%;' /></div>",
     choices: [
-      "<img src='media/images/WaisMatrices/4B_1.png' style='width: 82%'/>",
-      "<img src='media/images/WaisMatrices/4B_2.png' style='width: 82%'/>",
-      "<img src='media/images/WaisMatrices/4B_3.png' style='width: 82%'/>",
-      "<img src='media/images/WaisMatrices/4B_4.png' style='width: 82%'/>",
-      "<img src='media/images/WaisMatrices/4B_5.png' style='width: 82%'/>"
+      "<img src='media/images/WaisMatrices/4B_1.png' style='height: 82%'/>",
+      "<img src='media/images/WaisMatrices/4B_2.png' style='height: 82%'/>",
+      "<img src='media/images/WaisMatrices/4B_3.png' style='height: 82%'/>",
+      "<img src='media/images/WaisMatrices/4B_4.png' style='height: 82%'/>",
+      "<img src='media/images/WaisMatrices/4B_5.png' style='height: 82%'/>"
     ],
     button_html: '<button class="jspsych-matrix-button">%choice%</button>',
     data: { trialid: 'WaisMatrices_004', procedure: 'WaisMatrices' },
     margin_horizontal: "1%",
-    on_load: function () { resize_buttons() },
+    on_load: function () { x = time_counter(jsPsych.currentTrial().stimulus); resize_buttons() },
     on_finish: function (data) {
       verify_question(data, decrypt(salt, encrypted_array.slice(4, 5).toString()), 1);
+      // stops x counter from time_counter function
+      clearInterval(x);
     }
   }],
   conditional_function: function () {
@@ -314,19 +388,21 @@ var if_question05 = {
   timeline: [{
     type: "html-button-response",
     stimulus:
-      "<div style='text-align: center;'><img src='media/images/WaisMatrices/5A.png' style='width: 79%; margin-left: -4%' /></div></div>",
+      "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/5A.png' style='height: 79%;' /></div></div>",
     choices: [
-      "<img src='media/images/WaisMatrices/5B_1.png' style='width: 82%'/>",
-      "<img src='media/images/WaisMatrices/5B_2.png' style='width: 82%'/>",
-      "<img src='media/images/WaisMatrices/5B_3.png' style='width: 82%'/>",
-      "<img src='media/images/WaisMatrices/5B_4.png' style='width: 82%'/>",
-      "<img src='media/images/WaisMatrices/5B_5.png' style='width: 82%'/>"
+      "<img src='media/images/WaisMatrices/5B_1.png' style='height: 82%'/>",
+      "<img src='media/images/WaisMatrices/5B_2.png' style='height: 82%'/>",
+      "<img src='media/images/WaisMatrices/5B_3.png' style='height: 82%'/>",
+      "<img src='media/images/WaisMatrices/5B_4.png' style='height: 82%'/>",
+      "<img src='media/images/WaisMatrices/5B_5.png' style='height: 82%'/>"
     ],
     data: { trialid: 'WaisMatrices_005', procedure: 'WaisMatrices' },
     margin_horizontal: "1%",
-    on_load: function () { resize_buttons() },
+    on_load: function () { x = time_counter(jsPsych.currentTrial().stimulus); resize_buttons() },
     on_finish: function (data) {
-       verify_question(data, decrypt(salt, encrypted_array.slice(5, 6).toString()), 2);
+      verify_question(data, decrypt(salt, encrypted_array.slice(5, 6).toString()), 2);
+      // stops x counter from time_counter function
+      clearInterval(x);
     }
   }],
   conditional_function: function () {
@@ -363,7 +439,7 @@ WaisMatrices.push(if_WaisMatrices_05);
 
 
 /* ITEMS 6 to 26 ***************************************************************************** */
-  
+
 correct_answers_6_to_26 = encrypted_array.slice(6, 27);// end not included in slice
 //long_images = [7, 10, 12, 16, 17, 18, 19, 22, 26]
 
@@ -372,21 +448,22 @@ for (let i = 6; i <= 26; i++) { // 6-26
     timeline: [{
       type: "html-button-response",
       stimulus:
-        "<div style='text-align: center;'><img src='media/images/WaisMatrices/" + i.toString() + "A.png' style='width: 30%; margin-left: -4%' /></div>", // if you have a long image (not a square image) the image size is 79%, else is 30%
+        "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/" + i.toString() + "A.png' style='height: 30%;' /></div>", // if you have a long image (not a square image) the image size is 79%, else is 30%
       choices: [
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_1.png' style='width: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_2.png' style='width: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_3.png' style='width: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_4.png' style='width: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_5.png' style='width: 82%'/>"
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_1.png' style='height: 82%'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_2.png' style='height: 82%'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_3.png' style='height: 82%'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_4.png' style='height: 82%'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_5.png' style='height: 82%'/>"
       ],
       button_html: '<button class="jspsych-matrix-button">%choice%</button>',
       data: { trialid: 'WaisMatrices_' + pad(i, 3), procedure: 'WaisMatrices' },
       margin_horizontal: "1%",
-      on_load: function () { resize_buttons() },
+      on_load: function () { x = time_counter(jsPsych.currentTrial().stimulus); resize_buttons() },
       on_finish: function (data) {
-//        verify_question(data, correct_answers_6_to_26[i - 6])
         verify_question(data, decrypt(salt, correct_answers_6_to_26[i - 6]))
+        // stops x counter from time_counter function
+        clearInterval(x);
       }
     }],
     conditional_function: function () {
