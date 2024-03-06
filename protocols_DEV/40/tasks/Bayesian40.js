@@ -14,6 +14,11 @@
   var sex = {sex: ['a man', 'a woman']};
   sex_randomized = jsPsych.randomization.factorial(sex, 1, false, false);
 
+  // Randomize sex of doctor
+  var sex2 = {sex: ['he', 'she', 'he', 'she']};
+  sex_doctor_randomized = jsPsych.randomization.factorial(sex2, 1, false, false);
+
+
   // Randomize order of disease block
   disease_order = jsPsych.randomization.factorial(disease, 1, false, false);
 
@@ -152,12 +157,13 @@ data_type = {
     
   };
 
+
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/images/Bayesian40/VPP_low_Cancer.png', textPV: '<B>Positive Predictive Value</B>: 30%<br>(very low) <span style = "font-size: small;"><BR>30 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
-    'highQuality_Cancer': {image: 'media/images/Bayesian40/VPN_high_Cancer.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/images/Bayesian40/VPN_low_Stroke.png', textPV: '<B>Negative Predictive Value</B>: 21%<br>(intermediate) <span style = "font-size: small;"><BR>21 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"]},
-    'highQuality_Stroke': {image: 'media/images/Bayesian40/VPP_high_Stroke.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"]}
+    'lowQuality_Cancer': {image: 'media/images/Bayesian40/VPP_low_Cancer.png', textPV: '<B>Positive Predictive Value</B>: 30%<br>(very low) <span style = "font-size: small;"><BR>30 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1], sex_doctor: sex_doctor_randomized[0]["sex"]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/images/Bayesian40/VPN_high_Cancer.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1], sex_doctor: sex_doctor_randomized[1]["sex"]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/images/Bayesian40/VPN_low_Stroke.png', textPV: '<B>Negative Predictive Value</B>: 21%<br>(intermediate) <span style = "font-size: small;"><BR>21 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"], sex_doctor: sex_doctor_randomized[2]["sex"]},
+    'highQuality_Stroke': {image: 'media/images/Bayesian40/VPP_high_Stroke.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"], sex_doctor: sex_doctor_randomized[3]["sex"]}
   };
 
 
@@ -280,7 +286,7 @@ data_type = {
             data: function () {
               element = {
                 trialid: 'Bayesian40_01_' + (parseInt(num) + 1).toString(),
-                condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+                condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
                 condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
                 procedure: 'Bayesian40'
               };
@@ -364,7 +370,7 @@ data_type = {
           var element = {
             trialid: 'Bayesian40_02_' + num,
             //condition_within: within_selection["Bayesian40"]["timeline_01"],
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -391,7 +397,7 @@ data_type = {
               You said the probability of ` + 
               data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ` having ` + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ` if the result of the ` + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ` is <B>` + data_test_quality[jsPsych.timelineVariable("test_quality", true) + `_` + jsPsych.timelineVariable("disease", true)].type_image + `</B>` + ` is ` + answers[0] + `%.</div><HR><BR>
     
-              The physician recommendation is to <B>` + between_selection["Bayesian40"]["recommendation"] + `</B> the test. Your friend is unsure and insists on listening to your opinion.<BR><BR>
+              The physician arrives, ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor + ` recommends to <B>` + between_selection["Bayesian40"]["recommendation"] + `</B> the test. Your friend is unsure and insists on listening to your opinion.<BR><BR>
 
               Would you recommend the ` + data_disease[jsPsych.timelineVariable('disease', true)].test_description + ` as a <u>` + data_disease[jsPsych.timelineVariable('disease', true)].test1 + ` test ` +
               `</u> to detect ` + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + ` to your friend?<BR></div>`,
@@ -406,7 +412,7 @@ data_type = {
         data: function () {
           var element = {
             trialid: 'Bayesian40_03_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -443,7 +449,7 @@ data_type = {
         data: function () {
           var element = {
             trialid: 'Bayesian40_04_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -479,7 +485,7 @@ data_type = {
         data: function () {
           var element = {
             trialid: 'Bayesian40_05_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -519,7 +525,7 @@ data_type = {
         data: function () {
           var element = {
             trialid: 'Bayesian40_06_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
