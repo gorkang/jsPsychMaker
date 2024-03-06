@@ -76,9 +76,9 @@ function resize_buttons() {
 
   // if image is a large image (not a square image)
   if (img.naturalHeight < 200) {
-    img.style[shorter_side] = "79%";
+    img.width = shorter_side === "height" ? (screen.height * 0.2) * img.naturalWidth / img.naturalHeight : (screen.width * 0.79);
   } else {
-    img.style[shorter_side] = "30%";
+    img.width = shorter_side === "height" ? (screen.height * 0.42) * img.naturalWidth / img.naturalHeight : (screen.width * 0.42);
   }
 
   // options images
@@ -86,8 +86,8 @@ function resize_buttons() {
   for (let i = 0; i < buttons.length; i++) {
     // square size
     buttons[i].style[shorter_side] = "17.5%";
-    // image resize
-    buttons[i].getElementsByTagName('img')[0].style[shorter_side] = "82%";
+    // image resize    
+    buttons[i].getElementsByTagName('img')[0].width = shorter_side === "height" ? (screen.height * 0.175 * 0.82) * buttons[i].getElementsByTagName('img')[0].naturalWidth / buttons[i].getElementsByTagName('img')[0].naturalHeight : (screen.width * 0.175 * 0.82);
   }
 
   // general options for buttons
