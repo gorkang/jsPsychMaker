@@ -33,13 +33,15 @@ function time_counter(stimulus) {
     now = new Date().getTime();
     // difference in milliseconds between final time and now
     var distance = end_time - now;
+    
     //var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     //var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
     var seconds = Math.floor(distance/1000);
+
     if (actual_sec !== seconds) {
       actual_sec = seconds
 
+      // message edit when any time on seconds_text is reached
       if (seconds in seconds_text) {
         text = document.getElementById('text_timer');
         console.log(seconds_text[seconds])
@@ -47,20 +49,7 @@ function time_counter(stimulus) {
           text.innerHTML = seconds_text[seconds];
       }
 
-      /*if (seconds <= 30 && div_check === 0) {
-        div_check = 1;
-        text = document.getElementById('text_timer');
-        console.log(seconds_text[30])
-        if (text)
-          text.innerHTML = seconds_text[30];
-      }
-      else if (seconds <= 10 && div_check === 1) {
-        div_check = 2;
-        text = document.getElementById('text_timer');
-        console.log(seconds_text[10])
-        if (text)
-          text.innerHTML = seconds_text[10];
-      } */
+      // clear interval at end of time and jump to next question
       if (seconds <= 0) {
         clearInterval(x);
         console.log("se salta al siguiente item");
@@ -70,7 +59,7 @@ function time_counter(stimulus) {
           rt: max_response_seconds * 1000,
           stimulus: stimulus
         };
-        //this.jsPsych.finishTrial(data);
+        this.jsPsych.finishTrial(data);
       }
     }
   })
@@ -78,21 +67,34 @@ function time_counter(stimulus) {
 }
 
 function resize_buttons() {
-  buttons = document.getElementsByClassName("jspsych-html-button-response-button");
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].style.height = "17.5%";
+
+  // We going to resize focused into the shorter side of the screen
+  shorter_side = screen.height > screen.width ? "width" : "height"
+
+  // principal image
+  img = document.getElementsByTagName("img")[0];
+
+  // if image is a large image (not a square image)
+  if (img.naturalHeight < 200) {
+    img.style[shorter_side] = "79%";
+  } else {
+    img.style[shorter_side] = "30%";
   }
 
+  // options images
+  buttons = document.getElementsByClassName("jspsych-html-button-response-button");
+  for (let i = 0; i < buttons.length; i++) {
+    // square size
+    buttons[i].style[shorter_side] = "17.5%";
+    // image resize
+    buttons[i].getElementsByTagName('img')[0].style[shorter_side] = "82%";
+  }
+
+  // general options for buttons
   buttons_group = document.getElementById("jspsych-html-button-response-btngroup")
-  
   buttons_group.style["display"] = "flex";
   buttons_group.style["justify-content"] = "center";
   buttons_group.style["margin-top"] = "3%";
-
-  img = document.getElementsByTagName("img")[0];
-
-  if (img.naturalHeight < 200)
-    img.style.height = "79%";
 }
 
 function verify_question(data, correct_answer, selected_repeat = 0) {
@@ -152,13 +154,13 @@ var question01 = {
     Which of the options below goes in the box with a question mark?
     <div id='text_timer' style='color: red; text-align: center; margin-top: 1%; margin-bottom: 2%;'></div>
     </div></div>
-    <div style='text-align: center;'><img src='media/images/WaisMatrices/AA.png' style='height: 30%;' /></div>`,
+    <div style='text-align: center;'><img src='media/images/WaisMatrices/AA.png'/></div>`,
   choices: [
-    "<img src='media/images/WaisMatrices/AB_1.png' style='height: 80%'/>",
-    "<img src='media/images/WaisMatrices/AB_2.png' style='height: 80%'/>",
-    "<img src='media/images/WaisMatrices/AB_3.png' style='height: 80%'/>",
-    "<img src='media/images/WaisMatrices/AB_4.png' style='height: 80%'/>",
-    "<img src='media/images/WaisMatrices/AB_5.png' style='height: 80%' />"
+    "<img src='media/images/WaisMatrices/AB_1.png'/>",
+    "<img src='media/images/WaisMatrices/AB_2.png'/>",
+    "<img src='media/images/WaisMatrices/AB_3.png'/>",
+    "<img src='media/images/WaisMatrices/AB_4.png'/>",
+    "<img src='media/images/WaisMatrices/AB_5.png'/>"
   ],
   button_html: '<button class="jspsych-matrix-button">%choice%</button>',
   data: { trialid: 'WaisMatrices_A', procedure: 'WaisMatrices' },
@@ -206,13 +208,13 @@ var question02 = {
     Which of the options below goes in the box with a question mark?
     <div id='text_timer' style='color: red; text-align: center; margin-top: 1%; margin-bottom: 2%;'></div>
     </div></div>
-    <div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/BA.png' style='height: 84%;' /></div><br>`,
+    <div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/BA.png'/></div><br>`,
   choices: [
-    "<img src='media/images/WaisMatrices/BB_1.png' style='height: 82%' />",
-    "<img src='media/images/WaisMatrices/BB_2.png' style='height: 82%' />",
-    "<img src='media/images/WaisMatrices/BB_3.png' style='height: 82%' />",
-    "<img src='media/images/WaisMatrices/BB_4.png' style='height: 82%' />",
-    "<img src='media/images/WaisMatrices/BB_5.png' style='height: 82%' />"
+    "<img src='media/images/WaisMatrices/BB_1.png'/>",
+    "<img src='media/images/WaisMatrices/BB_2.png'/>",
+    "<img src='media/images/WaisMatrices/BB_3.png'/>",
+    "<img src='media/images/WaisMatrices/BB_4.png'/>",
+    "<img src='media/images/WaisMatrices/BB_5.png'/>"
   ],
   button_html: '<button class="jspsych-matrix-button">%choice%</button>',
   data: { trialid: 'WaisMatrices_B', procedure: 'WaisMatrices' },
@@ -279,13 +281,13 @@ for (let i = 1; i <= 3; i++) { // 1, 2, 3
     timeline: [{
       type: "html-button-response",
       stimulus:
-        "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/" + i.toString() + "A.png' style='height: 30%;' /></div>",
+        "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/" + i.toString() + "A.png'/></div>",
       choices: [
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_1.png' style='height: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_2.png' style='height: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_3.png' style='height: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_4.png' style='height: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_5.png' style='height: 82%'/>"
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_1.png'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_2.png'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_3.png'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_4.png'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_5.png'/>"
       ],
       button_html: '<button class="jspsych-matrix-button">%choice%</button>',
       data: { trialid: 'WaisMatrices_00' + i.toString(), procedure: 'WaisMatrices' },
@@ -334,13 +336,13 @@ var if_question04 = {
   timeline: [{
     type: "html-button-response",
     stimulus:
-      "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/4A.png' style='height: 30%;' /></div>",
+      "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/4A.png'/></div>",
     choices: [
-      "<img src='media/images/WaisMatrices/4B_1.png' style='height: 82%'/>",
-      "<img src='media/images/WaisMatrices/4B_2.png' style='height: 82%'/>",
-      "<img src='media/images/WaisMatrices/4B_3.png' style='height: 82%'/>",
-      "<img src='media/images/WaisMatrices/4B_4.png' style='height: 82%'/>",
-      "<img src='media/images/WaisMatrices/4B_5.png' style='height: 82%'/>"
+      "<img src='media/images/WaisMatrices/4B_1.png'/>",
+      "<img src='media/images/WaisMatrices/4B_2.png'/>",
+      "<img src='media/images/WaisMatrices/4B_3.png'/>",
+      "<img src='media/images/WaisMatrices/4B_4.png'/>",
+      "<img src='media/images/WaisMatrices/4B_5.png'/>"
     ],
     button_html: '<button class="jspsych-matrix-button">%choice%</button>',
     data: { trialid: 'WaisMatrices_004', procedure: 'WaisMatrices' },
@@ -388,13 +390,13 @@ var if_question05 = {
   timeline: [{
     type: "html-button-response",
     stimulus:
-      "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/5A.png' style='height: 79%;' /></div></div>",
+      "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/5A.png'/></div></div>",
     choices: [
-      "<img src='media/images/WaisMatrices/5B_1.png' style='height: 82%'/>",
-      "<img src='media/images/WaisMatrices/5B_2.png' style='height: 82%'/>",
-      "<img src='media/images/WaisMatrices/5B_3.png' style='height: 82%'/>",
-      "<img src='media/images/WaisMatrices/5B_4.png' style='height: 82%'/>",
-      "<img src='media/images/WaisMatrices/5B_5.png' style='height: 82%'/>"
+      "<img src='media/images/WaisMatrices/5B_1.png'/>",
+      "<img src='media/images/WaisMatrices/5B_2.png'/>",
+      "<img src='media/images/WaisMatrices/5B_3.png'/>",
+      "<img src='media/images/WaisMatrices/5B_4.png'/>",
+      "<img src='media/images/WaisMatrices/5B_5.png'/>"
     ],
     data: { trialid: 'WaisMatrices_005', procedure: 'WaisMatrices' },
     margin_horizontal: "1%",
@@ -448,13 +450,13 @@ for (let i = 6; i <= 26; i++) { // 6-26
     timeline: [{
       type: "html-button-response",
       stimulus:
-        "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/" + i.toString() + "A.png' style='height: 30%;' /></div>", // if you have a long image (not a square image) the image size is 79%, else is 30%
+        "<div id='text_timer' style='color: red; text-align: center; margin-bottom: 2%;'></div><div style='display: flex; justify-content: center;'><img src='media/images/WaisMatrices/" + i.toString() + "A.png'/></div>", // if you have a long image (not a square image) the image size is 79%, else is 30%
       choices: [
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_1.png' style='height: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_2.png' style='height: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_3.png' style='height: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_4.png' style='height: 82%'/>",
-        "<img src='media/images/WaisMatrices/" + i.toString() + "B_5.png' style='height: 82%'/>"
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_1.png'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_2.png'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_3.png'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_4.png'/>",
+        "<img src='media/images/WaisMatrices/" + i.toString() + "B_5.png'/>"
       ],
       button_html: '<button class="jspsych-matrix-button">%choice%</button>',
       data: { trialid: 'WaisMatrices_' + pad(i, 3), procedure: 'WaisMatrices' },
