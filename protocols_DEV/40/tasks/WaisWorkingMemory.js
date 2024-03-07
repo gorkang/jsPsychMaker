@@ -13,6 +13,7 @@ encrypted_codes = {
 var wrongs_in_row = 0;
 var audio_counter = 1;
 var actual_question_size = 0;
+var start_time;
 
 function number_block(encripted_number, ID, type, block_name) {
   let audio_question = {
@@ -27,6 +28,10 @@ function number_block(encripted_number, ID, type, block_name) {
     on_load: function () {
       document.getElementById("jspsych-content").style.setProperty("margin-left", "auto", "important");
       document.getElementById("jspsych-content").style.setProperty("text-align", "center", "important");
+      start_time = new Date().getTime();
+    },
+    on_finish: function (data) {
+      data.rt = new Date().getTime() - start_time
     }
   };
 
@@ -39,7 +44,11 @@ function number_block(encripted_number, ID, type, block_name) {
       document.getElementsByName("#jspsych-survey-numbers-response-0")[0].style.minHeight = "28.8px";
     },
     on_finish: function(data) {
-      if (data.response == '{"Q0":"' + decrypt(salt, encripted_number) + '"}' || type == "training") {
+      // remaking the data dictionary:
+      data.button_pressed = (JSON.parse(data.response)["Q0"]).toString();
+      data.response = (data.button_pressed == decrypt(salt, encripted_number)) ? 1 : 0;
+
+      if (data.response || type == "training") {
         //if answer is right
         wrongs_in_row = 0;
       } else {
@@ -147,7 +156,7 @@ var instructions_03 = {
   type: "instructions",
   pages: function() {
     return (["<p>" + 
-      (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_017' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "17" ) ? "Correct!" : 
+      ((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_017' && x.trial_type === "survey-numbers"))['button_pressed']) == "17" ) ? "Correct!" : 
       "That is not correct.<BR>The numbers where 71, so the correct response in <B>reverse order</B> was 17.") +
       "<br /></p>"])
   },
@@ -173,7 +182,7 @@ var instructions_04 = {
   type: "instructions",
   pages: function() {
     return (["<p>" + 
-      (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_018' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "43" ) ? "Correct!" :  
+      ((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_018' && x.trial_type === "survey-numbers"))['button_pressed']) == "43" ) ? "Correct!" :  
       "That is not correct.<BR>The numbers where 34, so the correct response in <B>reverse order</B> was 43.") +
       "<br /></p>"])
   },
@@ -230,7 +239,7 @@ var instructions_06 = {
   type: "instructions",
   pages: function() {
     return (["<p>" + 
-      (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_035' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "123" ) ? "Correct!" : 
+      ((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_035' && x.trial_type === "survey-numbers"))['button_pressed']) == "123" ) ? "Correct!" : 
       "That is not correct.<BR>The numbers where 321, so the correct response in <B>sequential orden</B> was 123.") +
       "<br /></p>"])
   },
@@ -256,7 +265,7 @@ var instructions_07 = {
   type: "instructions",
   pages: function() {
     return (["<p>" + 
-      (((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_036' && x.trial_type === "survey-numbers"))['response'])['Q0']) == "225" ) ? "Correct!" : 
+      ((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_036' && x.trial_type === "survey-numbers"))['button_pressed']) == "225" ) ? "Correct!" : 
       "That is not correct.<BR>The numbers where 522, so the correct response in <B>sequential orden</B> was 225.") +
       "<br /></p>"])
   },
