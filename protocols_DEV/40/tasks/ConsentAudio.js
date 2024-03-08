@@ -1,5 +1,12 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
+// Store URL ---------------------------------------------------------------
+
+URL_web = "";
+if (typeof URL_web !== 'undefined')
+	if (store_URL === true) URL_web = window.location.href;
+ 
+
 // Translations --------------------------------------------------------------
 
 switch (language) {
@@ -82,7 +89,8 @@ var question01 = {
   },
     data: {
     trialid: 'ConsentAudio_001',
-    procedure: 'ConsentAudio'
+    procedure: 'ConsentAudio',
+    URL: URL_web
    }
 };
 ConsentAudio.push(question01);

@@ -6,12 +6,13 @@ pid = 40; // old 31
 online = true;
 max_participants = 100000000;
 random_id = true;
-max_time = "01:01:00";
-accept_discarded = true;
-debug_mode = true; // SHOULD be false in production
+max_time = "02:01:00";
+accept_discarded = false;
+debug_mode = false; // SHOULD be false in production
 disable_button_interaction = false; // Monkeys control, should be false in production
 language = "English";
 finish_link = "";
+store_URL = true; // For Prolific, Connect, etc. Stores URL in Consent
 
 var_researcher_email = `gorkang@gmail.com`;
 
@@ -23,6 +24,7 @@ randomly_ordered_tasks = ['WaisWorkingMemory', 'WaisMatrices', 'BNT', 'CRTMCQ4',
 last_tasks = ['AntiBots', 'Goodbye'];
 
 tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'randomly_ordered_tasks', 'last_tasks'];
+
 
 // MEDIA preloading ------------------------------------------------------------
 
