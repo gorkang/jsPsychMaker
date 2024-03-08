@@ -465,7 +465,7 @@ function start_protocol() {
         alert(exit_fullscreen_message);
       }
     },
-    on_finish: function () {
+    on_finish: function (data) {
       if (typeof finish_link !== "undefined")
         if (finish_link != "" && data.values().filter(x => x.procedure === "Goodbye").length > 0)
           window.location = finish_link
