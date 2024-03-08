@@ -1,12 +1,14 @@
 // First element blank so the position starts from 1
 var encrypted_array = ["", "53", "50", "51", "55", "53", "52", "52", "55", "51", "51", "50", "55", "55", "53", "50", "51", "52", "55", "50", "53", "51", "51", "52", "50", "53", "52"];
 
-
-/* ********************************* VARIABLES GENERALES ********************************* */
+// General variables ------------------------------------------
 
 questions = (typeof questions != 'undefined' && questions instanceof Array) ? questions : [];
 questions.push(check_fullscreen('WaisMatrices'));
 WaisMatrices = [];    //temporal timeline
+
+var condition1, wrongs_in_row, rights_in_row, first_repeat, second_repeat, actual_sec;
+var repeat = []
 
 var max_response_seconds = 120;
 // alert text when you have x seconds left
@@ -14,16 +16,6 @@ var seconds_text = {
   60: '¿Tienes alguna respuesta?',
   30: 'Saltaremos al siguiente item en 30 segundos'
 };
-
-var condition1 = false; //indicates if the answer given by the subject in example is correct
-var wrongs_in_row = 0; //indicates if subjects has 3 wrongs in a row
-
-/*indicates if subject got question 4 wrong and if the subject manages to get 2 rights in a row*/
-var rights_in_row = 0;
-var first_repeat = false;
-var second_repeat = false;
-var repeat = [];
-var actual_sec = 0;
 
 // countdown timer
 function time_counter(stimulus) {
@@ -114,17 +106,25 @@ function verify_question(data, correct_answer, selected_repeat = 0) {
   }
 }
 
-
 var instruction_screen_experiment = {
   type: 'instructions',
   pages: [`<b><big>WAIS Matrices</big></b><BR>Read the following instructions carefully<BR><BR>`],
   button_label: 'Siguiente',
   data: { trialid: 'Instructions_00', procedure: 'WaisMatrices' },
   show_clickable_nav: true,
+  on_load: function () {
+    //variable initialization
+    condition1 = false; //indicates if the answer given by the subject in example is correct
+    wrongs_in_row = 0; //indicates if subjects has 3 wrongs in a row
+    rights_in_row = 0; /*indicates if subject got question 4 wrong and if the subject manages to get 2 rights in a row*/
+    first_repeat = false;
+    second_repeat = false;
+    actual_sec = 0;
+    repeat = [];
+  }
 };
 
-
-/* ********************************* INSTRUCCIONS ********************************* */
+// Instructions ------------------------------------------
 
 var instructions_01 = {
   type: "instructions",
@@ -140,10 +140,7 @@ var instructions_01 = {
 };
 WaisMatrices.push(instructions_01);
 
-/* ************************************************************************************************************ */
-
-
-/* PRACTICE BLOCK ******************************************************************************************** */
+// Practice block ------------------------------------------
 
 var question01 = {
   type: "html-button-response",
@@ -267,10 +264,8 @@ var instructions_04 = {
 };
 WaisMatrices.push(instructions_04);
 
-/* END PRACTICE */
-/* ************************************************************************************************ */
+// Items 1 to 3 ------------------------------------------
 
-/* ITEMS 1 to 3 *********************************************************************************** */
 // Only presented, in reverse order, if 4 or 5 failed
 
 correct_answers_1_to_3 = encrypted_array.slice(1, 4); // end not included in slice
@@ -330,7 +325,7 @@ for (let i = 1; i <= 3; i++) { // 1, 2, 3
 }
 repeated_array.reverse();
 
-/* ITEM 4 *********************************************************************************** */
+// Item 4 --------------------------------------------------
 
 var if_question04 = {
   timeline: [{
@@ -347,7 +342,10 @@ var if_question04 = {
     button_html: '<button class="jspsych-matrix-button">%choice%</button>',
     data: { trialid: 'WaisMatrices_004', procedure: 'WaisMatrices' },
     margin_horizontal: "1%",
-    on_load: function () { x = time_counter(jsPsych.currentTrial().stimulus); resize_buttons() },
+    on_load: function () {
+      wrongs_in_row = 0; // reset counter
+      x = time_counter(jsPsych.currentTrial().stimulus); resize_buttons()
+    },
     on_finish: function (data) {
       verify_question(data, decrypt(salt, encrypted_array.slice(4, 5).toString()), 1);
       // stops x counter from time_counter function
@@ -381,10 +379,7 @@ var if_WaisMatrices_04 = {
 };
 WaisMatrices.push(if_WaisMatrices_04);
 
-/* ******************************************************************************************* */
-
-
-/* ITEM 5 *********************************************************************************** */
+// Item 5 --------------------------------------------------
 
 var if_question05 = {
   timeline: [{
@@ -437,10 +432,7 @@ var if_WaisMatrices_05 = {
 };
 WaisMatrices.push(if_WaisMatrices_05);
 
-/* ******************************************************************************************* */
-
-
-/* ITEMS 6 to 26 ***************************************************************************** */
+// Items 6 to 26 --------------------------------------------------
 
 correct_answers_6_to_26 = encrypted_array.slice(6, 27);// end not included in slice
 //long_images = [7, 10, 12, 16, 17, 18, 19, 22, 26]
@@ -485,7 +477,7 @@ for (let i = 6; i <= 26; i++) { // 6-26
   WaisMatrices.push(if_question_loop);
 }
 
-/* ******************************************************************************************* */
+// END --------------------------------------------------
 
 var instructions_05 = {
   type: "instructions",

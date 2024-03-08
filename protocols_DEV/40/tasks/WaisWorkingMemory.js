@@ -2,6 +2,8 @@ questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? 
 questions.push( check_fullscreen('WaisWorkingMemory') );
 WaisWorkingMemory = [];    //temporal timeline
 
+var wrongs_in_row, audio_counter, actual_question_size, start_time;
+
 encrypted_codes = {
   block_1: ["5856", "5752", "545953", "575855", "56535957", "57555258", "5553565250", "5654595257", "525853555956", "575058555652", "55505658525957", "57585056555359", "5259535857505655", "5459505253575556", "535654595752505855", "565052585553545759"],
   training_2 : ["5056", "5552"],
@@ -9,11 +11,6 @@ encrypted_codes = {
   training_3 : ["505352", "535354"],
   block_3: ["5053", "5355", "505257", "515558", "53565958", "50555659", "5053575658", "5252545959", "505352555756", "535352555457", "53545757565659", "53525555545459", "5355545454565659", "5152555556595858", "515150505053525454", "535650555955535857"]
 }
-
-var wrongs_in_row = 0;
-var audio_counter = 1;
-var actual_question_size = 0;
-var start_time;
 
 function number_block(encripted_number, ID, type, block_name) {
   let audio_question = {
@@ -81,14 +78,21 @@ function number_block(encripted_number, ID, type, block_name) {
   WaisWorkingMemory.push(conditional_block);
 }
 
-
 var instruction_screen_experiment = {
   type: 'instructions',
   pages: [`<b><big>Digit retention</big></b><BR>Please read the following instructions carefully<BR><BR>`],
   button_label: 'Siguiente',
   data: {trialid: 'Instructions_00', procedure: 'WaisWorkingMemory'},
   show_clickable_nav: true,
+  on_load: function () {
+    //special case, variable initialization
+    wrongs_in_row = 0;
+    audio_counter = 1;
+    actual_question_size = 0;
+  }
 };
+
+// WM Direct ---
 
 var instructions_01 = {
   type: "instructions",
@@ -115,12 +119,12 @@ var instructions_01 = {
 };
 WaisWorkingMemory.push(instructions_01);
 
-//WM Directo
-//number_block(encrypted_codes["training_1"][0], 1, "training", "Directo")
 
 for (let i = 0; i < encrypted_codes["block_1"].length; i++) {
   number_block(encrypted_codes["block_1"][i], i+1, "trial", "Directo")    
 }
+
+// WM Reverse ---
 
 var instructions_02 = {
   type: "instructions",
@@ -148,7 +152,6 @@ var instructions_02 = {
 };
 WaisWorkingMemory.push(instructions_02);
 
-//WM Inverso
 number_block(encrypted_codes["training_2"][0], 17, "training", "Inverso")
 
 
@@ -206,6 +209,8 @@ for (let i = 0; i < encrypted_codes["block_2"].length; i++) {
   number_block(encrypted_codes["block_2"][i], 19+i, "trial", "Inverso")    
 }
 
+// WM Secuential ---
+
 var instructions_05 = {
   type: "instructions",
   pages: [
@@ -232,7 +237,6 @@ var instructions_05 = {
 };
 WaisWorkingMemory.push(instructions_05);
 
-//WM Secuencial
 number_block(encrypted_codes["training_3"][0], 35, "training", "Secuencial")
 
 var instructions_06 = {
