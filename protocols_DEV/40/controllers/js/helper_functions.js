@@ -455,8 +455,8 @@ function start_protocol() {
     message_progress_bar: progress_bar_message,
     fullscreen: true,
     exclusions: {
-      min_width: 800,
-      min_height: 600,
+      //min_width: 800,
+      //min_height: 600,
       // change to true if is necessary
       audio: false
     },
@@ -467,7 +467,7 @@ function start_protocol() {
     },
     on_finish: function () {
       if (typeof finish_link !== "undefined")
-        if (finish_link != "")
+        if (finish_link != "" && data.values().filter(x => x.procedure === "Goodbye").length > 0)
           window.location = finish_link
     },
   });
