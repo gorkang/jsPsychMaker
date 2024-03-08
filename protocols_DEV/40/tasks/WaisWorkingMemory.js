@@ -159,7 +159,7 @@ var instructions_03 = {
   type: "instructions",
   pages: function() {
     return (["<p>" + 
-      ((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_017' && x.trial_type === "survey-numbers"))['button_pressed']) == "17" ) ? "Correct!" : 
+      ((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_017' && x.trial_type === "survey-numbers")['button_pressed'] == "17" ) ? "Correct!" : 
       "That is not correct.<BR>The numbers where 71, so the correct response in <B>reverse order</B> was 17.") +
       "<br /></p>"])
   },
@@ -185,7 +185,7 @@ var instructions_04 = {
   type: "instructions",
   pages: function() {
     return (["<p>" + 
-      ((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_018' && x.trial_type === "survey-numbers"))['button_pressed']) == "43" ) ? "Correct!" :  
+      ((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_018' && x.trial_type === "survey-numbers")['button_pressed'] == "43" ) ? "Correct!" :  
       "That is not correct.<BR>The numbers where 34, so the correct response in <B>reverse order</B> was 43.") +
       "<br /></p>"])
   },
@@ -243,7 +243,7 @@ var instructions_06 = {
   type: "instructions",
   pages: function() {
     return (["<p>" + 
-      ((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_035' && x.trial_type === "survey-numbers"))['button_pressed']) == "123" ) ? "Correct!" : 
+      ((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_035' && x.trial_type === "survey-numbers")['button_pressed'] == "123" ) ? "Correct!" : 
       "That is not correct.<BR>The numbers where 321, so the correct response in <B>sequential orden</B> was 123.") +
       "<br /></p>"])
   },
@@ -269,7 +269,7 @@ var instructions_07 = {
   type: "instructions",
   pages: function() {
     return (["<p>" + 
-      ((JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_036' && x.trial_type === "survey-numbers"))['button_pressed']) == "225" ) ? "Correct!" : 
+      ((jsPsych.data.get().values().find(x => x.trialid === 'WaisWorkingMemory_036' && x.trial_type === "survey-numbers")['button_pressed'] == "225" ) ? "Correct!" : 
       "That is not correct.<BR>The numbers where 522, so the correct response in <B>sequential orden</B> was 225.") +
       "<br /></p>"])
   },
