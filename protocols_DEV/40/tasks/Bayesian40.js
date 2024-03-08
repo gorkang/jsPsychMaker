@@ -323,10 +323,12 @@ data_type = {
           // Brief version of case
           '<HR><div style="color:#424949; font-size:15px;">Your friend, ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient[0] + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient.slice(1) + data_disease[jsPsych.timelineVariable('disease', true)].brief_context + '</div><HR><BR>' +
 
-          //"Para detectar " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + ", se realiza una " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
           "The " + data_disease[jsPsych.timelineVariable('disease', true)].test1 + " test commonly used to detect " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " is a " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
+
           "In a person like your friend, " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " has a <B>" + prevalence_incidence[jsPsych.timelineVariable('disease', true)].label +" of " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_x + " out of " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_y + '</B>.<BR><BR> ' +
+
           "The " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " has a <B>sensitivity of " + data_disease[jsPsych.timelineVariable('disease', true)].number_SENSITIVITY + "%</B> and a <B>specificity of " + data_disease[jsPsych.timelineVariable('disease', true)].number_SPECIFICITY + '%</B>. <BR><BR>'+
+
           "What is the probability of <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " having</B> a " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " if the " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " result is <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
@@ -338,7 +340,7 @@ data_type = {
             <div style="font-size:14px; text-align: justify;">The plot shows the <b>` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + ` Predictive Value</b> calculated from prevalence, sensitivity and specificity for different ` + plot_for + `: <br><br></div>
             <img class="image_zoom" src="` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + `" style="max-width: 100%; max-height: 100%;" onclick = document.querySelector('[id$=next]').disabled = true> 
             <div style="font-size:11px; text-align: center">Click on the image to zoom in/out.</div>
-            <BR><BR><BR><BR>
+            <BR><BR>
             <div style="font-size:11px; text-align: center">&nbsp;</div>
             <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div>
             
