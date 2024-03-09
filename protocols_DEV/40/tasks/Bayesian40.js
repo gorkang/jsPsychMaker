@@ -202,13 +202,15 @@ data_type = {
       type: 'instructions',
       pages: ['To be able to continue, the screen needs to be positioned horizontally (in landscape). <BR> <img src="media/images/Bayesian40/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>If the screen is vertical (in portrait) the, [Next >] button will be inactive.'],
       button_label_next: 'Next',
-      data: {trialid: 'Instructions_000',
-            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
-            procedure: 'Bayesian40'},
-      show_clickable_nav: true,
-      on_trial_start: function(){
-          bloquear_enter = 0;
+      data: function () {
+        element = {
+          trialid: 'Instructions_000',
+          condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+          procedure: 'Bayesian40'
+        };
+        return element;
       },
+      show_clickable_nav: true,
       on_load: function() {
         giro_check = true;
         rectify_orientation();
@@ -228,10 +230,13 @@ data_type = {
         return false;
       }
     },
-    data: {
-      trialid: 'if_instructions_000',
-      condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
-      procedure: 'Bayesian40'
+    data: function () {
+      element = {
+        trialid: 'if_instructions_000',
+        condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+        procedure: 'Bayesian40'
+      };
+      return element;
     }
   };
 
@@ -245,13 +250,15 @@ data_type = {
       },
       button_label_next: 'Next',
       button_label_previous: 'Previous',
-      data: {trialid: 'Instructions_001',
-            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
-            procedure: 'Bayesian40'},
-      show_clickable_nav: true,
-      on_trial_start: function(){
-          bloquear_enter = 0;
-      }
+      data: function () {
+        element = {
+          trialid: 'Instructions_001',
+          condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+          procedure: 'Bayesian40'
+        };
+        return element;
+      },
+      show_clickable_nav: true
   };
 
   //console.log(within_selection["Bayesian40"]);
@@ -549,7 +556,7 @@ data_type = {
 
   Bayesian40.push({
       type: 'call-function',
-      data: {trialid: 'Bayesian40' + '_giro_check_ending', procedure: 'Bayesian40'},
+      data: {trialid: 'Bayesian40_giro_check_ending', procedure: 'Bayesian40'},
       func: function(){
         giro_check = false;
       }
