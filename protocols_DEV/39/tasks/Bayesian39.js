@@ -190,18 +190,19 @@ data_type = {
       type: 'instructions',
       pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/images/Bayesian39/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
       button_label_next: 'Siguiente',
-      data: {trialid: 'Instructions_000',
-            condition_between: between_selection["Bayesian39"]["type"],
-            procedure: 'Bayesian39'},
+      data: function () {
+        element = {
+          trialid: 'Instructions_000',
+          condition_between: between_selection["Bayesian39"]["type"],
+          procedure: 'Bayesian39'
+        };
+        return element;
+      },
       show_clickable_nav: true,
       on_load: function() {
         giro_check = true;
         rectify_orientation();
-      }/*,
-      on_finish: function(data) {
-        giro_check = false;
-        data.orientation = check_orientation();
-      }*/
+      }
   };
 
   var if_instructions_000 = {
@@ -213,11 +214,14 @@ data_type = {
         return false;
       }
     },
-    data: {
-      trialid: 'if_instructions_000',
-      condition_between: between_selection["Bayesian39"]["type"],
-      procedure: 'Bayesian39'
-    }
+    data: function () {
+        element = {
+          trialid: 'if_instructions_000',
+          condition_between: between_selection["Bayesian39"]["type"],
+          procedure: 'Bayesian39'
+      };
+      return element;
+      }
   };
 
   var instructions_between_01 = {
@@ -229,9 +233,14 @@ data_type = {
       },
       button_label_next: 'Siguiente',
       button_label_previous: 'Anterior',
-      data: {trialid: 'Instructions_001',
-            condition_between: between_selection["Bayesian39"]["type"],
-            procedure: 'Bayesian39'},
+      data: function () {
+        element = {
+          trialid: 'Instructions_001',
+          condition_between: between_selection["Bayesian39"]["type"],
+          procedure: 'Bayesian39'
+        };
+        return element;
+      },
       show_clickable_nav: true,
       on_load: function(){
         // we gonna use this on the next timeline
@@ -525,7 +534,7 @@ data_type = {
 
   Bayesian39.push({
       type: 'call-function',
-      data: {trialid: Bayesian39 + '_giro_check_ending', procedure: Bayesian39},
+      data: {trialid: 'Bayesian40_giro_check_ending', procedure: Bayesian39},
       func: function(){
         giro_check = false;
       }
