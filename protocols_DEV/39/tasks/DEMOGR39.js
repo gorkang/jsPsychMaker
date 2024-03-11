@@ -10,21 +10,13 @@ var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Datos demográficos</big></b><br />'+'Por favor, contesta a las siguientes preguntas.' +'</p>'],
-    data: {trialid: 'Instructions_01', procedure: 'DEBRIEF39'},
+    data: {trialid: 'Instructions_01', procedure: 'DEMOGR39'},
     show_clickable_nav: true,
     on_trial_start: function(){
         bloquear_enter = 0;
     }
 };
 
-/*
-var question01 = {
-  type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">¿Eres estudiante de Medicina o profesional Médico?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'DEMOGR39_01', procedure: 'DEMOGR39'}
-};
-DEMOGR39.push(question01);
-*/
 
 var question01 = {
   type: 'survey-multi-choice-vertical',
@@ -34,8 +26,6 @@ var question01 = {
   data: {trialid: 'DEMOGR39_01', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question01);
-
-
 
 
 // CHECK if Medicine professional -----------------------------------------------------------------
@@ -86,14 +76,6 @@ var question04 = {
 };
 DEMOGR39.push(question04);
 
-/*
-var question05 = {
-  type: 'survey-multi-choice-vertical',
-  questions: [{prompt: '<div class="justified">Indica <B>tú</B> ocupación</div>', options: ['&nbsp;Profesional médico', '&nbsp;Estudiante de medicina'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'DEMOGR39_05', procedure: 'DEMOGR39'}
-};
-DEMOGR39.push(question05);
-*/
 
 // https://www.mscbs.gob.es/profesionales/formacion/EspecialistasExtracomunitarios/Docs/2020EspecialidadesRecoEspanaV2.pdf
 // used for store choices globally
