@@ -24,12 +24,8 @@ tasks = ['first_tasks', 'secuentially_ordered_tasks_1', 'last_tasks'];
 
 // MEDIA preloading ------------------------------------------------------------
 
-message_str = 'El protocolo está cargando, espera un momento...';
 
 // media to preload in protocol_controller
-img_folder = 'media/images/Bayesian39/';
-
-
 images =  {"Bayesian39": ['VPP_low_Cancer.png', 'VPN_high_Cancer.png',  'VPN_low_Stroke.png', 'VPP_high_Stroke.png', 'Example_PPV.png', 'Example_NPV.png', 'phone-rotation.png', 'intro.png']};
 audios = {};
 videos = {};

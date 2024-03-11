@@ -14,6 +14,11 @@
   var sex = {sex: ['a man', 'a woman']};
   sex_randomized = jsPsych.randomization.factorial(sex, 1, false, false);
 
+  // Randomize sex of doctor
+  var sex2 = {sex: ['he', 'she', 'he', 'she']};
+  sex_doctor_randomized = jsPsych.randomization.factorial(sex2, 1, false, false);
+
+
   // Randomize order of disease block
   disease_order = jsPsych.randomization.factorial(disease, 1, false, false);
 
@@ -38,8 +43,8 @@
 // Page 1 varies per condition (one of the sentences)
 function instructions_p1 (type) {
 
-  instructions_p1_extra = {Image: "Also, an image representing the Positive or Negative Predictive value for someone like your friend will be shown.<BR><BR>", 
-                          TextPV: "Also, a textbox representing the Positive or Negative Predictive value for someone like your friend will be shown.<BR><BR>",
+  instructions_p1_extra = {Image: "Also, an image representing the Positive or Negative Predictive Value for someone like your friend will be shown.<BR><BR>", 
+                          TextPV: "Also, a textbox representing the Positive or Negative Predictive Value for someone like your friend will be shown.<BR><BR>",
                           Text: ""};
 
   instructions_page1 = `<H2>Instructions (1/4)</H2>In the following screens, we will ask you to give recommendations in two hypotetical scenarios:
@@ -130,18 +135,20 @@ data_type = {
   data_disease = {
     'Cancer': {description_context1: "Imagine a very close friend is offered to participate in a routine <B>breast cancer screening</B> at no cost. Everyone in her age range is offered the screening test, regardless of health status. Your friend is ",
               // una mujer
-              description_context2: `, 40 years old, with good health and without any relevant personal or familiar medical history.<BR><BR>`,
-              brief_context: /*woman*/", 40 years old, with good health and without any relevant personal or familiar medical history, is offered to participate in a routine <B>breast cancer screening</B> at no cost.<BR>",
+              description_context2: `, 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs.<BR><BR>
+              Breast cancer is a very serious condition that can lead to death if not treated in time. But sometimes, breasts can have small lumps that can be confused with breast cancer although do not need to be treated.<BR><BR>`,
+              brief_context: /*woman*/", 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs, is offered to participate in a routine <B>breast cancer screening</B> at no cost.<BR>",
               number_PREVALENCE_x: 1, number_PREVALENCE_y: 105, number_SENSITIVITY: 95, number_SPECIFICITY: 88, disease_description: "breast cancer",
               test_description: "digital mammogram", test1: "screening", follow_up: "diagnostic test", follow_up_name: "biopsy",
               follow_up_details: "The recommended diagnostic test when there is suspicion of breast cancer is a biopsy of the breast tissue", 
               follow_up_risk: 'overdiagnosis of up to 10%, which can lead to unnecessary chemotherapy, radiotherapy or mastectomies.'
     },
 
-    'Stroke': {description_context1: "Imagine a very close friend goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>. Your friend is ",
+    'Stroke': {description_context1: "Imagine a very close friend goes to the Emergency room with <B>symptoms compatible with a stroke that started 1 hour ago</B>. Your friend is ",
               // a man / a woman
-              description_context2: `, 40 years old, with good health and without any relevant personal or familiar medical history.<BR><BR>`,
-              brief_context: /*A woman/A man*/", 40 years old, with good health and without any relevant personal or familiar medical history, goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>.<BR>",
+              description_context2: `, 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs.<BR><BR>
+              Stroke is a very serious condition that can lead to death or permanent damage in the brain if not treated in time. But sometimes, other conditions can cause symptoms that can be confused with a stroke although they do not need to be treated.<BR><BR>`,
+              brief_context: /*A woman/A man*/", 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs, goes to the Emergency room with <B>symptoms compatible with a stroke that started 1 hour ago</B>.<BR>",
               number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "Stroke",
               test_description: "Difusion Magnetic Resonance", test1: "diagnostic", follow_up: "treatment", follow_up_name: "trombolysis",
               follow_up_details: "The recommended treatment when there is suspicion of cerebral infarction is thrombolysis", 
@@ -150,12 +157,13 @@ data_type = {
     
   };
 
+
   // WITHIN: data related to test_quality
   data_test_quality = {
-    'lowQuality_Cancer': {image: 'media/images/Bayesian40/VPP_low_Cancer.png', textPV: '<B>Positive Predictive Value</B>: 5%<br>(very low) <span style = "font-size: small;"><BR>5 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1]}, // sex always woman
-    'highQuality_Cancer': {image: 'media/images/Bayesian40/VPN_high_Cancer.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1]}, // sex always woman
-    'lowQuality_Stroke': {image: 'media/images/Bayesian40/VPN_low_Stroke.png', textPV: '<B>Negative Predictive Value</B>: 51%<br>(intermediate) <span style = "font-size: small;"><BR>51 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"]},
-    'highQuality_Stroke': {image: 'media/images/Bayesian40/VPP_high_Stroke.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"]}
+    'lowQuality_Cancer': {image: 'media/images/Bayesian40/VPP_low_Cancer.png', textPV: '<B>Positive Predictive Value</B>: 30%<br>(very low) <span style = "font-size: small;"><BR>30 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex["sex"][1], sex_doctor: sex_doctor_randomized[0]["sex"]}, // sex always woman
+    'highQuality_Cancer': {image: 'media/images/Bayesian40/VPN_high_Cancer.png', textPV: '<B>Negative Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex["sex"][1], sex_doctor: sex_doctor_randomized[1]["sex"]}, // sex always woman
+    'lowQuality_Stroke': {image: 'media/images/Bayesian40/VPN_low_Stroke.png', textPV: '<B>Negative Predictive Value</B>: 21%<br>(intermediate) <span style = "font-size: small;"><BR>21 out of 100 negatives are true negatives<BR></span>', type_image: 'Negative', SINO: 'NOT', sex_patient: sex_randomized[0]["sex"], sex_doctor: sex_doctor_randomized[2]["sex"]},
+    'highQuality_Stroke': {image: 'media/images/Bayesian40/VPP_high_Stroke.png', textPV: '<B>Positive Predictive Value</B>: 100%<br>(very high) <span style = "font-size: small;"><BR>100 out of 100 positives are true positives<BR></span>', type_image: 'Positive', SINO: '', sex_patient: sex_randomized[1]["sex"], sex_doctor: sex_doctor_randomized[3]["sex"]}
   };
 
 
@@ -194,13 +202,15 @@ data_type = {
       type: 'instructions',
       pages: ['To be able to continue, the screen needs to be positioned horizontally (in landscape). <BR> <img src="media/images/Bayesian40/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>If the screen is vertical (in portrait) the, [Next >] button will be inactive.'],
       button_label_next: 'Next',
-      data: {trialid: 'Instructions_000',
-            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
-            procedure: 'Bayesian40'},
-      show_clickable_nav: true,
-      on_trial_start: function(){
-          bloquear_enter = 0;
+      data: function () {
+        element = {
+          trialid: 'Instructions_000',
+          condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+          procedure: 'Bayesian40'
+        };
+        return element;
       },
+      show_clickable_nav: true,
       on_load: function() {
         giro_check = true;
         rectify_orientation();
@@ -220,10 +230,13 @@ data_type = {
         return false;
       }
     },
-    data: {
-      trialid: 'if_instructions_000',
-      condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
-      procedure: 'Bayesian40'
+    data: function () {
+      element = {
+        trialid: 'if_instructions_000',
+        condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+        procedure: 'Bayesian40'
+      };
+      return element;
     }
   };
 
@@ -237,13 +250,15 @@ data_type = {
       },
       button_label_next: 'Next',
       button_label_previous: 'Previous',
-      data: {trialid: 'Instructions_001',
-            condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
-            procedure: 'Bayesian40'},
-      show_clickable_nav: true,
-      on_trial_start: function(){
-          bloquear_enter = 0;
-      }
+      data: function () {
+        element = {
+          trialid: 'Instructions_001',
+          condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+          procedure: 'Bayesian40'
+        };
+        return element;
+      },
+      show_clickable_nav: true
   };
 
   //console.log(within_selection["Bayesian40"]);
@@ -278,7 +293,7 @@ data_type = {
             data: function () {
               element = {
                 trialid: 'Bayesian40_01_' + (parseInt(num) + 1).toString(),
-                condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+                condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
                 condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
                 procedure: 'Bayesian40'
               };
@@ -310,16 +325,18 @@ data_type = {
 
           // 2 columns
           html += '<div class="column" style="float: left; width: ' + pct_width_left + '">' +
-          '<B>Estimation of the <U>' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + '</U> predictive value</B><BR><BR>' +
+          '<B>Estimation of the <U>' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + '</U> Predictive Value</B><BR><BR>' +
 
           // Brief version of case
           '<HR><div style="color:#424949; font-size:15px;">Your friend, ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient[0] + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient.slice(1) + data_disease[jsPsych.timelineVariable('disease', true)].brief_context + '</div><HR><BR>' +
 
-          //"Para detectar " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + ", se realiza una " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
           "The " + data_disease[jsPsych.timelineVariable('disease', true)].test1 + " test commonly used to detect " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " is a " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + '.<BR><BR> ' +
+
           "In a person like your friend, " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " has a <B>" + prevalence_incidence[jsPsych.timelineVariable('disease', true)].label +" of " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_x + " out of " + data_disease[jsPsych.timelineVariable('disease', true)].number_PREVALENCE_y + '</B>.<BR><BR> ' +
+
           "The " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " has a <B>sensitivity of " + data_disease[jsPsych.timelineVariable('disease', true)].number_SENSITIVITY + "%</B> and a <B>specificity of " + data_disease[jsPsych.timelineVariable('disease', true)].number_SPECIFICITY + '%</B>. <BR><BR>'+
-          "What is the probability of " + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " having a " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " if the " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " result is <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
+
+          "What is the probability of <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + " having</B> a " + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + " if the " + data_disease[jsPsych.timelineVariable('disease', true)].test_description + " result is <B>" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + "</B>?" + '</div>';
           /*+ ", todo esto está asociado a " + data_disease[jsPsych.timelineVariable('disease')]["test_description"]*/
 
           // BETWEEN variable [Picture / TextPV / Text]:
@@ -330,7 +347,7 @@ data_type = {
             <div style="font-size:14px; text-align: justify;">The plot shows the <b>` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + ` Predictive Value</b> calculated from prevalence, sensitivity and specificity for different ` + plot_for + `: <br><br></div>
             <img class="image_zoom" src="` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + `" style="max-width: 100%; max-height: 100%;" onclick = document.querySelector('[id$=next]').disabled = true> 
             <div style="font-size:11px; text-align: center">Click on the image to zoom in/out.</div>
-            <BR><BR><BR><BR>
+            <BR><BR>
             <div style="font-size:11px; text-align: center">&nbsp;</div>
             <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div>
             
@@ -362,7 +379,7 @@ data_type = {
           var element = {
             trialid: 'Bayesian40_02_' + num,
             //condition_within: within_selection["Bayesian40"]["timeline_01"],
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -389,7 +406,7 @@ data_type = {
               You said the probability of ` + 
               data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].SINO + ` having ` + data_disease[jsPsych.timelineVariable("disease", true)].disease_description + ` if the result of the ` + data_disease[jsPsych.timelineVariable("disease", true)].test_description + ` is <B>` + data_test_quality[jsPsych.timelineVariable("test_quality", true) + `_` + jsPsych.timelineVariable("disease", true)].type_image + `</B>` + ` is ` + answers[0] + `%.</div><HR><BR>
     
-              The physician recommendation is to <B>` + between_selection["Bayesian40"]["recommendation"] + `</B> the test. Your friend is unsure and insists on listening to your opinion.<BR><BR>
+              The physician arrives, ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor + ` recommends to <B>` + between_selection["Bayesian40"]["recommendation"] + `</B> the test. Your friend is unsure and insists on listening to your opinion.<BR><BR>
 
               Would you recommend the ` + data_disease[jsPsych.timelineVariable('disease', true)].test_description + ` as a <u>` + data_disease[jsPsych.timelineVariable('disease', true)].test1 + ` test ` +
               `</u> to detect ` + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + ` to your friend?<BR></div>`,
@@ -404,7 +421,7 @@ data_type = {
         data: function () {
           var element = {
             trialid: 'Bayesian40_03_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -441,7 +458,7 @@ data_type = {
         data: function () {
           var element = {
             trialid: 'Bayesian40_04_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -477,7 +494,7 @@ data_type = {
         data: function () {
           var element = {
             trialid: 'Bayesian40_05_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -517,7 +534,7 @@ data_type = {
         data: function () {
           var element = {
             trialid: 'Bayesian40_06_' + num,
-            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient,
+            condition_within: jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true) + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient + "_" + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_doctor,
             condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
             procedure: 'Bayesian40'
           };
@@ -539,7 +556,7 @@ data_type = {
 
   Bayesian40.push({
       type: 'call-function',
-      data: {trialid: 'Bayesian40' + '_giro_check_ending', procedure: 'Bayesian40'},
+      data: {trialid: 'Bayesian40_giro_check_ending', procedure: 'Bayesian40'},
       func: function(){
         giro_check = false;
       }

@@ -1,5 +1,12 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
+// Store URL ---------------------------------------------------------------
+
+URL_web = "";
+if (typeof URL_web !== 'undefined')
+	if (store_URL === true) URL_web = window.location.href;
+ 
+
 // Translations --------------------------------------------------------------
 
 switch (language) {
@@ -57,14 +64,11 @@ ConsentAudio = [];    //temporal timeline
 
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: ConsentAudio_000_1,
-    button_label_next: button_label_next,
-    data: {trialid: 'ConsentAudio_000_1', procedure: 'ConsentAudio'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: ConsentAudio_000_1,
+  button_label_next: button_label_next,
+  data: {trialid: 'ConsentAudio_000_1', procedure: 'ConsentAudio'},
+  show_clickable_nav: true,
 };
 
 
@@ -85,10 +89,9 @@ var question01 = {
   },
     data: {
     trialid: 'ConsentAudio_001',
-    procedure: 'ConsentAudio'
+    procedure: 'ConsentAudio',
+    URL: URL_web
    }
-
-
 };
 ConsentAudio.push(question01);
 
@@ -104,8 +107,8 @@ var instruction_SoundCheck = {
   button_label_next: button_label_next,
   data: {trialid: 'ConsentAudio_000_2', procedure: 'ConsentAudio'},
   show_clickable_nav: true,
-  on_trial_start: function(){
-      bloquear_enter = 0;
+  on_load: function(){
+    document.getElementById('jspsych-instructions-next').disabled = true;
   }
 };
 ConsentAudio.push(instruction_SoundCheck);
@@ -122,7 +125,7 @@ var sound_question = {
       }
     },
   data: {trialid: 'ConsentAudio_002', procedure: 'ConsentAudio'}
-  };
+};
 
 
 var loop_node = {
@@ -136,11 +139,8 @@ var loop_node = {
       }
   },
   data: {trialid: 'ConsentAudio_003', procedure: 'ConsentAudio'}
-
 }
-
 ConsentAudio.push(loop_node);
-
 
 var instructions_END = {
   type: "instructions",
