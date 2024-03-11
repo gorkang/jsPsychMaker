@@ -190,18 +190,18 @@ data_type = {
       type: 'instructions',
       pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/images/Bayesian39/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
       button_label_next: 'Siguiente',
-      data: function () {
-        element = {
+      data: {
           trialid: 'Instructions_000',
           condition_between: between_selection["Bayesian39"]["type"],
           procedure: 'Bayesian39'
-        };
-        return element;
       },
       show_clickable_nav: true,
       on_load: function() {
         giro_check = true;
         rectify_orientation();
+    }, 
+    on_finish: function (data) {
+      data.condition_between = between_selection["Bayesian39"]["type"];
       }
   };
 
@@ -214,13 +214,9 @@ data_type = {
         return false;
       }
     },
-    data: function () {
-        element = {
+    data: {
           trialid: 'if_instructions_000',
-          condition_between: between_selection["Bayesian39"]["type"],
           procedure: 'Bayesian39'
-      };
-      return element;
       }
   };
 
@@ -233,18 +229,18 @@ data_type = {
       },
       button_label_next: 'Siguiente',
       button_label_previous: 'Anterior',
-      data: function () {
-        element = {
+    data: {
           trialid: 'Instructions_001',
           condition_between: between_selection["Bayesian39"]["type"],
           procedure: 'Bayesian39'
-        };
-        return element;
       },
       show_clickable_nav: true,
       on_load: function(){
         // we gonna use this on the next timeline
         progress_for_fraction = jsPsych.getProgressBarCompleted();
+    }, 
+    on_finish: function (data) {
+      data.condition_between = between_selection["Bayesian39"]["type"];
       }
   };
 
@@ -336,7 +332,7 @@ data_type = {
             
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
-            <div style="font-size:14px; text-align: justify;">En la gráfica se muestra como el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> cambia a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
+            <div style="font-size:14px; text-align: justify;">Para ayudarte con estos cálculos, en el recuadro y la gráfica se muestra como el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> cambia a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
             <img class="image_zoom" src="` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + `" style="max-width: 100%; max-height: 100%;" onclick = document.querySelector('[id$=next]').disabled = true> 
             <div style="font-size:11px; text-align: center">Haz click sobre la imagen para ampliarla/minimizarla.<BR></div>
             <br>
@@ -348,7 +344,7 @@ data_type = {
 
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
-            <div style="font-size:14px; text-align: justify;">En el recuadro se muestra el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculado a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
+            <div style="font-size:14px; text-align: justify;">Para ayudarte con estos cálculos, en el recuadro se muestra el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> calculado a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
             <div style="font-size:16px; text-align: center; border: dashed 1px; border-radius: 8px; padding: 5px;">` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].textPV + `</div></div>`;
             
           } else if (between_selection["Bayesian39"]["type"] == 'text_only') { // que pasa si las imagenes tienen distintos tamaños? #TODO
@@ -534,7 +530,7 @@ data_type = {
 
   Bayesian39.push({
       type: 'call-function',
-      data: {trialid: 'Bayesian40_giro_check_ending', procedure: Bayesian39},
+      data: { trialid: 'Instructions_000_giro_check_ending', procedure: 'Bayesian39' },
       func: function(){
         giro_check = false;
       }

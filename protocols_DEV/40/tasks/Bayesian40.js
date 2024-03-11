@@ -36,6 +36,17 @@
   }
   //if (debug_mode === true) console.table(within_selection["Bayesian40"]);
 
+  // Timeline fix ------------------------------------------------------------------------------
+
+  var count_timeline = 0, base_current_trial_global = 0, new_fraction = 0, screen_count = 24;
+
+  var progress_for_fraction = 0;
+
+  function updateProgressBar(count_timeline, new_fraction, actual_progress) {
+    count_timeline = count_timeline + (new_fraction * actual_progress)
+    jsPsych.setProgressBar(count_timeline)
+  }
+
 
 
 // INSTRUCCIONES -----------------------------------------------------------------------------
@@ -202,23 +213,19 @@ data_type = {
       type: 'instructions',
       pages: ['To be able to continue, the screen needs to be positioned horizontally (in landscape). <BR> <img src="media/images/Bayesian40/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>If the screen is vertical (in portrait) the, [Next >] button will be inactive.'],
       button_label_next: 'Next',
-      data: function () {
-        element = {
+      data: {
           trialid: 'Instructions_000',
           condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
           procedure: 'Bayesian40'
-        };
-        return element;
-      },
+          },
       show_clickable_nav: true,
       on_load: function() {
         giro_check = true;
         rectify_orientation();
-      }/*,
-      on_finish: function(data) {
-        giro_check = false;
-        data.orientation = check_orientation();
-      }*/
+      }, 
+      on_finish: function (data) {
+        data.condition_between = between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"];
+        }
   };
 
   var if_instructions_000 = {
@@ -233,7 +240,6 @@ data_type = {
     data: function () {
       element = {
         trialid: 'if_instructions_000',
-        condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
         procedure: 'Bayesian40'
       };
       return element;
@@ -250,15 +256,19 @@ data_type = {
       },
       button_label_next: 'Next',
       button_label_previous: 'Previous',
-      data: function () {
-        element = {
+      data: {
           trialid: 'Instructions_001',
           condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
           procedure: 'Bayesian40'
-        };
-        return element;
-      },
-      show_clickable_nav: true
+          },
+      show_clickable_nav: true,
+      on_load: function(){
+        // we gonna use this on the next timeline
+        progress_for_fraction = jsPsych.getProgressBarCompleted();
+    }, 
+    on_finish: function (data) {
+      data.condition_between = between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"];
+      }
   };
 
   //console.log(within_selection["Bayesian40"]);
@@ -285,9 +295,25 @@ data_type = {
             },
             button_label_next: 'Start scenario',
             on_load: function(){
+              if (count_timeline === 0){
+                // Progress for one question/case (a timeline of 6 screens) for the progressbar
+                progress_for_fraction = jsPsych.getProgressBarCompleted() - progress_for_fraction;
+
+                // initial progress bar status
+                count_timeline = jsPsych.getProgressBarCompleted()
+                
+                // initial trial
+                base_current_trial_global = jsPsych.progress().current_trial_global;
+                
+                // new fraction is the size of 1 screen 
+                // we have 4 timelines, and 6 questions on each timeline
+                new_fraction = progress_for_fraction/(within_timeline_01.timeline.length)
+              }
+              updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
+              
               // Check Fullscreen and ask for it if not
               if (!hasTouchScreen) {
-                if(window.innerWidth != screen.width || window.innerHeight != screen.height) alert("Please, press F11 to return to full screen")
+                if ((screen.width || screen.width - 40) > window.innerWidth || (screen.height || screen.height - 40) > window.innerHeight) alert("Por favor, pulsa F11 para volver a pantalla completa")
               };
             },
             data: function () {
@@ -387,6 +413,8 @@ data_type = {
         },
         on_load: function() {
 
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
+
           // Only in the Image condition as it deactivates button
           //name_first_image = document.querySelectorAll('images')[0].currentSrc.split('/').reverse()[0];
           //console.log(document.querySelectorAll('images')[0].currentSrc.split('/').reverse()[0])
@@ -418,6 +446,9 @@ data_type = {
           ];
         },
         button_label: 'Next',
+        on_load: function() {
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
+        },
         data: function () {
           var element = {
             trialid: 'Bayesian40_03_' + num,
@@ -455,6 +486,9 @@ data_type = {
         slider_number: true,
         labels: ['A little', 'A lot'],
         button_label: "Next",
+        on_load: function() {
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
+        },
         data: function () {
           var element = {
             trialid: 'Bayesian40_04_' + num,
@@ -491,6 +525,9 @@ data_type = {
           ];
         },
         button_label: 'Next',
+        on_load: function() {
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
+        },
         data: function () {
           var element = {
             trialid: 'Bayesian40_05_' + num,
@@ -531,6 +568,9 @@ data_type = {
         slider_number: true,
         labels: ['A little', 'A lot'],
         button_label: "Next",
+        on_load: function() {
+          updateProgressBar(count_timeline, new_fraction, jsPsych.progress().current_trial_global - base_current_trial_global)
+        },
         data: function () {
           var element = {
             trialid: 'Bayesian40_06_' + num,
@@ -556,7 +596,7 @@ data_type = {
 
   Bayesian40.push({
       type: 'call-function',
-      data: {trialid: 'Bayesian40_giro_check_ending', procedure: 'Bayesian40'},
+      data: { trialid: 'Instructions_000_giro_check_ending', procedure: 'Bayesian40' },
       func: function(){
         giro_check = false;
       }
