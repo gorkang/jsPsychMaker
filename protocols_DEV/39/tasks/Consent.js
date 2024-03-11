@@ -36,10 +36,7 @@ var instruction_screen_experiment = {
     pages: Consent_000,
     button_label_next: continue_button,
     data: {trialid: 'Consent_000', procedure: 'Consent'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+    show_clickable_nav: true
 };
 
 // Reads consent from media/consent/consent-placeholder.js
