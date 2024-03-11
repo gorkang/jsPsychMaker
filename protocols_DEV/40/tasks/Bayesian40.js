@@ -144,11 +144,11 @@ data_type = {
               follow_up_risk: 'overdiagnosis of up to 10%, which can lead to unnecessary chemotherapy, radiotherapy or mastectomies.'
     },
 
-    'Stroke': {description_context1: "Imagine a very close friend goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>. Your friend is ",
+    'Stroke': {description_context1: "Imagine a very close friend goes to the Emergency room with <B>symptoms compatible with a stroke that started 1 hour ago</B>. Your friend is ",
               // a man / a woman
               description_context2: `, 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs.<BR><BR>
-              Stroke is a very serious condition that can lead to death or permanent damage in the brain if not treated in time. But sometimes, other conditions can cause symptoms that can be confused with a Stroke although they do not need to be treated.<BR><BR>`,
-              brief_context: /*A woman/A man*/", 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs, goes to the Emergency room with <B>symptoms compatible with a Stroke that started 1 hour ago</B>.<BR>",
+              Stroke is a very serious condition that can lead to death or permanent damage in the brain if not treated in time. But sometimes, other conditions can cause symptoms that can be confused with a stroke although they do not need to be treated.<BR><BR>`,
+              brief_context: /*A woman/A man*/", 40 years old, without any relevant personal or familiar medical history, that does not consume alcohol or drugs, goes to the Emergency room with <B>symptoms compatible with a stroke that started 1 hour ago</B>.<BR>",
               number_PREVALENCE_x: 868, number_PREVALENCE_y: 1000, number_SENSITIVITY: 90, number_SPECIFICITY: 95, disease_description: "Stroke",
               test_description: "Difusion Magnetic Resonance", test1: "diagnostic", follow_up: "treatment", follow_up_name: "trombolysis",
               follow_up_details: "The recommended treatment when there is suspicion of cerebral infarction is thrombolysis", 
@@ -325,7 +325,7 @@ data_type = {
 
           // 2 columns
           html += '<div class="column" style="float: left; width: ' + pct_width_left + '">' +
-          '<B>Estimation of the <U>' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + '</U> predictive value</B><BR><BR>' +
+          '<B>Estimation of the <U>' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + '</U> Predictive Value</B><BR><BR>' +
 
           // Brief version of case
           '<HR><div style="color:#424949; font-size:15px;">Your friend, ' + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient[0] + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].sex_patient.slice(1) + data_disease[jsPsych.timelineVariable('disease', true)].brief_context + '</div><HR><BR>' +
