@@ -187,22 +187,22 @@ data_type = {
 
   // giro de pantalla
   var instructions_000 = {
-      type: 'instructions',
-      pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/images/Bayesian39/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
-      button_label_next: 'Siguiente',
-      data: {
-          trialid: 'Instructions_000',
-          condition_between: between_selection["Bayesian39"]["type"],
-          procedure: 'Bayesian39'
-      },
-      show_clickable_nav: true,
-      on_load: function() {
-        giro_check = true;
-        rectify_orientation();
+    type: 'instructions',
+    pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/images/Bayesian39/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
+    button_label_next: 'Siguiente',
+    data: {
+        trialid: 'Instructions_000',
+        condition_between: between_selection["Bayesian39"]["type"],
+        procedure: 'Bayesian39'
+    },
+    show_clickable_nav: true,
+    on_load: function() {
+      giro_check = true;
+      rectify_orientation();
     }, 
     on_finish: function (data) {
       data.condition_between = between_selection["Bayesian39"]["type"];
-      }
+    }
   };
 
   var if_instructions_000 = {
@@ -215,33 +215,33 @@ data_type = {
       }
     },
     data: {
-          trialid: 'if_instructions_000',
-          procedure: 'Bayesian39'
-      }
+      trialid: 'if_instructions_000',
+      procedure: 'Bayesian39'
+    }
   };
 
   var instructions_between_01 = {
-      type: 'instructions',
-      pages: function() {
-        return ([data_type[between_selection["Bayesian39"]["type"]]["page1"]["text"],
-                 data_type[between_selection["Bayesian39"]["type"]]["page2"]["text"],
-                 data_type[between_selection["Bayesian39"]["type"]]["page3"]["text"]])
-      },
-      button_label_next: 'Siguiente',
-      button_label_previous: 'Anterior',
+    type: 'instructions',
+    pages: function() {
+      return ([data_type[between_selection["Bayesian39"]["type"]]["page1"]["text"],
+                data_type[between_selection["Bayesian39"]["type"]]["page2"]["text"],
+                data_type[between_selection["Bayesian39"]["type"]]["page3"]["text"]])
+    },
+    button_label_next: 'Siguiente',
+    button_label_previous: 'Anterior',
     data: {
-          trialid: 'Instructions_001',
-          condition_between: between_selection["Bayesian39"]["type"],
-          procedure: 'Bayesian39'
-      },
-      show_clickable_nav: true,
-      on_load: function(){
-        // we gonna use this on the next timeline
-        progress_for_fraction = jsPsych.getProgressBarCompleted();
+      trialid: 'Instructions_001',
+      condition_between: between_selection["Bayesian39"]["type"],
+      procedure: 'Bayesian39'
+    },
+    show_clickable_nav: true,
+    on_load: function(){
+      // we gonna use this on the next timeline
+      progress_for_fraction = jsPsych.getProgressBarCompleted();
     }, 
     on_finish: function (data) {
       data.condition_between = between_selection["Bayesian39"]["type"];
-      }
+    }
   };
 
   //console.log(within_selection["Bayesian39"]);
@@ -529,11 +529,11 @@ data_type = {
   Bayesian39.push(within_timeline_01);
 
   Bayesian39.push({
-      type: 'call-function',
-      data: { trialid: 'Instructions_000_giro_check_ending', procedure: 'Bayesian39' },
-      func: function(){
-        giro_check = false;
-      }
+    type: 'call-function',
+    data: { trialid: 'Instructions_000_giro_check_ending', procedure: 'Bayesian39' },
+    func: function(){
+      giro_check = false;
+    }
   });
 
   // within block finished
