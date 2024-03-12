@@ -210,22 +210,22 @@ data_type = {
 
   // giro de pantalla
   var instructions_000 = {
-      type: 'instructions',
-      pages: ['To be able to continue, the screen needs to be positioned horizontally (in landscape). <BR> <img src="media/images/Bayesian40/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>If the screen is vertical (in portrait) the, [Next >] button will be inactive.'],
-      button_label_next: 'Next',
-      data: {
-          trialid: 'Instructions_000',
-          condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
-          procedure: 'Bayesian40'
-          },
-      show_clickable_nav: true,
-      on_load: function() {
-        giro_check = true;
-        rectify_orientation();
-      }, 
-      on_finish: function (data) {
-        data.condition_between = between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"];
-        }
+    type: 'instructions',
+    pages: ['To be able to continue, the screen needs to be positioned horizontally (in landscape). <BR> <img src="media/images/Bayesian40/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>If the screen is vertical (in portrait) the, [Next >] button will be inactive.'],
+    button_label_next: 'Next',
+    data: {
+      trialid: 'Instructions_000',
+      condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+      procedure: 'Bayesian40'
+    },
+    show_clickable_nav: true,
+    on_load: function() {
+      giro_check = true;
+      rectify_orientation();
+    }, 
+    on_finish: function (data) {
+      data.condition_between = between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"];
+    }
   };
 
   var if_instructions_000 = {
@@ -237,38 +237,35 @@ data_type = {
         return false;
       }
     },
-    data: function () {
-      element = {
-        trialid: 'if_instructions_000',
-        procedure: 'Bayesian40'
-      };
-      return element;
+    data: {
+      trialid: 'if_instructions_000',
+      procedure: 'Bayesian40'
     }
   };
 
   var instructions_between_01 = {
-      type: 'instructions',
-      pages: function() {
-        return ([data_type[between_selection["Bayesian40"]["type"]]["page1"]["text"],
-                 data_type[between_selection["Bayesian40"]["type"]]["page2"]["text"],
-                 data_type[between_selection["Bayesian40"]["type"]]["page3"]["text"],
-                 data_type[between_selection["Bayesian40"]["type"]]["page4"]["text"]])
-      },
-      button_label_next: 'Next',
-      button_label_previous: 'Previous',
-      data: {
-          trialid: 'Instructions_001',
-          condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
-          procedure: 'Bayesian40'
-          },
-      show_clickable_nav: true,
-      on_load: function(){
-        // we gonna use this on the next timeline
-        progress_for_fraction = jsPsych.getProgressBarCompleted();
+    type: 'instructions',
+    pages: function() {
+      return ([data_type[between_selection["Bayesian40"]["type"]]["page1"]["text"],
+                data_type[between_selection["Bayesian40"]["type"]]["page2"]["text"],
+                data_type[between_selection["Bayesian40"]["type"]]["page3"]["text"],
+                data_type[between_selection["Bayesian40"]["type"]]["page4"]["text"]])
+    },
+    button_label_next: 'Next',
+    button_label_previous: 'Previous',
+    data: {
+      trialid: 'Instructions_001',
+      condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
+      procedure: 'Bayesian40'
+    },
+    show_clickable_nav: true,
+    on_load: function(){
+      // we gonna use this on the next timeline
+      progress_for_fraction = jsPsych.getProgressBarCompleted();
     }, 
     on_finish: function (data) {
       data.condition_between = between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"];
-      }
+    }
   };
 
   //console.log(within_selection["Bayesian40"]);
@@ -559,9 +556,6 @@ data_type = {
           Your friend received a <B>` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].type_image + `</B> result in the  ` + data_disease[jsPsych.timelineVariable('disease', true)].test_description + `.<HR></div><BR>
           How sure are you about ` + Yes_No + ` recommending the ` + data_disease[jsPsych.timelineVariable('disease', true)].follow_up_name + ` as <u>` + data_disease[jsPsych.timelineVariable('disease', true)].follow_up + `</u> test for ` + data_disease[jsPsych.timelineVariable('disease', true)].disease_description + ` to your friend?</div></br>`;
         },
-
-
-
         require_movement:true,
         min: 0, max: 100, start: 50, step: 1,
         slider_width: 500,
@@ -586,20 +580,20 @@ data_type = {
     timeline_variables: within_selection["Bayesian40"],
     randomize_order: false, //random order
     sample: {
-        type: 'custom',
-        fn: function(t){
-            return t; // show the trials in the reverse order
-        }
+      type: 'custom',
+      fn: function(t){
+        return t; // show the trials in the reverse order
+      }
     }
   };
   Bayesian40.push(within_timeline_01);
 
   Bayesian40.push({
-      type: 'call-function',
-      data: { trialid: 'Instructions_000_giro_check_ending', procedure: 'Bayesian40' },
-      func: function(){
-        giro_check = false;
-      }
+    type: 'call-function',
+    data: { trialid: 'Instructions_000_giro_check_ending', procedure: 'Bayesian40' },
+    func: function(){
+      giro_check = false;
+    }
   });
 
   // within block finished
