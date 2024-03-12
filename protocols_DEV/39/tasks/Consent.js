@@ -61,6 +61,7 @@ var question01 = {
 };
 Consent.push(question01);
 
+/*
 var accepted_consent = {
   type: "instructions",
   pages: Consent_002_pages,
@@ -71,6 +72,7 @@ var accepted_consent = {
   }
 };
 Consent.push(accepted_consent);
+*/
 
 // Do not use call_function because it uses "questions" array
 Consent.push({
@@ -85,6 +87,17 @@ Consent.push({
     saveData(data, online, "Consent");
   }
 });
+
+var accepted_consent = {
+  type: "instructions",
+  pages: Consent_002_pages,
+  show_clickable_nav: true,
+  data: {trialid: 'Consent_002', procedure: 'Consent'},
+  on_load: function () {
+    document.getElementById('jspsych-instructions-next').disabled = true;
+  }
+};
+Consent.push(accepted_consent);
 
 Consent.unshift(instruction_screen_experiment);
 Consent.push.apply(questions_consent, Consent);
