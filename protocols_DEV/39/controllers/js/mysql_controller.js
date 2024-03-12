@@ -252,6 +252,29 @@ function load_clean_mysql(iterations_for_review, max_participants) {
   });
 }
 
+// used for discard an user on protocol answer
+function discard_user(delete_user = false) {
+  XMLselection = (delete_user) ? "deleteFromTable" : "updateTable" 
+
+  // UPDATE status: discarded  & protocol: counter -1
+  XMLcall(XMLselection, "user", {id: {"id_user": uid}, data: {"status": "discarded"}});
+  XMLcall(XMLselection, "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter - 1"}});
+
+  // UPDATE assigned_task -1 for each between_selection condition
+  XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(user_conditions) {
+    if (debug_mode === true) console.log(user_conditions);
+    for (var i = 0; i < user_conditions.length; i++) {
+      if (debug_mode === true) console.warn("completed_task_storage() || DISCARD PARTICIPANT || updateTable: experimental_condition || assigned_task: assigned_task - 1" + new Date().toISOString().slice(0, 19));
+      XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
+    }
+  });
+  
+  XMLcall("findRow", "combination_between", {keys: ["id_user", "id_protocol"], values: [uid, pid]}).then(function(actual_combination) {
+    if ("id_combination" in actual_combination)
+      XMLcall(XMLselection, "combination_between", {id: {"id_combination": actual_combination.id_combination}, data: {"assigned": 0}});
+  })
+}
+
 // condition_selection() --------------------------------------------------------
 // select combination from combination_between if there is 2 or more conditions otherwise return a empty array
 function select_combination(feasible_combinations) {
@@ -532,8 +555,6 @@ function assign_condition_counter(selected_between_selection) {
   })
   if (debug_mode === true) console.warn('assign_condition_counter() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
 }
-
-
 
 // check_id_status() --------------------------------------------------------
 
