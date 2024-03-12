@@ -139,7 +139,7 @@ var loop_node = {
       }
   },
   data: {trialid: 'ConsentAudio_003', procedure: 'ConsentAudio'}
-}
+};
 ConsentAudio.push(loop_node);
 
 var instructions_END = {
