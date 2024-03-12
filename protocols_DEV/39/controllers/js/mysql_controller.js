@@ -162,9 +162,8 @@ function clean_mysql(){
 
   XMLcall("findAll", "user").then(function(users) {
 
-
-    // REVIEW: FILTERING to loop only amongst NON completed. SHOULD BE ONLY amongst assigned (???)
-    users = users.filter(function(value,index) { return value["status"]  !== "completed"; });
+    // FILTERING to loop only amongst assigned
+    users = users.filter(function(value,index) { return value["status"]  === "assigned"; });
 
     max_sec = date_to_mil(max_time);
     actual_time = new Date().toISOString().slice(0, 19);
@@ -174,7 +173,7 @@ function clean_mysql(){
       seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
 
       // si es que la diferencia de tiempo supera la máxima cantidad de segundos entonces el participante es descartado y removido de los participantes asignados
-      if (seconds_since_start > max_sec && users[i].status == "assigned") {
+      if (seconds_since_start > max_sec) {
 
         // If the active user is the one that should be discarded...
         if (users[i].id_user == uid & debug_mode === true) console.warn("clean_mysql() wants to discard you");
