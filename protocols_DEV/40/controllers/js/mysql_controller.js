@@ -213,25 +213,12 @@ function load_clean_mysql(iterations_for_review, max_participants) {
 
   if (debug_mode === true) console.warn("load_clean_mysql()");
 
+  // DB clean with clean_mysql()
+  clean_mysql();
+
+  // Update blocked conditions based on assigned_task >= max_participants
   XMLcall("findAll", "experimental_condition").then(function(condition_data) {
 
-    // DB clean with clean_mysql()
-    XMLcall("findRow", "protocol", {keys: ["id_protocol"], values: [pid]}).then(function(actual_stats) {
-
-      // REVIEW: IS this if needed? Can't we do actual_stats[0] below?
-      if (Array.isArray(actual_stats)) {
-        actual_stats = actual_stats[0];
-      }
-      // Calculates module between counter and iterations_for_review
-      mod =  actual_stats.counter % iterations_for_review;
-      if (mod == 0 && actual_stats.counter != 0) {
-        clean_mysql();
-      }
-    }, function () {
-      if (debug_mode === true) console.warn("protocol table not found");
-    });
-
-    // Update blocked conditions based on assigned_task >= max_participants
     for (var i = 0; i < condition_data.length; i++) {
       if (condition_data[i].assigned_task >= max_participants) {
         condition_data[i].blocked = true; // REVIEW: condition_data[i].blocked is 0/1
