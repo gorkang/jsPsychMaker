@@ -9,6 +9,20 @@
  */
 
 
+const handle_keyboard = (event) => {
+  if (event.isComposing || event.keyCode === 229) {
+    return;
+  }
+
+  textBox = document.querySelector("div.jspsych-survey-numbers-response-0");
+  // do something
+  if(parseInt(event.key) || event.key === "0"){
+    textBox.innerHTML += event.key;
+  } else if (event.key === "Backspace") {
+    textBox.innerHTML = textBox.innerHTML.slice(0, -1);
+  }
+}
+
 jsPsych.plugins['survey-numbers'] = (function() {
 
   var plugin = {};
@@ -139,6 +153,9 @@ jsPsych.plugins['survey-numbers'] = (function() {
         }
       };
     });
+    
+    document.addEventListener("keydown", handle_keyboard)
+
     //fin modificacion
 
     display_element.querySelector("button.jspsych-btn.jspsych-survey-numbers-next").addEventListener('click', function() {
@@ -147,6 +164,9 @@ jsPsych.plugins['survey-numbers'] = (function() {
         display_element.querySelector(".fail-message").innerHTML = '<span style="color: red;" class="required">Please enter the numbers in the keypad.</span>';
         return;
       }
+
+      document.removeEventListener("keydown", handle_keyboard)
+
       //fin modificacion
       // measure response time
       var endTime = (new Date()).getTime();
