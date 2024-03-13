@@ -243,6 +243,28 @@ data_type = {
     }
   };
 
+
+    var instructions_PRE = {
+      type: 'instructions',
+      pages: ["<H2>Medical consents</H2>Please, read carefully the following instructions.<BR><BR>"],
+      button_label_next: 'Loading task...',
+      data: {
+          trialid: 'Instructions_PRE',
+          condition_between: between_selection["Bayesian40"]["type"],
+          procedure: 'Bayesian40'
+      },
+      show_clickable_nav: true,
+      on_load: function(){
+      document.getElementById('jspsych-instructions-next').disabled = true;
+      // Forced timeout to make sure between_selection is final
+      setTimeout(function(){
+      document.getElementById('jspsych-instructions-next').disabled = false;
+      document.getElementById('jspsych-instructions-next').textContent = "Start";
+      }, 1000);
+     
+    }
+  };
+  
   var instructions_between_01 = {
     type: 'instructions',
     pages: function() {
@@ -599,6 +621,7 @@ data_type = {
   // within block finished
   Bayesian40.unshift(instructions_between_01);
   Bayesian40.unshift(if_instructions_000);
+  Bayesian40.unshift(instructions_PRE);
   questions.push.apply(questions, Bayesian40);
 
   //if (debug_mode == 'true') console.table(within_timeline_01.timeline_variables)
