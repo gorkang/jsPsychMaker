@@ -30,6 +30,10 @@ switch (language) {
     
     CRTMCQ4_07_prompt = '<div class="justified">Simón decide invertir $8.000.000 en el mercado de acciones un día a inicios de 2008. Seis meses después de haber invertido, el 17 de julio, las acciones que había comprado bajaron 50%. Afortunadamente para Simón, desde el 17 de julio hasta el 17 de octubre, las acciones que compró subieron 75%. En este punto, Simón:</div>';
     CRTMCQ4_07_options = ['&nbsp;ha ganado dinero.', '&nbsp;ha perdido dinero.', '&nbsp;no ha ganado ni perdido dinero.', '&nbsp;no se puede determinar.'];
+    
+    CRTMCQ4_08_prompt = '<div class="justified">¿Conocías los ítems anteriores?</div>';
+    CRTMCQ4_08_options = ['&nbsp;Ninguno (0)', '&nbsp;Algunos (1 a 3)', '&nbsp;Bastantes (4 a 6)', '&nbsp;Todos (7)'];
+  
     break;
 
 
@@ -58,6 +62,10 @@ switch (language) {
     
     CRTMCQ4_07_prompt = 'Simon decided to invest £8,000 in the stock market one day early in 2008.  Six months after he invested, on July 17, the stocks he had purchased were down 50%. Fortunately for Simon, from July 17 to October 17, the stocks he had purchased went up 75%. At this point, Simon:';
     CRTMCQ4_07_options = ['&nbsp;has lost money.', '&nbsp;is ahead of where he began.', '&nbsp;has broken even in the stock market.', '&nbsp;it cannot be determined.'];
+    
+    CRTMCQ4_08_prompt = '<div class="justified">Did you know the previous items?</div>';
+    CRTMCQ4_08_options = ['&nbsp;None (0)', '&nbsp;Some (1 to 3)', '&nbsp;Quite a few (4 to 6)', '&nbsp;All (7)'];
+  
     break;
 
 }
@@ -137,8 +145,14 @@ var question07 = {
 };
 CRTMCQ4.push(question07);
 
+var question08 = {
+  type: 'survey-multi-choice-vertical',
+  questions: [{prompt: CRTMCQ4_08_prompt, 
+  options: CRTMCQ4_08_options, random_options: true, required: true, horizontal: false}],
+  data: {trialid: 'CRTMCQ4_08', procedure: 'CRTMCQ4'}
+};
+CRTMCQ4.push(question08);
+
 CRTMCQ4.unshift(instruction_screen_experiment);
 questions.push.apply(questions, CRTMCQ4);
 call_function("CRTMCQ4");
-
-
