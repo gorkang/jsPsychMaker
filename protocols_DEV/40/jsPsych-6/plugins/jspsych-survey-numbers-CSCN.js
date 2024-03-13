@@ -14,6 +14,10 @@ const handle_keyboard = (event) => {
     return;
   }
 
+  if(event.key === "Enter"){
+    event.preventDefault();
+  }
+
   textBox = document.querySelector("div.jspsych-survey-numbers-response-0");
   // do something
   if(parseInt(event.key) || event.key === "0"){
