@@ -36,7 +36,9 @@ var question02 = {
   Si quieres saber algo más sobre los proyectos en los que trabajamos, puedes acceder a <a href = 'https://cscn.uai.cl/', target = '_blank'>nuestra página web</a>. Muchas gracias por tu interés.</p><BR><BR></div>`,
   choices: ['Continuar'],
   prompt: "<BR><BR>",
-  on_load: discard_user(),
+  on_load: function(){
+  discard_user();
+  },
   on_finish: function(data){
     jsPsych.endExperiment('Gracias por tu tiempo. Puedes cerrar esta ventana.');
   },
