@@ -16,7 +16,7 @@ switch (language) {
         }
 
       Goodbye_001_pages = [`<p><left><b><big>Gracias por tu participación</big></b><br/><br/>
-      Tu código de participación es: <B>` + unique_code + `</B><br/><br/>
+      Tu código de participación es: <B>` + unique_code + `</B>. Si la verificación automática de la siguiente pantalla falla, nos puedes enviar un correo con este código.<br/><br/>
       Si tienes alguna duda o comentario, nos puedes escribir a ` + var_researcher_email + `</p>
       Presiona el botón para registrar tus respuestas` +
       redirect_message];
@@ -32,7 +32,7 @@ switch (language) {
       }
   
       Goodbye_001_pages = [`<p><left><b><big>Thanks for your participation</big></b><br/><br/>
-      Your participation code is: <B>` + unique_code + `</B><br/><br/>
+      Your participation code is: <B>` + unique_code + `</B>. If the automatic verification in the next screen fails, you can email us this code.<br/><br/>
       If you have any further queries or observations arising from this study, please feel free to write to ` + var_researcher_email + `</p>
       Press the button to record your answers` +
       redirect_message];

@@ -43,7 +43,7 @@ switch (language) {
     ConsentAudio_000_2 = [`<b><big>Sound Check</big></b><BR>
     This protocol includes a task that requires working headphones/speaker.<BR><BR>
     Please, put on the headphones now or turn on the speaker.<BR><BR>
-    A sound will play in the next screen. Adjust the volume so you can hear it clearly`]
+    A sound will play in the next screen. Adjust the volume so you can hear it clearly.`]
     ConsentAudio_002_prompt = "<div class='crux' id='cruz'><BR>Can you hear the sound?<BR></div>"
     ConsentAudio_002_choices = ["Yes!", "No, but should work now. Repeat the sound to check", "No, and there is nothing I can do to fix it"]
     ConsentAudio_002_endExperiment = 'Without sound you will not be able to complete this protocol. Thanks for your interest.'

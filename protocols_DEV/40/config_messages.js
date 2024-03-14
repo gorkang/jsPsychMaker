@@ -22,13 +22,13 @@ switch (language) {
         intro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI" align="bottom" width="158" height="59" border="0"/></p></div>
         Para cambiar este texto, edita la variable intro_HTML en config_messages.js<BR><BR>
         Si tienes alguna duda, puedes escribirnos a: <a href="mailto:` + var_researcher_email + `?subject=Protocol ` + pid + `">` + var_researcher_email + `</a><BR><BR>
-        Recuerda usar un navegador actualizado`;
+        Recuerda usar un navegador actualizado.`;
 
         // INTRO [index.html] Screen after uid is entered (if random_id = true, this is the first screen)
         outro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI" align="bottom" width="158" height="59" border="0"/></p></div>
         Para cambiar este texto, edita la variable outro_HTML en config_messages.js<BR><BR>
         Si tienes alguna duda, puedes escribirnos a: <a href="mailto:` + var_researcher_email + `?subject=Protocol ` + pid + `">` + var_researcher_email + `</a><BR><BR>
-        Recuerda usar un navegador actualizado`;
+        Recuerda usar un navegador actualizado.`;
 
 
         // helper messages ------------------------------------------------------------
@@ -82,7 +82,7 @@ switch (language) {
 
         // helper messages ------------------------------------------------------------
 
-        outro_ending = "<br><br>Press the " + start_button + " button to begin the protocol"; // Text to show at the end of the outro
+        outro_ending = "<br><br>Press the " + start_button + " button to begin the protocol."; // Text to show at the end of the outro
         fullscreen_text = 'The protocol will enter Full Screen.'; // Text to show when fullscreen mode is activated
         fullscreen_label = 'Full Screen'; // Label of the fullscreen button
         message_str = 'The protocol is loading, wait a moment...'; // Message when preloading media
