@@ -86,7 +86,7 @@ switch (language) {
 
         // helper messages ------------------------------------------------------------
 
-        outro_ending = "<br><br>Press the " + start_button + " button to begin the protocol"; // Text to show at the end of the outro
+        outro_ending = "<br><br>Press the " + start_button + " button to begin the protocol."; // Text to show at the end of the outro
         fullscreen_text = 'The protocol will enter Full Screen.'; // Text to show when fullscreen mode is activated
         fullscreen_label = 'Full Screen'; // Label of the fullscreen button
         message_str = 'The protocol is loading, wait a moment...'; // Message when preloading media

@@ -224,7 +224,7 @@ data_type = {
     var instructions_PRE = {
       type: 'instructions',
       pages: ["<H2>Consentimientos médicos</H2>Por favor, lee con atención las siguientes instrucciones.<BR><BR>"],
-      button_label_next: 'Cargando condiciones...',
+      button_label_next: 'Cargando tarea...',
       data: {
           trialid: 'Instructions_PRE',
           condition_between: between_selection["Bayesian39"]["type"],
