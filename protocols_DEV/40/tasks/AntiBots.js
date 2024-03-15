@@ -49,6 +49,15 @@ var question05 = {
 };
 AntiBots.push(question05);
 
+var question06 = {
+  type: 'survey-text',
+  data: {trialid: 'AntiBots_06', procedure: 'AntiBots'},
+  questions: [{prompt: "If you have any comments or suggestions, we really appreciate your feedback.<BR><BR>You can also send us an email to gorkang@gmail.com. <BR><BR>Thanks in advance!", rows: 10, columns: 90, type: 'textarea', required: true, error_text: "Please enter text here."}],
+};
+AntiBots.push(question06);
+
+
+
 AntiBots.unshift(instruction_screen_experiment);
 AntiBots.push.apply(questions, AntiBots);
 call_function("AntiBots");
