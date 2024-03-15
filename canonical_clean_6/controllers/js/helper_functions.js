@@ -720,6 +720,9 @@ function json_can_parsed(data) {
 
 // combination selector and script loader for all the tasks after consent
 function consent_script_selector() {
+  // fixes when feasible_combinations isn't defined
+  if (typeof feasible_combinations === 'undefined') feasible_combinations = combinations_from_dict(all_conditions)
+
   // if more than 1 condition
   if (!(Object.keys(all_conditions).length == 1 && Object.keys(all_conditions[Object.keys(all_conditions)[0]]).length == 1)) {
     select_combination(feasible_combinations).then(
