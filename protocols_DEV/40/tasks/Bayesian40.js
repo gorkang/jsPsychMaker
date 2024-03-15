@@ -622,7 +622,17 @@ data_type = {
   Bayesian40.unshift(instructions_between_01);
   Bayesian40.unshift(if_instructions_000);
   Bayesian40.unshift(instructions_PRE);
+  
+  var question_feedback = {
+  type: 'survey-text',
+  data: {trialid: 'Bayesian40_07', procedure: 'Bayesian40'},
+  questions: [{prompt: "Could you briefly describe how you responded to the estimation and recommendation questions?", rows: 5, columns: 80, type: 'textarea', required: true, error_text: "Please enter text here."}],
+};
+Bayesian40.push(question_feedback);
+  
   questions.push.apply(questions, Bayesian40);
+
+
 
   //if (debug_mode == 'true') console.table(within_timeline_01.timeline_variables)
 
