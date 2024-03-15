@@ -1,6 +1,26 @@
 // First element blank so the position starts from 1
 var encrypted_array = ["", "53", "50", "51", "55", "53", "52", "52", "55", "51", "51", "50", "55", "55", "53", "50", "51", "52", "55", "50", "53", "51", "51", "52", "50", "53", "52"];
 
+// Translations --------------------------------------------------------------
+// TODO: Complete multilingual adaptation
+switch (language) {
+
+  case "Spanish":
+  
+    seconds_text_2_string = '¿Tienes alguna respuesta?';
+    seconds_text_1_string = 'Saltaremos al siguiente item en 30 segundos';
+    break;
+
+  case "English":
+
+    seconds_text_2_string = 'Do you have an answer?';
+    seconds_text_1_string = 'We will jump to the next item in 30 seconds';
+    break;
+
+}
+
+
+
 // General variables ------------------------------------------
 
 questions = (typeof questions != 'undefined' && questions instanceof Array) ? questions : [];
@@ -8,13 +28,13 @@ questions.push(check_fullscreen('WaisMatrices'));
 WaisMatrices = [];    //temporal timeline
 
 var condition1, wrongs_in_row, rights_in_row, first_repeat, second_repeat, actual_sec;
-var repeat = []
+var repeat = [];
 
 var max_response_seconds = 120;
 // alert text when you have x seconds left
 var seconds_text = {
-  60: '¿Tienes alguna respuesta?',
-  30: 'Saltaremos al siguiente item en 30 segundos'
+  60: seconds_text_2_string,
+  30: seconds_text_1_string
 };
 
 // countdown timer
