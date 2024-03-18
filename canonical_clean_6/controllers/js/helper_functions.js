@@ -260,8 +260,7 @@ function check_fullscreen(task_name) {
     }],
     data: { procedure: task_name },
     conditional_function: function () {
-      let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
-      //if (Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40)
+      let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement || !(Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40);
       if (!fullscreenElement)
         return true;
       else
