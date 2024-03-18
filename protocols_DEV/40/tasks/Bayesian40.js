@@ -332,7 +332,8 @@ data_type = {
               
               // Check Fullscreen and ask for it if not
               if (!hasTouchScreen) {
-                if ((screen.width || screen.width - 40) > window.innerWidth || (screen.height || screen.height - 40) > window.innerHeight) alert("Por favor, pulsa F11 para volver a pantalla completa")
+                let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement || !(Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40);
+                if (!fullscreenElement) alert("Please, press F11 to return to Full Screen")
               };
             },
             data: function () {
