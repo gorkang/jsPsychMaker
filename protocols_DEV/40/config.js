@@ -9,9 +9,9 @@ random_id = true;
 max_time = "02:01:00";
 accept_discarded = false;
 debug_mode = false; // SHOULD be false in production
-disable_button_interaction = false; // Monkeys control, should be false in production
+disable_button_interaction = true; // Monkeys control, should be false when launching Monkeys
 language = "English";
-finish_link = "";
+finish_link = "https://connect.cloudresearch.com/participant/project/07d5716657674808991496fb6265b5f5/complete";
 store_URL = true; // For Prolific, Connect, etc. Stores URL in Consent
 
 var_researcher_email = `gorkang@gmail.com`;

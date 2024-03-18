@@ -75,7 +75,7 @@ switch (language) {
         // INTRO [index.html] Screen after uid is entered (if random_id = true, this is the first screen)
         outro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI " align="bottom" width="200" height="60" border="0"/></p></div>
                 Welcome,<BR><BR>
-                The duration of this protocol is less than 60 minutes. Includes demographic questions, 4 hypothetical cases where we ask you to make recommendations, and tasks to measure your ability to reason numerically, recognize patterns, etc.<BR><BR>
+                The duration of this protocol is less than 60 minutes. Includes demographic questions, 4 hypothetical cases where we ask you to make medical recommendations to a friend, and tasks to measure your ability to reason numerically, recognize patterns, etc.<BR><BR>
                 Please, be completely focused for the duration of the protocol. If you delay too much, the protocol could be automatically canceled, removing you from the questionnaire.<BR><BR>
                 If you have any questions, you can write to us at: <mailto::` + var_researcher_email + `>` + var_researcher_email + `</mailto><BR><BR>
                 Remember to use an updated browser.`;
