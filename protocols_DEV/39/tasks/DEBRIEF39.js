@@ -40,7 +40,7 @@ var question02 = {
 DEBRIEF39.push(question02);
 
 DEBRIEF39.unshift(instruction_screen_experiment);
-DEBRIEF39.push.apply(questions, DEBRIEF39)
+DEBRIEF39.push.apply(questions, DEBRIEF39);
 
 
 call_function("DEBRIEF39");
