@@ -36,10 +36,7 @@ var instruction_screen_experiment = {
     pages: Consent_000,
     button_label_next: continue_button,
     data: {trialid: 'Consent_000', procedure: 'Consent'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+    show_clickable_nav: true
 };
 
 // Reads consent from media/consent/consent-placeholder.js
@@ -64,16 +61,6 @@ var question01 = {
 };
 Consent.push(question01);
 
-var accepted_consent = {
-  type: "instructions",
-  pages: Consent_002_pages,
-  show_clickable_nav: true,
-  data: {trialid: 'Consent_002', procedure: 'Consent'},
-  on_load: function () {
-    document.getElementById('jspsych-instructions-next').disabled = true;
-  }
-};
-Consent.push(accepted_consent);
 
 // Do not use call_function because it uses "questions" array
 Consent.push({
@@ -88,6 +75,17 @@ Consent.push({
     saveData(data, online, "Consent");
   }
 });
+
+var accepted_consent = {
+  type: "instructions",
+  pages: Consent_002_pages,
+  show_clickable_nav: true,
+  data: {trialid: 'Consent_002', procedure: 'Consent'},
+  on_load: function () {
+    document.getElementById('jspsych-instructions-next').disabled = true;
+  }
+};
+Consent.push(accepted_consent);
 
 Consent.unshift(instruction_screen_experiment);
 Consent.push.apply(questions_consent, Consent);

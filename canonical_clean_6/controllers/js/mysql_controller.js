@@ -162,9 +162,8 @@ function clean_mysql(){
 
   XMLcall("findAll", "user").then(function(users) {
 
-
-    // REVIEW: FILTERING to loop only amongst NON completed. SHOULD BE ONLY amongst assigned (???)
-    users = users.filter(function(value,index) { return value["status"]  !== "completed"; });
+    // FILTERING to loop only amongst assigned
+    users = users.filter(function(value,index) { return value["status"]  === "assigned"; });
 
     max_sec = date_to_mil(max_time);
     actual_time = new Date().toISOString().slice(0, 19);
@@ -174,7 +173,7 @@ function clean_mysql(){
       seconds_since_start = (new Date(actual_time) - new Date(DBtime))/1000;
 
       // si es que la diferencia de tiempo supera la máxima cantidad de segundos entonces el participante es descartado y removido de los participantes asignados
-      if (seconds_since_start > max_sec && users[i].status == "assigned") {
+      if (seconds_since_start > max_sec) {
 
         // If the active user is the one that should be discarded...
         if (users[i].id_user == uid & debug_mode === true) console.warn("clean_mysql() wants to discard you");
@@ -214,25 +213,12 @@ function load_clean_mysql(iterations_for_review, max_participants) {
 
   if (debug_mode === true) console.warn("load_clean_mysql()");
 
-  XMLcall("findAll", "experimental_condition").then(function(condition_data) {
-
     // DB clean with clean_mysql()
-    XMLcall("findRow", "protocol", {keys: ["id_protocol"], values: [pid]}).then(function(actual_stats) {
-
-      // REVIEW: IS this if needed? Can't we do actual_stats[0] below?
-      if (Array.isArray(actual_stats)) {
-        actual_stats = actual_stats[0];
-      }
-      // Calculates module between counter and iterations_for_review
-      mod =  actual_stats.counter % iterations_for_review;
-      if (mod == 0 && actual_stats.counter != 0) {
         clean_mysql();
-      }
-    }, function () {
-      if (debug_mode === true) console.warn("protocol table not found");
-    });
 
     // Update blocked conditions based on assigned_task >= max_participants
+  XMLcall("findAll", "experimental_condition").then(function(condition_data) {
+
     for (var i = 0; i < condition_data.length; i++) {
       if (condition_data[i].assigned_task >= max_participants) {
         condition_data[i].blocked = true; // REVIEW: condition_data[i].blocked is 0/1
@@ -251,6 +237,29 @@ function load_clean_mysql(iterations_for_review, max_participants) {
   }, function (error) {
     if (debug_mode === true) console.warn("Condition Table not found");
   });
+}
+
+// used for discard an user on protocol answer
+function discard_user(delete_user = false) {
+  XMLselection = (delete_user) ? "deleteFromTable" : "updateTable" 
+
+  // UPDATE status: discarded  & protocol: counter -1
+  XMLcall(XMLselection, "user", {id: {"id_user": uid}, data: {"status": "discarded"}});
+  XMLcall(XMLselection, "protocol", {id: {"id_protocol": pid}, data: {"counter": "counter - 1"}});
+
+  // UPDATE assigned_task -1 for each between_selection condition
+  XMLcall("findAll", "user_condition", {keys: ["id_user"], values: [uid]}).then(function(user_conditions) {
+    if (debug_mode === true) console.log(user_conditions);
+    for (var i = 0; i < user_conditions.length; i++) {
+      if (debug_mode === true) console.warn("completed_task_storage() || DISCARD PARTICIPANT || updateTable: experimental_condition || assigned_task: assigned_task - 1" + new Date().toISOString().slice(0, 19));
+      XMLcall("updateTable", "experimental_condition", {id: {"id_condition": user_conditions[i].id_condition}, data: {"assigned_task": "assigned_task - 1"}});
+    }
+  });
+  
+  XMLcall("findRow", "combination_between", {keys: ["id_user", "id_protocol"], values: [uid, pid]}).then(function(actual_combination) {
+    if ("id_combination" in actual_combination)
+      XMLcall(XMLselection, "combination_between", {id: {"id_combination": actual_combination.id_combination}, data: {"assigned": 0}});
+  })
 }
 
 // condition_selection() --------------------------------------------------------
@@ -533,7 +542,6 @@ function assign_condition_counter(selected_between_selection) {
   })
   if (debug_mode === true) console.warn('assign_condition_counter() | UPDATE | for(assigned_task + 1) | !user_assigned && !experiment_blocked --> ELSE "status" in actual_user');
 }
-
 
 
 // check_id_status() --------------------------------------------------------

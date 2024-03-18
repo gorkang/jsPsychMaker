@@ -260,7 +260,9 @@ function check_fullscreen(task_name) {
     }],
     data: { procedure: task_name },
     conditional_function: function () {
-      if (Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40)
+      let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement;
+      //if (Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40)
+      if (!fullscreenElement)
         return true;
       else
         return false;
@@ -465,9 +467,9 @@ function start_protocol() {
         alert(exit_fullscreen_message);
       }
     },
-    on_finish: function () {
+    on_finish: function (data) {
       if (typeof finish_link !== "undefined")
-        if (finish_link != "")
+        if (finish_link != "" && data.values().filter(x => x.procedure === "Goodbye").length > 0)
           window.location = finish_link
     },
   });
