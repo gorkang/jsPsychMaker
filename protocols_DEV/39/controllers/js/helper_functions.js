@@ -260,7 +260,8 @@ function check_fullscreen(task_name) {
     }],
     data: { procedure: task_name },
     conditional_function: function () {
-      if (Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40)
+      let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement || !(Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40);
+      if (!fullscreenElement)
         return true;
       else
         return false;
@@ -571,12 +572,15 @@ function image_zoom() {
             textDiv.style.width = "100%"; // Cubrir todo el ancho de la pantalla
 
             mainContainer.appendChild(imageDiv);
-            mainContainer.appendChild(textDiv);
+            
+            if (!hasTouchScreen) {
+            	mainContainer.appendChild(textDiv);
 
-            const paragraph = document.createElement("p");
-            paragraph.textContent = zoom_in_out_message; // Texto a mostrar
-            textDiv.appendChild(paragraph);
-
+            	const paragraph = document.createElement("p");
+            	paragraph.textContent = zoom_in_out_message; // Texto a mostrar
+            	textDiv.appendChild(paragraph);
+		}
+		
             // Agrega el contenedor al content
             let parent = document.querySelector('#jspsych-content');
             parent.appendChild(mainContainer);
