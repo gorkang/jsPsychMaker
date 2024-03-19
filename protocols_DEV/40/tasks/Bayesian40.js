@@ -250,7 +250,7 @@ data_type = {
       button_label_next: 'Loading task...',
       data: {
           trialid: 'Instructions_PRE',
-          condition_between: between_selection["Bayesian40"]["type"],
+          condition_between: between_selection["Bayesian40"]["type"] + "_" + between_selection["Bayesian40"]["recommendation"],
           procedure: 'Bayesian40'
       },
       show_clickable_nav: true,
