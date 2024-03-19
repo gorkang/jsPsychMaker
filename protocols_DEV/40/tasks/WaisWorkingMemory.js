@@ -307,6 +307,26 @@ var instructions_08 = {
 WaisWorkingMemory.push(instructions_08);
 
 WaisWorkingMemory.unshift(instruction_screen_experiment);
+
+var preload = {
+  type: 'preload',
+  show_progress_bar: true,
+  message: loading_resources_message,
+  images: images["WaisWorkingMemory"].map(function(element_name) { return('media/' + "images" + "/" + "WaisWorkingMemory" + "/" + element_name) }),
+  audio: audios["WaisWorkingMemory"].map(function(element_name) { return('media/' + "audios" + "/" + "WaisWorkingMemory" + "/" + element_name) }),
+  on_error: function(data) {
+    console.warn("Error in file: " + data)
+  },
+  on_success: function(data) {
+    if (debug_mode) console.log(data + " file loaded successfully")
+  },
+  on_finish: function(data) {
+    if (data.success) console.log("Files succesfully loaded")
+  },
+  data: {trialid: 'preload', procedure: 'WaisWorkingMemory'}
+};
+WaisWorkingMemory.unshift(preload);
+
 WaisWorkingMemory.push.apply(questions, WaisWorkingMemory)
 
 call_function("WaisWorkingMemory");

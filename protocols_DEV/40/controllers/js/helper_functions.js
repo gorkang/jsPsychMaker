@@ -399,7 +399,6 @@ function obtain_experiments(questions, completed_experiments) {
     // otherwise, we add the questions repleacing the actual array
     questions_consent = questions
   }
-
   return questions;
 }
 
@@ -445,7 +444,7 @@ function start_protocol() {
       if (data.success) console.log("Files succesfully loaded")
     }
   };
-  questions_consent.unshift(preload);
+  //questions_consent.unshift(preload);
 
   // jsPsych.init ---------------------------------------
 

@@ -119,11 +119,11 @@ var sound_question = {
   prompt: ConsentAudio_002_prompt,
   choices: ConsentAudio_002_choices,
   trial_ends_after_audio: false,
-  on_finish: function(data){
-      if(jsPsych.data.get().values()[jsPsych.data.get().values().length -1]["response"] == 2){
-          jsPsych.endExperiment(ConsentAudio_002_endExperiment);
-      }
-    },
+  on_finish: function(){
+    if(jsPsych.data.get().values()[jsPsych.data.get().values().length -1]["response"] == 2){
+      jsPsych.endExperiment(ConsentAudio_002_endExperiment);
+    }
+  },
   data: {trialid: 'ConsentAudio_002', procedure: 'ConsentAudio'}
 };
 
@@ -131,12 +131,11 @@ var sound_question = {
 var loop_node = {
   timeline: [sound_question],
   loop_function: function(data){
-
-      if(jsPsych.data.get().values()[jsPsych.data.get().values().length -1]["response"] == 1){
-          return true;
-      } else {
-          return false;
-      }
+    if(jsPsych.data.get().values()[jsPsych.data.get().values().length -1]["response"] == 1){
+      return true;
+    } else {
+      return false;
+    }
   },
   data: {trialid: 'ConsentAudio_003', procedure: 'ConsentAudio'}
 };
@@ -171,8 +170,25 @@ ConsentAudio.push({
   }
 });
 
-
-
 ConsentAudio.unshift(instruction_screen_experiment);
+
+var preload = {
+  type: 'preload',
+  show_progress_bar: true,
+  message: loading_resources_message,
+  audio: audios["ConsentAudio"].map(function(element_name) { return('media/' + "audios" + "/" + "ConsentAudio" + "/" + element_name) }),
+  on_error: function(data) {
+    console.warn("Error in file: " + data)
+  },
+  on_success: function(data) {
+    if (debug_mode) console.log(data + " file loaded successfully")
+  },
+  on_finish: function(data) {
+    if (data.success) console.log("Files succesfully loaded")
+  },
+  data: {trialid: 'preload', procedure: 'ConsentAudio'}
+};
+ConsentAudio.unshift(preload);
+
 ConsentAudio.push.apply(questions_consent, ConsentAudio);
 //call_function("ConsentAudio");

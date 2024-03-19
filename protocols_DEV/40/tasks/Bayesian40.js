@@ -618,22 +618,38 @@ data_type = {
       giro_check = false;
     }
   });
+  
+  var question_feedback = {
+    type: 'survey-text',
+    data: {trialid: 'Bayesian40_07', procedure: 'Bayesian40'},
+    questions: [{prompt: "Could you briefly describe how you responded to the estimation and recommendation questions?", rows: 5, columns: 80, type: 'textarea', required: true, error_text: "Please enter text here."}],
+  };
+  Bayesian40.push(question_feedback);
 
   // within block finished
   Bayesian40.unshift(instructions_between_01);
   Bayesian40.unshift(if_instructions_000);
   Bayesian40.unshift(instructions_PRE);
-  
-  var question_feedback = {
-  type: 'survey-text',
-  data: {trialid: 'Bayesian40_07', procedure: 'Bayesian40'},
-  questions: [{prompt: "Could you briefly describe how you responded to the estimation and recommendation questions?", rows: 5, columns: 80, type: 'textarea', required: true, error_text: "Please enter text here."}],
-};
-Bayesian40.push(question_feedback);
+
+  var preload = {
+    type: 'preload',
+    show_progress_bar: true,
+    message: loading_resources_message,
+    images: images["Bayesian40"].map(function(element_name) { return('media/' + "images" + "/" + "Bayesian40" + "/" + element_name) }),
+    on_error: function(data) {
+      console.warn("Error in file: " + data)
+    },
+    on_success: function(data) {
+      if (debug_mode) console.log(data + " file loaded successfully")
+    },
+    on_finish: function(data) {
+      if (data.success) console.log("Files succesfully loaded")
+    },
+    data: {trialid: 'preload', procedure: 'Bayesian40'}
+  };
+  Bayesian40.unshift(preload);
   
   questions.push.apply(questions, Bayesian40);
-
-
 
   //if (debug_mode == 'true') console.table(within_timeline_01.timeline_variables)
 

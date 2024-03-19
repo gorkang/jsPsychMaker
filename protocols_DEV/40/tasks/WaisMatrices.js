@@ -510,6 +510,25 @@ var instructions_05 = {
 WaisMatrices.push(instructions_05);
 
 WaisMatrices.unshift(instruction_screen_experiment);
+
+var preload = {
+  type: 'preload',
+  show_progress_bar: true,
+  message: loading_resources_message,
+  images: images["WaisMatrices"].map(function(element_name) { return('media/' + "images" + "/" + "WaisMatrices" + "/" + element_name) }),
+  on_error: function(data) {
+    console.warn("Error in file: " + data)
+  },
+  on_success: function(data) {
+    if (debug_mode) console.log(data + " file loaded successfully")
+  },
+  on_finish: function(data) {
+    if (data.success) console.log("Files succesfully loaded")
+  },
+  data: {trialid: 'preload', procedure: 'WaisMatrices'}
+};
+WaisMatrices.unshift(preload);
+
 WaisMatrices.push.apply(questions, WaisMatrices)
 
 call_function("WaisMatrices");
