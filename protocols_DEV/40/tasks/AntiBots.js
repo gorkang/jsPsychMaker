@@ -23,7 +23,7 @@ AntiBots.push(question01);
 
 var question02 = {
   type: 'survey-multi-select',
-  questions: [{prompt: '<div class="justified">Research has suggested that a person’s favorite care brand can tell us a lot about the way that they make financial decisions. In this case, however, we would like you to ignore this question entirely. Instead, please choose all of the response options provided. In other words, regardless of your actual favorite car brand, click all of the answers</div>', options: ['&nbsp;Toyota', '&nbsp;Honda', '&nbsp;Chevrolet', '&nbsp;Ford', '&nbsp;Mercedes-Benz'], required: true,  random_options: false, horizontal: false}],
+  questions: [{prompt: '<div class="justified">Research has suggested that a person’s favorite car brand can tell us a lot about the way that they make financial decisions. In this case, however, we would like you to ignore this question entirely. Instead, please choose all of the response options provided. In other words, regardless of your actual favorite car brand, click all of the answers</div>', options: ['&nbsp;Toyota', '&nbsp;Honda', '&nbsp;Chevrolet', '&nbsp;Ford', '&nbsp;Mercedes-Benz'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'AntiBots_02', procedure: 'AntiBots'}
 };
 AntiBots.push(question02);
