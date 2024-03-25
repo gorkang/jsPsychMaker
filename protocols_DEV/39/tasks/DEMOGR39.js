@@ -5,18 +5,13 @@ questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? 
 questions.push( check_fullscreen('DEMOGR39') );
 DEMOGR39 = [];    //temporal timeline
 
-
 var instruction_screen_experiment = {
     type: 'instructions',
     pages: ['<p><left>' +
     '<p><left><b><big>Datos demográficos</big></b><br />'+'Por favor, contesta a las siguientes preguntas.' +'</p>'],
     data: {trialid: 'Instructions_01', procedure: 'DEMOGR39'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+    show_clickable_nav: true
 };
-
 
 var question01 = {
   type: 'survey-multi-choice-vertical',
@@ -27,9 +22,7 @@ var question01 = {
 };
 DEMOGR39.push(question01);
 
-
 // CHECK if Medicine professional -----------------------------------------------------------------
-
 var question02 = {
   type: 'html-button-response',
   stimulus: `<div><h3 class="western" align="center">Fin del experimento</h3><br/><p>Para este experimento estamos trabajando únicamente con profesionales del área de la salud. 
@@ -37,7 +30,7 @@ var question02 = {
   choices: ['Continuar'],
   prompt: "<BR><BR>",
   on_load: function(){
-  discard_user();
+    discard_user();
   },
   on_finish: function(data){
     jsPsych.endExperiment('Gracias por tu tiempo. Puedes cerrar esta ventana.');
@@ -62,8 +55,6 @@ var if_question02 = {
 DEMOGR39.push(if_question02);
 
 // --------------------------------------------------------------------------------------------------- 
-
-
 var question03 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">Indica tu edad</div>', type: 'number', range: [18, 100], required: true, error_text: 'Tienes que ser mayor de edad para poder participar'}],
@@ -71,14 +62,12 @@ var question03 = {
 };
 DEMOGR39.push(question03);
 
-
 var question04 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">Indica tu género</div>', options: ['&nbsp;Femenino', '&nbsp;Masculino', '&nbsp;No binario'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'DEMOGR39_04', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question04);
-
 
 // https://www.mscbs.gob.es/profesionales/formacion/EspecialistasExtracomunitarios/Docs/2020EspecialidadesRecoEspanaV2.pdf
 // used for store choices globally
@@ -144,13 +133,11 @@ var question06 = {
 };
 DEMOGR39.push(question06);
 
-
 var question07 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">¿Cual es tu especialidad médica?: </div>', type: 'text', required: true}],
   data: {trialid: 'DEMOGR39_07', procedure: 'DEMOGR39'}
 };
-
 
 var if_question07 = {
   timeline: [question07],
@@ -166,7 +153,6 @@ var if_question07 = {
 };
 DEMOGR39.push(if_question07);
 
-
 var question08 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">País donde has estudiado/estudias:</div>', type: 'text', required: true, error_text: 'Tienes que indicar el país donde estudias o has estudiado.'}],
@@ -174,15 +160,12 @@ var question08 = {
 };
 DEMOGR39.push(question08);
 
-
 var question09 = {
   type: 'survey-text',
   questions: [{prompt: '<div class="justified">Indica los años de ejercicio profesional o de estudio (desde el inicio de tus estudios de Medicina)</div>', type: 'number', range: [0, 60], required: true, error_text: 'Tienes que indicar el número de años. Si tan solo llevas unos meses, puedes redondear hasta el entero mas cercano'}],
   data: {trialid: 'DEMOGR39_09', procedure: 'DEMOGR39'}
 };
 DEMOGR39.push(question09);
-
-
 
 DEMOGR39.unshift(instruction_screen_experiment);
 DEMOGR39.push.apply(questions, DEMOGR39);
