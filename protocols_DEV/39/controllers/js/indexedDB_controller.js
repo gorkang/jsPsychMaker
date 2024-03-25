@@ -60,6 +60,14 @@ function start_indexeddb() {
   );
 }
 
+function load_tasks_ids(acceptedValues) {
+  start_indexeddb().then(function (db) {
+    findAllIndexedSync("task", "id_protocol", pid, pid, db).then(function (all_tasks_list) {
+      all_tasks_list.map(function(selected_task) { if (acceptedValues.includes(selected_task["task_name"])) task_id_container[selected_task.task_name] = selected_task.id_task })
+    })
+  })
+}
+
 // clean discarded users
 function clean_indexeddb(db) {
   readAllIndexedSync("user", db).then(function (users) {
@@ -1048,6 +1056,8 @@ function completed_task_storage(task) {
 
       if (debug_mode === true) console.warn("completed_task_storage() || asigned: second task and forward");
 
+      addIndexed("user_task", { id_protocol: pid, id_task: task_id_container[task], id_user: uid }, db);
+
       // revisar si puede continuar o si ya no hay cupos o si ya no tiene tiempo
       readIndexedSync("user", uid, db).then(function (actual_user) {
 
@@ -1101,14 +1111,6 @@ function completed_task_storage(task) {
             if (debug_mode === true) console.warn("completed_task_storage() | User discarded: actual_user.status != assigned --> last_task | continue");
           }
         }
-
-        if (actual_user.status == "assigned" || actual_user.status == "completed") {
-          findIndexedSync("task", "task_name", task, pid, db).then(function (actual_task) {
-            addIndexed("user_task", { id_protocol: pid, id_task: actual_task.id_task, id_user: uid }, db);
-          });
-          if (debug_mode === true) console.warn('completed_task_storage() | insertIntoTable id_user-id_task | actual_user.status == "assigned" || actual_user.status == "completed" |');
-        }
-
       }, function (user_not_found) {
         if (debug_mode === true) console.warn("completed_task_storage() | Error in DB (searching user)");
       });

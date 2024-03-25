@@ -148,6 +148,12 @@ function start_mysqldb(pid, max_participants) {
   }
 }
 
+function load_tasks_ids(acceptedValues) {
+  XMLcall("findAll", "task").then(function(all_tasks_list) { 
+    all_tasks_list.map(function(selected_task) { if (acceptedValues.includes(selected_task["task_name"])) task_id_container[selected_task.task_name] = selected_task.id_task })
+  })
+}
+
 // clean_mysql() ---------------------------------------------------------------
 
 // Clean DB from discarded users (time since started protocol > max_time)
@@ -449,8 +455,8 @@ function condition_selection(between_selection_temp = {}) {
 
           })
 
-        // [[DISCARDED PARTICIPANTS]] ----------------------------------------
-        // -------------------------------------------------------------------
+          // [[DISCARDED PARTICIPANTS]] ----------------------------------------
+          // -------------------------------------------------------------------
 
         } else {
 
@@ -885,13 +891,13 @@ function completed_task_storage(task) {
         }
 
 
-      // [[NEW participant]] ----------------------------------------------------------
-      // First task //
-      // -----------------------------------------------------------------------
+        // [[NEW participant]] ----------------------------------------------------------
+        // First task //
+        // -----------------------------------------------------------------------
 
-      // AFTER COMPLETING FIRST TASK (Should be Consent, although we are NOT enforcing it)
-      // We know it's the first task because it's a NEW participant (NO "status" in actual_user))
-      // For NEW participants HERE is when we get the between_selection slot in the DB (assigned_task + 1)
+        // AFTER COMPLETING FIRST TASK (Should be Consent, although we are NOT enforcing it)
+        // We know it's the first task because it's a NEW participant (NO "status" in actual_user))
+        // For NEW participants HERE is when we get the between_selection slot in the DB (assigned_task + 1)
 
       } else {
 
@@ -1003,19 +1009,24 @@ function completed_task_storage(task) {
     });
 
 
-  // [[OLD participant]] ---------------------------------------------------------
-  // Second to last tasks : user_assigned && !experiment_blocked//
-  // -----------------------------------------------------------------------------------
+    // [[OLD participant]] ---------------------------------------------------------
+    // Second to last tasks : user_assigned && !experiment_blocked//
+    // -----------------------------------------------------------------------------------
 
-  // experiment NOT blocked
+    // experiment NOT blocked
   } else if (user_assigned && !experiment_blocked) {
 
     if (debug_mode === true) console.warn("completed_task_storage() || asigned: second task and forward");
+    
+    // insert new task into user_task table
+    XMLcall("insertIntoTable", "user_task", {dict: { id_protocol: pid, id_task: task_id_container[task], id_user: uid}});
 
     XMLcall("findRow", "user", {keys: ["id_user"], values: [uid]}).then(function(actual_user) {
 
       // PARTICIPANT exists in user table in DB
       if ("status" in actual_user) {
+
+        if (debug_mode === true) console.warn('completed_task_storage() | insertIntoTable id_user-id_task | actual_user.status == "assigned" || actual_user.status == "completed" |');
 
         // [[ASSIGNED ]] -------------------------------------------------------------------------
         if (actual_user.status == "assigned") {
@@ -1066,7 +1077,7 @@ function completed_task_storage(task) {
             if (debug_mode === true) console.warn("completed_task_storage() | assigned & accept_discarded | continue");
           }
 
-        // PARTICIPANT status is NOT 'assigned' (e.g. discarded)
+          // PARTICIPANT status is NOT 'assigned' (e.g. discarded)
         } else {
 
           // If it is not in the last_task we finish the experiment (out of time). If in the last task we allow the participant to finish
@@ -1079,20 +1090,7 @@ function completed_task_storage(task) {
 
         }
 
-
-        // FINAL CHECK: If reaches here, insert the id of the task completed in user_task ------------------------
-          // Either assigned participant of completed (in last task (?))
-
-        if (actual_user.status == "assigned" || actual_user.status == "completed") {
-          XMLcall("findRow", "task", {keys: ["task_name"], values: [task]}).then(function(actual_task) {
-            XMLcall("insertIntoTable", "user_task", {dict: { id_protocol: pid, id_task: actual_task.id_task, id_user: uid}});
-          });
-          if (debug_mode === true) console.warn('completed_task_storage() | insertIntoTable id_user-id_task | actual_user.status == "assigned" || actual_user.status == "completed" |');
-        }
-        // --------------------------------------------------------------------------------------------------------
-
-
-      // PARTICIPANT NOT in user table in DB
+        // PARTICIPANT NOT in user table in DB
       } else {
         alert(user_not_found_message);
         if (debug_mode === true) console.warn("completed_task_storage() | Participant not found");

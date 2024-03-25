@@ -1090,7 +1090,7 @@ function completed_task_storage(task) {
 
         }
 
-      // PARTICIPANT NOT in user table in DB
+        // PARTICIPANT NOT in user table in DB
       } else {
         alert(user_not_found_message);
         if (debug_mode === true) console.warn("completed_task_storage() | Participant not found");
