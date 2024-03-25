@@ -25,6 +25,7 @@ iterations_for_review = 1; // usado para bloquear el experimento en caso de que 
 
 between_selection = {};
 within_selection = {};
+task_id_container = {};
 completed_experiments = [];
 user_assigned = false;
 
@@ -328,6 +329,10 @@ function obtain_experiments(questions, completed_experiments) {
   acceptedValues = all_tasks.filter(function (element) {
     return !completed_experiments.includes(element);
   });
+
+  if (online) {
+    load_tasks_ids(acceptedValues);
+  }
 
   if (debug_mode === true) console.warn("obtain_experiments(): [[ " + acceptedValues.length + " ]]");
 
