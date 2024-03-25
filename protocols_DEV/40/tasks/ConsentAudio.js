@@ -1,13 +1,11 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
 // Store URL ---------------------------------------------------------------
-
 URL_web = "";
 if (typeof URL_web !== 'undefined')
 	if (store_URL === true) URL_web = window.location.href;
 
 // Translations --------------------------------------------------------------
-
 switch (language) {
 
   case "Spanish":
@@ -79,7 +77,7 @@ var question01 = {
       consent_script_selector();
     }
   },
-    data: {
+  data: {
     trialid: 'ConsentAudio_001',
     procedure: 'ConsentAudio',
     URL: URL_web
@@ -88,7 +86,6 @@ var question01 = {
 ConsentAudio.push(question01);
 
 // Audio check ---------------------------------------------
-
 var instruction_SoundCheck = {
   type: 'instructions',
   pages: ConsentAudio_000_2,
@@ -135,8 +132,8 @@ var instructions_END = {
   button_label_next: button_label_next,
   data: {trialid: 'ConsentAudio_000_3', procedure: 'ConsentAudio'},
   on_load: function () {
-      document.getElementById("jspsych-content").style.removeProperty("margin-left");
-      document.getElementById("jspsych-content").style.setProperty("text-align", "left");
+    document.getElementById("jspsych-content").style.removeProperty("margin-left");
+    document.getElementById("jspsych-content").style.setProperty("text-align", "left");
   }
 };
 
@@ -177,4 +174,3 @@ var preload = {
 ConsentAudio.unshift(preload);
 
 ConsentAudio.push.apply(questions_consent, ConsentAudio);
-//call_function("ConsentAudio");

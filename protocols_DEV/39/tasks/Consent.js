@@ -1,5 +1,10 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
+// Store URL ---------------------------------------------------------------
+URL_web = "";
+if (typeof URL_web !== 'undefined')
+	if (store_URL === true) URL_web = window.location.href;
+  
 // Translations --------------------------------------------------------------
 switch (language) {
 
@@ -32,11 +37,11 @@ questions_consent.push( check_fullscreen('Consent') );
 Consent = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: Consent_000,
-    button_label_next: continue_button,
-    data: {trialid: 'Consent_000', procedure: 'Consent'},
-    show_clickable_nav: true
+  type: 'instructions',
+  pages: Consent_000,
+  button_label_next: continue_button,
+  data: {trialid: 'Consent_000', procedure: 'Consent'},
+  show_clickable_nav: true
 };
 
 // Reads consent from media/consent/consent-placeholder.js
@@ -61,7 +66,6 @@ var question01 = {
 };
 Consent.push(question01);
 
-/*
 var accepted_consent = {
   type: "instructions",
   pages: Consent_002_pages,
@@ -72,7 +76,6 @@ var accepted_consent = {
   }
 };
 Consent.push(accepted_consent);
-*/
 
 // Do not use call_function because it uses "questions" array
 Consent.push({
@@ -87,17 +90,6 @@ Consent.push({
     saveData(data, online, "Consent");
   }
 });
-
-var accepted_consent = {
-  type: "instructions",
-  pages: Consent_002_pages,
-  show_clickable_nav: true,
-  data: {trialid: 'Consent_002', procedure: 'Consent'},
-  on_load: function () {
-    document.getElementById('jspsych-instructions-next').disabled = true;
-  }
-};
-Consent.push(accepted_consent);
 
 Consent.unshift(instruction_screen_experiment);
 Consent.push.apply(questions_consent, Consent);

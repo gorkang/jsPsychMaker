@@ -1,5 +1,10 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
+// Store URL ---------------------------------------------------------------
+URL_web = "";
+if (typeof URL_web !== 'undefined')
+	if (store_URL === true) URL_web = window.location.href;
+  
 // Translations --------------------------------------------------------------
 switch (language) {
 
@@ -32,14 +37,11 @@ questions_consent.push( check_fullscreen('Consent') );
 Consent = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: Consent_000,
-    button_label_next: continue_button,
-    data: {trialid: 'Consent_000', procedure: 'Consent'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: Consent_000,
+  button_label_next: continue_button,
+  data: {trialid: 'Consent_000', procedure: 'Consent'},
+  show_clickable_nav: true
 };
 
 // Reads consent from media/consent/consent-placeholder.js
