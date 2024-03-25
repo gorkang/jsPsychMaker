@@ -5,14 +5,12 @@
 URL_web = "";
 if (typeof URL_web !== 'undefined')
 	if (store_URL === true) URL_web = window.location.href;
- 
 
 // Translations --------------------------------------------------------------
 
 switch (language) {
 
   case "Spanish":
-
     button_label_next = "Siguiente";
 
     ConsentAudio_000_1 = ['<p><left><b><big>Consentimiento informado</big></b><br /></p>'];
@@ -33,7 +31,6 @@ switch (language) {
 
 
   case "English":
-
     button_label_next = "Next";
 
     ConsentAudio_000_1 = ['<p><left><b><big>Informed consent</big></b><br /></p>'];
@@ -51,17 +48,13 @@ switch (language) {
     If you <B>Did NOT hear the sound</B>, please exit the protocol, as you will not be able to complete some of the tasks.<BR><BR>
     Otherwise, click [Next>] to continue.<br /><br />`]
     break;
-
 }
-
-
 
 // Task -----------------------------------------------------------------------
 
 questions_consent = ( typeof questions_consent != 'undefined' && questions_consent instanceof Array ) ? questions_consent : [];
 questions_consent.push( check_fullscreen('ConsentAudio') );
 ConsentAudio = [];    //temporal timeline
-
 
 var instruction_screen_experiment = {
   type: 'instructions',
@@ -70,7 +63,6 @@ var instruction_screen_experiment = {
   data: {trialid: 'ConsentAudio_000_1', procedure: 'ConsentAudio'},
   show_clickable_nav: true,
 };
-
 
 // Reads consent from media/consent/consent-placeholder.js
 var question01 = {
@@ -91,15 +83,11 @@ var question01 = {
     trialid: 'ConsentAudio_001',
     procedure: 'ConsentAudio',
     URL: URL_web
-   }
+  }
 };
 ConsentAudio.push(question01);
 
-
-
-
 // Audio check ---------------------------------------------
-
 
 var instruction_SoundCheck = {
   type: 'instructions',
@@ -127,7 +115,6 @@ var sound_question = {
   data: {trialid: 'ConsentAudio_002', procedure: 'ConsentAudio'}
 };
 
-
 var loop_node = {
   timeline: [sound_question],
   loop_function: function(data){
@@ -154,7 +141,6 @@ var instructions_END = {
 };
 
 ConsentAudio.push(instructions_END);
-
 
 // Do not use call_function because it uses "questions" array
 ConsentAudio.push({
