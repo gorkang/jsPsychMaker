@@ -25,6 +25,7 @@ iterations_for_review = 1; // usado para bloquear el experimento en caso de que 
 
 between_selection = {};
 within_selection = {};
+task_id_container = {};
 completed_experiments = [];
 user_assigned = false;
 
@@ -329,6 +330,10 @@ function obtain_experiments(questions, completed_experiments) {
     return !completed_experiments.includes(element);
   });
 
+  if (online) {
+    load_tasks_ids(acceptedValues);
+  }
+
   if (debug_mode === true) console.warn("obtain_experiments(): [[ " + acceptedValues.length + " ]]");
 
   // se crea el array con los elementos no completados
@@ -399,7 +404,6 @@ function obtain_experiments(questions, completed_experiments) {
     // otherwise, we add the questions repleacing the actual array
     questions_consent = questions
   }
-
   return questions;
 }
 
@@ -426,27 +430,6 @@ function start_protocol() {
   audios_array = object_to_array("audios");
   videos_array = object_to_array("videos");
 
-  // Preload ----------------------------------------------------
-  // con el arreglo de questions finalizado se pueden agregar restricciones extras, como el precargado de imágenes (son definidas en index):
-  var preload = {
-    type: 'preload',
-    show_progress_bar: true,
-    message: loading_resources_message,
-    images: images_array,
-    audio: audios_array,
-    video: videos_array,
-    on_error: function(data) {
-      console.warn("Error in file: " + data)
-    },
-    on_success: function(data) {
-      if (debug_mode) console.log(data + " file loaded successfully")
-    },
-    on_finish: function(data) {
-      if (data.success) console.log("Files succesfully loaded")
-    }
-  };
-  questions_consent.unshift(preload);
-
   // jsPsych.init ---------------------------------------
 
   jsPsych.init({
@@ -456,8 +439,6 @@ function start_protocol() {
     message_progress_bar: progress_bar_message,
     fullscreen: true,
     exclusions: {
-      min_width: 800,
-      min_height: 600,
       // change to true if is necessary
       audio: false
     },
@@ -572,12 +553,15 @@ function image_zoom() {
             textDiv.style.width = "100%"; // Cubrir todo el ancho de la pantalla
 
             mainContainer.appendChild(imageDiv);
-            mainContainer.appendChild(textDiv);
+            
+            if (!hasTouchScreen) {
+            	mainContainer.appendChild(textDiv);
 
-            const paragraph = document.createElement("p");
-            paragraph.textContent = zoom_in_out_message; // Texto a mostrar
-            textDiv.appendChild(paragraph);
-
+            	const paragraph = document.createElement("p");
+            	paragraph.textContent = zoom_in_out_message; // Texto a mostrar
+            	textDiv.appendChild(paragraph);
+		        }
+		
             // Agrega el contenedor al content
             let parent = document.querySelector('#jspsych-content');
             parent.appendChild(mainContainer);
@@ -722,8 +706,8 @@ function json_can_parsed(data) {
 // combination selector and script loader for all the tasks after consent
 function consent_script_selector() {
   // fixes when feasible_combinations isn't defined
-  if (typeof feasible_combinations === 'undefined') feasible_combinations = combinations_from_dict(all_conditions)
-
+  if (typeof feasible_combinations === 'undefined') feasible_combinations = combinations_from_dict(all_conditions);
+  
   // if more than 1 condition
   if (!(Object.keys(all_conditions).length == 1 && Object.keys(all_conditions[Object.keys(all_conditions)[0]]).length == 1)) {
     select_combination(feasible_combinations).then(

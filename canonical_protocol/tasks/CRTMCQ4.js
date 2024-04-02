@@ -30,6 +30,10 @@ switch (language) {
     
     CRTMCQ4_07_prompt = '<div class="justified">Simón decide invertir $8.000.000 en el mercado de acciones un día a inicios de 2008. Seis meses después de haber invertido, el 17 de julio, las acciones que había comprado bajaron 50%. Afortunadamente para Simón, desde el 17 de julio hasta el 17 de octubre, las acciones que compró subieron 75%. En este punto, Simón:</div>';
     CRTMCQ4_07_options = ['&nbsp;ha ganado dinero.', '&nbsp;ha perdido dinero.', '&nbsp;no ha ganado ni perdido dinero.', '&nbsp;no se puede determinar.'];
+    
+    CRTMCQ4_08_prompt = '<div class="justified">¿Conocías los ítems anteriores?</div>';
+    CRTMCQ4_08_options = ['&nbsp;Ninguno (0)', '&nbsp;Algunos (1 a 3)', '&nbsp;Bastantes (4 a 6)', '&nbsp;Todos (7)'];
+  
     break;
 
 
@@ -38,8 +42,8 @@ switch (language) {
     CRTMCQ4_00 = ['<p><left><b><big>CRTMCQ4</big></b><br />'+
      'You will see some questions that vary in difficulty. Please, mark the alternative that seems correct to you.' +'</p>'];
 
-    CRTMCQ4_01_prompt = 'A bat and a ball cost £1.10 in total. The bat costs £1.00 more than the ball. How much does the ball cost?';
-    CRTMCQ4_01_options = ['&nbsp;5 pence', '&nbsp;10 pence', '&nbsp;9 pence', '&nbsp;1 pence'];
+    CRTMCQ4_01_prompt = 'A bat and a ball cost $1.10 in total. The bat costs $1.00 more than the ball. How much does the ball cost?';
+    CRTMCQ4_01_options = ['&nbsp;5 cents', '&nbsp;10 cents', '&nbsp;9 cents', '&nbsp;1 cent'];
 
     CRTMCQ4_02_prompt = 'If it takes 5 machines 5 minutes to make 5 widgets, how long would it take 100 machines to make 100 widgets?';
     CRTMCQ4_02_options = ['&nbsp;5 minutes', '&nbsp;100 minutes', '&nbsp;20 minutes', '&nbsp;500 minutes'];
@@ -53,11 +57,15 @@ switch (language) {
     CRTMCQ4_05_prompt = 'Jerry received both the 15th highest and the 15th lowest mark in the class. How many students are in the class?';
     CRTMCQ4_05_options = ['&nbsp;29 students', '&nbsp;30 students', '&nbsp;1 student', '&nbsp;15 students'];
     
-    CRTMCQ4_06_prompt = 'A man buys a pig for £60, sells it for £70, buys it back for £80, and sells it finally for £90. How much has he made? ';
-    CRTMCQ4_06_options = ['&nbsp;20 pounds', '&nbsp;10 pounds', '&nbsp;0 pounds', '&nbsp;30 pounds'];
+    CRTMCQ4_06_prompt = 'A man buys a pig for $60, sells it for $70, buys it back for $80, and sells it finally for $90. How much has he made? ';
+    CRTMCQ4_06_options = ['&nbsp;$20', '&nbsp;$10', '&nbsp;$0', '&nbsp;$30'];
     
-    CRTMCQ4_07_prompt = 'Simon decided to invest £8,000 in the stock market one day early in 2008.  Six months after he invested, on July 17, the stocks he had purchased were down 50%. Fortunately for Simon, from July 17 to October 17, the stocks he had purchased went up 75%. At this point, Simon:';
+    CRTMCQ4_07_prompt = 'Simon decided to invest $8,000 in the stock market one day early in 2008.  Six months after he invested, on July 17, the stocks he had purchased were down 50%. Fortunately for Simon, from July 17 to October 17, the stocks he had purchased went up 75%. At this point, Simon:';
     CRTMCQ4_07_options = ['&nbsp;has lost money.', '&nbsp;is ahead of where he began.', '&nbsp;has broken even in the stock market.', '&nbsp;it cannot be determined.'];
+    
+    CRTMCQ4_08_prompt = '<div class="justified">Did you know the previous items?</div>';
+    CRTMCQ4_08_options = ['&nbsp;None (0)', '&nbsp;Some (1 to 3)', '&nbsp;Quite a few (4 to 6)', '&nbsp;All (7)'];
+  
     break;
 
 }
@@ -137,8 +145,14 @@ var question07 = {
 };
 CRTMCQ4.push(question07);
 
+var question08 = {
+  type: 'survey-multi-choice-vertical',
+  questions: [{prompt: CRTMCQ4_08_prompt, 
+  options: CRTMCQ4_08_options, random_options: true, required: true, horizontal: false}],
+  data: {trialid: 'CRTMCQ4_08', procedure: 'CRTMCQ4'}
+};
+CRTMCQ4.push(question08);
+
 CRTMCQ4.unshift(instruction_screen_experiment);
 questions.push.apply(questions, CRTMCQ4);
 call_function("CRTMCQ4");
-
-
