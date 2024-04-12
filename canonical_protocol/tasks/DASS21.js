@@ -5,14 +5,11 @@ questions.push( check_fullscreen('DASS21') );
 DASS21 = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: ['<p><left>' +
-    '<p><left><b><big>DASS-21</big></b><br />'+'Por favor lea las siguientes afirmaciones e indique (0, 1, 2, 3) cuánto esta afirmación le aplicó a usted durante la semana pasada. No hay respuestas correctas o incorrectas. No tome demasiado tiempo para contestar.' +'</p>'],
-    data: {trialid: 'Instructions_01', procedure: 'DASS21'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: ['<p><left>' +
+  '<p><left><b><big>DASS-21</big></b><br />'+'Por favor lea las siguientes afirmaciones e indique (0, 1, 2, 3) cuánto esta afirmación le aplicó a usted durante la semana pasada. No hay respuestas correctas o incorrectas. No tome demasiado tiempo para contestar.' +'</p>'],
+  data: {trialid: 'Instructions_01', procedure: 'DASS21'},
+  show_clickable_nav: true
 };
 
 var question001 = {
@@ -163,14 +160,11 @@ var question021 = {
 DASS21.push(question021);
 
 var effort_question = {
-    type: 'instructions',
-    pages: ['<p><left><b><big>¡Segunda parte terminada!</big></b><br />'+
-    'A continuación comenzaremos con las preguntas para evaluar tus creencias. Esta sección puede resultar más larga que las otras (entre 2 y 4 minutos), pero por favor continúa hasta el final y recuerda que tu aporte es muy valioso. Sigue las instrucciones para responder cada pregunta.' +'</p>'],
-    data: {trialid: 'Instructions_002', procedure: 'DASS21'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: ['<p><left><b><big>¡Segunda parte terminada!</big></b><br />'+
+  'A continuación comenzaremos con las preguntas para evaluar tus creencias. Esta sección puede resultar más larga que las otras (entre 2 y 4 minutos), pero por favor continúa hasta el final y recuerda que tu aporte es muy valioso. Sigue las instrucciones para responder cada pregunta.' +'</p>'],
+  data: {trialid: 'Instructions_002', procedure: 'DASS21'},
+  show_clickable_nav: true
 };
 DASS21.push(effort_question);
 
