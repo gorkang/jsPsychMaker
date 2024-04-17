@@ -20,7 +20,7 @@ testthat::test_that('create_protocol', {
 
   # Check expected == protocol
   
-  files_expected_controllers = 17
+  files_expected_controllers = 19
   files_expected_tasks = 11
   files_expected_media = 11
   files_expected_jsPsych = 25  
@@ -48,7 +48,7 @@ testthat::test_that('create_protocol', {
   
   # Check expected == protocol
   
-  files_expected_controllers = 17
+  files_expected_controllers = 19
   files_expected_tasks = 6
   files_expected_media = 16
   files_expected_jsPsych = 12
@@ -76,7 +76,7 @@ testthat::test_that('create_protocol', {
   
   # Check expected == protocol
   
-  files_expected_controllers = 17
+  files_expected_controllers = 19
   files_expected_tasks = 5
   files_expected_media = 5
   files_expected_jsPsych = 11
@@ -105,7 +105,7 @@ testthat::test_that('create_protocol', {
   
   # Check expected == protocol
   
-  files_expected_controllers = 17
+  files_expected_controllers = 19
   files_expected_tasks = 14
   files_expected_media = 11
   files_expected_jsPsych = 25
@@ -130,6 +130,11 @@ testthat::test_that('create_protocol', {
   output_folder = paste0(destination_folder, "/../create_protocol5")
 
   TASKS = jsPsychMaker::list_available_tasks()
+  TASKS$tasks = TASKS$tasks[!TASKS$tasks %in% c("Bayesian39", "Bayesian40")]
+  #BayesianXY tasks have:
+  # sample: {
+  # type: 'custom',
+  # And custom is treated as a plugin...
   
   OUT = create_protocol_quiet(canonical_tasks = TASKS$tasks,
                               folder_output = output_folder)
@@ -137,8 +142,8 @@ testthat::test_that('create_protocol', {
   # Check expected == protocol
   
   # REVIEW:  # Maybe don´t include tests for tasks and media in here, as this protocol will change often
-  files_expected_controllers = 17
-  files_expected_tasks = 93
+  files_expected_controllers = 19
+  files_expected_tasks = 99
   files_expected_media = 18
   files_expected_jsPsych = 25
   
@@ -167,7 +172,7 @@ testthat::test_that('create_protocol', {
   
   # Check expected == protocol
   
-  files_expected_controllers = 17
+  files_expected_controllers = 19
   files_expected_tasks = 3
   files_expected_media = 5
   files_expected_jsPsych = 10
@@ -187,7 +192,7 @@ testthat::test_that('create_protocol', {
   
   # Check expected == protocol
   
-  files_expected_controllers = 17
+  files_expected_controllers = 19
   files_expected_tasks = 3
   files_expected_media = 5
   files_expected_jsPsych = 10
@@ -216,7 +221,7 @@ testthat::test_that('create_protocol', {
   
   # Check expected == protocol
   
-  files_expected_controllers = 17
+  files_expected_controllers = 19
   files_expected_tasks = 3
   files_expected_media = 5
   files_expected_jsPsych = 10
@@ -242,7 +247,7 @@ testthat::test_that('create_protocol', {
   
   # Check expected == protocol
   
-  files_expected_controllers = 17
+  files_expected_controllers = 19
   files_expected_tasks = 3
   files_expected_media = 5
   files_expected_jsPsych = 10

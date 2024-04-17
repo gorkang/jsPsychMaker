@@ -39,7 +39,7 @@
     file.remove("inst/templates/example_tasks.zip")
     file.remove("inst/templates/example_tasks_errors.zip")
 
-    Sys.sleep(6) # Time for insync to sync
+    Sys.sleep(8) # Time for insync to sync
         
     
   # tasks ---
@@ -92,7 +92,7 @@
   devtools::install()
 
   # CHECKS
-  devtools::test() # Run all tests (~53s)
+  # devtools::test() # Run all tests (~53s)
   devtools::check() # Check package (~70s) # Includes test()
   
   devtools::test_coverage()

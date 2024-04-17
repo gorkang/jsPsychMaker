@@ -2,7 +2,6 @@
 #'
 #' Avoid NOTE about "no visible binding for global variable"
 #'
-#' @docType package
 #' @name jsPsychMaker
 #' @keywords internal
 NULL

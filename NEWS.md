@@ -1,3 +1,16 @@
+# jsPsychMaker 0.3.5
+
+Major updates
+
+* Lots of improvements and bug fixes, particularly for protocols with more than 
+  1 between variable.
+* Balancing to conditions should be now more reliable.
+
+Minor updates
+
+* Added new tasks (WaisMatrices, etc.)
+
+
 # jsPsychMaker 0.3
 
 Major updates
