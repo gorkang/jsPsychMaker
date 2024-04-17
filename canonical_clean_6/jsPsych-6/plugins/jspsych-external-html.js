@@ -100,10 +100,10 @@ jsPsych.plugins['external-html'] = (function() {
     var xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET", file, true);
     xmlhttp.onload = function(){
-        if(xmlhttp.status == 200 || xmlhttp.status == 0){ //Check if loaded
-            element.innerHTML = xmlhttp.responseText;
-            callback();
-        }
+      if(xmlhttp.status == 200 || xmlhttp.status == 0){ //Check if loaded
+        element.innerHTML = xmlhttp.responseText;
+        callback();
+      }
     }
     xmlhttp.send();
   }

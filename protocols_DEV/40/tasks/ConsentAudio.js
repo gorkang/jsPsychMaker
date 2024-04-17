@@ -1,11 +1,14 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
-// Translations --------------------------------------------------------------
+// Store URL ---------------------------------------------------------------
+URL_web = "";
+if (typeof URL_web !== 'undefined')
+	if (store_URL === true) URL_web = window.location.href;
 
+// Translations --------------------------------------------------------------
 switch (language) {
 
   case "Spanish":
-
     button_label_next = "Siguiente";
 
     ConsentAudio_000_1 = ['<p><left><b><big>Consentimiento informado</big></b><br /></p>'];
@@ -26,7 +29,6 @@ switch (language) {
 
 
   case "English":
-
     button_label_next = "Next";
 
     ConsentAudio_000_1 = ['<p><left><b><big>Informed consent</big></b><br /></p>'];
@@ -36,7 +38,7 @@ switch (language) {
     ConsentAudio_000_2 = [`<b><big>Sound Check</big></b><BR>
     This protocol includes a task that requires working headphones/speaker.<BR><BR>
     Please, put on the headphones now or turn on the speaker.<BR><BR>
-    A sound will play in the next screen. Adjust the volume so you can hear it clearly`]
+    A sound will play in the next screen. Adjust the volume so you can hear it clearly.`]
     ConsentAudio_002_prompt = "<div class='crux' id='cruz'><BR>Can you hear the sound?<BR></div>"
     ConsentAudio_002_choices = ["Yes!", "No, but should work now. Repeat the sound to check", "No, and there is nothing I can do to fix it"]
     ConsentAudio_002_endExperiment = 'Without sound you will not be able to complete this protocol. Thanks for your interest.'
@@ -44,10 +46,7 @@ switch (language) {
     If you <B>Did NOT hear the sound</B>, please exit the protocol, as you will not be able to complete some of the tasks.<BR><BR>
     Otherwise, click [Next>] to continue.<br /><br />`]
     break;
-
 }
-
-
 
 // Task -----------------------------------------------------------------------
 
@@ -55,18 +54,13 @@ questions_consent = ( typeof questions_consent != 'undefined' && questions_conse
 questions_consent.push( check_fullscreen('ConsentAudio') );
 ConsentAudio = [];    //temporal timeline
 
-
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: ConsentAudio_000_1,
-    button_label_next: button_label_next,
-    data: {trialid: 'ConsentAudio_000_1', procedure: 'ConsentAudio'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: ConsentAudio_000_1,
+  button_label_next: button_label_next,
+  data: {trialid: 'ConsentAudio_000_1', procedure: 'ConsentAudio'},
+  show_clickable_nav: true,
 };
-
 
 // Reads consent from media/consent/consent-placeholder.js
 var question01 = {
@@ -83,29 +77,23 @@ var question01 = {
       consent_script_selector();
     }
   },
-    data: {
+  data: {
     trialid: 'ConsentAudio_001',
-    procedure: 'ConsentAudio'
-   }
-
-
+    procedure: 'ConsentAudio',
+    URL: URL_web
+  }
 };
 ConsentAudio.push(question01);
 
-
-
-
 // Audio check ---------------------------------------------
-
-
 var instruction_SoundCheck = {
   type: 'instructions',
   pages: ConsentAudio_000_2,
   button_label_next: button_label_next,
   data: {trialid: 'ConsentAudio_000_2', procedure: 'ConsentAudio'},
   show_clickable_nav: true,
-  on_trial_start: function(){
-      bloquear_enter = 0;
+  on_load: function(){
+    document.getElementById('jspsych-instructions-next').disabled = true;
   }
 };
 ConsentAudio.push(instruction_SoundCheck);
@@ -116,31 +104,26 @@ var sound_question = {
   prompt: ConsentAudio_002_prompt,
   choices: ConsentAudio_002_choices,
   trial_ends_after_audio: false,
-  on_finish: function(data){
-      if(jsPsych.data.get().values()[jsPsych.data.get().values().length -1]["response"] == 2){
-          jsPsych.endExperiment(ConsentAudio_002_endExperiment);
-      }
-    },
+  on_finish: function(){
+    if(jsPsych.data.get().values()[jsPsych.data.get().values().length -1]["response"] == 2){
+      jsPsych.endExperiment(ConsentAudio_002_endExperiment);
+    }
+  },
   data: {trialid: 'ConsentAudio_002', procedure: 'ConsentAudio'}
-  };
-
+};
 
 var loop_node = {
   timeline: [sound_question],
   loop_function: function(data){
-
-      if(jsPsych.data.get().values()[jsPsych.data.get().values().length -1]["response"] == 1){
-          return true;
-      } else {
-          return false;
-      }
+    if(jsPsych.data.get().values()[jsPsych.data.get().values().length -1]["response"] == 1){
+      return true;
+    } else {
+      return false;
+    }
   },
   data: {trialid: 'ConsentAudio_003', procedure: 'ConsentAudio'}
-
-}
-
+};
 ConsentAudio.push(loop_node);
-
 
 var instructions_END = {
   type: "instructions",
@@ -149,13 +132,12 @@ var instructions_END = {
   button_label_next: button_label_next,
   data: {trialid: 'ConsentAudio_000_3', procedure: 'ConsentAudio'},
   on_load: function () {
-      document.getElementById("jspsych-content").style.removeProperty("margin-left");
-      document.getElementById("jspsych-content").style.setProperty("text-align", "left");
+    document.getElementById("jspsych-content").style.removeProperty("margin-left");
+    document.getElementById("jspsych-content").style.setProperty("text-align", "left");
   }
 };
 
 ConsentAudio.push(instructions_END);
-
 
 // Do not use call_function because it uses "questions" array
 ConsentAudio.push({
@@ -171,8 +153,24 @@ ConsentAudio.push({
   }
 });
 
-
-
 ConsentAudio.unshift(instruction_screen_experiment);
+
+var preload = {
+  type: 'preload',
+  show_progress_bar: true,
+  message: loading_resources_message,
+  audio: audios["ConsentAudio"].map(function(element_name) { return('media/' + "audios" + "/" + "ConsentAudio" + "/" + element_name) }),
+  on_error: function(data) {
+    console.warn("Error in file: " + data)
+  },
+  on_success: function(data) {
+    if (debug_mode) console.log(data + " file loaded successfully")
+  },
+  on_finish: function(data) {
+    if (data.success) console.log("Files succesfully loaded")
+  },
+  data: {trialid: 'preload', procedure: 'ConsentAudio'}
+};
+ConsentAudio.unshift(preload);
+
 ConsentAudio.push.apply(questions_consent, ConsentAudio);
-//call_function("ConsentAudio");

@@ -1,9 +1,15 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
+// Store URL ---------------------------------------------------------------
+URL_web = "";
+if (typeof URL_web !== 'undefined')
+	if (store_URL === true) URL_web = window.location.href;
+
 // Translations --------------------------------------------------------------
 switch (language) {
 
   case "Spanish":
+    button_label_next = "Siguiente";
 
     Consent_000 = ['<p><left><b><big>Consentimiento informado</big></b><br /></p>'];
 
@@ -17,6 +23,7 @@ switch (language) {
 
 
   case "English":
+    button_label_next = "Next";
 
     Consent_000 = ['<p><left><b><big>Informed consent</big></b><br /></p>'];
     Consent_001_choices = ['I agree to participate', 'I refuse to participate'];
@@ -29,31 +36,43 @@ switch (language) {
 }
 
 // Task -----------------------------------------------------------------------
-questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
-questions.push( check_fullscreen('ConsentHTML') );
+questions_consent = ( typeof questions_consent != 'undefined' && questions_consent instanceof Array ) ? questions_consent : [];
+questions_consent.push( check_fullscreen('ConsentHTML') );
 ConsentHTML = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: Consent_000,
-    button_label_next: continue_button,
-    data: {trialid: 'ConsentHTML_000', procedure: 'ConsentHTML'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: Consent_000,
+  button_label_next: continue_button,
+  data: {trialid: 'ConsentHTML_000', procedure: 'ConsentHTML'},
+  show_clickable_nav: true,
+};
+
+function consent_user_answer(actual_user_answer) {
+  user_answer = actual_user_answer;
+  jsPsych.finishTrial();
 };
 
 // declare the block.
 var question01 = {
-  type:'external-html',
+  type: 'external-html',
   url: "media/html/consent-placeholder.html",
-  cont_btn: "start",
+  on_load: function () {
+    user_answer = null;
+  },
+  // If 'rechazo participar' is pressed, end experiment
+  on_finish: function(data){
+    if(user_answer === 0){
+      data.response = Consent_001_choices[0];
+      data.stimulus = 'html/consent-placeholder.html';
+      consent_script_selector();
+    } else {
+      jsPsych.endExperiment(Consent_001_end);
+    }
+  },
   data: {
     trialid: 'ConsentHTML_001',
-    procedure: 'ConsentHTML',
-    stimulus: 'html/consent-placeholder.html',
-    response: Consent_001_choices[0]
+    procedure: 'ConsentHTML'
   }
 };
 ConsentHTML.push(question01);
@@ -62,9 +81,15 @@ var accepted_consent = {
   type: "instructions",
   pages: Consent_002_pages,
   show_clickable_nav: true,
+  button_label_next: button_label_next,
   data: {trialid: 'Consent_002', procedure: 'Consent'},
   on_load: function () {
+    document.getElementById("jspsych-content").style["margin-left"] = "auto";
     document.getElementById('jspsych-instructions-next').disabled = true;
+  },
+  on_finish: function () {
+    document.getElementById("jspsych-content").style["margin-left"] = "0";
+    document.getElementById("jsPsych-content")
   }
 };
 ConsentHTML.push(accepted_consent);

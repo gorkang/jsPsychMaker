@@ -6,27 +6,21 @@ questions.push( check_fullscreen('LSNS') );
 LSNS = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    fullscreen_mode: true,
-    pages: [`<b><big>ESCALA DE RED SOCIAL DE LUBBEN</big></b><BR>Por favor, contesta a las siguientes preguntas<BR><BR>`],
-    button_label_next: 'Continuar',
-    data: {trialid: 'Instructions_01', procedure: 'MDDF'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  fullscreen_mode: true,
+  pages: [`<b><big>ESCALA DE RED SOCIAL DE LUBBEN</big></b><BR>Por favor, contesta a las siguientes preguntas<BR><BR>`],
+  button_label_next: 'Continuar',
+  data: {trialid: 'Instructions_01', procedure: 'LSNS'},
+  show_clickable_nav: true,
 };
 
 var instruction_screen_experiment_01 = {
-    type: 'instructions',
-    fullscreen_mode: true,
-    pages: [`<b><big>FAMILIARES:</big></b><BR>Teniendo en cuenta a las personas con las que tú estás relacionado ya sea por nacimiento, casamiento, adopción, etc...<BR><BR>`],
-    button_label_next: 'Continuar',
-    data: {trialid: 'Instructions_01', procedure: 'LSNS'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  fullscreen_mode: true,
+  pages: [`<b><big>FAMILIARES:</big></b><BR>Teniendo en cuenta a las personas con las que tú estás relacionado ya sea por nacimiento, casamiento, adopción, etc...<BR><BR>`],
+  button_label_next: 'Continuar',
+  data: {trialid: 'Instructions_01', procedure: 'LSNS'},
+  show_clickable_nav: true,
 };
 LSNS.push(instruction_screen_experiment_01);
 
@@ -73,15 +67,12 @@ var question06 = {
 LSNS.push(question06);
 
 var instruction_screen_experiment_02 = {
-    type: 'instructions',
-    fullscreen_mode: true,
-    pages: [`<b><big>AMISTADES:</big></b><BR>Teniendo en cuenta a todos tus amigos, inclusive a aquellos que viven en tu vecindario, establecimiento educacional, trabajo, etc.<BR><BR>`],
-    button_label_next: 'Continuar',
-    data: {trialid: 'Instructions_01', procedure: 'LSNS'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  fullscreen_mode: true,
+  pages: [`<b><big>AMISTADES:</big></b><BR>Teniendo en cuenta a todos tus amigos, inclusive a aquellos que viven en tu vecindario, establecimiento educacional, trabajo, etc.<BR><BR>`],
+  button_label_next: 'Continuar',
+  data: {trialid: 'Instructions_01', procedure: 'LSNS'},
+  show_clickable_nav: true,
 };
 LSNS.push(instruction_screen_experiment_02);
 

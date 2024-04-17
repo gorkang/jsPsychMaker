@@ -26,8 +26,11 @@ Si usted, luego de participar, desea tener más información o conocer los resul
 <em>Al seleccionar “Acepto participar” usted declara que está dispuesto/a a participar voluntariamente de la presente investigación: </em>
 </p>
 
-<button type="button" id="start">acepto participar</button>
-<button type="button" id="end" onClick="windowClose();">rechazo participar</button>
+<button type="button" id="start" onclick="consent_user_answer(0)" class="jspsych-btn">acepto participar</button>
+<button type="button" id="end" onclick="consent_user_answer(1)" class="jspsych-btn">rechazo participar</button>
+
+<br>
+<br>
 
 </body>
 </html>

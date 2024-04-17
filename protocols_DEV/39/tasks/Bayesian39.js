@@ -187,21 +187,22 @@ data_type = {
 
   // giro de pantalla
   var instructions_000 = {
-      type: 'instructions',
-      pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/images/Bayesian39/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
-      button_label_next: 'Siguiente',
-      data: {trialid: 'Instructions_000',
-            condition_between: between_selection["Bayesian39"]["type"],
-            procedure: 'Bayesian39'},
-      show_clickable_nav: true,
-      on_load: function() {
-        giro_check = true;
-        rectify_orientation();
-      }/*,
-      on_finish: function(data) {
-        giro_check = false;
-        data.orientation = check_orientation();
-      }*/
+    type: 'instructions',
+    pages: ['Para poder continuar la pantalla debe estar girada de manera horizontal. <BR> <img src="media/images/Bayesian39/phone-rotation.png" style="max-width: 30%; max-height: 30%;"><BR>Si la pantalla está vertical, el botón [Siguiente >] estará inactivo.'],
+    button_label_next: 'Siguiente',
+    data: {
+        trialid: 'Instructions_000',
+        condition_between: between_selection["Bayesian39"]["type"],
+        procedure: 'Bayesian39'
+    },
+    show_clickable_nav: true,
+    on_load: function() {
+      giro_check = true;
+      rectify_orientation();
+    }, 
+    on_finish: function (data) {
+      data.condition_between = between_selection["Bayesian39"]["type"];
+    }
   };
 
   var if_instructions_000 = {
@@ -215,28 +216,55 @@ data_type = {
     },
     data: {
       trialid: 'if_instructions_000',
-      condition_between: between_selection["Bayesian39"]["type"],
       procedure: 'Bayesian39'
     }
   };
 
-  var instructions_between_01 = {
+
+    var instructions_PRE = {
       type: 'instructions',
-      pages: function() {
-        return ([data_type[between_selection["Bayesian39"]["type"]]["page1"]["text"],
-                 data_type[between_selection["Bayesian39"]["type"]]["page2"]["text"],
-                 data_type[between_selection["Bayesian39"]["type"]]["page3"]["text"]])
+      pages: ["<H2>Consentimientos médicos</H2>Por favor, lee con atención las siguientes instrucciones.<BR><BR>"],
+      button_label_next: 'Cargando tarea...',
+      data: {
+          trialid: 'Instructions_PRE',
+          condition_between: between_selection["Bayesian39"]["type"],
+          procedure: 'Bayesian39'
       },
-      button_label_next: 'Siguiente',
-      button_label_previous: 'Anterior',
-      data: {trialid: 'Instructions_001',
-            condition_between: between_selection["Bayesian39"]["type"],
-            procedure: 'Bayesian39'},
       show_clickable_nav: true,
       on_load: function(){
-        // we gonna use this on the next timeline
-        progress_for_fraction = jsPsych.getProgressBarCompleted();
-      }
+      document.getElementById('jspsych-instructions-next').disabled = true;
+      // Forced timeout to make sure between_selection is final
+      setTimeout(function(){
+      document.getElementById('jspsych-instructions-next').disabled = false;
+      document.getElementById('jspsych-instructions-next').textContent = "Empezar";
+      }, 1000);
+     
+    }
+  };
+
+
+  var instructions_between_01 = {
+    type: 'instructions',
+    pages: function() {
+      return ([data_type[between_selection["Bayesian39"]["type"]]["page1"]["text"],
+                data_type[between_selection["Bayesian39"]["type"]]["page2"]["text"],
+                data_type[between_selection["Bayesian39"]["type"]]["page3"]["text"]])
+    },
+    button_label_next: 'Siguiente',
+    button_label_previous: 'Anterior',
+    data: {
+      trialid: 'Instructions_001',
+      condition_between: between_selection["Bayesian39"]["type"],
+      procedure: 'Bayesian39'
+    },
+    show_clickable_nav: true,
+    on_load: function(){
+      // we gonna use this on the next timeline
+      progress_for_fraction = jsPsych.getProgressBarCompleted();
+    }, 
+    on_finish: function (data) {
+      data.condition_between = between_selection["Bayesian39"]["type"];
+    }
   };
 
   //console.log(within_selection["Bayesian39"]);
@@ -280,7 +308,8 @@ data_type = {
               
               // Check Fullscreen and ask for it if not
               if (!hasTouchScreen) {
-                if ((screen.width || screen.width - 40) > window.innerWidth || (screen.height || screen.height - 40) > window.innerHeight) alert("Por favor, pulsa F11 para volver a pantalla completa")
+                let fullscreenElement = document.fullscreenElement || document.mozFullScreenElement || document.webkitFullscreenElement || document.msFullscreenElement || !(Math.abs(screen.width - window.innerWidth) > 40 || Math.abs(screen.height - window.innerHeight) > 40);
+                if (!fullscreenElement) alert("Por favor, pulsa F11 para volver a pantalla completa")
               };
             },
             data: function () {
@@ -327,7 +356,7 @@ data_type = {
             
             html += 
             `<div class="column" style="display: flex; flex-direction: column; justify-content: center; height:` + height + `px; width:` + width + `px; float: left; width: ` + pct_width_right + `; margin-left: 25px">
-            <div style="font-size:14px; text-align: justify;">Para ayudarte con estos cálculos, en el recuadro y gráfica se muestra el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> y como cambia a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
+            <div style="font-size:14px; text-align: justify;">Para ayudarte con estos cálculos, en el recuadro y la gráfica se muestra como el <b>Valor Predictivo ` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + `_` + jsPsych.timelineVariable('disease', true)].type_image + `</b> cambia a partir de la prevalencia, sensibilidad y especificidad: <br><br></div>
             <img class="image_zoom" src="` + data_test_quality[jsPsych.timelineVariable('test_quality', true) + "_" + jsPsych.timelineVariable('disease', true)].image + `" style="max-width: 100%; max-height: 100%;" onclick = document.querySelector('[id$=next]').disabled = true> 
             <div style="font-size:11px; text-align: center">Haz click sobre la imagen para ampliarla/minimizarla.<BR></div>
             <br><br>
@@ -524,16 +553,17 @@ data_type = {
   Bayesian39.push(within_timeline_01);
 
   Bayesian39.push({
-      type: 'call-function',
-      data: {trialid: Bayesian39 + '_giro_check_ending', procedure: Bayesian39},
-      func: function(){
-        giro_check = false;
-      }
+    type: 'call-function',
+    data: { trialid: 'Instructions_000_giro_check_ending', procedure: 'Bayesian39' },
+    func: function(){
+      giro_check = false;
+    }
   });
 
   // within block finished
   Bayesian39.unshift(instructions_between_01);
   Bayesian39.unshift(if_instructions_000);
+  Bayesian39.unshift(instructions_PRE);
   questions.push.apply(questions, Bayesian39);
 
   //if (debug_mode == 'true') console.table(within_timeline_01.timeline_variables)

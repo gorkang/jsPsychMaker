@@ -23,7 +23,7 @@ AntiBots.push(question01);
 
 var question02 = {
   type: 'survey-multi-select',
-  questions: [{prompt: '<div class="justified">Research has suggested that a person’s favorite care brand can tell us a lot about the way that they make financial decisions. In this case, however, we would like you to ignore this question entirely. Instead, please choose all of the response options provided. In other words, regardless of your actual favorite car brand, click all of the answers</div>', options: ['&nbsp;Toyota', '&nbsp;Honda', '&nbsp;Chevrolet', '&nbsp;Ford', '&nbsp;Mercedes-Benz'], required: true,  random_options: false, horizontal: false}],
+  questions: [{prompt: '<div class="justified">Research has suggested that a person’s favorite car brand can tell us a lot about the way that they make financial decisions. In this case, however, we would like you to ignore this question entirely. Instead, please choose all of the response options provided. In other words, regardless of your actual favorite car brand, click all of the answers</div>', options: ['&nbsp;Toyota', '&nbsp;Honda', '&nbsp;Chevrolet', '&nbsp;Ford', '&nbsp;Mercedes-Benz'], required: true,  random_options: false, horizontal: false}],
   data: {trialid: 'AntiBots_02', procedure: 'AntiBots'}
 };
 AntiBots.push(question02);
@@ -48,6 +48,15 @@ var question05 = {
   data: {trialid: 'AntiBots_05', procedure: 'AntiBots'}
 };
 AntiBots.push(question05);
+
+var question06 = {
+  type: 'survey-text',
+  data: {trialid: 'AntiBots_06', procedure: 'AntiBots'},
+  questions: [{prompt: "If you have any comments or suggestions, we really appreciate your feedback.<BR><BR>You can also send us an email to gorkang@gmail.com. <BR><BR>Thanks in advance!", rows: 10, columns: 90, type: 'textarea', required: true, error_text: "Please enter text here."}],
+};
+AntiBots.push(question06);
+
+
 
 AntiBots.unshift(instruction_screen_experiment);
 AntiBots.push.apply(questions, AntiBots);

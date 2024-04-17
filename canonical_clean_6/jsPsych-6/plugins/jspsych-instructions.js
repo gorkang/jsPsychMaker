@@ -108,6 +108,7 @@ jsPsych.plugins.instructions = (function() {
 
         display_element.querySelector('#jspsych-instructions-next').addEventListener('click', btnListener);
       }
+      window.scrollTo(0, 0);
     }
 
     function next() {

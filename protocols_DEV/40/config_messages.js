@@ -3,7 +3,7 @@
 var_researcher_email = `gorkang@gmail.com`;
 
 // Logos (you can replace the files in controllers/media/)
-logo_intro = "controllers/media/logo.png"
+logo_intro = "media/html/logo-UAI.png"
 logo_online = "controllers/media/logo-CSCN.png"
 logo_loading = "controllers/media/loading.gif"
 
@@ -22,13 +22,13 @@ switch (language) {
         intro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI" align="bottom" width="158" height="59" border="0"/></p></div>
         Para cambiar este texto, edita la variable intro_HTML en config_messages.js<BR><BR>
         Si tienes alguna duda, puedes escribirnos a: <a href="mailto:` + var_researcher_email + `?subject=Protocol ` + pid + `">` + var_researcher_email + `</a><BR><BR>
-        Recuerda usar un navegador actualizado`;
+        Recuerda usar un navegador actualizado.`;
 
         // INTRO [index.html] Screen after uid is entered (if random_id = true, this is the first screen)
         outro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI" align="bottom" width="158" height="59" border="0"/></p></div>
         Para cambiar este texto, edita la variable outro_HTML en config_messages.js<BR><BR>
         Si tienes alguna duda, puedes escribirnos a: <a href="mailto:` + var_researcher_email + `?subject=Protocol ` + pid + `">` + var_researcher_email + `</a><BR><BR>
-        Recuerda usar un navegador actualizado`;
+        Recuerda usar un navegador actualizado.`;
 
 
         // helper messages ------------------------------------------------------------
@@ -70,21 +70,19 @@ switch (language) {
         debug_message = `ヽ(ಠ_ಠ)ノ   ヽ(ಠ_ಠ)ノ   ヽ(ಠ_ಠ)ノ\n\n| | | PROTOCOL IN DEVELOPMENT | | |\n\nNOT READY FOR DATA COLLECTION\n\nCHANGE debug_mode to 'false' in config.js`;
     
         // INTRO [index.html] Screen where uid is entered
-        intro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI" align="bottom" width="158" height="59" border="0"/></p></div>
-        To change this text, edit the variable intro_HTML in config_messages.js<BR><BR>
-        If you have any doubts, you can write us to: <a href="mailto:` + var_researcher_email + `?subject=Protocol ` + pid + `">` + var_researcher_email + `</a><BR><BR>
-        Remember to use a fully updated browser`;
+        intro_HTML = `NOT VISIBLE`;
 
         // INTRO [index.html] Screen after uid is entered (if random_id = true, this is the first screen)
-        outro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI" align="bottom" width="158" height="59" border="0"/></p></div>
-        To change this text, edit the variable outro_HTML in config_messages.js<BR><BR>
-        If you have any doubts, you can write us to: <a href="mailto:` + var_researcher_email + `?subject=Protocol ` + pid + `">` + var_researcher_email + `</a><BR><BR>
-        Remember to use a fully updated browser`;
-
+        outro_HTML = `<div title="logo"><p style="margin-bottom: 0.2in; line-height: 100%"><img src="` + logo_intro + `" name="UAI " align="bottom" width="200" height="60" border="0"/></p></div>
+                Welcome,<BR><BR>
+                The duration of this protocol is less than 60 minutes. Includes demographic questions, 4 hypothetical cases where we ask you to make medical recommendations to a friend, and tasks to measure your ability to reason numerically, recognize patterns, etc.<BR><BR>
+                Please, be completely focused for the duration of the protocol. If you delay too much, the protocol could be automatically canceled, removing you from the questionnaire.<BR><BR>
+                If you have any questions, you can write to us at: <mailto::` + var_researcher_email + `>` + var_researcher_email + `</mailto><BR><BR>
+                Remember to use an updated browser.`;
 
         // helper messages ------------------------------------------------------------
 
-        outro_ending = "<br><br>Press the " + start_button + " button to begin the protocol"; // Text to show at the end of the outro
+        outro_ending = "<br><br>Press the " + start_button + " button to begin the protocol."; // Text to show at the end of the outro
         fullscreen_text = 'The protocol will enter Full Screen.'; // Text to show when fullscreen mode is activated
         fullscreen_label = 'Full Screen'; // Label of the fullscreen button
         message_str = 'The protocol is loading, wait a moment...'; // Message when preloading media
