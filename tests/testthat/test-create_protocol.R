@@ -143,7 +143,7 @@ testthat::test_that('create_protocol', {
   
   # REVIEW:  # Maybe don´t include tests for tasks and media in here, as this protocol will change often
   files_expected_controllers = 19
-  files_expected_tasks = 99
+  files_expected_tasks = 115
   files_expected_media = 18
   files_expected_jsPsych = 25
   
