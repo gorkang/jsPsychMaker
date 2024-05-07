@@ -1,0 +1,14 @@
+# Revision 20231101
+
+CEL: es un instrumento de Creación Propia por lo que no tiene documento ni nada para documentar. (No sé si en este tiempo los autores crearon o publicaron algo, pero hasta ese momento no. Además tenía errores de creación en ese momento que debían revisar ellos para siguientes protocolos.) Lo puedes encontrar en Tareas jsPsychR.
+CMA, FKEA: les falta información, quizás me las envió Nieves o Herman en algún momento y se me pasó. Lo revisaré y cuando estén listos te aviso. Los encuentras en Tareas jsPsychR NUEVAS.
+DMW: Mind Wandering
+FDMQ: este lo cambiamos de nombre. Ahora se llama MDMQ y lo encuentras en Tareas jsPsychR y ahi puedes ver que si tiene documentos. 
+IDQ: este es un Cuestionario de Identificación, por lo que no tiene documentos ni artículo. Es lo que en otros protocolos se llama "DEMOGR". Lo encuentras en Tareas jsPsychR. 
+LoB: este también es de Creación Propia (específicamente de David Huepe). En ese momento no había documento ni artículo, no sé si hoy exista. Lo encuentras en Tareas jsPsychR NUEVAS.
+OTRASRELIG: es una escala de Creación Propia por lo que no tiene documento ni nada para documentar. (No sé si en este tiempo los autores crearon o publicaron algo, pero hasta ese momento no y tampoco tenía validación.) Lo puedes encontrar en Tareas jsPsychR.
+
+PSC: se llama Prosociality y lo encuentras en Tareas jsPsychR. Es un instrumento de Creación Propia por lo que no tiene documento ni nada para documentar. (No sé si en este tiempo los autores crearon o publicaron algo, pero hasta ese momento no).
+PVC: se llama Preguntas vacuna COVID-19 y lo encuentras en Tareas jsPsychR. Es un instrumento de Creación Propia por lo que no tiene documento ni nada para documentar. (No sé si en este tiempo los autores crearon o publicaron algo, pero hasta ese momento no). En este caso, yo había dejado una nota importante para el instrumento: "IMPORTANTE: Pareciera que las instrucciones del maker no son las correspondientes a los items", desconozco si lo habrán revisado. 
+RMET: se llama Reading the mind in the eyes test y lo encuentras en Tareas jsPsychR NUEVAS, en este caso el instrumento estaba a cargo de Vicente Soto, yo solicité la información de ese y otros 2 isntruemntos a él (NARS, RMET, RobToM) y nunca recibí respuesta. Recuerdo que lo hablamos nosotros y decidimos no presionar y esperar a que cada uno fuera respondiendo, por prioridades nuestras. Nunca respondió por lo que no sé si se utilizó, o se usará o quedó en el olvido. 
+SRBQP: se llama Self-regulation and belief questionnaire in pandemic, lo estuve revisando y me di cuenta que no tenemos nada de información sobre esto (lo encuentras en Tareas jsPsychR), no sé quién lo pidió o porqué está ahí. En las notas pusimos que no teníamos la información oficial del instrumento. 
