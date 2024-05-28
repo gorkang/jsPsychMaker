@@ -24,47 +24,47 @@ var instruction_screen_experiment_01 = {
 };
 LSNS.push(instruction_screen_experiment_01);
 
-var question01 = {
+var question001 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>1. ¿Con cuántos parientes te encuentras o tiene noticias de ellos, por lo menos, una vez por mes?</p></div>', options: ["ninguno", "uno", "dos", "tres o cuatro", "de cinco a ocho", "nueve o más"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_01', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_001', procedure: 'LSNS'}
 };
-LSNS.push(question01);
+LSNS.push(question001);
 
-var question02 = {
+var question002 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>2. ¿Con qué frecuencia te encuentras o tiene noticias del pariente con el que tiene más contacto?</p></div>', options: ["menos de una vez por mes", "mensualmente", "algunas veces al mes", "semanalmente", "algunas veces por semana", "diariamente"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_02', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_002', procedure: 'LSNS'}
 };
-LSNS.push(question02);
+LSNS.push(question002);
 
-var question03 = {
+var question003 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>3. ¿Con cuántos parientes te sientes lo suficientemente cómodo como para conversar sobre tus asuntos personales?</p></div>', options: ["ninguno", "uno", "dos", "tres o cuatro", "de cinco a ocho", "nueve o más"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_03', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_003', procedure: 'LSNS'}
 };
-LSNS.push(question03);
+LSNS.push(question003);
 
-var question04 = {
+var question004 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>4. ¿A cuántos parientes sientes lo suficientemente cercano como para llamarlos cuando necesitas ayuda?</p></div>', options: ["ninguno", "uno", "dos", "tres o cuatro", "de cinco a ocho", "nueve o más"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_04', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_004', procedure: 'LSNS'}
 };
-LSNS.push(question04);
+LSNS.push(question004);
 
-var question05 = {
+var question005 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>5. Cuando uno de tus parientes tiene que tomar una decisión importante, ¿con qué frecuencia te lo comenta a tí?</p></div>', options: ["nunca", "rara vez", "a veces", "con frecuencia", "con mucha frecuencia", "siempre"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_05', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_005', procedure: 'LSNS'}
 };
-LSNS.push(question05);
+LSNS.push(question005);
 
-var question06 = {
+var question006 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>6. ¿Con qué frecuencia uno de tus parientes está disponible para hablar cuando tú tienes que tomar una decisión importante?</p></div>', options: ["nunca", "rara vez", "a veces", "con frecuencia", "con mucha frecuencia", "siempre"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_06', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_006', procedure: 'LSNS'}
 };
-LSNS.push(question06);
+LSNS.push(question006);
 
 var instruction_screen_experiment_02 = {
   type: 'instructions',
@@ -76,48 +76,49 @@ var instruction_screen_experiment_02 = {
 };
 LSNS.push(instruction_screen_experiment_02);
 
-var question07 = {
+var question007 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>7. ¿Con cuántos amigos te encuentras o tienes noticias de ellos, por lo menos, una vez por mes?</p></div>', options: ["ninguno", "uno", "dos", "tres o cuatro", "de cinco a ocho", "nueve o más"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_07', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_007', procedure: 'LSNS'}
 };
-LSNS.push(question07);
+LSNS.push(question007);
 
-var question08 = {
+var question008 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>8. ¿Con qué frecuencia te encuentras o tienes noticias del amigo con el que tiene más contacto?</p></div>', options: ["menos de una vez por mes", "mensual", "algunas veces al mes", "semanalmente", "algunas veces por semana", "diariamente"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_08', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_008', procedure: 'LSNS'}
 };
-LSNS.push(question08);
+LSNS.push(question008);
 
-var question09 = {
+var question009 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>9. ¿Con cuántos amigos te sientes lo suficientemente cómodo como para conversar sobre tus asuntos personales?</p></div>', options: ["ninguno", "uno", "dos", "tres o cuatro", "de cinco a ocho", "nueve o más"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_09', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_009', procedure: 'LSNS'}
 };
-LSNS.push(question09);
+LSNS.push(question009);
 
-var question10 = {
+var question010 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>10. ¿A cuántos amigos sientes lo suficientemente cercano como para llamarlos cuando necesitas ayuda?</p></div>', options: ["ninguno", "uno", "dos", "tres o cuatro", "de cinco a ocho", "nueve o má"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_10', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_010', procedure: 'LSNS'}
 };
-LSNS.push(question10);
+LSNS.push(question010);
 
-var question11 = {
+var question011 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>11. Cuando uno de tus amigos tiene que tomar una decisión importante, ¿con qué frecuencia te lo comenta a tí?</p></div>', options: ["nunca", "rara vez", "a veces", "con frecuencia", "con mucha frecuencia", "siempre"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_11', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_011', procedure: 'LSNS'}
 };
-LSNS.push(question11);
+LSNS.push(question011);
 
-var question12 = {
+var question012 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"><p>12. ¿Con qué frecuencia uno de tus amigos está disponible para hablar cuando tú tienes que tomar una decisión importante?</p></div>', options: ["nunca", "rara vez", "a veces", "con frecuencia", "con mucha frecuencia", "siempre"], required: true, horizontal: false}],
-  data: {trialid: 'LSNS_12', procedure: 'LSNS'}
+  data: {trialid: 'LSNS_012', procedure: 'LSNS'}
 };
-LSNS.push(question12);
+LSNS.push(question012);
 
 LSNS.unshift(instruction_screen_experiment);
 LSNS.push.apply(questions, LSNS);
+
 call_function("LSNS");

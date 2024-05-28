@@ -1,18 +1,16 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
+// Perceived stress scale, spanish version
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
 questions.push( check_fullscreen('PSS') );
 PSS = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: ['<p><left>' +
-    '<p><left><b><big>PSS</big></b><br />'+'Las preguntas en esta escala hacen referencia a sus sentimientos y pensamientos durante el último mes. En cada caso, por favor indique cómo usted se ha sentido o ha pensado en cada situación.' +'</p>'],
-    data: {trialid: 'Instructions_01', procedure: 'PSS'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: ['<p><left>' +
+  '<p><left><b><big>PSS</big></b><br />'+'Las preguntas en esta escala hacen referencia a sus sentimientos y pensamientos durante el último mes. En cada caso, por favor indique cómo usted se ha sentido o ha pensado en cada situación.' +'</p>'],
+  data: {trialid: 'Instructions_01', procedure: 'PSS'},
+  show_clickable_nav: true,
 };
 
 var question001 = {
