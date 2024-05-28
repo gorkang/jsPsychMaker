@@ -1,7 +1,6 @@
 // Configuration file
 
 // Main parameters -------------------------------------------------------------
-
 pid = 999; // Protocol ID [number]
 online = false; // Protocol runs online [true/false]
 max_participants = 1000; // Max participants per contition [number]
@@ -12,6 +11,7 @@ debug_mode = true; // SHOULD be false in production
 disable_button_interaction = false; // Monkeys control, should be false in production
 language = "Spanish" // Spanish or English
 finish_link = "" // link at the end of the experiment example "https://app.prolific.co/submissions/complete?cc=000000"
+store_URL = false; // For Prolific, Connect, etc. Stores URL in Consent
 
 var_researcher_email = ``;
 

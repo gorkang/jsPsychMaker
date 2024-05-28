@@ -1,5 +1,10 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
 
+// Store URL ---------------------------------------------------------------
+URL_web = "";
+if (typeof URL_web !== 'undefined')
+  if (store_URL === true) URL_web = window.location.href;
+  
 // Translations --------------------------------------------------------------
 switch (language) {
 
@@ -10,7 +15,7 @@ switch (language) {
     Consent_001_choices = ['acepto participar', 'rechazo participar'];
     Consent_001_end = 'Gracias por tu tiempo. Puedes cerrar esta página.';
 
-    Consent_002_pages = ["<p><center>Gracias por aceptar el consentimiento. <br><br> Presione el siguiente botón para poder empezar con el protocolo.<br /><br /></center></p>"];
+    Consent_002_pages = ["<center>Gracias por aceptar el consentimiento. <br><br> Presione el siguiente botón para poder empezar con el protocolo.<br /><br /></center>"];
  
     break;
 
@@ -32,11 +37,11 @@ questions_consent.push( check_fullscreen('Consent') );
 Consent = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: Consent_000,
-    button_label_next: continue_button,
-    data: {trialid: 'Consent_000', procedure: 'Consent'},
-    show_clickable_nav: true
+  type: 'instructions',
+  pages: Consent_000,
+  button_label_next: continue_button,
+  data: {trialid: 'Consent_000', procedure: 'Consent'},
+  show_clickable_nav: true
 };
 
 // Reads consent from media/consent/consent-placeholder.js
@@ -60,7 +65,6 @@ var question01 = {
   }
 };
 Consent.push(question01);
-
 
 // Do not use call_function because it uses "questions" array
 Consent.push({

@@ -404,6 +404,11 @@ function obtain_experiments(questions, completed_experiments) {
     // otherwise, we add the questions repleacing the actual array
     questions_consent = questions
   }
+
+  const hasDuplicates = array => new Set(array).size < array.length;
+
+  if (hasDuplicates(questions)) console.warn("Este array de questions tiene tareas repetidas")
+
   return questions;
 }
 
