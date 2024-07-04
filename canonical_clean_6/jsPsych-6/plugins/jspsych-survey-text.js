@@ -117,32 +117,23 @@ jsPsych.plugins['survey-text'] = (function() {
   }
 
   plugin.trial = function(display_element, trial) {
-
-    if (typeof trial.questions[0].rows == 'undefined') {
-      trial.questions[0].rows = [];
-      for (var i = 0; i < trial.questions.length; i++) {
-        trial.questions[i].rows.push(1);
+    
+    for (var i = 0; i < trial.questions.length; i++) {
+      if (typeof trial.questions[i].rows == 'undefined') {
+        trial.questions[i].rows = [1];
       }
-    }
-    if (typeof trial.questions[0].columns == 'undefined') {
-      trial.questions[0].columns = [];
-      for (var i = 0; i < trial.questions.length; i++) {
-        trial.questions[i].columns.push(40);
+      if (typeof trial.questions[i].columns == 'undefined') {
+        trial.questions[i].columns = [40];
       }
-    }
-    if (typeof trial.questions[0].value == 'undefined') {
-      trial.questions[0].value = [];
-      for (var i = 0; i < trial.questions.length; i++) {
-        trial.questions[i].value.push("");
+      if (typeof trial.questions[i].value == 'undefined') {
+        trial.questions[i].value = [""];
       }
-    }
-    if (typeof trial.questions[0].language == 'undefined') {
-      for (var i = 0; i < trial.questions.length; i++)
+      if (typeof trial.questions[i].language == 'undefined') {
         trial.questions[i].language = "spanish";
-    }
-    if (typeof trial.questions[0].endword == 'undefined') {
-      for (var i = 0; i < trial.questions.length; i++)
+      }
+      if (typeof trial.questions[i].endword == 'undefined') {
         trial.questions[i].endword = "";
+      }
     }
 
     var html = '<br /><p><br />';
@@ -173,11 +164,11 @@ jsPsych.plugins['survey-text'] = (function() {
       html += '<div id="jspsych-survey-text-' + i + '" class="jspsych-survey-text-question" style="margin: 2em 0em;">';
       html += '<p class="jspsych-survey-text">' + trial.questions[i].prompt;
       if (trial.questions[i].type == "textarea") {
-        html += '</p><textarea type="' + trial.questions[0].type + '" name="#jspsych-survey-' + trial.questions[0].type + '-response-' + i;
+        html += '</p><textarea type="' + trial.questions[i].type + '" name="#jspsych-survey-' + trial.questions[i].type + '-response-' + i;
       } else if (trial.questions[i].type == "range"){
         html += '</p><input type="' + 'number' + '" name="#jspsych-survey-' + 'number' + '-response-' + i + '" min ="' + min + '" max ="' + max;
       } else {
-        html += '</p><input type="' + trial.questions[0].type + '" name="#jspsych-survey-' + trial.questions[0].type + '-response-' + i;
+        html += '</p><input type="' + trial.questions[i].type + '" name="#jspsych-survey-' + trial.questions[i].type + '-response-' + i;
       }
       if(trial.questions[i].rows == 1){
         html += '" size="' + trial.questions[i].columns;
