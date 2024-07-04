@@ -8,7 +8,9 @@ random_id = true; // Assign random id to participants [true/false]
 max_time = "02:00:00"; // Max time to complete the protocol [HH:MM:SS]
 accept_discarded = false; // If an user is discarded (out of time), should be allow her to continue? (given there are free slots) [true/false]
 debug_mode = true; // SHOULD be false in production
-language = "spanish" // spanish or english
+language = "Spanish" // Spanish or English
+finish_link = "" // link at the end of the experiment example "https://app.prolific.co/submissions/complete?cc=000000"
+store_URL = true; // For Prolific, Connect, etc. Stores URL in Consent
 
 
 // ORDER OF TASKS --------------------------------------------------------------
