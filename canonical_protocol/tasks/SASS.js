@@ -5,34 +5,31 @@ questions.push( check_fullscreen('SASS') );
 SASS = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: ['<p><left><b><big></big></b><br />'+
-    'Por favor responda las siguientes preguntas marcando la opción de respuesta que más lo/a representa.' +'</p>'],
-    data: {trialid: 'Instructions_01', procedure: 'SASS'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: ['<p><left><b><big></big></b><br />'+
+  'Por favor responda las siguientes preguntas marcando la opción de respuesta que más lo/a representa.' +'</p>'],
+  data: {trialid: 'Instructions_01', procedure: 'SASS'},
+  show_clickable_nav: true,
 };
 
-var question01 = {
+var question001 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">1. ¿Tiene usted algún trabajo?</div>', options: ['&nbsp;Si', '&nbsp;No'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_01', procedure: 'SASS'}
+  data: {trialid: 'SASS_001', procedure: 'SASS'}
 };
-SASS.push(question01);
+SASS.push(question001);
 
-var question02 = {
+var question002 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">2. ¿Qué tan interesado/a está en su trabajo?</div>', options: ['&nbsp;Mucho', '&nbsp;Medianamente', '&nbsp;Poco', '&nbsp;Nada'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_02', procedure: 'SASS'}
+  data: {trialid: 'SASS_002', procedure: 'SASS'}
 };
 
-var if_question02 = {
-  timeline: [question02],
-  data: {trialid: 'SASS_02_if', procedure: 'SASS'},
+var if_question002 = {
+  timeline: [question002],
+  data: {trialid: 'SASS_002_if', procedure: 'SASS'},
   conditional_function: function(){
-    let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'SASS_01'))['response'])['Q0']).trim();
+    let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'SASS_001'))['response'])['Q0']).trim();
    if((data) ==  'Si'){
      return true;
      } else {
@@ -41,19 +38,19 @@ var if_question02 = {
   }
 }
 
-SASS.push(if_question02);
+SASS.push(if_question002);
 
-var question03 = {
+var question003 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">2. ¿Qué tan interesado/a está en actividades relacionadas a su hogar?</div>', options: ['&nbsp;Mucho', '&nbsp;Medianamente', '&nbsp;Poco', '&nbsp;Nada'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_03', procedure: 'SASS'}
+  data: {trialid: 'SASS_003', procedure: 'SASS'}
 };
 
-var if_question03 = {
-  timeline: [question03],
-  data: {trialid: 'SASS_03_if', procedure: 'SASS'},
+var if_question003 = {
+  timeline: [question003],
+  data: {trialid: 'SASS_003_if', procedure: 'SASS'},
   conditional_function: function(){
-    let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'SASS_01'))['response'])['Q0']).trim();
+    let data = (JSON.parse((jsPsych.data.get().values().find(x => x.trialid === 'SASS_001'))['response'])['Q0']).trim();
    if((data) ==  'No'){
      return true;
      } else {
@@ -61,141 +58,140 @@ var if_question03 = {
     }
   }
 }
+SASS.push(if_question003);
 
-SASS.push(if_question03);
-
-var question04 = {
+var question004 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">3. Realiza estas actividades, con: </div>', options: ['&nbsp;Mucho gozo', '&nbsp;Algo de gozo', '&nbsp;Poco de gozo', '&nbsp;Nada de gozo'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_04', procedure: 'SASS'}
+  data: {trialid: 'SASS_004', procedure: 'SASS'}
 };
-SASS.push(question04);
+SASS.push(question004);
 
-var question05 = {
+var question005 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">4. ¿Está interesado/a en pasatiempos/ocio?</div>', options: ['&nbsp;Mucho', '&nbsp;Medianamente', '&nbsp;Poco', '&nbsp;Nada'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_05', procedure: 'SASS'}
+  data: {trialid: 'SASS_005', procedure: 'SASS'}
 };
-SASS.push(question05);
+SASS.push(question005);
 
-var question06 = {
+var question006 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">5. La calidad de tu tiempo libre es:</div>', options: ['&nbsp;Muy buena', '&nbsp;Buena', '&nbsp;Justa', '&nbsp;Insatisfactoria'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_06', procedure: 'SASS'}
+  data: {trialid: 'SASS_006', procedure: 'SASS'}
 };
-SASS.push(question06);
+SASS.push(question006);
 
-var question07 = {
+var question007 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">6. ¿Con qué frecuencia usted busca contacto con los miembros de su familia? (Cónyuges, Hijos, Padres, etc.)</div>', options: ['&nbsp;Muy frecuente', '&nbsp;Frecuentemente', '&nbsp;Raramente', '&nbsp;Nunca'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_07', procedure: 'SASS'}
+  data: {trialid: 'SASS_007', procedure: 'SASS'}
 };
-SASS.push(question07);
+SASS.push(question007);
 
-var question08 = {
+var question008 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">7. El estado de relaciones de su familia es:</div>', options: ['&nbsp;Muy bueno', '&nbsp;Bueno', '&nbsp;Justo', '&nbsp;Insatisfactorio'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_08', procedure: 'SASS'}
+  data: {trialid: 'SASS_008', procedure: 'SASS'}
 };
-SASS.push(question08);
+SASS.push(question008);
 
-var question09 = {
+var question009 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">8- Fuera de su familia, ¿tiene relaciones con:</div>', options: ['&nbsp;Muchas personas?', '&nbsp;Algunas personas?', '&nbsp;Pocas personas?', '&nbsp;Nadie?'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_09', procedure: 'SASS'}
+  data: {trialid: 'SASS_009', procedure: 'SASS'}
 };
-SASS.push(question09);
+SASS.push(question009);
 
-var question10 = {
+var question010 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">9. ¿Intenta formar relaciones con otras personas:</div>', options: ['&nbsp;Muy activamente?', '&nbsp;Activamente?', '&nbsp;Moderadamente?', '&nbsp;Pasivamente?'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_10', procedure: 'SASS'}
+  data: {trialid: 'SASS_010', procedure: 'SASS'}
 };
-SASS.push(question10);
+SASS.push(question010);
 
-var question11 = {
+var question011 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">10. ¿En general, cómo valora sus relaciones con otras personas?</div>', options: ['&nbsp;Muy buena', '&nbsp;Buena', '&nbsp;Justa', '&nbsp;Insatisfactoria'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_11', procedure: 'SASS'}
+  data: {trialid: 'SASS_011', procedure: 'SASS'}
 };
-SASS.push(question11);
+SASS.push(question011);
 
-var question12 = {
+var question012 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">11. ¿Qué valor le otorga a sus relaciones con otras personas?</div>', options: ['&nbsp;Gran valor', '&nbsp;Algún valor', '&nbsp;Poco valor', '&nbsp;Ningún valor'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_12', procedure: 'SASS'}
+  data: {trialid: 'SASS_012', procedure: 'SASS'}
 };
-SASS.push(question12);
+SASS.push(question012);
 
-var question13 = {
+var question013 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">12. ¿Qué tan a menudo las personas en su círculo social buscan tomar contacto con usted?</div>', options: ['&nbsp;Muy a menudo', '&nbsp;A menudo', '&nbsp;Raramente', '&nbsp;Nunca'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_13', procedure: 'SASS'}
+  data: {trialid: 'SASS_013', procedure: 'SASS'}
 };
-SASS.push(question13);
+SASS.push(question013);
 
-var question14 = {
+var question014 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">13. ¿Se preocupa de las normas sociales, las buenas maneras, la cortesía, etc.?</div>', options: ['&nbsp;Siempre', '&nbsp;La mayor parte del tiempo', '&nbsp;Raramente', '&nbsp;Nunca'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_14', procedure: 'SASS'}
+  data: {trialid: 'SASS_014', procedure: 'SASS'}
 };
-SASS.push(question14);
+SASS.push(question014);
 
-var question15 = {
+var question015 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">14. ¿Hasta qué punto está usted involucrado/a en la vida comunitaria (Club, etc.)</div>', options: ['&nbsp;Completamente', '&nbsp;Moderadamente', '&nbsp;Levemente', '&nbsp;Para nada'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_15', procedure: 'SASS'}
+  data: {trialid: 'SASS_015', procedure: 'SASS'}
 };
-SASS.push(question15);
+SASS.push(question015);
 
-var question16 = {
+var question016 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">15. ¿Le gusta buscar información acerca de cosas, situaciones, y personas para mejorar su comprensión de ellos?</div>', options: ['&nbsp;Mucho', '&nbsp;Moderadamente', '&nbsp;No mucho', '&nbsp;Para nada'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_16', procedure: 'SASS'}
+  data: {trialid: 'SASS_016', procedure: 'SASS'}
 };
-SASS.push(question16);
+SASS.push(question016);
 
-var question17 = {
+var question017 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">16. ¿Está interesado/a en información científica, técnica o cultural?</div>', options: ['&nbsp;Mucho', '&nbsp;Moderadamente', '&nbsp;Levemente', '&nbsp;Para Nada'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_17', procedure: 'SASS'}
+  data: {trialid: 'SASS_017', procedure: 'SASS'}
 };
-SASS.push(question17);
+SASS.push(question017);
 
-var question18 = {
+var question018 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">17. ¿Con qué frecuencia encuentra dificultad para expresar su opinión a las personas?</div>', options: ['&nbsp;Siempre', '&nbsp;A menudo', '&nbsp;A veces', '&nbsp;Nunca'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_18', procedure: 'SASS'}
+  data: {trialid: 'SASS_018', procedure: 'SASS'}
 };
-SASS.push(question18);
+SASS.push(question018);
 
-var question19 = {
+var question019 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">18. ¿Con qué frecuencia se siente rechazado/a o excluido/a de su círculo?</div>', options: ['&nbsp;Siempre', '&nbsp;A menudo', '&nbsp;A veces', '&nbsp;Nunca'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_19', procedure: 'SASS'}
+  data: {trialid: 'SASS_019', procedure: 'SASS'}
 };
-SASS.push(question19);
+SASS.push(question019);
 
-var question20 = {
+var question020 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">19. ¿Qué tan importante considera su apariencia física?</div>', options: ['&nbsp;Mucho', '&nbsp;Moderadamente', '&nbsp;No mucho', '&nbsp;Para nada'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_20', procedure: 'SASS'}
+  data: {trialid: 'SASS_020', procedure: 'SASS'}
 };
-SASS.push(question20);
+SASS.push(question020);
 
-var question21 = {
+var question021 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">20. ¿En qué grado tiene dificultades para manejar sus recursos e ingresos económicos?</div>', options: ['&nbsp;Siempre', '&nbsp;A menudo', '&nbsp;A veces', '&nbsp;Nunca'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_21', procedure: 'SASS'}
+  data: {trialid: 'SASS_021', procedure: 'SASS'}
 };
-SASS.push(question21);
+SASS.push(question021);
 
-var question22 = {
+var question022 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified">21. ¿Se siente capaz de organizar su entorno de acuerdo a sus deseos y necesidades?</div>', options: ['&nbsp;Muchísimo', '&nbsp;Moderadamente', '&nbsp;No mucho', '&nbsp;Para nada'], required: true,  random_options: false, horizontal: false}],
-  data: {trialid: 'SASS_22', procedure: 'SASS'}
+  data: {trialid: 'SASS_022', procedure: 'SASS'}
 };
-SASS.push(question22);
+SASS.push(question022);
 
 SASS.unshift(instruction_screen_experiment);
 questions.push.apply(questions, SASS);

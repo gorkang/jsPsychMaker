@@ -57,9 +57,6 @@ var question04 = {
   data: {trialid: 'SHORNAMETASKMultipleQuestions_004', procedure: 'SHORNAMETASKMultipleQuestions'},
   on_load: function() {
     document.getElementById("jspsych-survey-likert-css").parentElement.style["width"] = '-webkit-fill-available';
-  },
-  on_finish: function(data) {
-    document.getElementById("jspsych-survey-likert-css").parentElement.style["width"] = '';
   }
 };
 SHORNAMETASKMultipleQuestions.push(question04);

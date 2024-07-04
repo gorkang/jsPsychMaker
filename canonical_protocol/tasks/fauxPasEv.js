@@ -133,10 +133,7 @@ var question001 = {
   data: {trialid: 'fauxPasEv_001', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question001);
 
@@ -239,10 +236,7 @@ var question010 = {
   data: {trialid: 'fauxPasEv_010', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question010);
 
@@ -339,10 +333,7 @@ var question019 = {
   data: {trialid: 'fauxPasEv_019', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question019);
 
@@ -451,10 +442,7 @@ var question028 = {
   data: {trialid: 'fauxPasEv_028', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question028);
 
@@ -563,10 +551,7 @@ var question037 = {
   data: {trialid: 'fauxPasEv_037', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question037);
 
@@ -670,10 +655,7 @@ var question046 = {
   data: {trialid: 'fauxPasEv_046', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question046);
 
@@ -777,10 +759,7 @@ var question055 = {
   data: {trialid: 'fauxPasEv_055', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question055);
 
@@ -884,10 +863,7 @@ var question064 = {
   data: {trialid: 'fauxPasEv_064', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question064);
 
@@ -991,10 +967,7 @@ var question073 = {
   data: {trialid: 'fauxPasEv_073', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question073);
 
@@ -1098,10 +1071,7 @@ var question082 = {
   data: {trialid: 'fauxPasEv_082', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question082);
 
@@ -1205,10 +1175,7 @@ var question091 = {
   data: {trialid: 'fauxPasEv_091', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question091);
 
@@ -1312,10 +1279,7 @@ var question100 = {
   data: {trialid: 'fauxPasEv_100', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question100);
 
@@ -1419,10 +1383,7 @@ var question109 = {
   data: {trialid: 'fauxPasEv_109', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question109);
 
@@ -1526,10 +1487,7 @@ var question118 = {
   data: {trialid: 'fauxPasEv_118', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question118);
 
@@ -1633,10 +1591,7 @@ var question127 = {
   data: {trialid: 'fauxPasEv_127', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question127);
 
@@ -1730,10 +1685,7 @@ var question136 = {
   data: {trialid: 'fauxPasEv_136', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question136);
 
@@ -1837,10 +1789,7 @@ var question145 = {
   data: {trialid: 'fauxPasEv_145', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question145);
 
@@ -1944,10 +1893,7 @@ var question154 = {
   data: {trialid: 'fauxPasEv_154', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question154);
 
@@ -2051,10 +1997,7 @@ var question163 = {
   data: {trialid: 'fauxPasEv_163', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question163);
 
@@ -2158,10 +2101,7 @@ var question172 = {
   data: {trialid: 'fauxPasEv_172', procedure: 'fauxPasEv'},
   button_label_previous: "Anterior",
   button_label_next: "Siguiente",
-  show_clickable_nav: true,
-  on_trial_start: function(){
-    bloquear_enter = 0;
-  }
+  show_clickable_nav: true
 };
 fauxPasEv.push(question172);
 
