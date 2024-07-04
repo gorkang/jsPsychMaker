@@ -1,7 +1,6 @@
 // Configuration file
 
 // Main parameters -------------------------------------------------------------
-
 pid = 999; // Protocol ID [number]
 online = false; // Protocol runs online [true/false]
 max_participants = 1000; // Max participants per contition [number]

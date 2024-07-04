@@ -1,103 +1,101 @@
 /* CSCN - Created with jsPsychMaker: https://github.com/gorkang/jsPsychMaker */
+// Cuestionario de Saludo General de Goldberg
 
 questions = ( typeof questions != 'undefined' && questions instanceof Array ) ? questions : [];
 questions.push( check_fullscreen('GHQ12') );
 GHQ12 = [];    //temporal timeline
 
 var instruction_screen_experiment = {
-    type: 'instructions',
-    pages: ['<p><left><b><big>GHQ12</big></b><br />'+
-    '<br> Nos gustaría saber si tiene algún problema médico y cómo ha estado de salud, en general, durante las últimas semanas. Recuerde que sólo debe responder sobre los problemas recientes y los que tiene ahora, NO sobre las que tuvo en el pasado. <br><br> Muchas gracias por su colaboración.' +'</p>'],
-    data:{trialid: 'Instructions_01', procedure: 'GHQ12'},
-    show_clickable_nav: true,
-    on_trial_start: function(){
-        bloquear_enter = 0;
-    }
+  type: 'instructions',
+  pages: ['<p><left><b><big>GHQ12</big></b><br />'+
+  '<br> Nos gustaría saber si tiene algún problema médico y cómo ha estado de salud, en general, durante las últimas semanas. Recuerde que sólo debe responder sobre los problemas recientes y los que tiene ahora, NO sobre las que tuvo en el pasado. <br><br> Muchas gracias por su colaboración.' +'</p>'],
+  data:{trialid: 'Instructions_01', procedure: 'GHQ12'},
+  show_clickable_nav: true
 };
 
-var question01 = {
+var question001 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Ha podido concentrarse bien en lo que hacía?</div>', options: ['&nbsp;Mejor que lo habitual', '&nbsp;Igual que lo habitual', '&nbsp;Menos que lo habitual', '&nbsp;Mucho menos que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_01', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_001', procedure: 'GHQ12'}
 };
-GHQ12.push(question01);
+GHQ12.push(question001);
 
-var question02 = {
+var question002 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Sus preocupaciones le han hecho perder mucho sueño?</div>', options: ['&nbsp;No, en lo absoluto', '&nbsp;No más que lo habitual', '&nbsp;Algo más que lo habitual', '&nbsp;Mucho más que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_02', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_002', procedure: 'GHQ12'}
 };
-GHQ12.push(question02);
+GHQ12.push(question002);
 
-var question03 = {
+var question003 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Ha sentido que está desempeñando un papel útil en la vida?</div>', options: ['&nbsp;Más útil que lo habitual', '&nbsp;Igual que lo habitual', '&nbsp;Menos útil que lo habitual', '&nbsp;Mucho menos útil que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_03', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_003', procedure: 'GHQ12'}
 };
-GHQ12.push(question03);
+GHQ12.push(question003);
 
-var question04 = {
+var question004 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Se ha sentido capaz de tomar decisiones?</div>', options: ['&nbsp;Más que lo habitual', '&nbsp;Igual que lo habitual', '&nbsp;Menos que lo habitual', '&nbsp;Mucho menos que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_04', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_004', procedure: 'GHQ12'}
 };
-GHQ12.push(question04);
+GHQ12.push(question004);
 
-var question05 = {
+var question005 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Se ha notado constantemente agobiado y en tensión?</div>', options: ['&nbsp;No, en lo absoluto', '&nbsp;No más que lo habitual', '&nbsp;Algo más que lo habitual', '&nbsp;Mucho más que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_05', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_005', procedure: 'GHQ12'}
 };
-GHQ12.push(question05);
+GHQ12.push(question005);
 
-var question06 = {
+var question006 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Ha tenido la sensación de que no puede superar sus dificultades?</div>', options: ['&nbsp;No, en absoluto', '&nbsp;No más que lo habitual', '&nbsp;Algo más que lo habitual', '&nbsp;Mucho más que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_06', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_006', procedure: 'GHQ12'}
 };
-GHQ12.push(question06);
+GHQ12.push(question006);
 
-var question07 = {
+var question007 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Ha sido capaz de disfrutar de sus actividades normales de cada día?</div>', options: ['&nbsp;Más que lo habitual', '&nbsp;Igual que lo habitual', '&nbsp;Menos que lo habitual', '&nbsp;Mucho menos que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_07', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_007', procedure: 'GHQ12'}
 };
-GHQ12.push(question07);
+GHQ12.push(question007);
 
-var question08 = {
+var question008 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Ha sido capaz de hacer frente adecuadamente a sus problemas?</div>', options: ['&nbsp;Más que lo habitual', '&nbsp;Igual que lo habitual', '&nbsp;Menos que lo habitual', '&nbsp;Mucho menos que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_08', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_008', procedure: 'GHQ12'}
 };
-GHQ12.push(question08);
+GHQ12.push(question008);
 
-var question09 = {
+var question009 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Se ha sentido poco feliz o deprimido?</div>', options: ['&nbsp;No, en absoluto', '&nbsp;No más que lo habitual', '&nbsp;Algo más que lo habitual', '&nbsp;Mucho más que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_09', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_009', procedure: 'GHQ12'}
 };
-GHQ12.push(question09);
+GHQ12.push(question009);
 
-var question10 = {
+var question010 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Ha perdido confianza en sí mismo?</div>', options: ['&nbsp;No, en absoluto', '&nbsp;No más que lo habitual', '&nbsp;Algo más que lo habitual', '&nbsp;Mucho más que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_10', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_010', procedure: 'GHQ12'}
 };
-GHQ12.push(question10);
+GHQ12.push(question010);
 
-var question11 = {
+var question011 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Ha pensado que usted es una persona que no vale para nada?</div>', options: ['&nbsp;No, en absoluto', '&nbsp;No más que lo habitual', '&nbsp;Algo más que lo habitual', '&nbsp;Mucho más que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_11', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_011', procedure: 'GHQ12'}
 };
-GHQ12.push(question11);
+GHQ12.push(question011);
 
-var question12 = {
+var question012 = {
   type: 'survey-multi-choice-vertical',
   questions: [{prompt: '<div class="justified"> Últimamente, ¿Se siente razonablemente feliz considerando todas las circunstancias?</div>', options: ['&nbsp;Más que lo habitual', '&nbsp;Igual que lo habitual', '&nbsp;Menos que lo habitual', '&nbsp;Mucho menos que lo habitual'], required: true, horizontal: false}],
-  data: {trialid: 'GHQ12_12', procedure: 'GHQ12'}
+  data: {trialid: 'GHQ12_012', procedure: 'GHQ12'}
 };
-GHQ12.push(question12);
+GHQ12.push(question012);
 
 GHQ12.unshift(instruction_screen_experiment);
 questions.push.apply(questions, GHQ12)
