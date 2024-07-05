@@ -1,9 +1,11 @@
-# jsPsychMaker 0.3.5.900
+# jsPsychMaker 0.3.5.901
 
 Minor updates
 
 * Sync version number with admin, maker, monkeys and manual
 * All non-mysql credentials parameters are now credentials_file instead of list_credentials
+* Move tasks associated with a specific protocol (DEMOGR40) to a specific_tasks folder
+
 
 
 

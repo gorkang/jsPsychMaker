@@ -106,6 +106,7 @@ create_protocol <- function(folder_tasks = NULL,
   
   # Clean unneeded files
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKmultichoice.js")))
+  suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKMultipleQuestions.js")))
   suppressWarnings(file.remove(paste0(folder_output, "/tasks/SHORNAMETASKslider.js")))
   
   if (show_messages == TRUE) cli::cli_alert_success("Copied `canonical_protocol_clean` to {.code {folder_output}}")
