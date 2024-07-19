@@ -79,32 +79,6 @@ window.onload = function() {
   document.getElementsByTagName('head')[0].appendChild(link);
 }*/
 
-function pad(num, size) {
-  num = num.toString();
-  while (num.length < size) num = "0" + num;
-  return num;
-}
-
-function isNormalInteger(str) {
-  str = str.trim();
-  if (!str) {
-    return false;
-  }
-  str = str.replace(/^0+/, "") || "0";
-  var n = Math.floor(Number(str));
-  return String(n) === str && n >= 0;
-}
-
-function json_can_parsed(data) {
-  if (/^[\],:{}\s]*$/.test(data.replace(/\\["\\\/bfnrtu]/g, '@').replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g, ']').replace(/(?:^|:|,)(?:\s*\[)+/g, ''))) {
-    //the json is ok
-    return true;
-  } else {
-    //the json is not ok
-    return false;
-  }
-}
-
 function file_reader(wait_for_response = false) {
   return new Promise(
     function (resolve, reject) {
@@ -412,6 +386,33 @@ function obtain_experiments(questions, completed_experiments) {
   return questions;
 }
 
+// combination selector and script loader for all the tasks after consent
+function consent_script_selector() {
+  // fixes when feasible_combinations isn't defined
+  if (typeof feasible_combinations === 'undefined') feasible_combinations = combinations_from_dict(all_conditions);
+  
+  // if more than 1 condition
+  if (!(Object.keys(all_conditions).length == 1 && Object.keys(all_conditions[Object.keys(all_conditions)[0]]).length == 1)) {
+    select_combination(feasible_combinations).then(
+      function (actual_combination) {
+        for (actual_task_name in all_conditions) {
+          for (actual_condition_key in all_conditions[actual_task_name]) {
+            for (actual_condition_name of all_conditions[actual_task_name][actual_condition_key]) {
+              if (actual_combination.includes(actual_condition_name)) {
+                between_selection[actual_task_name][actual_condition_key] = actual_condition_name;
+              }
+            }
+          }
+        }
+        // starting from index 1 (after consent) with the new conditions, we send index == 1, so we don't use continue_page_activation
+        script_loading("tasks", all_tasks, completed_experiments, false, 1);
+      }
+    )
+  } else {
+    script_loading("tasks", all_tasks, completed_experiments, false, 1);
+  }
+}
+
 function object_to_array(selected_object) {
 
   temp_dict = window[selected_object];
@@ -688,6 +689,12 @@ function groupBy(arr, property) {
   }, {});
 }
 
+function pad(num, size) {
+  num = num.toString();
+  while (num.length < size) num = "0" + num;
+  return num;
+}
+
 function isNormalInteger(str) {
   str = str.trim();
   if (!str) {
@@ -705,33 +712,6 @@ function json_can_parsed(data) {
   } else {
     //the json is not ok
     return false;
-  }
-}
-
-// combination selector and script loader for all the tasks after consent
-function consent_script_selector() {
-  // fixes when feasible_combinations isn't defined
-  if (typeof feasible_combinations === 'undefined') feasible_combinations = combinations_from_dict(all_conditions);
-  
-  // if more than 1 condition
-  if (!(Object.keys(all_conditions).length == 1 && Object.keys(all_conditions[Object.keys(all_conditions)[0]]).length == 1)) {
-    select_combination(feasible_combinations).then(
-      function (actual_combination) {
-        for (actual_task_name in all_conditions) {
-          for (actual_condition_key in all_conditions[actual_task_name]) {
-            for (actual_condition_name of all_conditions[actual_task_name][actual_condition_key]) {
-              if (actual_combination.includes(actual_condition_name)) {
-                between_selection[actual_task_name][actual_condition_key] = actual_condition_name;
-              }
-            }
-          }
-        }
-        // starting from index 1 (after consent) with the new conditions, we send index == 1, so we don't use continue_page_activation
-        script_loading("tasks", all_tasks, completed_experiments, false, 1);
-      }
-    )
-  } else {
-    script_loading("tasks", all_tasks, completed_experiments, false, 1);
   }
 }
 
