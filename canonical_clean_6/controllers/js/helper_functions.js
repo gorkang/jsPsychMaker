@@ -458,25 +458,6 @@ function start_protocol() {
         if (finish_link != "" && data.values().filter(x => x.procedure === "Goodbye").length > 0)
           window.location = finish_link
     },
-    on_data_update: function() {
-      // Esperar a que los elementos estén disponibles en el DOM
-      setTimeout(function() {
-        requestAnimationFrame(function() {
-          // Seleccionar todos los elementos que empiecen con jspsych y terminen con next
-          var elements = document.querySelectorAll('[id^="jspsych"][id$="next"], [class^="jspsych"][class$="next"]');
-  
-          // Iterar sobre cada elemento encontrado
-          elements.forEach(function(element) {
-            // Verificar el tipo de elemento
-            if (element.tagName.toLowerCase() === 'input' && element.type.toLowerCase() === 'submit') {
-              element.value = continue_button; // Cambiar el valor del botón a 'Siguiente'
-            } else if (element.tagName.toLowerCase() === 'button') {
-              element.innerHTML = continue_button; // Cambiar el texto interno del botón a 'Siguiente'
-            }
-          });
-        });
-      }, 0); // Ejecutar lo más pronto posible después de que jsPsych actualice los datos
-    }
   });
 
 }
